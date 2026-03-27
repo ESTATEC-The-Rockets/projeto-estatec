@@ -83,7 +83,7 @@ public class Usuario {
 	}
 
 	public Usuario(String nome, double rg, double cpf, LocalDate dataNascimento, String email, String senha,
-			String telefone) {
+			String telefone, Carros carro, DonoCarro dono) {
 		this.nome = nome;
 		this.rg = rg;
 		this.cpf = cpf;
@@ -91,6 +91,16 @@ public class Usuario {
 		this.email = email;
 		this.senha = senha;
 		this.telefone = telefone;
+		this.carro = carro;
+		this.dono = dono;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -121,7 +131,7 @@ public class Usuario {
 		return dataNascimento;
 	}
 
-	public void setNascimento(LocalDate dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
@@ -148,5 +158,24 @@ public class Usuario {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
+
+	public Carros getCarro() {
+		return carro;
+	}
+
+	public void setCarro(Carros carro) {
+		this.carro = carro;
+	}
+
+	public DonoCarro getDono() {
+		return dono;
+	}
+
+	public void setDono(DonoCarro dono) {
+		this.dono = dono;
+	}
+
+	
+	
 
 }
