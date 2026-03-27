@@ -1,8 +1,11 @@
 package br.com.estatec.api.entities;
 
+import br.com.estatec.api.enuns.Cor;
 import br.com.estatec.api.validations.annotations.Placa;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,15 +34,23 @@ public class Carros {
 	@NotBlank(message= "A placa não pode estar vazia")
 	private String placa;
 	
+	// _________________________________________________
+	
+	@Enumerated(EnumType.STRING)
+	private Cor cor;
+	
+	// __________________________________________________
+	
 	
 	public Carros() {
 		
 	}
 	
-	public Carros(String marca, String modelo, String placa) {
+	public Carros(String marca, String modelo, String placa, Cor cor) {
 		this.marca = marca;
 		this.modelo = modelo;
 		this.placa = placa;
+		this.cor = cor;
 	}
 
 	public Long getIdCarros() {
