@@ -5,10 +5,14 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
+@Entity
+@Table (name = "Dono_carro")
 public class DonoCarro extends Usuario {
 	
 	public DonoCarro(String nome, String rg, String cpf, LocalDate dataNascimento, String email, String senha,
