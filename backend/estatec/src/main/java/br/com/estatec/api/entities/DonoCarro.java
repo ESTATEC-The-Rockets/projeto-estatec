@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class DonoCarro extends Usuario {
 	
-	public DonoCarro(String nome, double rg, double cpf, LocalDate dataNascimento, String email, String senha,
+	public DonoCarro(String nome, String rg, String cpf, LocalDate dataNascimento, String email, String senha,
 			String telefone) {
 		super(nome, rg, cpf, dataNascimento, email, senha, telefone);
 	}
