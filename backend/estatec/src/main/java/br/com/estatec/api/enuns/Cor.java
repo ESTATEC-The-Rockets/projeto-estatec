@@ -8,5 +8,7 @@ public enum Cor {
 	VERMELHO,
 	AZUL, 
 	VERDE,
-	AMARELO
+	AMARELO,
+	ROSA,
+	OUTRO
 }
