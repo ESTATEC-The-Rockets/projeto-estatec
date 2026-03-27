@@ -4,18 +4,12 @@ import java.time.LocalDate;
 
 import org.hibernate.validator.constraints.br.CPF;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import br.com.estatec.api.validations.annotations.TelefoneBR;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -66,24 +60,12 @@ public class Usuario {
 	@NotBlank(message = "O telefone é obrigatório.")
 	protected String telefone;
 
-	@NotNull(message = "O carro é obrigatório.")
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fk_carro", nullable = false, unique = true)
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	protected Carros carro;
-
-	@NotNull(message = "O dono do carro é obrigatório.")
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fk_dono", nullable = false, unique = true)
-	@JsonManagedReference
-	protected DonoCarro dono;
-
 	public Usuario() {
 
 	}
 
 	public Usuario(String nome, String rg, String cpf, LocalDate dataNascimento, String email, String senha,
-			String telefone, Carros carro, DonoCarro dono) {
+			String telefone) {
 		this.nome = nome;
 		this.rg = rg;
 		this.cpf = cpf;
@@ -91,8 +73,6 @@ public class Usuario {
 		this.email = email;
 		this.senha = senha;
 		this.telefone = telefone;
-		this.carro = carro;
-		this.dono = dono;
 	}
 
 	public Long getId() {
@@ -159,23 +139,5 @@ public class Usuario {
 		this.telefone = telefone;
 	}
 
-	public Carros getCarro() {
-		return carro;
-	}
-
-	public void setCarro(Carros carro) {
-		this.carro = carro;
-	}
-
-	public DonoCarro getDono() {
-		return dono;
-	}
-
-	public void setDono(DonoCarro dono) {
-		this.dono = dono;
-	}
-
-	
-	
 
 }
