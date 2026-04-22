@@ -6,19 +6,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table (name = "Dono_carro")
+@Table (name = "tb_dono_carro")
 public class DonoCarro extends Usuario {
 	
-	public DonoCarro(String nome, String rg, String cpf, LocalDate dataNascimento, String email, String senha,
-			String telefone) {
-		super(nome, rg, cpf, dataNascimento, email, senha, telefone);
-	}
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	@NotNull(message = "O carro é obrigatório.")
 	@OneToOne(cascade = CascadeType.ALL)
@@ -26,7 +28,14 @@ public class DonoCarro extends Usuario {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected Carros carro;
 	
+	
+	//Construtor
 	public DonoCarro() {}
+	
+	public DonoCarro(String nome, String rg, String cpf, LocalDate dataNascimento, String email, String senha,
+			String telefone) {
+		super(nome, rg, cpf, dataNascimento, email, senha, telefone);
+	}
 	
 	public DonoCarro(Carros carro) {
 		this.carro = carro;
