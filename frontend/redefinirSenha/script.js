@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
         passwordInput.setAttribute('type', type);
         
-        togglePassword.textContent = type === 'password' ? '👁️' : '🙈';
+        togglePassword.textContent = type === 'password' ? '👁️‍🗨️' : '🗨️​';
         
     });
 
