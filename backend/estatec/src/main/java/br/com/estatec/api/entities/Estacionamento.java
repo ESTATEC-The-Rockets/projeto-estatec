@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
-@Table(name = "estacionamento")
+@Table(name = "tb_estacionamento")
 public class Estacionamento {
 	
 	@Id
