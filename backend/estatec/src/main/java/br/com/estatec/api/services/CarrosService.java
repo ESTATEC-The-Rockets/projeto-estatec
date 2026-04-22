@@ -4,14 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import br.com.estatec.api.entities.Carros;
 import br.com.estatec.api.repositories.CarrosRepository;
 
+@Service
 public class CarrosService {
-
-	@Service
-	public class Service {
 
 	    @Autowired
 	    private CarrosRepository repository;
@@ -38,10 +37,6 @@ public class CarrosService {
 	            atualizado.setPlaca(carroAlterado.getPlaca());
 	            atualizado.setCor(carroAlterado.getCor());
 
-	            if (carroAlterado.getDocumentos() != null) {
-	                atualizado.setDocumentos(carroAlterado.getDocumentos());
-	            }
-
 	            return repository.save(atualizado);
 	        }
 	        return null;
@@ -51,4 +46,4 @@ public class CarrosService {
 	        repository.deleteById(id);
 	    }
 	}
-}
+
