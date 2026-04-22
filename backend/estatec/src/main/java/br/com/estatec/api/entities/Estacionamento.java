@@ -15,7 +15,7 @@ public class Estacionamento {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idEstacionamento;
+	private Long id;
 
 	@Pattern(regexp = "^[\\p{L}]+( [\\p{L}]+)*$", message = "O nome do estacionamento deve conter apenas letras e espaços.")
 	@NotBlank(message = "O nome do estacionamento é obrigatório.")
@@ -23,6 +23,9 @@ public class Estacionamento {
 	
 	@NotNull(message = "A quantidade de vagas é obrigatória.")
 	private int qtdVagas;
+	
+	
+	private DonoEstacionamento donoEstacionamento;
 
 	public Estacionamento() {
 	}

@@ -10,7 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -23,8 +23,8 @@ public class DonoCarro extends Usuario {
 	private Long id;
 	
 	@NotNull(message = "O carro é obrigatório.")
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "fk_carro", nullable = false, unique = true)
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_carro", nullable = false)
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected Carros carro;
 	
@@ -37,16 +37,12 @@ public class DonoCarro extends Usuario {
 		super(nome, rg, cpf, dataNascimento, email, senha, telefone);
 	}
 	
-	public DonoCarro(Carros carro) {
-		this.carro = carro;
+	
+	public Long getId() {
+		return id;
 	}
-
-	public Carros getCarro() {
-		return carro;
-	}
-
-	public void setCarro(Carros carro) {
-		this.carro = carro;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 
