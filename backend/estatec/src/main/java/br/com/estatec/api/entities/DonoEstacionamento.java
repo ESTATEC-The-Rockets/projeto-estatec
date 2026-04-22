@@ -18,7 +18,8 @@ public class DonoEstacionamento extends Usuario {
 	private Long id;
 	
 	@NotNull(message = "O carro é obrigatório.")
-	protected Estacionamento estacionamento;
+	private Estacionamento estacionamento;
+	
 	
 	
 	public DonoEstacionamento() {

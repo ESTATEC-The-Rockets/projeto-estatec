@@ -24,15 +24,19 @@ public class Estacionamento {
 	@NotNull(message = "A quantidade de vagas é obrigatória.")
 	private int qtdVagas;
 	
+	@NotNull(message = "Insira a localização do seu estacionamento.")
+	private String localizacao;
+	
 	
 	private DonoEstacionamento donoEstacionamento;
 
 	public Estacionamento() {
 	}
 
-	public Estacionamento(String nomeEstacionamento, int qtdVagas) {
+	public Estacionamento(String nomeEstacionamento, int qtdVagas, String localizacao) {
 		this.nomeEstacionamento = nomeEstacionamento;
 		this.qtdVagas = qtdVagas;
+		this.localizacao = localizacao;
 	}
 
 	public String getNomeEstacionamento() {
@@ -49,6 +53,13 @@ public class Estacionamento {
 
 	public void setQtdVagas(int qtdVagas) {
 		this.qtdVagas = qtdVagas;
+	}
+	
+	public String getLocalizacao() {
+		return localizacao;
+	}
+	public void setLocalizacao(String localizacao) {
+		this.localizacao = localizacao;
 	}
 
 }
