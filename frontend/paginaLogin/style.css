@@ -11,40 +11,51 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #333;
+    overflow: hidden; /* Evita barras de rolagem desnecessárias */
 }
 
+/* CONTAINER PRINCIPAL: Mudamos para Row (linha) */
 .login-container {
     width: 100%;
-    max-width: 400px;
-    padding: 20px;
+    max-width: 1100px; /* Aumentamos para caber os dois lado a lado */
+    padding: 40px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row; 
     align-items: center;
+    justify-content: space-between; 
+    gap: 50px;
 }
 
+/* ÁREA DA LOGO: Ajuste de tamanho e alinhamento */
 .logo-area {
-    margin-bottom: 30px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0; /* Remove a margem de baixo */
 }
 
 .logo-img {
-    max-width: 400px;
+    width: 100%;
+    max-width: 500px; /* Aumenta o tamanho da logo */
+    height: auto;
 }
 
 .login-card {
-    background-color: #f9fdf9; /* Tom levemente esverdeado/off-white da imagem */
+    background-color: #f4f6f1;
     width: 100%;
-    padding: 40px 30px;
-    border-radius: 40px;
+    max-width: 400px; /* Largura fixa para o formulário não esticar */
+    padding: 50px 40px;
+    border-radius: 40px; 
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 h1 {
-    font-size: 1.5rem;
-    margin-bottom: 25px;
-    letter-spacing: 2px;
+    font-size: 1.4rem;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
     font-weight: 800;
+    color: #000;
 }
 
 .input-group {
@@ -54,22 +65,20 @@ h1 {
 
 .input-group label {
     display: block;
-    font-weight: bold;
+    font-weight: 500;
     margin-bottom: 8px;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    color: #333;
 }
 
 input {
     width: 100%;
     padding: 12px 15px;
     border: 1px solid #ccc;
-    border-radius: 12px;
+    border-radius: 10px;
     outline: none;
     font-size: 0.9rem;
-}
-
-input::placeholder {
-    color: #bbb;
+    background-color: #fff;
 }
 
 .password-wrapper {
@@ -84,51 +93,57 @@ input::placeholder {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 1.2rem;
 }
 
+/* BOTÃO ENTRAR: Vermelho vibrante */
 .btn-entrar {
     width: 100%;
-    background-color: #b91c2c; /* Vermelho Estatec */
+    background-color: #bc1623; 
     color: white;
     border: none;
-    padding: 15px;
-    border-radius: 12px;
+    padding: 14px;
+    border-radius: 10px;
     font-weight: bold;
     font-size: 1rem;
     cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s;
+    margin-top: 15px;
+    transition: filter 0.2s;
 }
 
 .btn-entrar:hover {
-    background-color: #8e1522;
+    filter: brightness(1.2);
 }
 
 .footer-links {
     margin-top: 25px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.75rem;
+    justify-content: center;
 }
 
 .footer-links a {
     text-decoration: none;
     color: #333;
     font-weight: bold;
+    font-size: 0.75rem;
 }
 
-.divider {
-    height: 20px;
-    width: 1px;
-    background-color: #ccc;
-}
-
+/* COPYRIGHT: Centralizado no fundo da tela */
 .copyright {
     position: fixed;
     bottom: 20px;
-    left: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     color: #fff;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
+}
+
+/* AJUSTE PARA CELULAR: Volta a ficar um embaixo do outro */
+@media (max-width: 850px) {
+    .login-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .logo-area {
+        margin-bottom: 30px;
+    }
 }
