@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnVoltar = document.querySelector('.btn-voltar');
     const resetForm = document.querySelector('#resetForm');
 
+<<<<<<< HEAD
     // 2. Lógica do Botão Voltar (Ajuste o caminho aqui!)
     if (btnVoltar) {
         btnVoltar.addEventListener('click', () => {
@@ -30,6 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 eyeIcon.textContent = isPassword ? '🙈' : '👁️';
             }
         });
+=======
+    togglePassword.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        
+        togglePassword.textContent = type === 'password' ? '👁️‍🗨️' : '🗨️​';
+        
+>>>>>>> 2dec28cbc25a93d1a608ee00a33cbe745f10d960
     });
 
     // 4. Formulário de Salvar
