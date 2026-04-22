@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         passwordInput.setAttribute('type', type);
         
         // Troca o ícone (simples alteração de emoji para o exemplo)
-        togglePassword.textContent = type === 'password' ? '👁️‍🗨️​' : '🙈';
+        togglePassword.textContent = type === 'password' ? '👁️‍🗨️​' : '🗨️​';
     });
 
     // Simulação de Login
