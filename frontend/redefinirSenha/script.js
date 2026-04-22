@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
                 
                 // Troca o emoji
-                eyeIcon.textContent = isPassword ? '🙈' : '👁️';
+                eyeIcon.textContent = isPassword ? '🗨️' : '👁️‍🗨️';
             }
         });
     });
