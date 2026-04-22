@@ -87,10 +87,10 @@ input::placeholder {
 }
 
 .copyright {
-    margin-top: 80px;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     color: #fff;
-    font-size: 0.7rem;
-    width: 100%;
-    text-align: center;
-    padding-left: 5%;
+    font-size: 0.8rem;
 }
