@@ -7,11 +7,10 @@
 
 body {
     background-color: #000;
-    height: 100vh;
+    height: 85vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #333;
 }
 
 .login-container {
@@ -101,6 +100,10 @@ input::placeholder {
     transition: background 0.3s;
 }
 
+.btn-salvar:hover {
+    filter: brightness(1.2);
+}
+
 .btn-voltar {
         width: 100%;
     background-color: #b91c2c; /* Vermelho Estatec */
@@ -113,6 +116,10 @@ input::placeholder {
     cursor: pointer;
     margin-top: 10px;
     transition: background 0.3s;
+}
+
+.btn-voltar:hover {
+    filter: brightness(1.2);
 }
 
 .btn-entrar:hover {
