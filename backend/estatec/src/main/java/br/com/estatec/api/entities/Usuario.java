@@ -64,8 +64,10 @@ public class Usuario {
 
 	}
 
-	public Usuario(String nome, String rg, String cpf, LocalDate dataNascimento, String email, String senha,
-			String telefone) {
+
+	public Usuario(String nome, LocalDate dataNascimento, String email, String senha,
+			String telefone, String rg, String cpf) {
+
 		this.nome = nome;
 		this.rg = rg;
 		this.cpf = cpf;
@@ -73,6 +75,8 @@ public class Usuario {
 		this.email = email;
 		this.senha = senha;
 		this.telefone = telefone;
+		this.rg = rg;
+		this.cpf = cpf;
 	}
 
 	public Long getId() {
@@ -91,21 +95,6 @@ public class Usuario {
 		this.nome = nome;
 	}
 
-	public String getRg() {
-		return rg;
-	}
-
-	public void setRg(String rg) {
-		this.rg = rg;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
 
 	public LocalDate getDataNascimento() {
 		return dataNascimento;
@@ -138,6 +127,24 @@ public class Usuario {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
+
+	public String getRg() {
+		return rg;
+	}
+
+	public void setRg(String rg) {
+		this.rg = rg;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+	
+	
 
 
 }

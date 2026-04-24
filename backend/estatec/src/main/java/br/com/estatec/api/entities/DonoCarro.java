@@ -12,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table (name = "tb_dono_carro")
@@ -22,11 +21,11 @@ public class DonoCarro extends Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull(message = "O carro é obrigatório.")
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fk_carro", nullable = false)
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	protected Carros carro;
+	
 	
 	
 	//Construtor
@@ -36,8 +35,9 @@ public class DonoCarro extends Usuario {
 			String telefone) {
 		super(nome, rg, cpf, dataNascimento, email, senha, telefone);
 	}
-	
-	
+
+
+
 	public Long getId() {
 		return id;
 	}

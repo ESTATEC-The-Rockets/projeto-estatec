@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+    background-color: #dedede; /* Cinza claro do fundo inferior */
+}
+
+/* Header */
+.black-header {
+    background-color: #000;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+}
+
+.logo-area img {
+    height: 55px;
+}
+
+.header-nav {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-gray {
+    background-color: #333;
+    border: 1px solid #444;
+    color: #aaaaaa;
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.user-area {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.user-icon { font-size: 24px; }
+
+/* Linha Vermelha */
+.red-divider {
+    height: 3px;
+    background-color: #610008;
+    width: 100%;
+}
+
+/* Banner Centralizado */
+.hero-section {
+    height: 380px;
+    background-color: #000; /* Fundo preto que aparece nas bordas se a imagem falhar */
+}
+
+.hero-image {
+    background-image: url('../img/fotoEstacionamento.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+}
+
+.hero-overlay {
+    background-color: rgba(0, 0, 0, 0.53); /* Escurece a foto de fundo de leve */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* A CAIXA COM FUNDO PRETO/FUMÊ DA IMAGEM */
+.hero-text-card {
+    background-color: rgba(141, 141, 141, 0.875); /* Fundo branco esfumaçado */
+    padding: 20px 40px;
+    border-radius: 2px;
+}
+
+.hero-text-card p {
+    font-family: 'Raleway', sans serif;
+    font-size: 1.2rem;
+    color: #eaeaea;
+}
+
+.red-bold { color: #BC1624; font-weight: 700; }
+.black-bold { color: #d5d5d5; font-weight: 700; }
+
+/* Área Inferior */
+.empty-state {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.empty-state h2 {
+    font-family: 'Raleway', sans serif;
+    font-size: 1.1rem;
+    color: #444;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+}
+
+.btn-main-register {
+    background-color: #BC1624;
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-main-register:hover {
+    background-color: #8e111b;
+}
+
+.main-footer {
+    text-align: center;
+    padding-bottom: 20px;
+    font-weight: 800;
+    font-size: 12px;
+    color: #333;
+}
+
+/* Dropdown básico */
+.dropdown { position: relative; }
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: #222;
+    min-width: 200px;
+    top: 100%;
+    z-index: 10;
+}
+.dropdown-content a {
+    color: white;
+    padding: 12px;
+    text-decoration: none;
+    display: block;
+    font-size: 12px;
+}
+.show { display: block !important; }
