@@ -32,9 +32,9 @@ public class DonoCarro extends Usuario {
 	//Construtor
 	public DonoCarro() {}
 	
-	public DonoCarro(String nome, LocalDate dataNascimento, String email, String senha,
+	public DonoCarro(String nome, String rg, String cpf, LocalDate dataNascimento, String email, String senha,
 			String telefone) {
-		super(nome, dataNascimento, email, senha, telefone);
+		super(nome, rg, cpf, dataNascimento, email, senha, telefone);
 	}
 	
 	
