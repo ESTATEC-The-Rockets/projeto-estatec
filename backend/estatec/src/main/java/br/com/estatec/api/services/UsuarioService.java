@@ -31,19 +31,51 @@ public class UsuarioService {
 
     public Usuario salvar(Usuario usuario) {
     	
-    	Optional <Usuario> usuarioExistente = buscarPorEmail(usuario.getEmail());
+    	//Email Existente 
+    	Optional <Usuario> emailExistente = buscarPorEmail(usuario.getEmail());
 		
-		if(usuarioExistente.isPresent()) {
+		if(emailExistente.isPresent()) {
 			throw new RuntimeException("Já existe esse email no Banco de Dados");
 		}
 		
+		//Senha Cripitografada
 		String senhaCriptografada = password.encode(usuario.getSenha());
 		
 		usuario.setSenha(senhaCriptografada);
 		
+		
+		//Telefone Existente
+		Optional <Usuario> telefoneExistente = buscarPorTelefone(usuario.getTelefone());
+		
+		if(telefoneExistente.isPresent()) {
+			throw new RuntimeException("Já existe esse Telefone no Banco de Dados");
+		}
+		
+		
+		//RG Existente
+		Optional <Usuario> rgExistente = buscarPorRg(usuario.getRg());
+		
+		if(rgExistente.isPresent()) {
+			throw new RuntimeException("Já existe esse rg no Banco de Dados");
+		}
     	
         return repository.save(usuario);
     }
+    
+    public Optional<Usuario> buscarPorEmail(String email){
+		
+		return repository.findByEmail(email);
+	}
+    
+    public Optional<Usuario> buscarPorTelefone(String telefone){
+		
+		return repository.findByTelefone(telefone);
+	}
+    
+    public Optional<Usuario> buscarPorRg(String rg){
+		
+		return repository.findByRg(rg);
+	}
 
     public Usuario atualizar(Long id, Usuario usuarioAtualizado) {
         Optional<Usuario> existente = buscarPorId(id);
