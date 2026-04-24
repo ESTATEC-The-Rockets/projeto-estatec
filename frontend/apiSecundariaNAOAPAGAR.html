@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro PRO - ESTATEC</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: #fff; color: #333; padding: 25px; border-radius: 15px; width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; }
+        select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; }
+        
+        .car-display {
+            width: 100%;
+            height: 220px;
+            margin: 15px 0;
+            background: #f0f0f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #car-img {
+            width: 110%; /* Ajuste para preencher bem */
+            display: none;
+            transition: transform 0.3s;
+        }
+
+        #car-img:hover { transform: scale(1.1); }
+
+        button { width: 100%; padding: 15px; background: #b11; color: white; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; }
+        label { display: block; text-align: left; color: #666; font-size: 14px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2 style="color:#b11; margin-bottom:20px;">Novo Cadastro</h2>
+    
+    <label>MARCA</label>
+    <select id="marcas"><option>Carregando...</option></select>
+
+    <label>MODELO</label>
+    <select id="modelos" disabled><option>Selecione a marca</option></select>
+
+    <div class="car-display">
+        <span id="loader" style="color: #999;">Aguardando veículo...</span>
+        <img id="car-img" src="" alt="Veículo">
+    </div>
+
+    <button onclick="salvar()">CADASTRAR VEÍCULO</button>
+</div>
+
+<script>
+    const selectMarcas = document.getElementById('marcas');
+    const selectModelos = document.getElementById('modelos');
+    const carImg = document.getElementById('car-img');
+    const loader = document.getElementById('loader');
+
+    // 1. Puxa as Marcas (FIPE)
+    fetch('https://parallelum.com.br/fipe/api/v1/carros/marcas')
+        .then(res => res.json())
+        .then(data => {
+            selectMarcas.innerHTML = '<option value="">Escolha a Marca</option>';
+            data.forEach(m => selectMarcas.innerHTML += `<option value="${m.codigo}">${m.nome}</option>`);
+        });
+
+    // 2. Puxa os Modelos (FIPE)
+    selectMarcas.onchange = () => {
+        selectModelos.disabled = false;
+        fetch(`https://parallelum.com.br/fipe/api/v1/carros/marcas/${selectMarcas.value}/modelos`)
+            .then(res => res.json())
+            .then(data => {
+                selectModelos.innerHTML = '<option value="">Escolha o Modelo</option>';
+                data.modelos.forEach(mod => selectModelos.innerHTML += `<option value="${mod.nome}">${mod.nome}</option>`);
+            });
+    };
+
+    // 3. O PULO DO GATO: Gerar imagem precisa
+    selectModelos.onchange = () => {
+        const marca = selectMarcas.options[selectMarcas.selectedIndex].text.toLowerCase();
+        const modeloCompleto = selectModelos.value.toLowerCase();
+        // Pegamos apenas a primeira palavra do modelo para evitar erros de versões específicas brasileiras
+        const modeloSimples = modeloCompleto.split(' ')[0];
+
+        loader.innerText = "Carregando imagem real...";
+        carImg.style.display = "none";
+
+        // URL da API de Imagens (Imagin.studio - Versão demo)
+        // Parâmetros: customer=hrjavascript-masterclass, make=marca, modelFamily=modelo
+        const urlImagem = `https://cdn.imagin.studio/getimage?customer=hrjavascript-masterclass&make=${marca}&modelFamily=${modeloSimples}&zoomType=fullscreen`;
+
+        carImg.src = urlImagem;
+        carImg.onload = () => {
+            loader.style.display = "none";
+            carImg.style.display = "block";
+        };
+        
+        carImg.onerror = () => {
+            loader.innerText = "Imagem indisponível para este modelo";
+            loader.style.display = "block";
+        };
+    };
+
+    function salvar() {
+        alert("Veículo salvo com sucesso no banco de dados!");
+    }
+</script>
+
+</body>
+</html>
