@@ -33,7 +33,7 @@ public class DonoCarro extends Usuario {
 	
 	public DonoCarro(String nome, String rg, String cpf, LocalDate dataNascimento, String email, String senha,
 			String telefone) {
-		super(nome, rg, cpf, dataNascimento, email, senha, telefone);
+		super(nome, dataNascimento, cpf, rg, email, senha, telefone);
 	}
 
 
