@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Raleway', sans-serif;
     background-color: #dedede; /* Cinza claro do fundo inferior */
 }
 
@@ -88,7 +88,7 @@ body {
 }
 
 .hero-text-card p {
-    font-family: 'Lora', serif;
+    font-family: 'Raleway', sans serif;
     font-size: 1.2rem;
     color: #eaeaea;
 }
@@ -103,7 +103,7 @@ body {
 }
 
 .empty-state h2 {
-    font-family: 'Lora', serif;
+    font-family: 'Raleway', sans serif;
     font-size: 1.1rem;
     color: #444;
     margin-bottom: 30px;
