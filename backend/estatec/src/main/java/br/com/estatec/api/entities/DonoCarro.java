@@ -31,8 +31,9 @@ public class DonoCarro extends Usuario {
 	//Construtor
 	public DonoCarro() {}
 	
-	public DonoCarro(String nome, String rg, String cpf, LocalDate dataNascimento, String email, String senha, String telefone, Carros carro) {
-		super(nome, dataNascimento, email, senha, telefone, rg, cpf);
+	public DonoCarro(String nome, String rg, String cpf, LocalDate dataNascimento, String email, String senha,
+			String telefone) {
+		super(nome, rg, cpf, dataNascimento, email, senha, telefone);
 	}
 
 

@@ -30,6 +30,17 @@ public class Usuario {
 	@NotBlank(message = "O nome do usuário é obrigatório.")
 	protected String nome;
 
+	@NotBlank(message = "O RG é obrigatório.")
+	@Pattern(regexp = "^[A-Za-z0-9.-]+$", message = "RG deve conter apenas números, letras, ponto e hífen.")
+	@Size(min = 7, max = 12, message = "RG deve ter pelo menos 7 dígitos.")
+	@Column(nullable = false, unique = true, length = 12)
+	protected String rg;
+
+	@NotBlank(message = "O CPF é obrigatório.")
+	@CPF(message = "O CPF é inválido.")
+	@Column(nullable = false, unique = true, length = 14)
+	protected String cpf;
+
 	@NotNull(message = "A data de nascimento é obrigatória.")
 	@Past(message = "Data de nascimento deve estar no passado.")
 	protected LocalDate dataNascimento;
@@ -48,25 +59,18 @@ public class Usuario {
 	@Column(length = 20, unique = true)
 	@NotBlank(message = "O telefone é obrigatório.")
 	protected String telefone;
-	
-	@NotBlank(message = "O RG é obrigatório.")
-	@Pattern(regexp = "^[A-Za-z0-9.-]+$", message = "RG deve conter apenas números, letras, ponto e hífen.")
-	@Size(min = 7, max = 12, message = "RG deve ter pelo menos 7 dígitos.")
-	@Column(nullable = false, unique = true, length = 12)
-	protected String rg;
-	
-	@NotBlank(message = "O CPF é obrigatório.")
-	@CPF(message = "O CPF é inválido.")
-	@Column(nullable = false, unique = true, length = 14)
-	protected String cpf;
 
 	public Usuario() {
 
 	}
 
+
 	public Usuario(String nome, LocalDate dataNascimento, String email, String senha,
 			String telefone, String rg, String cpf) {
+
 		this.nome = nome;
+		this.rg = rg;
+		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
 		this.email = email;
 		this.senha = senha;
@@ -90,6 +94,7 @@ public class Usuario {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 
 	public LocalDate getDataNascimento() {
 		return dataNascimento;
