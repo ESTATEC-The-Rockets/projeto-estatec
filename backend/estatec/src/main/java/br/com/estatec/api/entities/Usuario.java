@@ -2,6 +2,8 @@ package br.com.estatec.api.entities;
 
 import java.time.LocalDate;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import br.com.estatec.api.validations.annotations.TelefoneBR;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -46,18 +48,31 @@ public class Usuario {
 	@Column(length = 20, unique = true)
 	@NotBlank(message = "O telefone é obrigatório.")
 	protected String telefone;
+	
+	@NotBlank(message = "O RG é obrigatório.")
+	@Pattern(regexp = "^[A-Za-z0-9.-]+$", message = "RG deve conter apenas números, letras, ponto e hífen.")
+	@Size(min = 7, max = 12, message = "RG deve ter pelo menos 7 dígitos.")
+	@Column(nullable = false, unique = true, length = 12)
+	protected String rg;
+	
+	@NotBlank(message = "O CPF é obrigatório.")
+	@CPF(message = "O CPF é inválido.")
+	@Column(nullable = false, unique = true, length = 14)
+	protected String cpf;
 
 	public Usuario() {
 
 	}
 
 	public Usuario(String nome, LocalDate dataNascimento, String email, String senha,
-			String telefone) {
+			String telefone, String rg, String cpf) {
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.email = email;
 		this.senha = senha;
 		this.telefone = telefone;
+		this.rg = rg;
+		this.cpf = cpf;
 	}
 
 	public Long getId() {
@@ -107,6 +122,24 @@ public class Usuario {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
+
+	public String getRg() {
+		return rg;
+	}
+
+	public void setRg(String rg) {
+		this.rg = rg;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+	
+	
 
 
 }
