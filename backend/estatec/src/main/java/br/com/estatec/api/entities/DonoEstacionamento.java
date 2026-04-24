@@ -27,7 +27,7 @@ public class DonoEstacionamento extends Usuario {
 	}
 	public DonoEstacionamento(String nome, String rg, String cpf, LocalDate dataNascimento, String email, String senha,
 			String telefone) {
-		super(nome, dataNascimento, email, senha, telefone);
+		super(nome, rg, cpf, dataNascimento, email, senha, telefone);
 	}
 	
 	
