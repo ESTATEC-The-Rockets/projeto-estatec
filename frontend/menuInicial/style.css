@@ -5,12 +5,8 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #dedede;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+    font-family: 'Raleway', sans-serif;
+    background-color: #dedede; /* Cinza claro do fundo inferior */
 }
 
 /* Header */
@@ -24,7 +20,7 @@ body {
 }
 
 .logo-area img {
-    height: 80px;
+    height: 55px;
 }
 
 .header-nav {
@@ -53,9 +49,7 @@ body {
     font-size: 14px;
 }
 
-.user-icon {
-    font-size: 24px;
-}
+.user-icon { font-size: 24px; }
 
 /* Linha Vermelha */
 .red-divider {
@@ -66,8 +60,8 @@ body {
 
 /* Banner Centralizado */
 .hero-section {
-    height: 43vh;
-    background-color: #000;
+    height: 380px;
+    background-color: #000; /* Fundo preto que aparece nas bordas se a imagem falhar */
 }
 
 .hero-image {
@@ -79,52 +73,41 @@ body {
 }
 
 .hero-overlay {
-    background-color: rgba(0, 0, 0, 0.53);
+    background-color: rgba(0, 0, 0, 0.53); /* Escurece a foto de fundo de leve */
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* A CAIXA COM FUNDO PRETO/FUMÊ DA IMAGEM */
 .hero-text-card {
-    background-color: rgba(141, 141, 141, 0.875);
+    background-color: rgba(141, 141, 141, 0.875); /* Fundo branco esfumaçado */
     padding: 20px 40px;
     border-radius: 2px;
 }
 
 .hero-text-card p {
-    font-family: 'Lora', serif;
+    font-family: 'Raleway', sans serif;
     font-size: 1.2rem;
     color: #eaeaea;
 }
 
-.red-bold {
-    color: #BC1624;
-    font-weight: 700;
-}
-
-.black-bold {
-    color: #d5d5d5;
-    font-weight: 700;
-}
+.red-bold { color: #BC1624; font-weight: 700; }
+.black-bold { color: #d5d5d5; font-weight: 700; }
 
 /* Área Inferior */
 .empty-state {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 20px;
+    padding: 80px 20px;
+    text-align: center;
 }
 
-/* NOVO: Caixa que segura e alinha os botões lado a lado */
-.button-group {
-    display: flex;
-    gap: 20px;
-    /* Espaçamento entre os botões */
-    justify-content: center;
-    align-items: center;
+.empty-state h2 {
+    font-family: 'Raleway', sans serif;
+    font-size: 1.1rem;
+    color: #444;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
 }
 
 .btn-main-register {
@@ -143,23 +126,6 @@ body {
     background-color: #8e111b;
 }
 
-/* NOVO: Estilo do botão de Menu */
-.btn-main-menu {
-    background-color: #BC1624;
-    color: white;
-    border: none;
-    padding: 16px 40px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.btn-main-menu:hover {
-    background-color: #111111;
-}
-
 .main-footer {
     text-align: center;
     padding-bottom: 20px;
@@ -169,10 +135,7 @@ body {
 }
 
 /* Dropdown básico */
-.dropdown {
-    position: relative;
-}
-
+.dropdown { position: relative; }
 .dropdown-content {
     display: none;
     position: absolute;
@@ -181,7 +144,6 @@ body {
     top: 100%;
     z-index: 10;
 }
-
 .dropdown-content a {
     color: white;
     padding: 12px;
@@ -189,7 +151,4 @@ body {
     display: block;
     font-size: 12px;
 }
-
-.show {
-    display: block !important;
-}
+.show { display: block !important; }
