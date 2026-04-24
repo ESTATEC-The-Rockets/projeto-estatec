@@ -6,11 +6,11 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #dedede; 
-    height: 100vh; 
+    background-color: #dedede;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 /* Header */
@@ -53,7 +53,9 @@ body {
     font-size: 14px;
 }
 
-.user-icon { font-size: 24px; }
+.user-icon {
+    font-size: 24px;
+}
 
 /* Linha Vermelha */
 .red-divider {
@@ -64,8 +66,8 @@ body {
 
 /* Banner Centralizado */
 .hero-section {
-    height: 35vh; 
-    background-color: #000; 
+    height: 35vh;
+    background-color: #000;
 }
 
 .hero-image {
@@ -77,7 +79,7 @@ body {
 }
 
 .hero-overlay {
-    background-color: rgba(0, 0, 0, 0.53); 
+    background-color: rgba(0, 0, 0, 0.53);
     height: 100%;
     display: flex;
     align-items: center;
@@ -85,7 +87,7 @@ body {
 }
 
 .hero-text-card {
-    background-color: rgba(141, 141, 141, 0.875); 
+    background-color: rgba(141, 141, 141, 0.875);
     padding: 20px 40px;
     border-radius: 2px;
 }
@@ -96,12 +98,19 @@ body {
     color: #eaeaea;
 }
 
-.red-bold { color: #BC1624; font-weight: 700; }
-.black-bold { color: #d5d5d5; font-weight: 700; }
+.red-bold {
+    color: #BC1624;
+    font-weight: 700;
+}
+
+.black-bold {
+    color: #d5d5d5;
+    font-weight: 700;
+}
 
 /* Área Inferior */
 .empty-state {
-    flex: 1; 
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -112,7 +121,8 @@ body {
 /* NOVO: Caixa que segura e alinha os botões lado a lado */
 .button-group {
     display: flex;
-    gap: 20px; /* Espaçamento entre os botões */
+    gap: 20px;
+    /* Espaçamento entre os botões */
     justify-content: center;
     align-items: center;
 }
@@ -159,7 +169,10 @@ body {
 }
 
 /* Dropdown básico */
-.dropdown { position: relative; }
+.dropdown {
+    position: relative;
+}
+
 .dropdown-content {
     display: none;
     position: absolute;
@@ -168,6 +181,7 @@ body {
     top: 100%;
     z-index: 10;
 }
+
 .dropdown-content a {
     color: white;
     padding: 12px;
@@ -175,4 +189,7 @@ body {
     display: block;
     font-size: 12px;
 }
-.show { display: block !important; }
+
+.show {
+    display: block !important;
+}
