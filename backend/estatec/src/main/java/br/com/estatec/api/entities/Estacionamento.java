@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,7 +29,8 @@ public class Estacionamento {
 	@NotNull(message = "Insira a localização do seu estacionamento.")
 	private String localizacao;
 	
-	
+	@ManyToOne
+	@JoinColumn(name = "dono_id")
 	private DonoEstacionamento donoEstacionamento;
 
 	public Estacionamento() {
