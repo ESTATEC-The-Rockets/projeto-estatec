@@ -4,53 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESTATEC - Menu</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="main-wrapper">
+        
         <header class="black-header">
             <div class="logo-box">
                 <img src="../img/estatec.png" alt="ESTATEC">
             </div>
+            
             <div class="header-controls">
                 <button class="btn-outline" onclick="window.location.href='../cadastroEstacionamento/index.html'">CADASTRAR ESTACIONAMENTO</button>
                 <div class="dropdown">
-                    <button class="dropbtn" id="estBtn">ESTACIONAMENTOS ▾</button>
+                    <button class="dropbtn" id="estBtn">
+                        ESTACIONAMENTOS <i class="fa-solid fa-chevron-down" style="font-size: 10px; margin-left: 5px;"></i>
+                    </button>
                     <div class="dropdown-content" id="estDropdown">
                         <a href="#">ESTACIONAMENTO 01</a>
                         <a href="#">ESTACIONAMENTO 02</a>
-                        <a href="#" class="add-est" button class="btn-outline" onclick="window.location.href='../cadastroEstacionamento/index.html'"></button>+ NOVO</a>
-                        
+                        <a href="../cadastroEstacionamento/index.html" class="add-est">+ NOVO</a>
                     </div>
                 </div>
             </div>
+            
             <div class="profile-area">
-                <span class="profile-icon">👤</span> 
+                <i class="fa-regular fa-user" style="font-size: 24px;"></i> 
                 <span class="profile-name">DONO ESTACIONAMENTO</span>
             </div>
         </header>
 
         <div class="content-container">
+            
             <aside class="sidebar">
                 <nav class="nav-links">
                     <a href="#" class="active">
-                        <span class="nav-icon">☰</span> MENU
+                        <i class="fa-solid fa-list nav-icon"></i> MENU
                     </a>
                     <a href="usuarios.html">
-                        <span class="nav-icon">👤</span> USUÁRIO
+                        <i class="fa-regular fa-user nav-icon"></i> USUÁRIO
                     </a>
                     <a href="#">
-                        <span class="nav-icon">🗄️</span> DADOS
+                        <i class="fa-solid fa-database nav-icon"></i> DADOS
                     </a>
                     <a href="#">
-                        <span class="nav-icon">🛡️</span> SEGURANÇA
+                        <i class="fa-solid fa-shield-halved nav-icon"></i> SEGURANÇA
                     </a>
                 </nav>
                 <div class="sidebar-footer">© ESTATEC</div>
             </aside>
 
             <main class="dashboard-content">
+                
                 <section class="security-cameras">
                     <h2>CÂMERAS DE SEGURANÇA</h2>
                     
@@ -58,24 +67,24 @@
                         <div class="cam-card"><img src="../img/camera1.jpg" alt="Cam1"></div>
                         <div class="cam-card"><img src="../img/camera2.jpg" alt="Cam2"></div>
                         <div class="cam-card"><img src="../img/camera3.jpg" alt="Cam3"></div>
+                        <button class="btn-add-circle" id="openCameras">+</button>
                     </div>
 
                     <div class="hidden-cameras" id="extraCameras">
-                        <div class="camera-grid" style="margin-bottom: 50px;">
+                        <div class="camera-grid">
                             <div class="cam-card"><img src="../img/camera1.jpg" alt="Cam4"></div>
                             <div class="cam-card"><img src="../img/camera2.jpg" alt="Cam5"></div>
                             <div class="cam-card"><img src="../img/camera3.jpg" alt="Cam6"></div>
-                            <div style="width: 50px;"></div>
+                            <div style="width: 40px;"></div> 
                         </div>
                     </div>
                 </section>
 
-                <main class="cars">
-                <section class="registered-cars">
-                    <h2>CARROS CADASTRADOS</h2>
-
                 <section class="vehicle-status">
+                    
                     <div class="status-col">
+                        <h2>CARROS CADASTRADOS</h2>
+                        
                         <div class="info-card">
                             <img src="../img/fusca.png" alt="Fusca" class="car-thumb">
                             <div class="text-details">
@@ -83,6 +92,7 @@
                                 <p><strong>MARCA:</strong> Volkswagen</p>
                             </div>
                         </div>
+                        
                         <div class="info-card">
                             <img src="../img/civic.png" alt="Civic" class="car-thumb">
                             <div class="text-details">
@@ -93,7 +103,8 @@
                         
                         <div class="hidden-cars" id="extraCarros1">
                             <div class="info-card">
-                                <img src="../img/fusca.png" alt="Gol" class="car-thumb"> <div class="text-details">
+                                <img src="../img/fusca.png" alt="Gol" class="car-thumb"> 
+                                <div class="text-details">
                                     <p><strong>NOME:</strong> Gol</p>
                                     <p><strong>MARCA:</strong> Volkswagen</p>
                                 </div>
@@ -103,40 +114,41 @@
                         <button class="btn-add-flat" id="openCarros1">+</button>
                     </div>
 
-                    <main class="users">
-                    <section class="registered-users">
-                        <h2>USUÁRIOS</h2>
-
                     <div class="status-col">
+                        <h2>USUÁRIOS</h2>
+                        
                         <div class="info-card">
                             <img src="../img/nissan.png" alt="Nissan" class="car-thumb">
                             <div class="text-details">
                                 <p><strong>USUÁRIO:</strong> Laura</p>
                                 <p><strong>MARCA:</strong> Nissan</p>
                             </div>
-                            <span class="user-badge-inline">👤</span>
+                            <i class="fa-regular fa-user user-badge-inline"></i>
                         </div>
+                        
                         <div class="info-card">
                             <img src="../img/jeep.png" alt="Renegade" class="car-thumb">
                             <div class="text-details">
                                 <p><strong>USUÁRIO:</strong> Marcelo</p>
                                 <p><strong>MARCA:</strong> Jeep Renegade</p>
                             </div>
-                            <span class="user-badge-inline">👤</span>
+                            <i class="fa-regular fa-user user-badge-inline"></i>
                         </div>
 
                         <div class="hidden-cars" id="extraCarros2">
                             <div class="info-card">
-                                <img src="../img/civic.png" alt="Corolla" class="car-thumb"> <div class="text-details">
+                                <img src="../img/civic.png" alt="Corolla" class="car-thumb"> 
+                                <div class="text-details">
                                     <p><strong>USUÁRIO:</strong> Fernando</p>
                                     <p><strong>MARCA:</strong> Corolla</p>
                                 </div>
-                                <span class="user-badge-inline">👤</span>
+                                <i class="fa-regular fa-user user-badge-inline"></i>
                             </div>
                         </div>
 
                         <button class="btn-add-flat" id="openCarros2">+</button>
                     </div>
+
                 </section>
             </main>
         </div>

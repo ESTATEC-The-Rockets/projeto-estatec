@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Dropdown Estacionamentos
+    
+    // Expandir / Ocultar Dropdown Estacionamentos
     const estBtn = document.getElementById('estBtn');
     const estDropdown = document.getElementById('estDropdown');
 
@@ -10,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Fechar dropdown clicando fora
     window.addEventListener('click', () => {
         if (estDropdown) estDropdown.classList.remove('show');
     });
@@ -36,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Expandir Carros Coluna 2
+    // Expandir Carros Coluna 2 (Usuários)
     const btnCarros2 = document.getElementById('openCarros2');
     const extraCarros2 = document.getElementById('extraCarros2');
 
