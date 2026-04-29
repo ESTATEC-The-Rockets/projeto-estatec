@@ -30,8 +30,8 @@ public class Estacionamento {
 	private String localizacao;
 	
 	@ManyToOne
-	@JoinColumn(name = "dono_id")
-	private DonoEstacionamento donoEstacionamento;
+    @JoinColumn(name = "dono_id")
+    private DonoEstacionamento donoEstacionamento;
 
 	public Estacionamento() {
 	}

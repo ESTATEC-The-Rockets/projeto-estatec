@@ -47,9 +47,9 @@ public class Carros {
 	// __________________________________________________
 	
 	
-	@OneToMany(mappedBy = "donos")
-	@JsonIgnore
-	private List<DonoCarro> donos;
+	@OneToMany(mappedBy = "carro")
+    @JsonIgnore
+    private List<DonoCarro> donos;
 
 	public Carros() {
 
