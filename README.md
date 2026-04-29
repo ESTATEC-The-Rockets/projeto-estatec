@@ -62,7 +62,11 @@ CREATE DATABASE db_estatec;
 
 ## Funcionalidades
 [x] CRUD Completo: Gerenciamento de Alunos/Donos de Carros.
+
 [x] Segurança: Acesso restrito via Entidade Usuário.
+
 [x] Automação LPR: Reconhecimento de placa via sensor.
+
 [x] Validação de Acesso: Verificação instantânea de permissão de entrada.
+
 [x] Gestão de Vagas: Controle entre as entidades Carro e Estacionamento.
