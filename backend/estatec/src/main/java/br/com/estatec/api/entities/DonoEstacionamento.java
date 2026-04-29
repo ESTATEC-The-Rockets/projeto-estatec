@@ -1,29 +1,17 @@
 package br.com.estatec.api.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name="tb_dono_estacionamento")
 public class DonoEstacionamento extends Usuario {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@OneToMany
-	@JoinColumn(name = "estacionamento_id")
-	@NotNull(message = "O carro é obrigatório.")
-	private Estacionamento estacionamento;
-	
+	@OneToMany(mappedBy = "donoEstacionamento", cascade = CascadeType.ALL)
+	private List<Estacionamento> estacionamentos;
 	
 	
 	public DonoEstacionamento() {
@@ -33,15 +21,6 @@ public class DonoEstacionamento extends Usuario {
 			String telefone) {
 
 		super(nome, dataNascimento, cpf, rg, email, senha, telefone);
-	}
-	
-	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
 	}
 	
 }
