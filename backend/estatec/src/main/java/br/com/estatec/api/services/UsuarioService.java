@@ -32,10 +32,17 @@ public class UsuarioService {
 	}
 
 	public Usuario salvar(Usuario usuario) {
-		Optional<Usuario> usuarioExistente = buscarPorEmail(usuario.getEmail());
 
-		if (usuarioExistente.isPresent()) {
+		if (buscarPorEmail(usuario.getEmail()).isPresent()) {
 			throw new RuntimeException("Já existe esse email no Banco de Dados");
+		}
+
+		if (repository.findByCpf(usuario.getCpf()).isPresent()) {
+			throw new RuntimeException("Já existe um usuário cadastrado com este CPF");
+		}
+
+		if (repository.findByRg(usuario.getRg()).isPresent()) {
+			throw new RuntimeException("Já existe um usuário cadastrado com este RG");
 		}
 
 		String senhaCriptografada = password.encode(usuario.getSenha());
@@ -49,7 +56,7 @@ public class UsuarioService {
 
 		if (usuarioExistente.isPresent()) {
 			Usuario usuario = usuarioExistente.get();
-			
+
 			if (password.matches(senha, usuario.getSenha())) {
 				return usuario;
 			}
@@ -57,6 +64,8 @@ public class UsuarioService {
 
 		throw new RuntimeException("E-mail ou senha inválidos.");
 	}
+
+	// --------------------------------------------
 
 	public Usuario atualizar(Long id, Usuario usuarioAtualizado) {
 		Optional<Usuario> existente = buscarPorId(id);
@@ -68,7 +77,7 @@ public class UsuarioService {
 			atualizado.setTelefone(usuarioAtualizado.getTelefone());
 			atualizado.setDataNascimento(usuarioAtualizado.getDataNascimento());
 			atualizado.setEmail(usuarioAtualizado.getEmail());
-			
+
 			String senhaCriptografada = password.encode(usuarioAtualizado.getSenha());
 			atualizado.setSenha(senhaCriptografada);
 
