@@ -10,7 +10,7 @@
 ![Python](https://img.shields.io/badge/python-%233776AB.svg?style=for-the-badge&logo=python&logoColor=white)
 
 ## Sobre o Projeto
-O EstaTec é um sistema inteligente de gestão de estacionamentos que une o mundo físico (IoT) ao digital (Web). Desenvolvido no curso de Desenvolvimento de Sistemas do SENAI Sorocaba - Gaspar Ricardo Junior, ministrado pelo Prof. [Vedilson Prado](http://github.com/vedilsonprado).O projeto automatiza o controle de acesso veicular através do reconhecimento de placas (LPR) e sensores de presença.
+O EstaTec é um sistema inteligente de gestão de estacionamentos que une o mundo físico (IoT) ao digital (Web). Desenvolvido no curso de Desenvolvimento de Sistemas do SENAI Sorocaba - Gaspar Ricardo Junior, ministrado pelo Prof. [Vedilson Prado](http://github.com/vedilsonprado). O projeto automatiza o controle de acesso veicular através do reconhecimento de placas (LPR) e sensores de presença.
 
 #### O Diferencial: Fluxo de Automação
 Diferente de um CRUD comum, este sistema integra:
@@ -54,7 +54,7 @@ CREATE DATABASE db_estatec;
 - Instale as dependências de OCR (como OpenCV e Tesseract).
 - Configure o endpoint da API Java no script Python para envio da placa capturada.
 
-### 3. Frontend
+### 4. Frontend
 - Navegue até a pasta do Frontend. 
 - Acesse o index.html no navegador.
 
