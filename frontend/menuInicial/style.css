@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Georgia', 'Times New Roman', serif;
 }
 
 body {
@@ -23,7 +24,7 @@ body {
 }
 
 .logo-area img {
-     margin-top: 12%;
+    margin-top: 12%;
     margin-left: -20%;
     height: 120px;
     width: auto;
@@ -32,6 +33,7 @@ body {
 .header-nav {
     display: flex;
     gap: 10px;
+    
 }
 
 .btn-gray {
@@ -92,6 +94,7 @@ body {
     background-color: rgba(141, 141, 141, 0.875); 
     padding: 20px 40px;
     border-radius: 2px;
+    font-family: 'Georgia', 'Times New Roman', serif;
 }
 
 .hero-text-card p {
@@ -101,7 +104,7 @@ body {
 }
 
 .red-bold { color: #BC1624; font-weight: 700; }
-.black-bold { color: #d5d5d5; font-weight: 700; }
+.black-bold { color: #d5d5d5; font-weight: 700; font-family: 'Georgia', 'Times New Roman', serif; }
 
 /* Área Inferior */
 .empty-state {
@@ -129,7 +132,7 @@ body {
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Georgia', 'Times New Roman', serif;
 }
 
 .btn-main-action:hover {

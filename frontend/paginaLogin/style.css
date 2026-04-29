@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Georgia', 'Times New Roman', serif;
 }
 
 body {
@@ -61,6 +61,7 @@ h1 {
 .input-group {
     text-align: left;
     margin-bottom: 20px;
+    
 }
 
 .input-group label {
