@@ -27,7 +27,6 @@ public class UsuarioService {
 		return repository.findById(id);
 	}
 
-
 	public Optional<Usuario> buscarPorEmail(String email) {
 		return repository.findByEmail(email);
 	}
@@ -39,53 +38,8 @@ public class UsuarioService {
 			throw new RuntimeException("Já existe esse email no Banco de Dados");
 		}
 
-
-    public Usuario salvar(Usuario usuario) {
-    	
-    	//Email Existente 
-    	Optional <Usuario> emailExistente = buscarPorEmail(usuario.getEmail());
-		
-		if(emailExistente.isPresent()) {
-			throw new RuntimeException("Já existe esse email no Banco de Dados");
-		}
-		
-		//Senha Cripitografada
 		String senhaCriptografada = password.encode(usuario.getSenha());
 		usuario.setSenha(senhaCriptografada);
-		
-		
-		//Telefone Existente
-		Optional <Usuario> telefoneExistente = buscarPorTelefone(usuario.getTelefone());
-		
-		if(telefoneExistente.isPresent()) {
-			throw new RuntimeException("Já existe esse Telefone no Banco de Dados");
-		}
-		
-		
-		//RG Existente
-		Optional <Usuario> rgExistente = buscarPorRg(usuario.getRg());
-		
-		if(rgExistente.isPresent()) {
-			throw new RuntimeException("Já existe esse rg no Banco de Dados");
-		}
-    	
-        return repository.save(usuario);
-    }
-    
-    public Optional<Usuario> buscarPorEmail(String email){
-		
-		return repository.findByEmail(email);
-	}
-    
-    public Optional<Usuario> buscarPorTelefone(String telefone){
-		
-		return repository.findByTelefone(telefone);
-	}
-    
-    public Optional<Usuario> buscarPorRg(String rg){
-		
-		return repository.findByRg(rg);
-	}
 
 		return repository.save(usuario);
 	}
@@ -95,7 +49,7 @@ public class UsuarioService {
 
 		if (usuarioExistente.isPresent()) {
 			Usuario usuario = usuarioExistente.get();
-
+			
 			if (password.matches(senha, usuario.getSenha())) {
 				return usuario;
 			}
@@ -114,7 +68,7 @@ public class UsuarioService {
 			atualizado.setTelefone(usuarioAtualizado.getTelefone());
 			atualizado.setDataNascimento(usuarioAtualizado.getDataNascimento());
 			atualizado.setEmail(usuarioAtualizado.getEmail());
-
+			
 			String senhaCriptografada = password.encode(usuarioAtualizado.getSenha());
 			atualizado.setSenha(senhaCriptografada);
 
