@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fecha se clicar fora
     window.onclick = function(event) {
         if (!event.target.matches('.btn-gray')) {
-            if (dropdown.classList.contains('show')) {
+            if (dropdown && dropdown.classList.contains('show')) {
                 dropdown.classList.remove('show');
             }
         }

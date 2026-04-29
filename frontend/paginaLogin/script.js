@@ -4,19 +4,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.querySelector('#loginForm');
     const forgotPasswordLink = document.querySelector('#forgotPassword');
 
-    // 1. Lógica de mostrar/esconder senha (Unificada)
+    // 1. Lógica de mostrar/esconder senha
     if (togglePassword && passwordInput) {
         togglePassword.addEventListener('click', () => {
             const isPassword = passwordInput.getAttribute('type') === 'password';
             const type = isPassword ? 'text' : 'password';
             
             passwordInput.setAttribute('type', type);
-            // Mantendo o estilo de span que você usou na segunda versão
             togglePassword.innerHTML = isPassword ? '<span>🗨️</span>' : '<span>👁️‍🗨️</span>';
         });
     }
 
-    // 2. Redirecionamento (Opcional via JS)
+    // 2. Redirecionamento Esqueci a Senha
     if (forgotPasswordLink) {
         forgotPasswordLink.addEventListener('click', (e) => {
             e.preventDefault(); 
@@ -24,31 +23,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Lógica de Login
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    // 3. Lógica de Login: Redirecionamento Direto
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Evita que a página recarregue
 
-        const email = document.querySelector('#email').value;
-        const password = passwordInput.value;
+            const email = document.querySelector('#email').value;
+            const password = passwordInput.value;
 
-        try {
-            const resposta = await fetch('http://localhost:8080/api/carros', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
-
-            const dados = await resposta.json();
-
-            if (resposta.ok) {
-                alert('Login realizado com sucesso!');
-                // window.location.href = '/dashboard.html';
+            // Simples validação de campos vazios (opcional, pois o HTML já tem 'required')
+            if (email && password) {
+                // REDIRECIONA PARA A PÁGINA DESEJADA
+                window.location.href = "../menuInicial/index.html"; 
             } else {
-                alert(`Erro: ${dados.mensagem || 'Credenciais inválidas'}`);
+                alert("Por favor, preencha o e-mail e a senha.");
             }
-        } catch (error) {
-            console.error('Erro na conexão:', error);
-            alert('Não foi possível conectar ao servidor.');
-        }
-    });
+        });
+    }
 });
