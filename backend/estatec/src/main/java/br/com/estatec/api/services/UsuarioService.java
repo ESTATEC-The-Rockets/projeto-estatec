@@ -30,6 +30,23 @@ public class UsuarioService {
 	public Optional<Usuario> buscarPorEmail(String email) {
 		return repository.findByEmail(email);
 	}
+	
+	public Optional <Usuario> buscarPorNome(String nome){
+		return repository.findByNome(nome);
+	}
+	
+	public Optional <Usuario> buscarPorTelefone(String telefone){
+		return repository.findByTelefone(telefone);
+	}
+	
+	public Optional <Usuario> buscarPorRg(String rg){
+		return repository.findByRg(rg);
+	}
+	
+	public Optional <Usuario> buscarPorCpf(String cpf){
+		return repository.findByCpf(cpf);
+	}
+	
 
 	public Usuario salvar(Usuario usuario) {
 
