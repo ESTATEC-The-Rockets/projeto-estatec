@@ -1,7 +1,5 @@
-/* --- GERAL --- */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
-/* --- HEADER --- */
 .black-header {
     background-color: #000;
     height: 100px;
@@ -27,7 +25,6 @@
 .btn-outline:hover, .dropbtn:hover { background-color: #333; }
 .profile-area { display: flex; align-items: center; gap: 10px; color: white; font-weight: 800; }
 
-/* --- DROPDOWN --- */
 .dropdown { position: relative; display: inline-block; }
 .dropdown-content {
     display: none; position: absolute; background-color: #1a1a1a; min-width: 220px;
@@ -37,7 +34,6 @@
 .dropdown-content a:hover { background-color: #333; }
 .show { display: block !important; }
 
-/* --- SIDEBAR --- */
 .content-container { display: flex; height: calc(100vh - 100px); overflow: hidden; }
 .sidebar { width: 260px; background-color: #bc1624; color: white; display: flex; flex-direction: column; padding-top: 20px; }
 .nav-links a { display: flex; align-items: center; padding: 18px 25px; color: white; text-decoration: none; font-weight: 700; font-size: 1.1rem; gap: 15px; }
@@ -45,7 +41,6 @@
 .nav-links a.active { background-color: #9a121d; border-right: 10px solid white; }
 .sidebar-footer { margin-top: auto; padding: 20px; font-weight: 800; }
 
-/* --- DASHBOARD E CARDS --- */
 .dashboard-content { flex: 1; background-color: #d9d9d9; padding: 40px; overflow-y: auto; }
 
 .camera-grid { display: flex; gap: 20px; margin-bottom: 25px; align-items: center; }
@@ -64,7 +59,6 @@
 .text-details strong { color: #1a1a1a; }
 .user-badge-inline { font-size: 24px; color: #333; margin-left: auto; }
 
-/* --- BOTÕES + E LISTAS EXPANSÍVEIS --- */
 .btn-add-circle, .btn-add-flat {
     background: #e0e0e0; border: none; width: 50px; height: 50px; border-radius: 50%;
     font-size: 24px; cursor: pointer; margin-top: 5px; transition: 0.3s;

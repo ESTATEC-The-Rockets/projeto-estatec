@@ -27,7 +27,7 @@ body {
 }
 
 .login-card {
-    background-color: #f8faf8; /* Tom de branco da imagem */
+    background-color: #f8faf8; 
     width: 90%;
     padding: 40px;
     border-radius: 40px;
@@ -70,7 +70,7 @@ input::placeholder {
 
 .btn-cadastrar {
     width: 100%;
-    background-color: #bc1624; /* Vermelho Estatec */
+    background-color: #bc1624; 
     color: #fff;
     border: none;
     padding: 14px;

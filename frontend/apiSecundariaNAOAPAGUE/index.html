@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro PRO - ESTATEC</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: #fff; color: #333; padding: 25px; border-radius: 15px; width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; }
+        
+        /* Ajustado para estilizar os novos campos de texto (input) */
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; box-sizing: border-box; }
+        
+        button { width: 100%; padding: 15px; background: #b11; color: white; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; margin-top: 15px; }
+        label { display: block; text-align: left; color: #666; font-size: 14px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2 style="color:#b11; margin-bottom:20px;">Novo Cadastro</h2>
+    
+    <label>MARCA</label>
+    <input list="lista-marcas" id="input-marca" placeholder="Digite ou selecione a marca...">
+    <datalist id="lista-marcas"></datalist>
+
+    <label>MODELO</label>
+    <input list="lista-modelos" id="input-modelo" placeholder="Aguardando marca..." disabled>
+    <datalist id="lista-modelos"></datalist>
+
+    <button onclick="salvar()">CADASTRAR VEÍCULO</button>
+</div>
+
+<script>
+    const inputMarca = document.getElementById('input-marca');
+    const datalistMarcas = document.getElementById('lista-marcas');
+    const inputModelo = document.getElementById('input-modelo');
+    const datalistModelos = document.getElementById('lista-modelos');
+
+    let marcasDisponiveis = []; // Guarda as marcas para encontrar o código FIPE correspondente
+
+    // 1. Puxa as Marcas (FIPE) e preenche a lista invisível (datalist)
+    fetch('https://parallelum.com.br/fipe/api/v1/carros/marcas')
+        .then(res => res.json())
+        .then(data => {
+            marcasDisponiveis = data;
+            data.forEach(m => {
+                datalistMarcas.innerHTML += `<option value="${m.nome}"></option>`;
+            });
+        });
+
+    // 2. Escuta sempre que o usuário digitar ou selecionar algo no campo de Marca
+    inputMarca.addEventListener('input', () => {
+        // Busca se o texto digitado bate exatamente com alguma marca da API
+        const marcaSelecionada = marcasDisponiveis.find(m => m.nome === inputMarca.value);
+
+        if (marcaSelecionada) {
+            // Marca válida encontrada: libera os modelos
+            inputModelo.disabled = false;
+            inputModelo.placeholder = "Digite ou selecione o modelo...";
+            inputModelo.value = ""; 
+            datalistModelos.innerHTML = ""; // Limpa os modelos da marca anterior
+
+            // Puxa os modelos usando o código da marca selecionada
+            fetch(`https://parallelum.com.br/fipe/api/v1/carros/marcas/${marcaSelecionada.codigo}/modelos`)
+                .then(res => res.json())
+                .then(data => {
+                    data.modelos.forEach(mod => {
+                        datalistModelos.innerHTML += `<option value="${mod.nome}"></option>`;
+                    });
+                });
+        } else {
+            // Se o usuário apagar ou digitar uma marca que não existe, bloqueia novamente
+            inputModelo.disabled = true;
+            inputModelo.placeholder = "Aguardando marca...";
+            inputModelo.value = "";
+            datalistModelos.innerHTML = "";
+        }
+    });
+
+    function salvar() {
+        if (!inputMarca.value || !inputModelo.value) {
+            alert("Por favor, preencha a marca e o modelo antes de cadastrar.");
+            return;
+        }
+        alert(`Veículo ${inputMarca.value} ${inputModelo.value} salvo com sucesso no banco de dados!`);
+    }
+</script>
+
+</body>
+</html>

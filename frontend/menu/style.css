@@ -1,4 +1,3 @@
-/* --- GERAL --- */
 * {
     margin: 0;
     padding: 0;
@@ -10,7 +9,6 @@ body {
     background-color: #000;
 }
 
-/* --- TIPOGRAFIA DA IMAGEM ORIGINAL --- */
 .status-col h2, 
 .security-cameras h2,
 .nav-links a,
@@ -20,7 +18,6 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* --- HEADER --- */
 .black-header {
     background-color: #000;
     height: 100px;
@@ -37,13 +34,12 @@ body {
     margin-top: 10%;
 }
 
-/* BOTÕES MOVIDOS PARA A ESQUERDA */
 .header-controls {
     display: flex;
     gap: 15px;
     align-items: center;
-    margin-left: 30px; /* Dá um leve respiro da logo */
-    margin-right: auto; /* Joga todo o resto (o perfil) para a direita */
+    margin-left: 30px; 
+    margin-right: auto; 
 }
 
 .btn-outline,
@@ -75,7 +71,6 @@ body {
     font-size: 16px;
 }
 
-/* --- DROPDOWN --- */
 .dropdown {
     position: relative;
     display: inline-block;
@@ -113,7 +108,6 @@ body {
     display: block !important;
 }
 
-/* --- SIDEBAR --- */
 .content-container {
     display: flex;
     height: calc(100vh - 100px);
@@ -156,14 +150,11 @@ body {
     justify-content: center;
 }
 
-/* FUNDO ESFUMADO PARA O ITEM SELECIONADO */
 .nav-links a.active {
-    /* Um gradiente escuro e suave para dar a impressão de esfumado/sombreado */
     background: linear-gradient(90deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.05) 100%);
     box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* LINHA BRANCA MENOS BRILHANTE E MAIS SUAVE */
 .nav-links a.active::after {
     content: '';
     position: absolute;
@@ -173,8 +164,8 @@ body {
     height: calc(100% - 20px); 
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 4px; 
-    filter: blur(0.5px); /* Desfoque reduzido */
-    box-shadow: 0 0 4px rgba(255, 255, 255, 0.3); /* Brilho drasticamente reduzido */
+    filter: blur(0.5px); 
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.3); 
 }
 
 .nav-links a:hover {
@@ -188,7 +179,6 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
-/* --- DASHBOARD E CARDS --- */
 .dashboard-content {
     flex: 1;
     background-color: #efefef; 
@@ -233,7 +223,6 @@ body {
     border-radius: 12px; 
 }
 
-/* --- STATUS DE VEÍCULOS E USUÁRIOS --- */
 .vehicle-status {
     display: flex;
     gap: 60px;
@@ -294,7 +283,6 @@ body {
     margin-left: auto;
 }
 
-/* --- BOTÕES + E LISTAS EXPANSÍVEIS --- */
 .btn-add-circle,
 .btn-add-flat {
     background: transparent;

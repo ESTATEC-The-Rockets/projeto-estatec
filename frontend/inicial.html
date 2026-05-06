@@ -3,49 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESTATEC - Login</title>
+    <title>ESTATEC</title>
+    
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Lora:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <main class="login-container">
-        <div class="logo-area">
-            <img src="../img/estatec.png" alt="ESTATEC" class="logo-img">        </div>
+    <section id="login">
+        <div class="login-container">
+            <div class="logo-area">
+                <img src="../img/estatec.png" alt="ESTATEC" class="logo-img">        
+            </div>
 
-        <div class="login-card">
-            <h1>LOGIN</h1>
-            
-            <form id="loginForm">
-                <div class="input-group">
-                    <label for="email">E-mail:</label>
-                    <input type="email" id="email" placeholder="Ex.: estatec@gmail.com" required>
+            <div class="login-card">
+                <h1>LOGIN</h1>
+                
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label for="email">E-mail:</label>
+                        <input type="email" id="email" placeholder="Ex.: estatec@gmail.com" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Senha:</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="password" placeholder="Ex.: 123456" required>
+                            <button type="button" id="togglePassword" class="eye-icon">
+                                <span id="eyeOpen">👁️‍🗨️</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-entrar" onclick="window.location.href='#dashboard'">ENTRAR</button>
+                </form>
+
+                <div class="footer-links" id="forgotPassword">
+                    <a href="#redefinir-senha">ESQUECI A SENHA</a>
                 </div>
+            </div>
 
-                <div class="input-group">
-                    <label for="password">Senha:</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="password" placeholder="Ex.: 123456" required>
-                        <button type="button" id="togglePassword" class="eye-icon">
-                            <span id="eyeOpen">👁️‍🗨️</span>
-                        </button>
+            <div class="copyright">
+                © ESTATEC
+            </div>
+        </div>
+    </section>
+
+    <section id="redefinir-senha">
+        <div class="login-container">
+            <div class="logo-area">
+                <img src="../img/estatec.png" alt="ESTATEC" class="logo-img">
+            </div>
+
+            <div class="login-card">
+                <h1 class="title">REDEFINIR SENHA</h1>
+                
+                <form id="resetForm">
+                    <div class="input-group">
+                        <label for="newPassword">Nova senha:</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="newPassword" placeholder="Ex.: 123456" required >
+                            <button type="button" class="eye-icon toggle-btn" data-target="newPassword">
+                                <span class="eye-span">👁️‍🗨️</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="confirmPassword">Confirme sua senha:</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="confirmPassword" placeholder="Ex.: 123456" required>
+                            <button type="button" class="eye-icon toggle-btn" data-target="confirmPassword">
+                                <span class="eye-span">👁️‍🗨️</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-salvar">SALVAR</button>
+                    <button type="button" class="btn-voltar" onclick="window.location.href='#login'">VOLTAR AO LOGIN</button>
+                </form>
+            </div>
+
+            <div class="copyright">
+                © ESTATEC
+            </div>
+        </div>
+    </section>
+
+    <section id="menu">
+        <header class="black-header">
+            <div class="logo-area">
+                <img src="../img/estatec.png" alt="ESTATEC">
+            </div>
+            
+            <div class="header-nav">
+                <button class="btn-gray" onclick="window.location.href='#cadastro-estacionamento'">CADASTRAR ESTACIONAMENTO</button>
+            </div>
+
+            <div class="user-area">
+                <span class="user-icon">👤</span>
+                <span class="user-name">DONO ESTACIONAMENTO</span>
+            </div>
+        </header>
+
+        <div class="red-divider"></div>
+
+        <div class="hero-section">
+            <div class="hero-image">
+                <div class="hero-overlay">
+                    <div class="hero-text-card">
+                        <p><span class="red-bold">Esta</span><span class="black-bold">Tec</span>: Menos intervenção, mais movimentação.</p>
                     </div>
                 </div>
-
-                <button type="submit" class="btn-entrar">ENTRAR</button>
-                <a href="../"></a>
-            </form>
-
-            <div class="footer-links">
-                <a href="../redefinirSenha/index.html">ESQUECI A SENHA</a>
-            <div class="footer-links" id="forgotPassword">
             </div>
         </div>
 
-        <footer class="copyright">
+        <div class="red-divider"></div>
+
+        <div class="empty-state">
+            <div class="button-group">
+                <button class="btn-main-action" onclick="window.location.href='#cadastro-estacionamento'">
+                    CADASTRAR ESTACIONAMENTO
+                </button>
+                <button class="btn-main-action" onclick="window.location.href='#menu'">
+                    IR PARA O MENU
+                </button>
+            </div>
+        </div>
+
+        <footer class="main-footer">
             © ESTATEC
         </footer>
-    </main>
+    </section>
+
+    <section id="cadastro-estacionamento">
+        <div class="login-container">
+            <div class="logo-area">
+                <img src="../img/estatec.png" alt="ESTATEC" class="logo-img">
+            </div>
+
+            <div class="login-card">
+                <h1 class="title">CADASTRO ESTACIONAMENTO</h1>
+                
+                <form id="cadastroForm">
+                    <div class="input-group">
+                        <label for="nomeEstacionamento">Nome estacionamento:</label>
+                        <input type="text" id="nomeEstacionamento" placeholder="Ex.: Estacione rápido" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="qtdVagas">Qtd. de vagas:</label>
+                        <input type="number" id="qtdVagas" placeholder="Ex.: 120" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="local">Localização:</label>
+                        <input type="text" id="local" placeholder="Ex.: Rua da Penha, 123" required>
+                    </div>
+                    
+                    <button class="btn-cadastrar" type="submit" onclick="window.location.href='#menu'">CADASTRAR </button>
+                </form>
+            </div>
+
+            <div class="copyright">
+                © ESTATEC
+            </div>
+        </div>
+    </section>
+
+    <section id="dashboard">
+        <div class="main-wrapper">
+            <header class="black-header">
+                <div class="logo-box">
+                    <img src="../img/estatec.png" alt="ESTATEC">
+                </div>
+                <div class="header-controls">
+                    <button class="btn-outline" onclick="window.location.href='#cadastro-estacionamento'">CADASTRAR ESTACIONAMENTO</button>
+                    <div class="dropdown">
+                        <button class="dropbtn" id="estBtn">ESTACIONAMENTOS ▾</button>
+                        <div class="dropdown-content" id="estDropdown">
+                            <a href="#">ESTACIONAMENTO 01</a>
+                            <a href="#">ESTACIONAMENTO 02</a>
+                            <a href="#cadastro-estacionamento" class="add-est btn-outline">+ NOVO</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-area">
+                    <span class="profile-icon">👤</span> 
+                    <span class="profile-name">DONO ESTACIONAMENTO</span>
+                </div>
+            </header>
+
+            <div class="content-container">
+                <aside class="sidebar">
+                    <nav class="nav-links">
+                        <a href="#dashboard" class="active">
+                            <span class="nav-icon">☰</span> MENU
+                        </a>
+                        <a href="#usuarios">
+                            <span class="nav-icon">👤</span> USUÁRIO
+                        </a>
+                        <a href="#">
+                            <span class="nav-icon">🗄️</span> DADOS
+                        </a>
+                        <a href="#">
+                            <span class="nav-icon">🛡️</span> SEGURANÇA
+                        </a>
+                    </nav>
+                    <div class="sidebar-footer">© ESTATEC</div>
+                </aside>
+
+                <div class="dashboard-content">
+                    <section class="security-cameras">
+                        <h2>CÂMERAS DE SEGURANÇA</h2>
+                        
+                        <div class="camera-grid">
+                            <div class="cam-card"><img src="../img/camera1.jpg" alt="Cam1"></div>
+                            <div class="cam-card"><img src="../img/camera2.jpg" alt="Cam2"></div>
+                            <div class="cam-card"><img src="../img/camera3.jpg" alt="Cam3"></div>
+                            <button class="btn-add-circle" id="openCameras">+</button>
+                        </div>
+
+                        <div class="hidden-cameras" id="extraCameras">
+                            <div class="camera-grid" style="margin-bottom: 50px;">
+                                <div class="cam-card"><img src="../img/camera1.jpg" alt="Cam4"></div>
+                                <div class="cam-card"><img src="../img/camera2.jpg" alt="Cam5"></div>
+                                <div class="cam-card"><img src="../img/camera3.jpg" alt="Cam6"></div>
+                                <div style="width: 50px;"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="vehicle-status">
+                        <div class="status-col">
+                            <div class="info-card">
+                                <img src="../img/fusca.png" alt="Fusca" class="car-thumb">
+                                <div class="text-details">
+                                    <p><strong>NOME:</strong> Fusca</p>
+                                    <p><strong>MARCA:</strong> Volkswagen</p>
+                                </div>
+                            </div>
+                            <div class="info-card">
+                                <img src="../img/civic.png" alt="Civic" class="car-thumb">
+                                <div class="text-details">
+                                    <p><strong>NOME:</strong> Civic</p>
+                                    <p><strong>MARCA:</strong> Honda</p>
+                                </div>
+                            </div>
+                            
+                            <div class="hidden-cars" id="extraCarros1">
+                                <div class="info-card">
+                                    <img src="../img/fusca.png" alt="Gol" class="car-thumb"> <div class="text-details">
+                                        <p><strong>NOME:</strong> Gol</p>
+                                        <p><strong>MARCA:</strong> Volkswagen</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn-add-flat" id="openCarros1">+</button>
+                        </div>
+
+                        <div class="status-col">
+                            <div class="info-card">
+                                <img src="../img/nissan.png" alt="Nissan" class="car-thumb">
+                                <div class="text-details">
+                                    <p><strong>USUÁRIO:</strong> Laura</p>
+                                    <p><strong>MARCA:</strong> Nissan</p>
+                                </div>
+                                <span class="user-badge-inline">👤</span>
+                            </div>
+                            <div class="info-card">
+                                <img src="../img/jeep.png" alt="Renegade" class="car-thumb">
+                                <div class="text-details">
+                                    <p><strong>USUÁRIO:</strong> Marcelo</p>
+                                    <p><strong>MARCA:</strong> Jeep Renegade</p>
+                                </div>
+                                <span class="user-badge-inline">👤</span>
+                            </div>
+
+                            <div class="hidden-cars" id="extraCarros2">
+                                <div class="info-card">
+                                    <img src="../img/civic.png" alt="Corolla" class="car-thumb"> <div class="text-details">
+                                        <p><strong>USUÁRIO:</strong> Fernando</p>
+                                        <p><strong>MARCA:</strong> Corolla</p>
+                                    </div>
+                                    <span class="user-badge-inline">👤</span>
+                                </div>
+                            </div>
+
+                            <button class="btn-add-flat" id="openCarros2">+</button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script src="script.js"></script>
 </body>

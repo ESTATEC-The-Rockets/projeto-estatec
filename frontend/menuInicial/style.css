@@ -13,7 +13,6 @@ body {
     min-height: 100vh; 
 }
 
-/* Header */
 .black-header {
     background-color: #000;
     height: 70px;
@@ -60,14 +59,12 @@ body {
 
 .user-icon { font-size: 24px; }
 
-/* Linha Vermelha */
 .red-divider {
     height: 3px;
     background-color: #610008;
     width: 100%;
 }
 
-/* Banner Centralizado */
 .hero-section {
     height: 380px;
     background-color: #000; 
@@ -89,7 +86,6 @@ body {
     justify-content: center;
 }
 
-/* A CAIXA COM FUNDO PRETO/FUMÊ DA IMAGEM */
 .hero-text-card {
     background-color: rgba(141, 141, 141, 0.875); 
     padding: 20px 40px;
@@ -106,7 +102,6 @@ body {
 .red-bold { color: #BC1624; font-weight: 700; }
 .black-bold { color: #d5d5d5; font-weight: 700; font-family: 'Georgia', 'Times New Roman', serif; }
 
-/* Área Inferior */
 .empty-state {
     flex: 1; 
     display: flex;
@@ -115,13 +110,11 @@ body {
     padding: 20px;
 }
 
-/* Caixa para colocar os botões lado a lado */
 .button-group {
     display: flex;
     gap: 30px; 
 }
 
-/* Estilo unificado para os botões vermelhos */
 .btn-main-action {
     background-color: #BC1624;
     color: white;
@@ -139,7 +132,6 @@ body {
     background-color: #8e111b;
 }
 
-/* Footer ajustado */
 .main-footer {
     text-align: center;
     padding-bottom: 20px;
@@ -148,7 +140,6 @@ body {
     font-weight: 800;
 }
 
-/* Dropdown básico */
 .dropdown { position: relative; }
 .dropdown-content {
     display: none;
