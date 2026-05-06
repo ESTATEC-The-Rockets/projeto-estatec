@@ -27,12 +27,12 @@ body {
 }
 
 .login-card {
-    background-color: #f8faf8; 
+    background-color: #f8faf8;
     width: 90%;
     padding: 40px;
     border-radius: 40px;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .title {
@@ -70,7 +70,7 @@ input::placeholder {
 
 .btn-cadastrar {
     width: 100%;
-    background-color: #bc1624; 
+    background-color: #bc1624;
     color: #fff;
     border: none;
     padding: 14px;
