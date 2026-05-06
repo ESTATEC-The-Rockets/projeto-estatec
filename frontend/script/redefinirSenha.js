@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnVoltar) {
         btnVoltar.addEventListener('click', () => {
             window.location.href = "../paginaLogin/index.html";
+
         });
     }
 
@@ -18,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (passwordInput && eyeIcon) {
                 const isPassword = passwordInput.getAttribute('type') === 'password';
                 passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
-
                 eyeIcon.textContent = isPassword ? '🗨️' : '👁️‍🗨️';
             }
         });
@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (resetForm) {
         resetForm.addEventListener('submit', (e) => {
             e.preventDefault();
-
             const newPass = document.getElementById('newPassword').value;
             const confirmPass = document.getElementById('confirmPassword').value;
 
