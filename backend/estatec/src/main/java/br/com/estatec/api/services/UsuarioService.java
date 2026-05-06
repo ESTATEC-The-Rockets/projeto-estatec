@@ -61,6 +61,11 @@ public class UsuarioService {
 		if (repository.findByRg(usuario.getRg()).isPresent()) {
 			throw new RuntimeException("Já existe um usuário cadastrado com este RG");
 		}
+		
+		Optional<Usuario> usuarioExistente = repository.findByEmail(usuario.getEmail());
+		if(usuarioExistente.isPresent()) {
+			throw new RuntimeException("Já existente um usuário com este email.");
+		}
 
 		String senhaCriptografada = password.encode(usuario.getSenha());
 		usuario.setSenha(senhaCriptografada);
