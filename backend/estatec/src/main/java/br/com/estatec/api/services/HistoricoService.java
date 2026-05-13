@@ -34,11 +34,11 @@ public class HistoricoService {
 		if(historicoExistente.isPresent()) {
 			Historico atualizado = historicoExistente.get();
 			atualizado.setDonoCarro(historicoAlterado.getDonoCarro());
-			atualizado.setDate(historicoAlterado.getDate());
+			atualizado.setData(historicoAlterado.getData());
 			atualizado.setEstacionamento(historicoAlterado.getEstacionamento());
 			atualizado.setHorarioEntrada(historicoAlterado.getHorarioEntrada());
 			atualizado.setHorarioSaida(historicoAlterado.getHorarioSaida());
-			
+						
 			return repository.save(atualizado);
 		}
 		return null;

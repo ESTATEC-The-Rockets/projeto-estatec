@@ -29,8 +29,8 @@ public class Historico {
 	private Estacionamento estacionamento;
 	
 	@PastOrPresent
-	@Column(name = "dia_do_historico")
-	private Date date; 	
+	@Column(name = "dia")
+	private Date data; 	
 	
 	@Column(name = "horario_entrada")
 	private LocalTime horarioEntrada;
@@ -48,8 +48,8 @@ public class Historico {
 		
 	}
 	
-	public Historico(Long id, DonoCarro donoCarro, Estacionamento estacionamento, Date date, LocalTime horarioEntrada, LocalTime horarioSaida, boolean entrada) {
-		this.date = date;
+	public Historico(Long id, DonoCarro donoCarro, Estacionamento estacionamento, Date data, LocalTime horarioEntrada, LocalTime horarioSaida, boolean entrada) {
+		this.data = data;
 		this.donoCarro = donoCarro;
 		this.estacionamento = estacionamento;
 		this.horarioEntrada = horarioEntrada;
@@ -82,12 +82,12 @@ public class Historico {
 		this.estacionamento = estacionamento;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getData() {
+		return data;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setData(Date data) {
+		this.data = data;
 	}
 
 	public LocalTime getHorarioEntrada() {
