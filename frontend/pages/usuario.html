@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estatéc - Painel</title>
+    <title>Estatéc - Usuários</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="..//css/usuario.css">
+    <link rel="stylesheet" href="../css/usuario.css">
 </head>
 <body>
 
     <div class="area-logo">
-            <img src="../img/estatec.png" alt="ESTATEC" class="logo-img">
+        <img src="../img/estatec.png" alt="ESTATEC" class="logo-img">
     </div>
 
     <header class="barra-superior">
         <div class="controles-superiores">
-            <button class="botao-escuro">CADASTRAR ESTACIONAMENTO</button>
+            <a href="../pages/cadastroEstacionamento.html" class="botao-escuro">CADASTRAR ESTACIONAMENTO</a>
             
             <div class="menu-suspenso">
                 <button class="botao-menu-suspenso" id="botaoMenuSuspenso">
@@ -24,13 +24,6 @@
                 <div class="conteudo-menu-suspenso" id="conteudoMenuSuspenso">
                     <div class="item-menu-suspenso">
                         <span>ESTACIONAMENTO 01</span>
-                        <div class="acoes-menu-suspenso">
-                            <i class="fa-solid fa-pen"></i>
-                            <i class="fa-solid fa-trash"></i>
-                        </div>
-                    </div>
-                    <div class="item-menu-suspenso">
-                        <span>ESTACIONAMENTO 02</span>
                         <div class="acoes-menu-suspenso">
                             <i class="fa-solid fa-pen"></i>
                             <i class="fa-solid fa-trash"></i>
@@ -48,9 +41,9 @@
 
     <aside class="barra-lateral">
         <nav class="navegacao-lateral">
-            <a href="#" class="item-navegacao ativo"><i class="fa-solid fa-list"></i> MENU</a>
-            <a href="#" class="item-navegacao"><i class="fa-solid fa-user"></i> USUÁRIO</a>
-            <a href="#" class="item-navegacao"><i class="fa-solid fa-database"></i> DADOS</a>
+            <a href="menu.html" class="item-navegacao"><i class="fa-solid fa-list"></i> MENU</a>
+            <a href="#" class="item-navegacao ativo"><i class="fa-solid fa-user"></i> USUÁRIO</a>
+            <a href="dados.html" class="item-navegacao"><i class="fa-solid fa-database"></i> DADOS</a>
         </nav>
         <div class="rodape-lateral">
             &copy; ESTATEC
@@ -58,11 +51,48 @@
     </aside>
 
     <main class="conteudo-principal">
-                <button class="botao-adicionar-texto">+</button>
-            </section>
+        <div class="topo-usuarios">
+            <h2>USUÁRIOS</h2>
+            <div class="barra-pesquisa">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="PESQUISAR CARROS / CLIENTES">
+            </div>
+        </div>
+
+        <div class="lista-clientes">
+            <div class="item-cliente">
+                <div class="cliente-info">
+                    <i class="fa-solid fa-circle-user avatar"></i>
+                    <span>Matheus Felipe Gonçalves</span>
+                </div>
+                <div class="cliente-placa">
+                    <strong>PLACA:</strong> <span>BRA2E19</span>
+                </div>
+                <div class="cliente-acoes">
+                    <button class="btn-tipo">TIPO</button>
+                    <button class="btn-excluir">EXCLUIR</button>
+                </div>
+            </div>
+
+            <div class="item-cliente">
+                <div class="cliente-info">
+                    <i class="fa-solid fa-circle-user avatar"></i>
+                    <span>João Guilherme Vieira</span>
+                </div>
+                <div class="cliente-placa">
+                    <strong>PLACA:</strong> <span>CRI2093</span>
+                </div>
+                <div class="cliente-acoes">
+                    <button class="btn-tipo">TIPO</button>
+                    <button class="btn-excluir">EXCLUIR</button>
+                </div>
+            </div>
+
+            <div class="item-cliente vazio"></div>
+            <div class="item-cliente vazio"></div>
         </div>
     </main>
 
-    <script src="..//script/usuario.js"></script>
+    <script src="../script/usuario.js"></script>
 </body>
 </html>
