@@ -1,7 +1,5 @@
 package br.com.estatec.api.entities;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.estatec.api.enums.Cor;
@@ -49,7 +47,7 @@ public class Carros {
 	
 	@OneToMany(mappedBy = "carro")
     @JsonIgnore
-    private List<DonoCarro> donos;
+    private DonoCarro donoCarro;
 
 	public Carros() {
 

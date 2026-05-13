@@ -33,8 +33,6 @@ public class EstacionamentoService {
 		if (estacionamentoExistente.isPresent()) {
 			Estacionamento atualizado = estacionamentoExistente.get();
 			atualizado.setNomeEstacionamento(estacionamentoAlterado.getNomeEstacionamento());
-			atualizado.setQtdVagas(estacionamentoAlterado.getQtdVagas());
-			atualizado.setLocalizacao(estacionamentoAlterado.getLocalizacao());
 			
 			return repository.save(atualizado);
 		}

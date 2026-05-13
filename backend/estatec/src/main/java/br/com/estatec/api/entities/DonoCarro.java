@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class DonoCarro extends Usuario {
 
+	protected Historico historico;
 	
 	@ManyToOne
     @JoinColumn(name = "fk_carro", nullable = false)
