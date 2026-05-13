@@ -5,32 +5,8 @@
     --fundo-claro: #eeeeee;
     --texto-claro: #ffffff;
     --cinza-item: #d9d9d9;
-    --verde-tipo: #3ad14e;
+    --verde-tipo: #00ff22;
     --vermelho-excluir: #cc0000;
-}
-
-.botao-escuro {
-    /* Remove o sublinhado azul */
-    text-decoration: none; 
-    
-    color: white; 
-    
-    /* Estilização para parecer um botão */
-    background-color: #222; /* Um cinza escuro */
-    padding: 10px 20px;
-    border-radius: 5px;
-    display: inline-block; /* Importante para o padding funcionar bem */
-    
-    /* Faz o mouse virar a "mãozinha" ao passar por cima */
-    cursor: pointer;
-    
-    /* Opcional: uma transição suave para o efeito de hover */
-    transition: background 0.3s ease;
-}
-
-/* Efeito ao passar o mouse (opcional, mas recomendado) */
-.botao-escuro:hover {
-    background-color: #444;
 }
 
 * {
@@ -49,7 +25,6 @@ body {
     overflow: hidden;
 }
 
-<<<<<<< HEAD
 /* Header e Logo */
 .area-logo {
     grid-column: 1;
@@ -61,22 +36,6 @@ body {
 
 .logo-img {
     width: 180px;
-=======
-.area-logo {
-    display: flex;          /* Ativa o modo Flexbox */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center;     /* Centraliza verticalmente */
-    width: 100%;             /* Garante que a div ocupe a largura total */
-    padding: 20px 0;         /* Um espaço em cima e embaixo para não sufocar a logo */
-    background-color: #000;  /* Mantendo o fundo preto conforme a imagem */
-}
-
-.logo-img {
-    width: 240px;
-    height: auto;           /* Ajusta a altura proporcionalmente à largura automaticamente */
-    object-fit: contain; 
-    margin-top: 20px;
->>>>>>> 22cae21b15c7d2287859fe921a061edaea7e5c15
 }
 
 .barra-superior {
@@ -86,7 +45,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 0 30px;
-    
+    border-left: 1px solid #333;
 }
 
 .controles-superiores {
@@ -143,7 +102,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    
 }
 
 .item-navegacao {
@@ -161,7 +119,6 @@ body {
 }
 
 .item-navegacao i {
-<<<<<<< HEAD
     background: rgba(255, 255, 255, 0.2);
     width: 35px;
     height: 35px;
@@ -169,25 +126,6 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-=======
-    font-size: 18px;            
-    width: 35px;               
-    height: 35px;              
-    display: flex;             
-    align-items: center;
-    justify-content: center;
-    
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;            
-    border-radius: 50%;       
-    transition: 0.3s;          
-}
-
-
-.item-navegacao:hover i {
-    background: #ffffff;
-    color: #b31d22;            
->>>>>>> 22cae21b15c7d2287859fe921a061edaea7e5c15
 }
 
 /* Conteúdo Principal - USUÁRIOS */
@@ -219,7 +157,6 @@ body {
     outline: none;
     width: 100%;
     font-size: 12px;
-    padding: 8px;
 }
 
 .lista-clientes {
@@ -266,7 +203,7 @@ body {
 .btn-tipo,
 .btn-excluir {
     border: none;
-    padding: 12px 20px;
+    padding: 5px 20px;
     border-radius: 50px;
     font-weight: bold;
     cursor: pointer;
@@ -279,5 +216,5 @@ body {
 
 .btn-excluir {
     background: var(--vermelho-excluir);
-    color: #000000;
+    color: #fff;
 }
