@@ -20,8 +20,8 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth.requestMatchers("/usuarios/**").permitAll()
                                                                             .requestMatchers("/api/estacionamento/**").permitAll()
                                                                             .requestMatchers("/api/carros").permitAll()
-                                                                            .requestMatchers("api/donos-carro").permitAll()
-                                                                            .requestMatchers("api/donos-estacionamento").permitAll()
+                                                                            .requestMatchers("/api/donos-carro").permitAll()
+                                                                            .requestMatchers("/api/donos-estacionamento").permitAll()
                                                                             .anyRequest().authenticated());
         
         return http.build();
