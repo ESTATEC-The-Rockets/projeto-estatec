@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.querySelector('#loginForm');
     const forgotPasswordLink = document.querySelector('#forgotPassword');
 
-    // 1. Lógica de mostrar/esconder senha
     if (togglePassword && passwordInput) {
         togglePassword.addEventListener('click', () => {
             const isPassword = passwordInput.getAttribute('type') === 'password';
@@ -15,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 2. Redirecionamento Esqueci a Senha
     if (forgotPasswordLink) {
         forgotPasswordLink.addEventListener('click', (e) => {
             e.preventDefault();
@@ -23,17 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Lógica de Login: Redirecionamento Direto
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Evita que a página recarregue
+            e.preventDefault();
 
             const email = document.querySelector('#email').value;
             const password = passwordInput.value;
 
-            // Simples validação de campos vazios (opcional, pois o HTML já tem 'required')
             if (email && password) {
-                // REDIRECIONA PARA A PÁGINA DESEJADA
                 window.location.href = "../menuInicial/index.html";
             } else {
                 alert("Por favor, preencha o e-mail e a senha.");

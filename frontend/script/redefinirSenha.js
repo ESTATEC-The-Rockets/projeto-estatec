@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Lógica do Botão Voltar (Ajuste o caminho aqui!)
     if (btnVoltar) {
         btnVoltar.addEventListener('click', () => {
-            // Se a pasta do login for "paginaLogin" e estiver um nível acima:
-            window.location.href = "../paginaLogin/index.html";
+            
+            window.location.href = "../index.html";
 
         });
     }
@@ -43,9 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         alert("Senha redefinida com sucesso!");
         // Redireciona após salvar (mesmo caminho do botão voltar)
-        window.location.href = "../paginaLogin/index.html";
+        window.location.href = "../index.html";
     });
     }
-});
+);
 
 
