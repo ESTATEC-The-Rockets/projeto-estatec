@@ -1,11 +1,12 @@
 package br.com.estatec.api.entities;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,7 +18,7 @@ import jakarta.validation.constraints.PastOrPresent;
 public class Historico {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@ManyToOne
@@ -30,7 +31,7 @@ public class Historico {
 	
 	@PastOrPresent
 	@Column(name = "dia")
-	private Date data; 	
+	private LocalDate data; 	
 	
 	@Column(name = "horario_entrada")
 	private LocalTime horarioEntrada;
@@ -42,13 +43,11 @@ public class Historico {
 	private boolean entrada;
 	
 	
-	
-	
 	public Historico(){
 		
 	}
 	
-	public Historico(Long id, DonoCarro donoCarro, Estacionamento estacionamento, Date data, LocalTime horarioEntrada, LocalTime horarioSaida, boolean entrada) {
+	public Historico(Long id, DonoCarro donoCarro, Estacionamento estacionamento, LocalDate data, LocalTime horarioEntrada, LocalTime horarioSaida, boolean entrada) {
 		this.data = data;
 		this.donoCarro = donoCarro;
 		this.estacionamento = estacionamento;
@@ -82,11 +81,11 @@ public class Historico {
 		this.estacionamento = estacionamento;
 	}
 
-	public Date getData() {
+	public LocalDate getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(LocalDate data) {
 		this.data = data;
 	}
 
@@ -105,6 +104,15 @@ public class Historico {
 	public void setHorarioSaida(LocalTime horarioSaida) {
 		this.horarioSaida = horarioSaida;
 	}
+
+	public boolean isEntrada() {
+		return entrada;
+	}
+
+	public void setEntrada(boolean entrada) {
+		this.entrada = entrada;
+	}
+	
 	
 	
 
