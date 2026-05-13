@@ -8,7 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.PastOrPresent;
 
@@ -20,11 +20,11 @@ public class Historico {
 	@GeneratedValue
 	private Long id;
 	
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "fk_dono_carro")
 	private DonoCarro donoCarro;
 	
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "fk_estacionamento")
 	private Estacionamento estacionamento;
 	
