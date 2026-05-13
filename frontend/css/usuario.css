@@ -7,6 +7,9 @@
     --cinza-item: #d9d9d9;
     --verde-tipo: #00ff22;
     --vermelho-excluir: #cc0000;
+    /* Novas cores para o modal */
+    --fundo-modal: #666666;
+    --cinza-botao-desativado: #999999;
 }
 
 * {
@@ -128,7 +131,7 @@ body {
     border-radius: 50%;
 }
 
-/* Conteúdo Principal - USUÁRIOS */
+/* Conteúdo Principal */
 .conteudo-principal {
     padding: 40px;
     overflow-y: auto;
@@ -217,4 +220,97 @@ body {
 .btn-excluir {
     background: var(--vermelho-excluir);
     color: #fff;
+}
+
+/* =========================================
+   ESTILOS DO MODAL (O CARDZINHO)
+   ========================================= */
+
+.modal-overlay {
+    display: none; /* Controlado pelo JS */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-card {
+    background-color: var(--fundo-modal);
+    width: 320px;
+    padding: 30px;
+    border-radius: 30px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.modal-card h3 {
+    margin-bottom: 20px;
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+.toggle-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-toggle {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--cinza-botao-desativado);
+    color: #444;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn-toggle.active {
+    background-color: var(--fundo-vermelho);
+    color: white;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 10px;
+    color: #ddd;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+.btn-salvar {
+    background-color: var(--fundo-vermelho);
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.btn-salvar:hover {
+    background-color: var(--fundo-vermelho-ativo);
 }
