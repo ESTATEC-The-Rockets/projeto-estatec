@@ -8,6 +8,30 @@
     --fundo-cartao: #ffffff;
 }
 
+.botao-escuro {
+    /* Remove o sublinhado azul */
+    text-decoration: none; 
+    
+    color: white; 
+    
+    /* Estilização para parecer um botão */
+    background-color: #222; /* Um cinza escuro */
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-block; /* Importante para o padding funcionar bem */
+    
+    /* Faz o mouse virar a "mãozinha" ao passar por cima */
+    cursor: pointer;
+    
+    /* Opcional: uma transição suave para o efeito de hover */
+    transition: background 0.3s ease;
+}
+
+/* Efeito ao passar o mouse (opcional, mas recomendado) */
+.botao-escuro:hover {
+    background-color: #444;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -24,10 +48,20 @@ body {
     overflow: hidden;
 }
 
+.area-logo {
+    display: flex;          /* Ativa o modo Flexbox */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;     /* Centraliza verticalmente */
+    width: 100%;             /* Garante que a div ocupe a largura total */
+    padding: 20px 0;         /* Um espaço em cima e embaixo para não sufocar a logo */
+    background-color: #000;  /* Mantendo o fundo preto conforme a imagem */
+}
+
 .logo-img {
     width: 240px;
-    height: -30px;
+    height: auto;           /* Ajusta a altura proporcionalmente à largura automaticamente */
     object-fit: contain; 
+    margin-top: 20px;
 }
 
 .barra-superior {
@@ -169,12 +203,23 @@ body {
 }
 
 .item-navegacao i {
-    font-size: 20px;
-    width: 25px;
-    text-align: center;
-    background: rgba(255,255,255,0.2);
-    padding: 8px;
-    border-radius: 50%;
+    font-size: 18px;            
+    width: 35px;               
+    height: 35px;              
+    display: flex;             
+    align-items: center;
+    justify-content: center;
+    
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;            
+    border-radius: 50%;       
+    transition: 0.3s;          
+}
+
+
+.item-navegacao:hover i {
+    background: #ffffff;
+    color: #b31d22;            
 }
 
 .rodape-lateral {

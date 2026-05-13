@@ -4,18 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estatéc - Painel</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link rel="stylesheet" href="..//css/usuario.css">
 </head>
 <body>
 
     <div class="area-logo">
-            <img src="../img/estatec.png" alt="ESTATEC" class="logo-img">
+        <img src="..//img/estatec.png" alt="ESTATEC" class="logo-img">
     </div>
 
     <header class="barra-superior">
         <div class="controles-superiores">
-            <button class="botao-escuro">CADASTRAR ESTACIONAMENTO</button>
+            <a href="../pages/cadastroEstacionamento.html" class="botao-escuro">
+                CADASTRAR ESTACIONAMENTO
+            </a>
             
             <div class="menu-suspenso">
                 <button class="botao-menu-suspenso" id="botaoMenuSuspenso">
@@ -48,9 +52,15 @@
 
     <aside class="barra-lateral">
         <nav class="navegacao-lateral">
-            <a href="#" class="item-navegacao ativo"><i class="fa-solid fa-list"></i> MENU</a>
-            <a href="#" class="item-navegacao"><i class="fa-solid fa-user"></i> USUÁRIO</a>
-            <a href="#" class="item-navegacao"><i class="fa-solid fa-database"></i> DADOS</a>
+            <a href="#" class="item-navegacao ativo">
+                <i class="fa-solid fa-list"></i> MENU
+            </a>
+            <a href="#" class="item-navegacao">
+                <i class="fa-solid fa-user"></i> USUÁRIO
+            </a>
+            <a href="#" class="item-navegacao">
+                <i class="fa-solid fa-database"></i> DADOS
+            </a>
         </nav>
         <div class="rodape-lateral">
             &copy; ESTATEC
@@ -58,6 +68,10 @@
     </aside>
 
     <main class="conteudo-principal">
+        
+
+        <div class="painel-inferior">
+            <section class="secao-entradas">
                 <button class="botao-adicionar-texto">+</button>
             </section>
         </div>
