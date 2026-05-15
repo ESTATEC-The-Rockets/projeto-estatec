@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,5 +58,17 @@ public class EstacionamentoController {
 		return ResponseEntity.notFound().build();
 	}
 	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Object> deletar(@PathVariable Long id) {
+		Optional<Estacionamento> estacionamento = service.buscarPorId(id);
+		
+		if (estacionamento.isPresent()) {
+			service.deletar(id);
+			return ResponseEntity.status(HttpStatus.OK)
+					.body("Sucesso: O carro foi excluido permanentemente!");
+		} 
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+				.body("Erro: Não é possivel deletar. O aluno com ID " + id + "não foi encontrado. ");
+	}
 
 }
