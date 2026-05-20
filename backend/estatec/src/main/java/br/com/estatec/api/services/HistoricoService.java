@@ -8,7 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.estatec.api.entities.DonoCarro;
+import br.com.estatec.api.entities.Carros;
 import br.com.estatec.api.entities.Estacionamento;
 import br.com.estatec.api.entities.Historico;
 import br.com.estatec.api.repositories.HistoricoRepository;
@@ -37,7 +37,7 @@ public class HistoricoService {
 		
 		if(historicoExistente.isPresent()) {
 			Historico atualizado = historicoExistente.get();
-			atualizado.setDonoCarro(historicoAlterado.getDonoCarro());
+			atualizado.setCarro(historicoAlterado.getCarro());
 			atualizado.setData(historicoAlterado.getData());
 			atualizado.setEstacionamento(historicoAlterado.getEstacionamento());
 			atualizado.setHorarioEntrada(historicoAlterado.getHorarioEntrada());
@@ -54,15 +54,15 @@ public class HistoricoService {
 		repository.deleteById(id);
 	}
 	
-	public Historico saidaEntrada(DonoCarro dono, Estacionamento estaci) {
+	public Historico saidaEntrada(Carros carro, Estacionamento estacionamento) {
 		
-		Long totalRegistros = repository.countByDonoCarroId(dono.getId());
+		Long totalRegistros = repository.countByDonoCarroId(carro.getIdCarros());
 		
 		Long novaQuantidade = totalRegistros + 1;
 		
 		Historico novoHistorico = new Historico();
-		novoHistorico.setDonoCarro(dono);
-		novoHistorico.setEstacionamento(estaci);
+		novoHistorico.setCarro(carro);
+		novoHistorico.setEstacionamento(estacionamento);
 		novoHistorico.setData(LocalDate.now());
 		
 		if(novaQuantidade % 2 != 0) {
