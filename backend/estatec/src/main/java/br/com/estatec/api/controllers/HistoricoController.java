@@ -19,7 +19,7 @@ import br.com.estatec.api.services.HistoricoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/Historico")
+@RequestMapping("/historico")
 @CrossOrigin("*")
 public class HistoricoController {
 	

@@ -21,7 +21,7 @@ import br.com.estatec.api.services.CarrosService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/carros")
+@RequestMapping("/carros")
 @CrossOrigin("*")
 public class CarrosController {
 
