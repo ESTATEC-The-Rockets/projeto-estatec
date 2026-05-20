@@ -24,7 +24,7 @@ public class Usuario {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long idUsuario;
 
 	@Pattern(regexp = "^[\\p{L}]+( [\\p{L}]+)*$", message = "O nome do usuário deve conter apenas letras e espaços.")
 	@NotBlank(message = "O nome do usuário é obrigatório.")
@@ -83,11 +83,11 @@ public class Usuario {
 	}
 
 	public Long getId() {
-		return id;
+		return idUsuario;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.idUsuario = id;
 	}
 
 	public String getNome() {
