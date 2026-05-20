@@ -1,5 +1,6 @@
 package br.com.estatec.api.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,14 +17,15 @@ public class Estacionamento {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long idEstacionamento;
 
 	@Pattern(regexp = "^[\\p{L}]+( [\\p{L}]+)*$", message = "O nome do estacionamento deve conter apenas letras e espaços.")
 	@NotBlank(message = "O nome do estacionamento é obrigatório.")
+	@Column(name = "nome_estacionamento", unique = true, length = 100)
 	private String nomeEstacionamento;
 	
 	@ManyToOne
-    @JoinColumn(name = "dono_id")
+    @JoinColumn(name = "fk_dono_estacionamento")
     private DonoEstacionamento donoEstacionamento;
 
 	public Estacionamento() {
