@@ -1,22 +1,17 @@
 package br.com.estatec.api.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class DonoCarro extends Usuario {
 
-	protected Historico historico;
-	
-	@ManyToOne
-    @JoinColumn(name = "fk_carro", nullable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    protected Carros carro;
+    @OneToMany(mappedBy = "donoCarro", cascade = CascadeType.ALL) 
+    private List<Carros> carros;
 	
 	public DonoCarro() {}
 	

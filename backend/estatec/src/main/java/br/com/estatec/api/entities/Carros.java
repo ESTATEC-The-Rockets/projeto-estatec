@@ -1,9 +1,12 @@
 package br.com.estatec.api.entities;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.estatec.api.enums.Cor;
 import br.com.estatec.api.validations.annotations.Placa;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,6 +14,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -37,21 +42,18 @@ public class Carros {
 	@NotBlank(message = "A placa não pode estar vazia")
 	private String placa;
 
-	// _________________________________________________
-
 	@Enumerated(EnumType.STRING)
-	private Cor cor;
-
-	// __________________________________________________
+	private Cor cor;	
 	
-	
-	@OneToMany(mappedBy = "carro")
-    @JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "fk_dono_carro")
     private DonoCarro donoCarro;
+	
+	@OneToMany(mappedBy = "carro", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Historico> historicos;
 
-	public Carros() {
-
-	}
+	public Carros() {}
 
 	public Carros(String marca, String modelo, String placa, Cor cor) {
 		this.marca = marca;

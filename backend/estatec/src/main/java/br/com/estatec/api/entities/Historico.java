@@ -22,8 +22,8 @@ public class Historico {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "fk_dono_carro")
-	private DonoCarro donoCarro;
+	@JoinColumn(name = "fk_carro")
+	private Carros carro;
 	
 	@ManyToOne
 	@JoinColumn(name = "fk_estacionamento")
