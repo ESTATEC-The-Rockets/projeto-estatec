@@ -47,9 +47,9 @@ public class Historico {
 		
 	}
 	
-	public Historico(Long id, DonoCarro donoCarro, Estacionamento estacionamento, LocalDate data, LocalTime horarioEntrada, LocalTime horarioSaida, boolean entrada) {
+	public Historico(Long id, Carros carro, Estacionamento estacionamento, LocalDate data, LocalTime horarioEntrada, LocalTime horarioSaida, boolean entrada) {
 		this.data = data;
-		this.donoCarro = donoCarro;
+		this.carro = carro;
 		this.estacionamento = estacionamento;
 		this.horarioEntrada = horarioEntrada;
 		this.horarioSaida = horarioSaida;
@@ -65,12 +65,12 @@ public class Historico {
 		this.id = id;
 	}
 
-	public DonoCarro getDonoCarro() {
-		return donoCarro;
+	public Carros getCarro() {
+		return carro;
 	}
 
-	public void setDonoCarro(DonoCarro donoCarro) {
-		this.donoCarro = donoCarro;
+	public void setCarro(Carros carro) {
+		this.carro = carro;
 	}
 
 	public Estacionamento getEstacionamento() {
