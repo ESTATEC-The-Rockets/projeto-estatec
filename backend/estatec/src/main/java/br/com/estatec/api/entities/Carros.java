@@ -31,18 +31,21 @@ public class Carros {
 
 	@Size(min = 3, max = 15, message = "O nome da marca deve ter de 3 a 15 letras.")
 	@NotBlank(message = "A marca não pode ficar em branco.")
+	@Column(name = "marca" )
 	private String marca;
 
 	@Size(min = 2, max = 50, message = "O nome do modelo do carro deve ter de 2 a 50 caracteres.")
 	@NotBlank(message = "O modelo não pode ficar em branco.")
+	@Column(name = "modelo")
 	private String modelo;
 
 	@Placa
-	@Column(unique = true, length = 8)
+	@Column(name = "placa", unique = true, length = 8)
 	@NotBlank(message = "A placa não pode estar vazia")
 	private String placa;
 
 	@Enumerated(EnumType.STRING)
+	@Column(name = "cor")
 	private Cor cor;	
 	
 	@ManyToOne
@@ -51,6 +54,7 @@ public class Carros {
 	
 	@OneToMany(mappedBy = "carro", cascade = CascadeType.ALL)
     @JsonIgnore
+    @JoinColumn(name = "historico")
     private List<Historico> historicos;
 
 	public Carros() {}
