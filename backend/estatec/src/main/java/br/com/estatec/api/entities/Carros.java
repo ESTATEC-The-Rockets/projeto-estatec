@@ -50,11 +50,10 @@ public class Carros {
 	
 	@ManyToOne
 	@JoinColumn(name = "fk_dono_carro")
-    private DonoCarro donoCarro;
+	private DonoCarro donoCarro;
 	
 	@OneToMany(mappedBy = "carro", cascade = CascadeType.ALL)
     @JsonIgnore
-    @JoinColumn(name = "historico")
     private List<Historico> historicos;
 
 	public Carros() {}

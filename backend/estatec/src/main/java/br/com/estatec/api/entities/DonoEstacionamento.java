@@ -12,7 +12,6 @@ import jakarta.persistence.OneToMany;
 public class DonoEstacionamento extends Usuario {
 	
 	@OneToMany(mappedBy = "donoEstacionamento", cascade = CascadeType.ALL)
-	@JoinColumn(name = "estacionamento")
 	private List<Estacionamento> estacionamentos;
 	
 	

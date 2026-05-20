@@ -5,14 +5,12 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 
 @Entity
 public class DonoCarro extends Usuario {
 
     @OneToMany(mappedBy = "donoCarro", cascade = CascadeType.ALL) 
-    @JoinColumn(name = "Carros")
     private List<Carros> carros;
 	
 	public DonoCarro() {}
