@@ -56,7 +56,7 @@ public class HistoricoService {
 	
 	public Historico saidaEntrada(Carros carro, Estacionamento estacionamento) {
 		
-		Long totalRegistros = repository.countByDonoCarroId(carro.getIdCarros());
+		Long totalRegistros = repository.countByCarro_IdCarros(carro.getIdCarros());
 		
 		Long novaQuantidade = totalRegistros + 1;
 		
