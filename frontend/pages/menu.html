@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstaTec - Gerenciamento de Estacionamentos</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="/css/menu.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <div class="logo-container">
+                <img src="/img/estatec.png" alt="EstaTec Logo" class="logo-img">
+            </div>
+            
+            <button class="btn-top btn-cadastrar">Cadastrar Estacionamento</button>
+            
+            <div class="dropdown-container">
+                <button class="btn-top btn-dropdown-trigger" id="dropdownTrigger">
+                    Estacionamentos <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                </button>
+                
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="dropdown-header">
+                        <span>Estacionamentos</span>
+                        <i class="fa-solid fa-chevron-down header-close-icon"></i>
+                    </div>
+                    <div id="listaEstacionamentosContainer"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="user-profile">
+                <i class="fa-solid fa-circle-user"></i>
+                <span>Dono Estacionamento</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-body">
+        
+        <aside>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item active">
+                    <a href="index.html">
+                        <span class="icon-wrapper"><i class="fa-solid fa-list-ul"></i></span>
+                        MENU
+                    </a>
+                    <div class="active-indicator"></div>
+                </li>
+                <li class="sidebar-item">
+                    <a href="usuario.html">
+                        <span class="icon-wrapper"><i class="fa-solid fa-user"></i></span>
+                        USUÁRIO
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="dados.html">
+                        <span class="icon-wrapper"><i class="fa-solid fa-database"></i></span>
+                        DADOS
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="solicitacoes.html">
+                        <span class="icon-wrapper"><i class="fa-solid fa-bell"></i></span>
+                        SOLICITAÇÕES
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                &copy; Estatec
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="parking-banner"></div>
+
+            <div class="dashboard-grid">
+                
+                <section class="dashboard-column" id="colunaEntradas">
+                    <h2 class="column-title">Últimas Entradas e Saídas</h2>
+                    
+                    <div class="info-card">
+                        <p>Placa BRA2E19:<br>Entrada às 14:02</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <p>Placa VEM2R09:<br>Saída às 14:05</p>
+                    </div>
+                    
+                    <button class="btn-add" id="btnAddEntrada"><i class="fa-solid fa-plus"></i></button>
+                </section>
+
+                <section class="dashboard-column" id="colunaAlertas">
+                    <h2 class="column-title">Alertas/Ocorrências</h2>
+                    
+                    <div class="info-card">
+                        <p>Atenção: Pátio atingiu 90% da capacidade total.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <p>A cancela de saída 01 está reportando erro de sensor</p>
+                    </div>
+                    
+                    <button class="btn-add" id="btnAddAlerta"><i class="fa-solid fa-plus"></i></button>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="modalEditar">
+        <div class="modal-card">
+            <div class="modal-header-badge">
+                EDITAR ESTACIONAMENTO
+            </div>
+            <div class="modal-body">
+                <label for="nomeEstacionamento">Novo nome do estacionamento:</label>
+                <input type="text" id="nomeEstacionamento" placeholder="Ex.: Estacione rápido">
+            </div>
+            <button class="modal-btn-save" id="btnSalvarModal">SALVAR</button>
+        </div>
+    </div>
+
+    <script src="/script/menu.js"></script>
+</body>
+</html>
