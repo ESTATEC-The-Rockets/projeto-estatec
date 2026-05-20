@@ -1,40 +1,43 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESTATEC - Cadastro Estacionamento</title>
+    <title>ESTATEC - Cadastro</title>
     <link rel="stylesheet" href="../css/cadastroEstacionamento.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-
     <main class="login-container">
-        <div class="logo-area">
-            <img src="../img/estatec.png" alt="ESTATEC" class="logo-img">
-        </div>
-
         <div class="login-card">
             <h1 class="title">CADASTRO ESTACIONAMENTO</h1>
             <form id="cadastroForm">
+                <input type="hidden" id="estacionamentoId">
+
                 <div class="input-group">
                     <label for="nomeEstacionamento">Nome estacionamento:</label>
                     <input type="text" id="nomeEstacionamento" placeholder="Ex.: Estacione rápido" required>
                 </div>
 
-                <button class="btn-cadastrar" type="submit"
-                    onclick="window.location.href='../menu/index.html'">CADASTRAR </button>
+                <button class="btn-cadastrar" type="submit">SALVAR</button>
             </form>
         </div>
 
-        <footer class="copyright">
-            © ESTATEC
-        </footer>
+        <div class="list-card">
+            <h2 class="subtitle">Estacionamentos Registrados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoTabela"></tbody>
+            </table>
+        </div>
     </main>
 
+    <script src="../script/api.js"></script>
     <script src="../script/cadastroEstacionamento.js"></script>
 </body>
-
 </html>
