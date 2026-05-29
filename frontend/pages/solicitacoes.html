@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESTATEC - Painel de Controle</title>
+    
+    <link rel="stylesheet" href="../css/solicitacoes.css">
+    
+    <script src="../script/solicitacoes.js" defer></script>
+</head>
+<body>
+
+    <div class="estatec-container">
+        <header class="estatec-header">
+            <div class="header-logo-container">
+                <a href="#" class="header-logo-link">
+                    <img src="../img/estatec.png" alt="Logo ESTATEC" class="header-logo-image">
+                </a>
+            </div>
+
+            <nav class="header-nav">
+                <button class="nav-button">USUÁRIOS</button>
+                <button class="nav-button active">ESTACIONAMENTOS <span class="arrow">▼</span></button>
+            </nav>
+
+            <div class="header-profile">
+                <div class="profile-icon">👤</div>
+                <span class="profile-name">DONO ESTACIONAMENTO</span>
+            </div>
+        </header>
+
+        <div class="estatec-main-layout">
+            
+            <aside class="estatec-sidebar">
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li><a href="#"><span class="icon">☰</span> MENU</a></li>
+                        <li><a href="#"><span class="icon">👤</span> USUÁRIO</a></li>
+                        <li><a href="#"><span class="icon">💾</span> DADOS ...</a></li>
+                        <li class="active"><a href="#"><span class="icon">🔔</span> SOLICITAÇÕES</a></li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer">
+                    © ESTATECO
+                </div>
+            </aside>
+
+            <main class="estatec-content">
+                <div class="content-header">
+                    <h1 class="content-title">SOLICITAÇÕES DE CADASTRO</h1>
+                    <div class="search-container">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="searchInput" placeholder="PESQUISAR SOLICITAÇÕES">
+                    </div>
+                </div>
+
+                <div class="cards-list" id="cardsList">
+                    
+                    <div class="request-card" data-nome="Roberta de Fátima" data-placa="LOR2A16">
+                        <div class="card-info">
+                            <div class="card-avatar">👤</div>
+                            <div class="card-details">
+                                <span class="card-name">Roberta de Fátima</span>
+                                <span class="card-plate">PLACA: <strong class="plate-code">LOR2A16</strong></span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-accept" onclick="processRequest(this, 'aceita')">ACEITAR</button>
+                            <button class="btn-reject" onclick="processRequest(this, 'rejeitada')">REJEITAR</button>
+                        </div>
+                    </div>
+
+                    <div class="request-card" data-nome="Luan Ferreira Antunes" data-placa="CEU2011">
+                        <div class="card-info">
+                            <div class="card-avatar">👤</div>
+                            <div class="card-details">
+                                <span class="card-name">Luan Ferreira Antunes</span>
+                                <span class="card-plate">PLACA: <strong class="plate-code">CEU2011</strong></span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-accept" onclick="processRequest(this, 'aceita')">ACEITAR</button>
+                            <button class="btn-reject" onclick="processRequest(this, 'rejeitada')">REJEITAR</button>
+                        </div>
+                    </div>
+
+                    <div class="request-card" data-nome="Yuri Silveira de Lima" data-placa="VAI2155">
+                        <div class="card-info">
+                            <div class="card-avatar">👤</div>
+                            <div class="card-details">
+                                <span class="card-name">Yuri Silveira de Lima</span>
+                                <span class="card-plate">PLACA: <strong class="plate-code">VAI2155</strong></span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-accept" onclick="processRequest(this, 'aceita')">ACEITAR</button>
+                            <button class="btn-reject" onclick="processRequest(this, 'rejeitada')">REJEITAR</button>
+                        </div>
+                    </div>
+
+                    <div class="request-card" data-nome="Maya Campos de Rosa" data-placa="VOU2U03">
+                        <div class="card-info">
+                            <div class="card-avatar">👤</div>
+                            <div class="card-details">
+                                <span class="card-name">Maya Campos de Rosa</span>
+                                <span class="card-plate">PLACA: <strong class="plate-code">VOU2U03</strong></span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-accept" onclick="processRequest(this, 'aceita')">ACEITAR</button>
+                            <button class="btn-reject" onclick="processRequest(this, 'rejeitada')">REJEITAR</button>
+                        </div>
+                    </div>
+
+                    <div class="placeholder-row"></div>
+                    <div class="placeholder-row"></div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+</body>
+</html>

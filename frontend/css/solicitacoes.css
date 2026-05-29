@@ -1,0 +1,352 @@
+/* ==========================================================================
+   1. VARIÁVEIS E CONFIGURAÇÕES GERAIS
+   ========================================================================== */
+:root {
+    --brand-red: #b2121c;       /* O vermelho exato da sua foto */
+    --brand-red-dark: #8c0a12;  /* Vermelho escuro para o hover/ativo */
+    --brand-dark: #000000;      /* Preto absoluto para o topo */
+    --bg-gray: #e6e6e6;         /* Cinza de fundo da página */
+    --card-gray: #d9d9d9;       /* Cinza dos cards e placeholders */
+    
+    --text-white: #ffffff;
+    --text-dark: #000000;
+    
+    --color-success: #1cb043;
+    --color-danger: #c70a0a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif; /* Mantém a legibilidade limpa */
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--bg-gray);
+}
+
+/* ==========================================================================
+   2. CABEÇALHO (HEADER) - PRETO E LOGO MAIOR
+   ========================================================================== */
+.estatec-header {
+    height: 80px; /* Aumentado para dar espaço para a logo maior */
+    background-color: var(--brand-dark); /* Preto absoluto */
+    color: var(--text-white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    border-bottom: 3px solid var(--brand-red);
+    position: relative;
+    z-index: 10;
+}
+
+.header-logo-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.header-logo-link {
+    height: 85%; /* Logo ocupando quase toda a altura do header */
+    display: flex;
+    align-items: center;
+}
+
+.header-logo-image {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Abas do Header */
+.header-nav {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-button {
+    background-color: #262626;
+    color: #a3a3a3;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.nav-button.active {
+    background-color: #3d3d3d;
+    color: var(--text-white);
+}
+
+.nav-button .arrow {
+    font-size: 10px;
+    margin-left: 5px;
+}
+
+/* Perfil Usuário */
+.header-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-icon {
+    font-size: 24px;
+}
+
+.profile-name {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   3. ESTRUTURA DO LAYOUT
+   ========================================================================== */
+.estatec-main-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   4. SIDEBAR REFEITA (IGUAL AOS PRINTS ENVIADOS)
+   ========================================================================== */
+.estatec-sidebar {
+    width: 250px;
+    background-color: var(--brand-red);
+    color: var(--text-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-nav li {
+    position: relative;
+    width: 100%;
+    /* Espaçamento vertical generoso igual ao da sua foto */
+    padding: 22px 0 22px 25px; 
+    display: flex;
+    align-items: center;
+}
+
+/* Item de menu ativo (Ganha o fundo escuro e o indicador branco lateral esquerdo) */
+.sidebar-nav li.active {
+    background-color: var(--brand-red-dark);
+}
+
+/* O indicador vertical branco do print */
+.sidebar-nav li.active::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 12%;
+    height: 76%;
+    width: 8px;
+    background-color: var(--text-white);
+    border-radius: 4px 0 0 4px;
+}
+
+.sidebar-nav li a {
+    text-decoration: none;
+    color: var(--text-white);
+    font-size: 18px; /* Fonte destacada do print */
+    font-weight: bold;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+}
+
+/* Ícone estilizado com círculo em volta (Igual ao seu layout) */
+.sidebar-nav li .icon {
+    font-size: 16px;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--text-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sidebar-footer {
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
+    opacity: 0.8;
+    text-transform: lowercase; /* "© estatec" em minúsculo igual ao print */
+}
+
+/* ==========================================================================
+   5. ÁREA DE CONTEÚDO PRINCIPAL
+   ========================================================================== */
+.estatec-content {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.content-title {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--text-dark);
+    letter-spacing: 0.5px;
+}
+
+/* Barra de Pesquisa Redonda */
+.search-container {
+    background-color: var(--text-white);
+    border-radius: 25px;
+    padding: 10px 20px;
+    width: 340px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.search-icon {
+    margin-right: 12px;
+    color: #555;
+    font-weight: bold;
+}
+
+.search-container input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* ==========================================================================
+   6. LISTA DE CARDS E BOTOES
+   ========================================================================== */
+.cards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.request-card {
+    background-color: var(--card-gray);
+    border-radius: 35px; /* Formato pílula ultra arredondado do seu print */
+    padding: 12px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+}
+
+.card-avatar {
+    background-color: var(--brand-dark);
+    color: var(--text-white);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.card-details {
+    display: flex;
+    align-items: center; /* Alinha o nome e a placa na horizontal igual ao print */
+    gap: 60px;
+    flex: 1;
+}
+
+.card-name {
+    font-weight: bold;
+    font-size: 15px;
+    color: #222;
+    min-width: 200px;
+}
+
+.card-plate {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.plate-code {
+    font-family: monospace;
+    font-size: 15px;
+    font-weight: normal;
+    color: #444;
+    margin-left: 5px;
+}
+
+/* Ações */
+.card-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-accept, .btn-reject {
+    border: none;
+    padding: 10px 35px;
+    border-radius: 20px;
+    font-weight: 900;
+    font-size: 14px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s;
+}
+
+.btn-accept {
+    background-color: var(--color-success);
+    color: var(--text-dark);
+}
+
+.btn-reject {
+    background-color: var(--color-danger);
+    color: var(--text-dark);
+}
+
+.btn-accept:hover, .btn-reject:hover {
+    opacity: 0.85;
+}
+
+/* Placeholders de fundo cinza */
+.placeholder-row {
+    background-color: var(--card-gray);
+    height: 64px;
+    border-radius: 35px;
+    opacity: 0.5;
+}
