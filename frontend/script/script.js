@@ -1,38 +1,65 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const togglePassword = document.querySelector('#togglePassword');
-    const passwordInput = document.querySelector('#password');
-    const loginForm = document.querySelector('#loginForm');
-    const forgotPasswordLink = document.querySelector('#forgotPassword');
+document.addEventListener("DOMContentLoaded", () => {
 
+    const loginForm = document.querySelector("#loginForm");
+    const passwordInput = document.querySelector("#password");
+    const togglePassword = document.querySelector("#togglePassword");
+    const forgotPassword = document.querySelector(".forgot-password");
+
+    // Mostrar/Ocultar senha
     if (togglePassword && passwordInput) {
-        togglePassword.addEventListener('click', () => {
-            const isPassword = passwordInput.getAttribute('type') === 'password';
-            const type = isPassword ? 'text' : 'password';
 
-            passwordInput.setAttribute('type', type);
-            togglePassword.innerHTML = isPassword ? '<span>🗨️</span>' : '<span>👁️‍🗨️</span>';
+        togglePassword.addEventListener("click", () => {
+
+            const isPassword =
+                passwordInput.getAttribute("type") === "password";
+
+            passwordInput.setAttribute(
+                "type",
+                isPassword ? "text" : "password"
+            );
+
+            togglePassword.innerHTML =
+                isPassword
+                    ? "🙈"
+                    : "👁";
         });
     }
 
-    if (forgotPasswordLink) {
-        forgotPasswordLink.addEventListener('click', (e) => {
+    // Recuperação de senha
+    if (forgotPassword) {
+
+        forgotPassword.addEventListener("click", (e) => {
+
             e.preventDefault();
-            window.location.href = "../redefinirSenha/index.html";
+
+            window.location.href =
+                "../redefinirSenha/index.html";
         });
     }
 
+    // Login
     if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
+
+        loginForm.addEventListener("submit", (e) => {
+
             e.preventDefault();
 
-            const email = document.querySelector('#email').value;
-            const password = passwordInput.value;
+            const email =
+                document.querySelector("#email").value.trim();
 
-            if (email && password) {
-                window.location.href = "../menuInicial/index.html";
-            } else {
-                alert("Por favor, preencha o e-mail e a senha.");
+            const password =
+                passwordInput.value.trim();
+
+            if (!email || !password) {
+
+                alert("Preencha todos os campos.");
+                return;
             }
+
+            // Futuramente conectar API aqui
+
+            window.location.href =
+                "../menuInicial/index.html";
         });
     }
 });

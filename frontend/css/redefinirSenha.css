@@ -1,160 +1,392 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Georgia', 'Times New Roman', serif;
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
 }
 
-body {
-    background-color: #000;
-    height: 85vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* =========================
+   BODY
+========================= */
+
+body{
+    height:100vh;
+    overflow:hidden;
+
+    background:#000000;
+    color:#fff;
 }
 
-.login-container {
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* =========================
+   CONTAINER
+========================= */
+
+.reset-container{
+    height:100vh;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:20px 8%;
 }
 
-.logo-area {
-    margin-bottom: 30px;
+/* =========================
+   LOGO
+========================= */
+
+.brand-area{
+    flex:1;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding-right:120px;
 }
 
-.logo-img {
-    max-width: 400px;
+.brand-content{
+    text-align:center;
+    position:relative;
 }
 
-.login-card {
-    background-color: #f9fdf9;
-    /* Tom levemente esverdeado/off-white da imagem */
-    width: 100%;
-    padding: 40px 30px;
-    border-radius: 40px;
-    text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+.brand-content::before{
+    content:"";
+
+    position:absolute;
+
+    width:250px;
+    height:250px;
+
+    background:#c50f2a;
+
+    opacity:.15;
+
+    filter:blur(120px);
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
 }
 
-h1 {
-    font-size: 1.5rem;
-    margin-bottom: 25px;
-    letter-spacing: 2px;
-    font-weight: 800;
+.logo-img{
+    width:100%;
+    max-width:380px;
+
+    user-select:none;
 }
 
-.input-group {
-    text-align: left;
-    margin-bottom: 20px;
+.brand-subtitle{
+    margin-top:15px;
+
+    font-size:.8rem;
+    letter-spacing:4px;
+
+    color:#aaa;
 }
 
-.input-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
+/* =========================
+   CARD
+========================= */
+
+.reset-card{
+    width:380px;
+
+    padding:25px;
+
+    background:rgba(20,20,20,.96);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:25px;
+
+    box-shadow:
+    0 0 40px rgba(197,15,42,.15);
 }
 
-input {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    outline: none;
-    font-size: 0.9rem;
+/* =========================
+   ÍCONE
+========================= */
+
+.reset-icon{
+    width:55px;
+    height:55px;
+
+    margin:0 auto 15px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:50%;
+
+    background:#c50f2a;
+
+    font-size:1.3rem;
 }
 
-input::placeholder {
-    color: #bbb;
+/* =========================
+   TÍTULO
+========================= */
+
+.reset-card h1{
+    text-align:center;
+    font-size:1.7rem;
+
+    margin-bottom:8px;
 }
 
-.password-wrapper {
-    position: relative;
+.reset-description{
+    text-align:center;
+
+    color:#aaa;
+
+    font-size:.9rem;
+
+    margin-bottom:18px;
 }
 
-.eye-icon {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
+/* =========================
+   INPUTS
+========================= */
+
+.input-group{
+    margin-bottom:14px;
 }
 
-.btn-salvar {
-    width: 100%;
-    background-color: #bc1624;
-    /* Vermelho Estatec */
-    color: #fff;
-    border: none;
-    padding: 14px;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s;
+.input-group label{
+    display:block;
+
+    margin-bottom:8px;
+
+    font-size:.9rem;
 }
 
-.btn-salvar:hover {
-    filter: brightness(1.2);
+.input-wrapper{
+    position:relative;
 }
 
-.btn-voltar {
-    width: 100%;
-    background-color: #b91c2c;
-    /* Vermelho Estatec */
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 12px;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s;
+.input-icon{
+    position:absolute;
+
+    left:15px;
+    top:50%;
+
+    transform:translateY(-50%);
 }
 
-.btn-voltar:hover {
-    filter: brightness(1.2);
+.input-wrapper input{
+    width:100%;
+    height:48px;
+
+    padding:0 50px;
+
+    background:#1a1a1a;
+
+    border:1px solid #2c2c2c;
+    border-radius:12px;
+
+    color:white;
+
+    outline:none;
+
+    transition:.3s;
 }
 
-.btn-entrar:hover {
-    background-color: #8e1522;
+.input-wrapper input:focus{
+    border-color:#c50f2a;
 }
 
-.footer-links {
-    margin-top: 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.75rem;
+.eye-icon{
+    position:absolute;
+
+    right:15px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    background:none;
+    border:none;
+
+    color:#aaa;
+
+    cursor:pointer;
 }
 
-.footer-links a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
+/* =========================
+   REQUISITOS
+========================= */
+
+.requirements{
+    background:#171717;
+
+    border-radius:12px;
+
+    padding:10px 15px;
+
+    margin-bottom:18px;
 }
 
-.divider {
-    height: 20px;
-    width: 1px;
-    background-color: #ccc;
+.requirements h4{
+    margin-bottom:10px;
+
+    color:#ddd;
+
+    font-size:.85rem;
 }
 
-.copyright {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    font-size: 0.8rem;
+.requirements ul{
+    list-style:none;
 }
 
+.requirements li{
+    color:#999;
+
+    font-size:.85rem;
+
+    margin-bottom:5px;
+}
+
+/* =========================
+   BOTÃO
+========================= */
+
+.btn-save{
+    width:100%;
+    height:48px;
+
+    border:none;
+    border-radius:12px;
+
+    background:#c50f2a;
+
+    color:white;
+
+    font-size:.95rem;
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.btn-save:hover{
+    background:#dd1738;
+
+    transform:translateY(-2px);
+}
+
+/* =========================
+   DIVISOR
+========================= */
+
+.divider{
+    display:flex;
+    align-items:center;
+
+    margin:18px 0;
+
+    color:#666;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+
+    flex:1;
+
+    height:1px;
+
+    background:#333;
+}
+
+.divider span{
+    margin:0 15px;
+
+    font-size:.8rem;
+}
+
+/* =========================
+   LINK
+========================= */
+
+.back-link{
+    display:block;
+
+    text-align:center;
+
+    text-decoration:none;
+
+    color:white;
+
+    font-size:.9rem;
+
+    transition:.3s;
+}
+
+.back-link:hover{
+    color:#c50f2a;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.copyright{
+    position:fixed;
+
+    bottom:15px;
+    left:0;
+
+    width:100%;
+
+    text-align:center;
+
+    color:#777;
+
+    font-size:.85rem;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media(max-width:900px){
+
+    body{
+        overflow:auto;
+    }
+
+    .reset-container{
+        flex-direction:column;
+
+        justify-content:center;
+
+        gap:40px;
+
+        padding:40px 20px;
+    }
+
+    .brand-area{
+        padding-right:0;
+    }
+
+    .logo-img{
+        max-width:260px;
+    }
+
+    .reset-card{
+        width:100%;
+        max-width:380px;
+    }
+
+    .copyright{
+        position:static;
+        padding:20px;
+    }
+}

@@ -6,55 +6,186 @@
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>ESTATEC - Redefinir Senha</title>
+
     <link rel="stylesheet" href="../css/redefinirSenha.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
 
-    <main class="login-container">
-        <div class="logo-area">
-            <img src="../img/estatec.png" alt="ESTATEC" class="logo-img">
-        </div>
+    <main class="reset-container">
 
-        <div class="login-card">
-            <h1 class="title">REDEFINIR SENHA</h1>
+        <!-- LOGO -->
+
+        <section class="brand-area">
+
+            <div class="brand-content">
+
+                <img
+                    src="../img/estatec.png"
+                    alt="ESTATEC"
+                    class="logo-img">
+
+                <p class="brand-subtitle">
+                    SISTEMA DE CONTROLE DE ESTACIONAMENTOS
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- CARD -->
+
+        <section class="reset-card">
+
+            <div class="reset-icon">
+                🔒
+            </div>
+
+            <h1>Redefinir senha</h1>
+
+            <p class="reset-description">
+                Crie uma nova senha para acessar sua conta novamente
+            </p>
 
             <form id="resetForm">
-                <div class="input-group">
-                    <label for="newPassword">Nova senha:</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="newPassword" placeholder="Ex.: 123456" required>
-                        <button type="button" class="eye-icon toggle-btn" data-target="newPassword">
-                            <span class="eye-span">👁️‍🗨️</span>
-                        </button>
-                    </div>
-                </div>
+
+                <!-- NOVA SENHA -->
 
                 <div class="input-group">
-                    <label for="confirmPassword">Confirme sua senha:</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="confirmPassword" placeholder="Ex.: 123456" required>
-                        <button type="button" class="eye-icon toggle-btn" data-target="confirmPassword">
-                            <span class="eye-span">👁️‍🗨️</span>
+
+                    <label for="newPassword">
+                        Nova senha
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🔒
+                        </span>
+
+                        <input
+                            type="password"
+                            id="newPassword"
+                            placeholder="Digite sua nova senha"
+                            required>
+
+                        <button
+                            type="button"
+                            class="eye-icon toggle-btn"
+                            data-target="newPassword">
+
+                            👁
+
                         </button>
+
                     </div>
+
                 </div>
 
-                <button type="submit" class="btn-salvar">SALVAR</button>
-                <button type="button" class="btn-voltar">VOLTAR AO LOGIN</button>
+                <!-- REQUISITOS -->
+
+                <div class="requirements">
+
+                    <h4>
+                        Sua senha deve conter:
+                    </h4>
+
+                    <ul>
+
+                        <li id="rule-length">
+                            ✓ Mínimo de 8 caracteres
+                        </li>
+
+                        <li id="rule-uppercase">
+                            ✓ Pelo menos uma letra maiúscula
+                        </li>
+
+                        <li id="rule-number">
+                            ✓ Pelo menos um número
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <!-- CONFIRMAR SENHA -->
+
+                <div class="input-group">
+
+                    <label for="confirmPassword">
+                        Confirmar senha
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🔒
+                        </span>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Confirme sua senha"
+                            required>
+
+                        <button
+                            type="button"
+                            class="eye-icon toggle-btn"
+                            data-target="confirmPassword">
+
+                            👁
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- BOTÃO -->
+
+                <button
+                    type="submit"
+                    class="btn-save">
+
+                    SALVAR NOVA SENHA
+
+                </button>
+
             </form>
-        </div>
 
-        <footer class="copyright">
-            © ESTATEC
-        </footer>
+            <!-- DIVISOR -->
+
+            <div class="divider">
+                <span>OU</span>
+            </div>
+
+            <!-- VOLTAR -->
+
+            <a
+                href="../index.html"
+                class="back-link">
+
+                ← Voltar ao login
+
+            </a>
+
+        </section>
 
     </main>
 
+    <!-- RODAPÉ -->
+
+    <footer class="copyright">
+        © 2026 ESTATEC. Todos os direitos reservados.
+    </footer>
+
     <script src="../script/redefinirSenha.js"></script>
+
 </body>
 
 </html>
