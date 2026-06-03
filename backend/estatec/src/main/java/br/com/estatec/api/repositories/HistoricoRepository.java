@@ -6,6 +6,5 @@ import br.com.estatec.api.entities.Historico;
 
 public interface HistoricoRepository extends JpaRepository<Historico, Long>{
 
-	Long countByCarro_IdCarros(Long id);
 
 }

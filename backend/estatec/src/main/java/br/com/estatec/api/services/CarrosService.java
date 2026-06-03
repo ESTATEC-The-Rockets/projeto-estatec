@@ -1,7 +1,6 @@
 package br.com.estatec.api.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,28 +18,47 @@ public class CarrosService {
 	        return repository.findAll();
 	    }
 
-	    public Optional<Carros> buscarPorId(Long id) {
-	        return repository.findById(id);
+	    public Carros buscarPorId(Long id) {
+
+			return repository.findById(id).orElseThrow(() -> new RuntimeException("Carro não encontrado."));
 	    }
 
-	    public Carros salvar(Carros carros) {
-	        return repository.save(carros);
-	    }
-
-	    public Carros atualizar(Long id, Carros carroAlterado) {
-	        Optional<Carros> carroExistente = buscarPorId(id);
-
-	        if (carroExistente.isPresent()) {  
-	            Carros atualizado = carroExistente.get();
-	            atualizado.setMarca(carroAlterado.getMarca());
-	            atualizado.setModelo(carroAlterado.getModelo());
-	            atualizado.setPlaca(carroAlterado.getPlaca());
-	            atualizado.setCor(carroAlterado.getCor());
-
-	            return repository.save(atualizado);
+	    public Carros salvar(Carros carro) {
+	        if (carro.getPlaca() == null || carro.getPlaca().isBlank()) {
+	            throw new RuntimeException("A placa do carro é obrigatória.");
 	        }
-	        return null;
+
+	        Carros carroExistente = repository.findByPlaca(carro.getPlaca());
+
+	        if (carroExistente != null) {
+	            throw new RuntimeException("Já existe um carro cadastrado com esta placa.");
+	        }
+
+	        return repository.save(carro);
 	    }
+
+	    public Carros atualizar(Long id, Carros carroNovo) {
+	        Carros carroAntigo = buscarPorId(id);
+	        
+	        if (carroNovo.getMarca() != null && carroNovo.getMarca().isBlank()) {
+				carroAntigo.setMarca(carroNovo.getMarca());
+			}
+	        
+	        if (carroNovo.getModelo() != null && carroNovo.getModelo().isBlank()) {
+				carroAntigo.setModelo(carroNovo.getModelo());
+			}
+	        
+	        if (carroNovo.getPlaca() != null && carroNovo.getPlaca().isBlank()) {
+				carroAntigo.setPlaca(carroNovo.getPlaca());
+			}
+	        
+	        if (carroNovo.getCor() != null) {
+	            carroAntigo.setCor(carroNovo.getCor());
+	        }
+
+	        return repository.save(carroAntigo);
+
+	        }
 
 	    public void deletar(Long id) {
 	        repository.deleteById(id);

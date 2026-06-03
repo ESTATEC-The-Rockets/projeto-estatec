@@ -1,7 +1,6 @@
 package br.com.estatec.api.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,12 +34,8 @@ public class CarrosController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Carros> buscar(@PathVariable Long id) {
-        Optional<Carros> carro = service.buscarPorId(id);
-        
-        if (carro.isPresent()) {
-            return ResponseEntity.ok(carro.get());
-        }
-        return ResponseEntity.notFound().build();
+        Carros carro = service.buscarPorId(id);
+        return ResponseEntity.ok(carro);
     }
 
     @PostMapping
@@ -52,22 +47,15 @@ public class CarrosController {
     @PutMapping("/{id}")
     public ResponseEntity<Carros> atualizar(@PathVariable Long id, @Valid @RequestBody Carros carro) {
         Carros carroAtualizado = service.atualizar(id, carro);
-        if (carroAtualizado != null) {
-            return ResponseEntity.ok(carroAtualizado);
-        }
-        return ResponseEntity.notFound().build(); 
+        return ResponseEntity.ok(carroAtualizado);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletar(@PathVariable Long id) {
-        Optional<Carros> carro = service.buscarPorId(id);
+        service.buscarPorId(id); 
         
-        if (carro.isPresent()) {
-            service.deletar(id);
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body("Sucesso: O aluno foi excluído permanentemente!");
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body("Erro: Não é possível deletar. O aluno com ID " + id + " não foi encontrado.");
+        service.deletar(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("Sucesso: O carro foi excluído permanentemente!");
     }
 }

@@ -8,4 +8,6 @@ import br.com.estatec.api.entities.Estacionamento;
 @Repository
 public interface EstacionamentoRepository extends JpaRepository<Estacionamento, Long>{
 
+	Estacionamento findByNomeEstacionamento(String nomeEstacionamento);
+	
 }
