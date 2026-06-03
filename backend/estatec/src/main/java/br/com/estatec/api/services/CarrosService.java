@@ -19,11 +19,21 @@ public class CarrosService {
 	        return repository.findAll();
 	    }
 
-	    public Optional<Carros> buscarPorId(Long id) {
-	        return repository.findById(id);
-	    }
+	    public Carros buscarPorId(Long id) {
+	    	
+	    	return repository.findById(id).orElseThrow(() -> new RuntimeException("Carro nao encontrado"));
+	    	
+		}
 
 	    public Carros salvar(Carros carros) {
+	    	
+	    	Carros carroExistente = repository.findByMarca(carros.getMarca());
+	    	
+	    	if(carroExistente != null) {
+	    		
+	    		throw new RuntimeException("Carro ja existe");
+	    	}
+	    	
 	        return repository.save(carros);
 	    }
 

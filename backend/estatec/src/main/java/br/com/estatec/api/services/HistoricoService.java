@@ -19,23 +19,31 @@ public class HistoricoService {
 	@Autowired
 	private HistoricoRepository repository;
 	
+	@Autowired 
+	private CarrosService carroService;
+	
+	@Autowired
+	private EstacionamentoService estacionamentoService;
+	
 	public List<Historico> listarTodos(){
 		return repository.findAll();
 	}
 	
-	public Optional<Historico> buscarPorId(Long id){
-		return repository.findById(id);		
+	public Historico buscarPorId(Long id){
+		
+		return repository.findById(id).orElseThrow(() -> new RuntimeException("Histórico nao encontrado"));
+		
 	}
 	
 	public Historico salvar(Historico historico) {
-		return repository.save(historico);
 		
+		Optional<Carros> carro = carroService.buscarPorId(historico.getCarro().getIdCarros());
 	}
 	
 	public Historico atualizar(Long id, Historico historicoAlterado) {
-		Optional<Historico> historicoExistente = buscarPorId(id);
+		Historico historicoExistente = buscarPorId(id);
 		
-		if(historicoExistente.isPresent()) {
+		if(historicoExistente.get()) {
 			Historico atualizado = historicoExistente.get();
 			atualizado.setCarro(historicoAlterado.getCarro());
 			atualizado.setData(historicoAlterado.getData());
