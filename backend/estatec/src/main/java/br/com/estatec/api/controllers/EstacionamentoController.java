@@ -1,7 +1,6 @@
 package br.com.estatec.api.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,13 +33,10 @@ public class EstacionamentoController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Estacionamento> buscar(@PathVariable Long id){
-		Optional<Estacionamento> estacionamento = service.buscarPorId(id);
-		
-		if (estacionamento.isPresent()) {
-			return ResponseEntity.ok(estacionamento.get());
-		}
-		return ResponseEntity.notFound().build();
+	public ResponseEntity<Estacionamento> buscar(@PathVariable Long id) {
+	    Estacionamento estacionamento = service.buscarPorId(id);   
+	    
+	    return ResponseEntity.ok(estacionamento);
 	}
 	
 	@PostMapping
@@ -60,15 +56,12 @@ public class EstacionamentoController {
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deletar(@PathVariable Long id) {
-		Optional<Estacionamento> estacionamento = service.buscarPorId(id);
-		
-		if (estacionamento.isPresent()) {
-			service.deletar(id);
-			return ResponseEntity.status(HttpStatus.OK)
-					.body("Sucesso: O carro foi excluido permanentemente!");
-		} 
-		return ResponseEntity.status(HttpStatus.NOT_FOUND)
-				.body("Erro: Não é possivel deletar. O aluno com ID " + id + "não foi encontrado. ");
+	    service.buscarPorId(id); 
+	    
+	    service.deletar(id);
+	    
+	    return ResponseEntity.status(HttpStatus.OK)
+	            .body("Sucesso: O estacionamento foi excluído permanentemente!");
 	}
 
 }
