@@ -8,6 +8,6 @@ import br.com.estatec.api.entities.Carros;
 @Repository
 public interface CarrosRepository extends JpaRepository<Carros, Long> {
 
-	Carros findByMarca(String marca);
-	
+
+	Carros findByPlaca(String placa);
 }
