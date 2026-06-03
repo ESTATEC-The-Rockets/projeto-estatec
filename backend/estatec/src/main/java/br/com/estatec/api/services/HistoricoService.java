@@ -10,18 +10,18 @@ import br.com.estatec.api.repositories.HistoricoRepository;
 
 @Service
 public class HistoricoService {
-	 
+
 	@Autowired
 	private HistoricoRepository repository;
-	
-	public List<Historico> listarTodos(){
+
+	public List<Historico> listarTodos() {
 		return repository.findAll();
 	}
-	
-	public Historico buscarPorId(Long id){
-		
+
+	public Historico buscarPorId(Long id) {
+
 		return repository.findById(id).orElseThrow(() -> new RuntimeException("Histórico nao encontrado"));
-		
+
 	}
 
 }
