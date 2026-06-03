@@ -23,5 +23,10 @@ public class HistoricoService {
 		return repository.findById(id).orElseThrow(() -> new RuntimeException("Histórico nao encontrado"));
 
 	}
+	
+	public Historico criar(Historico historico) {
+		
+		return repository.save(historico);
+	}
 
 }
