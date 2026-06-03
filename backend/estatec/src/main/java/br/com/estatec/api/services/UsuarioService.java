@@ -74,17 +74,17 @@ public class UsuarioService {
 	}
 
 	public Usuario login(String email, String senha) {
-		Optional<Usuario> usuarioExistente = buscarPorEmail(email);
 
-		if (usuarioExistente.isPresent()) {
-			Usuario usuario = usuarioExistente.get();
+	    Usuario usuario = repository.findByEmail(email)
+	            .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
 
-			if (password.matches(senha, usuario.getSenha())) {
-				return usuario;
-			}
-		}
+	    boolean senhaValida = password.matches(senha, usuario.getSenha());
 
-		throw new RuntimeException("E-mail ou senha inválidos.");
+	    if (!senhaValida) {
+	        throw new RuntimeException("Senha inválida.");
+	    }
+
+	    return usuario;
 	}
 
 	// --------------------------------------------
