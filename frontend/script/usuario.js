@@ -1,82 +1,72 @@
-let currentSelectedUserId = null;
-let currentSelectedType = 'VISITANTE'; // Padrão inicial
+// Dados iniciais baseados exatamente na listagem da tabela
+const initialUsers = [
+    { id: 1, nome: "Matheus Felipe Gonçalves", placa: "BRA2E19" },
+    { id: 2, nome: "João Guilherme Vieira", placa: "CRU2G93" },
+    { id: 3, nome: "Lucas Emanuel de Souza", placa: "LET2133" },
+    { id: 4, nome: "Rômulo Augusto", placa: "VEM2R09" }
+];
 
-// Abre o modal associando ao ID do cliente correspondente vindo do BD
-function handleTipo(id) {
-    currentSelectedUserId = id;
-    document.getElementById("type-modal").classList.add("active");
-    switchTab('VISITANTE'); // Sempre reseta abrindo em Visitante
-}
+let users = [...initialUsers];
 
-// Fecha o modal limpando os campos
-function closeModal() {
-    document.getElementById("type-modal").classList.remove("active");
-    document.getElementById("input-inicio").value = "";
-    document.getElementById("input-fim").value = "";
-    currentSelectedUserId = null;
-}
+const tableBody = document.getElementById("users-table-body");
+const searchInput = document.getElementById("search-input");
 
-// Gerencia a troca de abas (Visitante / Fixo)
-function switchTab(type) {
-    currentSelectedType = type;
-    const tabVisitante = document.getElementById("tab-visitante");
-    const tabFixo = document.getElementById("tab-fixo");
-    const datesContainer = document.getElementById("date-inputs-container");
+function renderUsers(usersList) {
+    tableBody.innerHTML = "";
 
-    if (type === 'VISITANTE') {
-        tabVisitante.classList.add("active");
-        tabFixo.classList.remove("active");
-        // Mostra os campos de data no fluxo de visitante
-        datesContainer.style.display = "flex";
-    } else {
-        tabFixo.classList.add("active");
-        tabVisitante.classList.remove("active");
-        // Oculta os campos de data no fluxo de Fixo conforme imagem 2
-        datesContainer.style.display = "none";
+    if (usersList.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="3" style="text-align: center; color: #8e8e93; padding: 32px;">
+                    Nenhum usuário ou placa encontrado.
+                </td>
+            </tr>
+        `;
+        return;
     }
+
+    usersList.forEach(user => {
+        const tr = document.createElement("tr");
+        
+        tr.innerHTML = `
+            <td style="font-weight: 500;">${user.nome}</td>
+            <td style="color: #b3b3b3; font-family: monospace; font-size: 15px; letter-spacing: 0.5px;">${user.placa}</td>
+            <td class="text-right">
+                <div class="actions-cell">
+                    <button class="btn-action btn-tipo" onclick="handleTipo(${user.id})">Tipo</button>
+                    <button class="btn-action btn-excluir" onclick="handleDelete(${user.id})">Excluir</button>
+                </div>
+            </td>
+        `;
+        
+        tableBody.appendChild(tr);
+    });
 }
 
-// Máscara simples e automática para barra de data (dd/mm/aaaa) nos inputs
-const dateInputs = [document.getElementById("input-inicio"), document.getElementById("input-fim")];
-dateInputs.forEach(input => {
-    input.addEventListener("input", (e) => {
-        let v = e.target.value.replace(/\D/g, "");
-        if (v.length >= 2) v = v.substring(0, 2) + "/" + v.substring(2);
-        if (v.length >= 5) v = v.substring(0, 5) + "/" + v.substring(5, 9);
-        e.target.value = v;
-    });
+searchInput.addEventListener("input", (e) => {
+    const searchTerm = e.target.value.toLowerCase().trim();
+    
+    const filteredUsers = users.filter(user => 
+        user.nome.toLowerCase().includes(searchTerm) || 
+        user.placa.toLowerCase().includes(searchTerm)
+    );
+    
+    renderUsers(filteredUsers);
 });
 
-// Ação disparada ao pressionar o botão "SALVAR"
-function saveTypeSelection() {
-    const dataInicio = document.getElementById("input-inicio").value;
-    const dataFim = document.getElementById("input-fim").value;
-
-    const payload = {
-        userId: currentSelectedUserId,
-        tipo: currentSelectedType,
-        inicio: currentSelectedType === 'VISITANTE' ? dataInicio : null,
-        fim: currentSelectedType === 'VISITANTE' ? dataFim : null
-    };
-
-    console.log("Dados prontos para salvar no Banco de Dados:", payload);
-
-    /* Envio para o seu backend
-    fetch('/api/salvar-tipo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    });
-    */
-
-    alert(`Salvo com sucesso como ${currentSelectedType}!`);
-    closeModal();
+function handleTipo(id) {
+    const user = users.find(u => u.id === id);
+    alert(`Alterar tipo do cliente: ${user.nome}`);
 }
 
-// Fecha se clicar fora da caixa do modal
-window.onclick = function(event) {
-    const modal = document.getElementById("type-modal");
-    if (event.target === modal) {
-        closeModal();
+function handleDelete(id) {
+    const user = users.find(u => u.id === id);
+    if (confirm(`Tem certeza que deseja excluir o usuário ${user.nome}?`)) {
+        users = users.filter(u => u.id !== id);
+        searchInput.dispatchEvent(new Event('input'));
     }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    renderUsers(users);
+});
