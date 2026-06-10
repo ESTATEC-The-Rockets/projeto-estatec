@@ -50,10 +50,6 @@ public class UsuarioService {
 
 	public Usuario salvar(Usuario usuario) {
 
-		if (buscarPorEmail(usuario.getEmail()).isPresent()) {
-			throw new RuntimeException("Já existe esse email no Banco de Dados");
-		}
-
 		if (repository.findByCpf(usuario.getCpf()).isPresent()) {
 			throw new RuntimeException("Já existe um usuário cadastrado com este CPF");
 		}
@@ -65,6 +61,10 @@ public class UsuarioService {
 		Optional<Usuario> usuarioExistente = repository.findByEmail(usuario.getEmail());
 		if(usuarioExistente.isPresent()) {
 			throw new RuntimeException("Já existente um usuário com este email.");
+		}
+		
+		if(repository.findByTelefone(usuario.getTelefone()).isPresent()) {
+		    throw new RuntimeException("Telefone já cadastrado.");
 		}
 
 		String senhaCriptografada = password.encode(usuario.getSenha());
@@ -86,8 +86,6 @@ public class UsuarioService {
 
 	    return usuario;
 	}
-
-	// --------------------------------------------
 
 	public Usuario atualizar(Long id, Usuario usuarioAtualizado) {
 		Optional<Usuario> existente = buscarPorId(id);
