@@ -1,39 +1,34 @@
-const formLogin = document.getElementById("form-login");
-const mensagemErro = document.getElementById("mensagem-erro");
+const formLogin = document.getElementById("loginForm");
 
 formLogin.addEventListener("submit", async function(event){
-    // Evita que o navegador recarregue a página ao clicar no botão "Entrar"
     event.preventDefault();
 
-    // Captura os valores digitados nos inputs
-    const loginInput = document.getElementById("login").value;
-    const senhaInput = document.getElementById("senha").value;
+    const emailInput = document.getElementById("email").value;
+    const passwordInput = document.getElementById("password").value;
 
     try {
-        // Dispara um POST enviando o login e senha no "corpo" (body) da requisição
-        const resposta = await fetch("http://localhost:8080/api/usuarios/login", {
+        const resposta = await fetch("http://localhost:8080/usuarios/login", {
             method: "POST",
-            headers: { "Content-Type": "application/json" }, // Avisa que estamos a enviar um JSON
+            headers: { "Content-Type": "application/json" }, 
+            
             body: JSON.stringify({
-                login: loginInput,
-                senha: senhaInput
+                email: emailInput,      
+                senha: passwordInput    
             })
         });
 
-        // Se a API retornar um status de sucesso (200 OK)
-        if (resposta.ok) {
-            const dadosUsuario = await resposta.json();
+        if (resposta.ok) { 
+            const dadosUsuario = await resposta.json(); 
 
-            // Grava os dados do usuário na memória do navegador (localStorage)
             localStorage.setItem("usuarioSessao", JSON.stringify(dadosUsuario));
 
-            // Redireciona o utilizador para a tela de administração
-            window.location.href = "\pages\admin.html";
+            window.location.href = "pages/menu.html";
         } else {
-            mensagemErro.innerText = "Usuário ou senha inválidos!";
+            alert("E-mail ou senha inválidos!");
         }
     } catch (erro) {
         console.error(erro);
-        mensagemErro.innerText = "Erro ao conectar com o servidor.";
+        alert("Erro ao conectar com o servidor. Verifique se o Spring Boot está rodando na porta 8080.");
     }
 });
+
