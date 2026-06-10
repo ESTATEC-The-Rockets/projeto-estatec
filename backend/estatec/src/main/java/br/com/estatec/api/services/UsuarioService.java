@@ -31,10 +31,6 @@ public class UsuarioService {
 		return repository.findByEmail(email);
 	}
 	
-	public Optional <Usuario> buscarPorNome(String nome){
-		return repository.findByNome(nome);
-	}
-	
 	public Optional <Usuario> buscarPorTelefone(String telefone){
 		return repository.findByTelefone(telefone);
 	}
@@ -47,24 +43,27 @@ public class UsuarioService {
 		return repository.findByCpf(cpf);
 	}
 	
+	public List<Usuario> buscarPorNome(String nome) {
+		return repository.findByNomeContainingIgnoreCase(nome);
+	}
+	
 
 	public Usuario salvar(Usuario usuario) {
 
 		if (repository.findByCpf(usuario.getCpf()).isPresent()) {
-			throw new RuntimeException("Já existe um usuário cadastrado com este CPF");
+			throw new RuntimeException("Já existe um usuário cadastrado com este CPF.");
 		}
 
 		if (repository.findByRg(usuario.getRg()).isPresent()) {
-			throw new RuntimeException("Já existe um usuário cadastrado com este RG");
+			throw new RuntimeException("Já existe um usuário cadastrado com este RG.");
 		}
-		
-		Optional<Usuario> usuarioExistente = repository.findByEmail(usuario.getEmail());
-		if(usuarioExistente.isPresent()) {
-			throw new RuntimeException("Já existente um usuário com este email.");
+
+		if (repository.findByEmail(usuario.getEmail()).isPresent()) {
+			throw new RuntimeException("Já existe um usuário cadastrado com este e-mail.");
 		}
-		
-		if(repository.findByTelefone(usuario.getTelefone()).isPresent()) {
-		    throw new RuntimeException("Telefone já cadastrado.");
+
+		if (repository.findByTelefone(usuario.getTelefone()).isPresent()) {
+			throw new RuntimeException("Já existe um usuário cadastrado com este telefone.");
 		}
 
 		String senhaCriptografada = password.encode(usuario.getSenha());
@@ -108,6 +107,10 @@ public class UsuarioService {
 	}
 
 	public void deletar(Long id) {
+
+		if (!repository.existsById(id)) {
+			throw new RuntimeException("Usuário não encontrado.");
+		}
 		repository.deleteById(id);
 	}
 }

@@ -13,19 +13,17 @@ public class SecurityConfig {
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-           
-        http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth.requestMatchers("/usuarios/**").permitAll()
-                                                                            .requestMatchers("/estacionamento/**").permitAll()
-                                                                            .requestMatchers("/carros/**").permitAll()
-                                                                            .requestMatchers("/donos-carro/**").permitAll()
-                                                                            .requestMatchers("/donos-estacionamento/**").permitAll()
-                                                                            .requestMatchers("/historico/**").permitAll()
-                                                                            .anyRequest().authenticated());
-        
-        return http.build();
-    }
-	
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+		http.csrf(csrf -> csrf.disable())
+				.authorizeHttpRequests(auth -> auth.requestMatchers("/usuarios/**").permitAll()
+						.requestMatchers("/estacionamento/**").permitAll().requestMatchers("/carros/**").permitAll()
+						.requestMatchers("/donos-carro/**").permitAll().requestMatchers("/donos-estacionamento/**")
+						.permitAll().requestMatchers("/historico/**").permitAll().anyRequest().authenticated());
+
+		return http.build();
+	}
+
 }

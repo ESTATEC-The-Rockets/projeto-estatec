@@ -50,6 +50,7 @@ public class Usuario {
 	@Email(message = "E-mail inválido.")
 	@Size(max = 120, message = "E-mail deve ter no máximo 120 caracteres.")
 	@Column(name = "email", unique = true)
+	@NotBlank(message = "O e-mail é obrigatório.")
 	protected String email;
 
 	@NotBlank(message = "A senha é obrigatória.")
@@ -80,11 +81,11 @@ public class Usuario {
 	}
 
 	public Long getId() {
-		return idUsuario;
+	    return idUsuario;
 	}
 
 	public void setId(Long id) {
-		this.idUsuario = id;
+	    this.idUsuario = id;
 	}
 
 	public String getNome() {
