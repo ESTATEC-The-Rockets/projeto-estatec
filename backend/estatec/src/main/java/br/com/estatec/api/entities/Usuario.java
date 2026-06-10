@@ -53,9 +53,8 @@ public class Usuario {
 	protected String email;
 
 	@NotBlank(message = "A senha é obrigatória.")
-	@Pattern(regexp = "^[A-Za-z0-9_@#]+$", message = "A senha deve conter apenas letras, números, underline, arroba e hashtag.")
 	@Size(min = 8, message = "A senha deve conter no mínimo 8 caracteres.")
-	@Column(name = "senha", unique = false)
+	@Column(name = "senha")
 	protected String senha;
 
 	@TelefoneBR(message = "Telefone deve estar no padrão brasileiro.")
@@ -78,8 +77,6 @@ public class Usuario {
 		this.email = email;
 		this.senha = senha;
 		this.telefone = telefone;
-		this.rg = rg;
-		this.cpf = cpf;
 	}
 
 	public Long getId() {
