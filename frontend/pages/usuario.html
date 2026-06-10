@@ -1,123 +1,151 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estatec - Usuários</title>
+    <title>ESTATEC - Usuários</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/usuario.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/usuario.css">
 </head>
+
 <body>
 
-    <div class="area-logo">
-        <img src="../img/estatec.png" alt="ESTATEC" class="logo-img">
-    </div>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <img src="/img/estatec.png" alt="ESTATEC" class="logo-img">
+            </div>
 
-    <header class="barra-superior">
-        <div class="controles-superiores">
-            <a href="../pages/cadastroEstacionamento.html" class="botao-escuro">CADASTRAR ESTACIONAMENTO</a>
+            <nav class="menu">
+                <a href="#" class="menu-item">
+                    <i class="fa-solid fa-house"></i> Dashboard
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fa-solid fa-square-p"></i> Estacionamentos
+                </a>
+                <a href="#" class="menu-item active">
+                    <i class="fa-solid fa-user"></i> Usuários
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fa-solid fa-chart-simple"></i> Relatórios
+                </a>
+                <a href="#" class="menu-item justify-between">
+                    <span><i class="fa-solid fa-bell"></i> Solicitações</span>
+                    <span class="badge">2</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fa-solid fa-gear"></i> Configurações
+                </a>
+            </nav>
 
-            <div class="menu-suspenso">
-                <button class="botao-menu-suspenso" id="botaoMenuSuspenso">
-                    ESTACIONAMENTOS <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="conteudo-menu-suspenso" id="conteudoMenuSuspenso">
-                    <div class="item-menu-suspenso">
-                        <span>ESTACIONAMENTO 01</span>
-                        <div class="acoes-menu-suspenso">
-                            <i class="fa-solid fa-pen"></i>
-                            <i class="fa-solid fa-trash"></i>
+            <div class="sidebar-footer">
+                <a href="#" class="btn-logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sair
+                </a>
+                <p class="copyright">© 2026 ESTATEC</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-top-row">
+                    <button class="menu-toggle">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <span class="username">Dono Estacionamento</span>
+                    </div>
+                </div>
+                
+                <div class="header-full-line"></div>
+                
+                <div class="header-bottom-row">
+                    <div class="date-box">
+                        <div class="date-box-inner">
+                            <i class="fa-solid fa-calendar-days date-icon"></i>
+                            <div class="date-texts">
+                                <span class="date-str" id="current-date">10 de junho de 2026</span>
+                                <span class="day-str">quarta-feira</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </header>
 
-        <div class="perfil-usuario">
-            <i class="fa-solid fa-circle-user"></i>
-            <span>DONO ESTACIONAMENTO</span>
-        </div>
-    </header>
-
-    <aside class="barra-lateral">
-        <nav class="navegacao-lateral">
-            <a href="menu.html" class="item-navegacao"><i class="fa-solid fa-list"></i> MENU</a>
-            <a href="#" class="item-navegacao ativo"><i class="fa-solid fa-user"></i> USUÁRIO</a>
-            <a href="dados.html" class="item-navegacao"><i class="fa-solid fa-database"></i> DADOS</a>
-        </nav>
-        <div class="rodape-lateral">
-            &copy; ESTATEC
-        </div>
-    </aside>
-
-    <main class="conteudo-principal">
-        <div class="topo-usuarios">
-            <h2>USUÁRIOS</h2>
-            <div class="barra-pesquisa">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="PESQUISAR CARROS / CLIENTES">
-            </div>
-        </div>
-
-        <div class="lista-clientes">
-            <div class="item-cliente">
-                <div class="cliente-info">
-                    <i class="fa-solid fa-circle-user avatar"></i>
-                    <span>Matheus Felipe Gonçalves</span>
+            <section class="content-body">
+                <div class="page-title-area">
+                    <h1>Usuários</h1>
+                    <p>Gerencie os clientes e veículos cadastrados no sistema.</p>
                 </div>
-                <div class="cliente-placa">
-                    <strong>PLACA:</strong> <span>BRA2E19</span>
-                </div>
-                <div class="cliente-acoes">
-                    <button class="btn-tipo" onclick="abrirModal()">TIPO</button>
-                    <button class="btn-excluir">EXCLUIR</button>
-                </div>
-            </div>
 
-            <div class="item-cliente">
-                <div class="cliente-info">
-                    <i class="fa-solid fa-circle-user avatar"></i>
-                    <span>João Guilherme Vieira</span>
-                </div>
-                <div class="cliente-placa">
-                    <strong>PLACA:</strong> <span>CRI2093</span>
-                </div>
-                <div class="cliente-acoes">
-                    <button class="btn-tipo" onclick="abrirModal()">TIPO</button>
-                    <button class="btn-excluir">EXCLUIR</button>
-                </div>
-            </div>
+                <div class="card shadow-wrapper">
+                    <div class="card-header-actions">
+                        <h3>Clientes Cadastrados</h3>
 
-            <div class="item-cliente vazio"></div>
-            <div class="item-cliente vazio"></div>
-        </div>
-    </main>
+                        <div class="search-container">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <input type="text" id="search-input" placeholder="Pesquisar carros / clientes...">
+                        </div>
+                    </div>
 
-    <div id="modalTipo" class="modal-overlay">
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Placa</th>
+                                    <th class="text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="type-modal" class="modal-overlay">
         <div class="modal-card">
-            <h3>TIPO</h3>
+            <div class="modal-header">
+                <h2>TIPO</h2>
+                <button class="close-modal-btn" onclick="closeModal()">&times;</button>
+            </div>
             
-            <div class="toggle-container">
-                <button class="btn-toggle active" id="btnVisitante">VISITANTE</button>
-                <button class="btn-toggle" id="btnFixo">FIXO</button>
+            <div class="modal-tabs-row">
+                <button id="tab-visitante" class="tab-btn active" onclick="switchTab('VISITANTE')">VISITANTE</button>
+                <button id="tab-fixo" class="tab-btn" onclick="switchTab('FIXO')">FIXO</button>
             </div>
 
-            <div class="input-group">
-                <label>INÍCIO:</label>
-                <input type="text" placeholder="Ex.: 20/02/2026">
-            </div>
+            <div class="modal-body">
+                <div id="date-inputs-container" class="form-group-container">
+                    <div class="form-group">
+                        <label for="input-inicio">INÍCIO:</label>
+                        <input type="text" id="input-inicio" placeholder="Ex.: 20/02/2026" maxlength="10">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="input-fim">FIM:</label>
+                        <input type="text" id="input-fim" placeholder="Ex.: 21/02/2026" maxlength="10">
+                    </div>
+                </div>
 
-            <div class="input-group">
-                <label>FIM:</label>
-                <input type="text" placeholder="Ex.: 21/02/2026">
+                <button class="btn-modal-save" onclick="saveTypeSelection()">SALVAR</button>
             </div>
-
-            <button class="btn-salvar" onclick="fecharModal()">SALVAR</button>
         </div>
     </div>
 
-        <script type="module" src="../script/usuario.js"></script>
-
+    <script src="/script/usuario.js"></script>
 </body>
+
 </html>
-+
