@@ -1,65 +1,39 @@
-document.addEventListener("DOMContentLoaded", () => {
+const formLogin = document.getElementById("form-login");
+const mensagemErro = document.getElementById("mensagem-erro");
 
-    const loginForm = document.querySelector("#loginForm");
-    const passwordInput = document.querySelector("#password");
-    const togglePassword = document.querySelector("#togglePassword");
-    const forgotPassword = document.querySelector(".forgot-password");
+formLogin.addEventListener("submit", async function(event){
+    // Evita que o navegador recarregue a página ao clicar no botão "Entrar"
+    event.preventDefault();
 
-    // Mostrar/Ocultar senha
-    if (togglePassword && passwordInput) {
+    // Captura os valores digitados nos inputs
+    const loginInput = document.getElementById("login").value;
+    const senhaInput = document.getElementById("senha").value;
 
-        togglePassword.addEventListener("click", () => {
-
-            const isPassword =
-                passwordInput.getAttribute("type") === "password";
-
-            passwordInput.setAttribute(
-                "type",
-                isPassword ? "text" : "password"
-            );
-
-            togglePassword.innerHTML =
-                isPassword
-                    ? "🙈"
-                    : "👁";
+    try {
+        // Dispara um POST enviando o login e senha no "corpo" (body) da requisição
+        const resposta = await fetch("http://localhost:8080/api/usuarios/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }, // Avisa que estamos a enviar um JSON
+            body: JSON.stringify({
+                login: loginInput,
+                senha: senhaInput
+            })
         });
-    }
 
-    // Recuperação de senha
-    if (forgotPassword) {
+        // Se a API retornar um status de sucesso (200 OK)
+        if (resposta.ok) {
+            const dadosUsuario = await resposta.json();
 
-        forgotPassword.addEventListener("click", (e) => {
+            // Grava os dados do usuário na memória do navegador (localStorage)
+            localStorage.setItem("usuarioSessao", JSON.stringify(dadosUsuario));
 
-            e.preventDefault();
-
-            window.location.href =
-                "../redefinirSenha/index.html";
-        });
-    }
-
-    // Login
-    if (loginForm) {
-
-        loginForm.addEventListener("submit", (e) => {
-
-            e.preventDefault();
-
-            const email =
-                document.querySelector("#email").value.trim();
-
-            const password =
-                passwordInput.value.trim();
-
-            if (!email || !password) {
-
-                alert("Preencha todos os campos.");
-                return;
-            }
-
-            // Futuramente conectar API aqui
-
-            window.location.href =
-                "../menuInicial/index.html";
-        });
+            // Redireciona o utilizador para a tela de administração
+            window.location.href = "\pages\admin.html";
+        } else {
+            mensagemErro.innerText = "Usuário ou senha inválidos!";
+        }
+    } catch (erro) {
+        console.error(erro);
+        mensagemErro.innerText = "Erro ao conectar com o servidor.";
     }
 });
