@@ -38,7 +38,6 @@ button {
 .app-container {
     display: flex;
     height: 100vh;
-    width: 100vw;
 }
 
 .main-content {
@@ -50,21 +49,8 @@ button {
     transition: .3s;
 }
 
-logo-container{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:25px 15px;
-}
-
-.logo-estatec{
-    width:220px;
-    height:auto;
-    transition:.3s;
-}
-
 /* ===================================
-   SIDEBAR (BARRA LATERAL)
+   SIDEBAR (PADRONIZADA)
 =================================== */
 
 .sidebar {
@@ -83,6 +69,12 @@ logo-container{
     justify-content: center;
     align-items: center;
     padding: 25px 15px;
+}
+
+.logo-estatec {
+    width: 170px;
+    height: auto;
+    transition: .3s;
 }
 
 .sidebar-nav {
@@ -110,21 +102,10 @@ logo-container{
     background: #181818;
 }
 
-/* Estado de Aba Ativa Secundária (Layout Limpo com Traço Branco) */
-.sidebar-nav .nav-item.active a {
-    background: #101010 !important;
+/* ITEM ATIVO DO MENU (FUNDO VERMELHO) */
+.nav-item.active a {
+    background: #c1122f !important;
     color: #ffffff !important;
-}
-
-.sidebar-nav .nav-item.active::after {
-    content: '';
-    position: absolute;
-    right: -10px;
-    top: 15%;
-    width: 4px;
-    height: 70%;
-    background-color: #ffffff;
-    border-radius: 4px 0 0 4px;
 }
 
 .nav-item i {
@@ -166,16 +147,18 @@ logo-container{
     color: #777;
 }
 
-/* Sidebar Recolhida (Responsivo) */
+/* SIDEBAR RECOLHÍVEL */
 .sidebar.collapsed { width: 80px; }
+.sidebar.collapsed .logo-estatec { width: 45px; }
 .sidebar.collapsed .menu-text,
 .sidebar.collapsed .logout-btn span,
 .sidebar.collapsed .sidebar-footer p { display: none; }
-.sidebar.collapsed .nav-item a,
+.sidebar.collapsed .nav-item a { justify-content: center; }
 .sidebar.collapsed .logout-btn { justify-content: center; }
+.sidebar.collapsed .logo-container { padding: 20px 10px; }
 
 /* ===================================
-   HEADER & COMPONENTES DO TOPO
+   MAIN CONTENT & HEADER
 =================================== */
 
 .header {
@@ -186,11 +169,6 @@ logo-container{
     padding: 0 25px;
     border-bottom: 1px solid #1c1c1c;
     gap: 30px;
-}
-
-.menu-toggle {
-    color: #ffffff;
-    font-size: 18px;
 }
 
 .header-buttons {
@@ -221,33 +199,47 @@ logo-container{
     border-color: #c1122f;
 }
 
+/* ===================================
+   ÁREA DIREITA (SINO + PERFIL)
+=================================== */
+
 .header-right {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 25px; /* Espaçamento entre sino e perfil */
 }
 
-.notifications {
-    color: #666666;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.user-profile {
+.notifications-btn {
+    color: #888888; /* Sino na cor cinza */
+    font-size: 20px;
+    transition: color 0.3s;
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    font-weight: 500;
 }
 
-.user-profile i {
-    color: #c1122f;
-    font-size: 18px;
+.notifications-btn:hover {
+    color: #ffffff;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile span {
+    font-size: 16px; /* Texto um pouco maior */
+    font-weight: 600; /* Texto mais destacado */
+    color: #ffffff;
+}
+
+.profile-avatar {
+    color: #c1122f; /* Avatar vermelho */
+    font-size: 26px; /* Tamanho proporcional à imagem enviada */
 }
 
 /* ===================================
-   SUPORTE A DROPDOWNS DO HEADER
+   DROPDOWN (ESTACIONAMENTOS)
 =================================== */
 
 .dropdown-wrapper {
@@ -259,66 +251,117 @@ logo-container{
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: #0a0a0a;
+    background-color: #0d0d0d;
     border: 1px solid #202020;
     border-radius: 8px;
     width: 220px;
-    margin-top: 5px;
+    margin-top: 8px;
     z-index: 1000;
     padding: 5px 0;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.8);
 }
 
-.dropdown-menu.show {
-    display: block;
-}
+.dropdown-menu.show { display: block; }
 
 .dropdown-menu li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 15px;
+    padding: 12px 15px;
     color: #cfcfcf;
     font-size: 12px;
     border-bottom: 1px solid #151515;
 }
 
-.dropdown-menu li:last-child { border-bottom: none; }
-
-.dropdown-menu .actions {
-    display: flex;
-    gap: 8px;
-}
-
-.dropdown-menu .actions button {
-    color: #666;
-    font-size: 12px;
-    transition: .2s;
-}
-
-.dropdown-menu .actions button:hover { color: #ffffff; }
-.dropdown-menu .actions .btn-delete-est:hover { color: #c1122f; }
+.dropdown-menu .actions { display: flex; gap: 10px; }
+.dropdown-menu .actions button { color: #888; transition: .2s; }
+.dropdown-menu .actions button:hover { color: #fff; }
 
 /* ===================================
-   CONTEÚDO (PÁGINA DE DADOS)
+   MODAL DE EDIÇÃO
+=================================== */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.show { display: flex; }
+
+.modal-content {
+    background-color: #0f0f0f;
+    border: 1px solid #222;
+    box-shadow: 0 0 30px rgba(193, 18, 47, 0.15);
+    border-radius: 16px;
+    padding: 35px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+}
+
+.modal-content h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #888;
+}
+
+.form-group input {
+    width: 100%;
+    background-color: #050505;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 14px;
+    color: #fff;
+    font-size: 13px;
+    outline: none;
+}
+
+.form-group input:focus { border-color: #c1122f; }
+
+.btn-modal-save {
+    width: 100%;
+    background-color: #c1122f;
+    color: #ffffff;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: .3s;
+}
+
+.btn-modal-save:hover { background-color: #a00f25; }
+
+/* ===================================
+   CONTEÚDO (DADOS E GRÁFICOS)
 =================================== */
 
 .dados-section {
-    padding: 25px;
+    padding: 30px;
     flex: 1;
-    overflow-y: auto; /* Permite rolagem fluida do painel interno */
+    overflow-y: auto;
 }
 
-.dados-section h1,
-.historico-container h2 {
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    margin-bottom: 25px;
-    color: #ffffff;
-}
-
-/* Box do Gráfico */
 .chart-container-box {
     background-color: #050505;
     border: 1px solid #121212;
@@ -326,7 +369,6 @@ logo-container{
     padding: 25px;
     width: 100%;
     max-width: 900px;
-    margin-bottom: 45px;
 }
 
 .chart-container-box h3 {
@@ -343,20 +385,18 @@ logo-container{
     width: 100%;
 }
 
-/* Estrutura do Histórico */
-.historico-container {
-    width: 100%;
-    max-width: 900px;
-}
+/* ===================================
+   LISTA DE HISTÓRICO (DADOS DINÂMICOS)
+=================================== */
 
 .historico-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
     width: 100%;
+    max-width: 900px;
 }
 
-/* Estilo dos cards injetados via Banco de Dados */
 .historico-item {
     background-color: #0b0b0b;
     border-radius: 10px;
@@ -366,110 +406,10 @@ logo-container{
     align-items: center;
 }
 
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
+.user-info { display: flex; align-items: center; gap: 15px; }
+.avatar-icon { font-size: 20px; color: #fff; }
+.user-name { font-size: 15px; font-weight: 500; color: #ccc; }
 
-.avatar-icon { font-size: 20px; color: #ffffff; }
-.user-name { font-size: 15px; font-weight: 500; color: #cccccc; }
-
-.timestamp-info {
-    display: flex;
-    gap: 60px;
-}
-
-.time-block { font-size: 14px; color: #ffffff; }
+.timestamp-info { display: flex; gap: 60px; }
+.time-block { font-size: 14px; color: #fff; }
 .time-block strong { font-weight: 700; }
-
-/* ===================================
-   MODAL DE EDIÇÃO (CORRIGIDO / FIXADO)
-=================================== */
-
-.modal-overlay {
-    display: none; /* Mantém oculto e estruturado até o gatilho JS */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(4px);
-    z-index: 2000;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-overlay.show {
-    display: flex; /* Exibe centralizado quando ativo */
-}
-
-.modal-content {
-    background-color: #0d0d0d;
-    border: 1px solid #1a1a1a;
-    box-shadow: 0 0 25px rgba(193, 18, 47, 0.2);
-    border-radius: 16px;
-    padding: 30px;
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-}
-
-.modal-content h2 {
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 25px;
-    color: #ffffff;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    margin-bottom: 20px;
-    width: 100%;
-}
-
-.form-group label {
-    font-size: 11px;
-    font-weight: 600;
-    color: #888888;
-}
-
-.form-group input {
-    width: 100%;
-    background-color: #050505;
-    border: 1px solid #202020;
-    border-radius: 8px;
-    padding: 12px 15px;
-    color: #ffffff;
-    font-size: 13px;
-    outline: none;
-}
-
-.form-group input:focus { border-color: #c1122f; }
-
-.btn-modal-save {
-    width: 100%;
-    background-color: #c1122f;
-    color: #ffffff;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    transition: .3s;
-}
-
-.btn-modal-save:hover { background-color: #a00f25; }
-
-/* ===================================
-   RESPONSIVIDADE (MOBILE / TABLET)
-=================================== */
-
-@media (max-width: 768px) {
-    .header-buttons { margin-right: 0; }
-    .historico-item { flex-direction: column; align-items: flex-start; gap: 12px; }
-    .timestamp-info { gap: 20px; width: 100%; justify-content: space-between; }
-}

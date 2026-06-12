@@ -8,50 +8,54 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/dados.css">
+    <link rel="stylesheet" href="../css/menu.css">
 </head>
 <body>
 
     <div class="app-container">
         
         <aside class="sidebar" id="sidebar">
-            <div class="logo-container">
-                <img src="../img/estatec.png" alt="ESTATEC" class="logo-estatec">
+            <div class="sidebar-top">
+                <div class="logo-container">
+                    <span class="logo-text" style="font-size: 24px; font-weight: 800; color: #fff; letter-spacing: 1px;">ESTA<span style="color: #c1122f;">TEC</span></span>
+                </div>
+                
+                <nav class="sidebar-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="menu.html">
+                                <i class="fa-solid fa-bars"></i>
+                                <span class="menu-text">Menu</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="usuarios.html">
+                                <i class="fa-solid fa-users"></i>
+                                <span class="menu-text">Usuários</span>
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a href="dados.html">
+                                <i class="fa-solid fa-database"></i>
+                                <span class="menu-text">Dados</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="solicitacoes.html">
+                                <i class="fa-solid fa-bell"></i>
+                                <span class="menu-text">Solicitações</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li class="nav-item active">
-                        <a href="#">
-                            <i class="fa-solid fa-house"></i>
-                            <span class="menu-text">Menu</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#">
-                            <i class="fa-solid fa-user"></i>
-                            <span class="menu-text">Usuários</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#">
-                            <i class="fa-solid fa-chart-simple"></i>
-                            <span class="menu-text">Dados</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#">
-                            <i class="fa-solid fa-bell"></i>
-                            <span class="menu-text">Solicitações</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+
             <div class="sidebar-footer">
                 <a href="../index.html" class="logout-btn">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Sair</span>
                 </a>
-                <p>© 2026 ESTATEC</p>
+                <p>&copy; 2026 ESTATECO</p>
             </div>
         </aside>
 
@@ -71,16 +75,16 @@
                         </button>
                         
                         <ul class="dropdown-menu" id="dropdownEstacionamentos">
-                            </ul>
+                        </ul>
                     </div>
                 </div>
 
                 <div class="header-right">
-                    <div class="notifications">
+                    <button class="notifications-btn">
                         <i class="fa-solid fa-bell"></i>
-                    </div>
-                    <div class="user-profile">
-                        <i class="fa-solid fa-circle-user"></i>
+                    </button>
+                    <div class="profile">
+                        <i class="fa-solid fa-circle-user profile-avatar"></i>
                         <span>Dono Estacionamento</span>
                     </div>
                 </div>
@@ -89,7 +93,7 @@
             <div class="dados-section">
                 
                 <section class="chart-container">
-                    <h1>DADOS</h1>
+                    <h1 style="font-size: 24px; font-weight: 700; margin-bottom: 25px;">DADOS</h1>
                     <div class="chart-container-box">
                         <h3>Fluxo de Entrada no Estacionamento</h3>
                         <div class="chart-wrapper">
@@ -98,10 +102,10 @@
                     </div>
                 </section>
 
-                <section class="historico-container">
-                    <h2>HISTÓRICO</h2>
+                <section class="historico-container" style="margin-top: 40px;">
+                    <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 20px;">HISTÓRICO</h2>
                     <div class="historico-list" id="historicoList">
-                        </div>
+                    </div>
                 </section>
 
             </div>
@@ -122,6 +126,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../script/dados.js"></script>
+    <script src="../script/menu.js"></script>
 </body>
 </html>
