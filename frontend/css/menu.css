@@ -72,6 +72,96 @@ ul{
    MENU
 =================================== */
 
+
+.header {
+    height: 65px;
+    display: flex;
+    align-items: center;
+    padding: 0 25px;
+    border-bottom: 1px solid #1c1c1c;
+    gap: 30px; /* Espaçamento entre o menu, os botões e o bloco da direita */
+}
+
+/* Botão de abrir/fechar menu */
+.menu-toggle {
+    background: transparent;
+    color: #ffffff;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+.menu-toggle:hover {
+    color: #c1122f;
+}
+
+/* Container dos botões - empurra o resto para a direita */
+.header-buttons {
+    display: flex;
+    gap: 15px;
+    margin-right: auto; 
+}
+
+/* Estilo dos Botões (Idêntico ao de Usuários) */
+.btn-cadastro, 
+.btn-estacionamentos {
+    background-color: #101010;
+    color: #cfcfcf;
+    border: 1px solid #202020;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-cadastro:hover, 
+.btn-estacionamentos:hover {
+    background-color: #181818;
+    color: #ffffff;
+    border-color: #c1122f;
+}
+
+.btn-estacionamentos i {
+    font-size: 10px;
+}
+
+/* Agrupamento da direita (Notificações + Perfil) */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.notifications {
+    color: #888888;
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.notifications:hover {
+    color: #ffffff;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.user-profile i {
+    color: #c1122f;
+    font-size: 18px;
+}
+
+
+
 .sidebar-nav{
     flex:1;
 }
@@ -196,66 +286,6 @@ ul{
     overflow:hidden;
 
     transition:.3s;
-}
-
-/* ===================================
-   HEADER
-=================================== */
-
-.header{
-    height:65px;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 25px;
-
-    border-bottom:1px solid #1c1c1c;
-}
-
-.menu-toggle{
-    border:none;
-    background:none;
-
-    color:white;
-
-    font-size:20px;
-
-    cursor:pointer;
-}
-
-.header-right{
-    display:flex;
-    align-items:center;
-    gap:25px;
-}
-
-.notifications{
-    position:relative;
-    font-size:20px;
-}
-
-.notifications .notification-badge{
-    position:absolute;
-
-    top:-8px;
-    right:-10px;
-}
-
-.user-profile{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.user-profile i{
-    font-size:32px;
-    color:#c1122f;
-}
-
-.user-profile span{
-    font-size:14px;
 }
 
 /* ===================================
