@@ -1,16 +1,32 @@
-// Dados iniciais baseados exatamente na listagem da tabela
-const initialUsers = [
-    { id: 1, nome: "Matheus Felipe Gonçalves", placa: "BRA2E19" },
-    { id: 2, nome: "João Guilherme Vieira", placa: "CRU2G93" },
-    { id: 3, nome: "Lucas Emanuel de Souza", placa: "LET2133" },
-    { id: 4, nome: "Rômulo Augusto", placa: "VEM2R09" }
-];
+// 1. URL base do seu sistema (Baseado no seu localhost:8080)
+const API_URL = "http://localhost:8080/usuarios"; 
 
-let users = [...initialUsers];
+let users = []; 
 
 const tableBody = document.getElementById("users-table-body");
 const searchInput = document.getElementById("search-input");
 
+// BUSCA REAL: Puxa os dados que você inseriu no Postman
+async function carregarTabela() {
+    try {
+        // Faz o GET em http://localhost:8080/usuarios
+        const response = await fetch(API_URL); 
+        users = await response.json(); 
+        
+        renderUsers(users); 
+    } catch (error) {
+        console.error("Erro ao buscar dados do servidor:", error);
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="3" style="text-align: center; color: #ff3b30; padding: 32px;">
+                    Erro ao conectar com o servidor Java. Verifique se o Back-end está rodando.
+                </td>
+            </tr>
+        `;
+    }
+}
+
+// RENDERIZAÇÃO: Adaptada para os campos REAIS do seu Postman (nome e email)
 function renderUsers(usersList) {
     tableBody.innerHTML = "";
 
@@ -18,7 +34,7 @@ function renderUsers(usersList) {
         tableBody.innerHTML = `
             <tr>
                 <td colspan="3" style="text-align: center; color: #8e8e93; padding: 32px;">
-                    Nenhum usuário ou placa encontrado.
+                    Nenhum usuário ou e-mail encontrado.
                 </td>
             </tr>
         `;
@@ -28,9 +44,10 @@ function renderUsers(usersList) {
     usersList.forEach(user => {
         const tr = document.createElement("tr");
         
+        // Mudamos de user.placa para user.email (que existe no seu banco!)
         tr.innerHTML = `
             <td style="font-weight: 500;">${user.nome}</td>
-            <td style="color: #b3b3b3; font-family: monospace; font-size: 15px; letter-spacing: 0.5px;">${user.placa}</td>
+            <td style="color: #b3b3b3; font-family: monospace; font-size: 15px; letter-spacing: 0.5px;">${user.email}</td>
             <td class="text-right">
                 <div class="actions-cell">
                     <button class="btn-action btn-tipo" onclick="handleTipo(${user.id})">Tipo</button>
@@ -43,12 +60,13 @@ function renderUsers(usersList) {
     });
 }
 
+// FILTRO DE BUSCA: Agora busca por Nome ou E-mail
 searchInput.addEventListener("input", (e) => {
     const searchTerm = e.target.value.toLowerCase().trim();
     
     const filteredUsers = users.filter(user => 
         user.nome.toLowerCase().includes(searchTerm) || 
-        user.placa.toLowerCase().includes(searchTerm)
+        user.email.toLowerCase().includes(searchTerm)
     );
     
     renderUsers(filteredUsers);
@@ -59,14 +77,30 @@ function handleTipo(id) {
     alert(`Alterar tipo do cliente: ${user.nome}`);
 }
 
-function handleDelete(id) {
+// EXCLUSÃO: Deleta o ID correto diretamente no banco de dados MySQL
+async function handleDelete(id) {
     const user = users.find(u => u.id === id);
     if (confirm(`Tem certeza que deseja excluir o usuário ${user.nome}?`)) {
-        users = users.filter(u => u.id !== id);
-        searchInput.dispatchEvent(new Event('input'));
+        try {
+            // Envia o DELETE para http://localhost:8080/usuarios/1 (ou o ID do usuário)
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                // Recarrega a tabela direto do banco após deletar
+                carregarTabela();
+            } else {
+                alert("Não foi possível excluir o usuário no servidor.");
+            }
+        } catch (error) {
+            console.error("Erro ao deletar usuário:", error);
+            alert("Erro de comunicação com o servidor.");
+        }
     }
 }
 
+// INICIALIZAÇÃO: Dispara assim que a página abre
 document.addEventListener("DOMContentLoaded", () => {
-    renderUsers(users);
+    carregarTabela();
 });
