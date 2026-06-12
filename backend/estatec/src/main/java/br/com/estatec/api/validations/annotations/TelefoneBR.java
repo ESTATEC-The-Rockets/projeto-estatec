@@ -11,7 +11,7 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 @Documented
-@Constraint(validatedBy = TelefoneBRValidator.class) // criando uma anotação
+@Constraint(validatedBy = TelefoneBRValidator.class)
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TelefoneBR {
