@@ -23,7 +23,7 @@ public class Historico {
 	
 	@ManyToOne
 	@JoinColumn(name = "fk_carro")
-	private Carros carro;
+	private Carro carro;
 	
 	@ManyToOne
 	@JoinColumn(name = "fk_estacionamento")
@@ -47,7 +47,7 @@ public class Historico {
 		
 	}
 	
-	public Historico(Long id, Carros carro, Estacionamento estacionamento, LocalDate data, LocalTime horarioEntrada, LocalTime horarioSaida, boolean entrada) {
+	public Historico(Long id, Carro carro, Estacionamento estacionamento, LocalDate data, LocalTime horarioEntrada, LocalTime horarioSaida, boolean entrada) {
 	    this.id = id;
 	    this.carro = carro;
 	    this.estacionamento = estacionamento;
@@ -65,11 +65,11 @@ public class Historico {
 		this.id = id;
 	}
 
-	public Carros getCarro() {
+	public Carro getCarro() {
 		return carro;
 	}
 
-	public void setCarro(Carros carro) {
+	public void setCarro(Carro carro) {
 		this.carro = carro;
 	}
 

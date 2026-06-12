@@ -3,11 +3,11 @@ package br.com.estatec.api.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.estatec.api.entities.Carros;
+import br.com.estatec.api.entities.Carro;
 
 @Repository
-public interface CarrosRepository extends JpaRepository<Carros, Long> {
+public interface CarroRepository extends JpaRepository<Carro, Long> {
 
 
-	Carros findByPlaca(String placa);
+	Carro findByPlaca(String placa);
 }

@@ -23,7 +23,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_carros")
-public class Carros {
+public class Carro {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,9 +57,9 @@ public class Carros {
     @JsonIgnore
     private List<Historico> historicos;
 
-	public Carros() {}
+	public Carro() {}
 
-	public Carros(String marca, String modelo, String placa, Cor cor) {
+	public Carro(String marca, String modelo, String placa, Cor cor) {
 		this.marca = marca;
 		this.modelo = modelo;
 		this.placa = placa;

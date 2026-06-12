@@ -19,9 +19,6 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		
-		// Print de segurança para ver no console se a configuração carregou
-		System.out.println("👉 [ESTATEC] Configuração de segurança personalizada carregada com sucesso!");
-
 		http
 			.cors(cors -> cors.disable()) // Desativa restrições de CORS para testes locais
 			.csrf(csrf -> csrf.disable()) // Essencial para liberar requisições POST/PUT

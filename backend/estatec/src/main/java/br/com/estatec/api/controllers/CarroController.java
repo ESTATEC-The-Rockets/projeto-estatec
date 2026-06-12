@@ -14,37 +14,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.estatec.api.entities.Carros;
-import br.com.estatec.api.services.CarrosService;
+import br.com.estatec.api.entities.Carro;
+import br.com.estatec.api.services.CarroService;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/carros")
-public class CarrosController {
+public class CarroController {
 
     @Autowired
-    private CarrosService service;
+    private CarroService service;
 
     @GetMapping
-    public ResponseEntity<List<Carros>> listar() {
+    public ResponseEntity<List<Carro>> listar() {
         return ResponseEntity.ok(service.listarTodos());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Carros> buscar(@PathVariable Long id) {
-        Carros carro = service.buscarPorId(id);
+    public ResponseEntity<Carro> buscar(@PathVariable Long id) {
+        Carro carro = service.buscarPorId(id);
         return ResponseEntity.ok(carro);
     }
 
     @PostMapping
-    public ResponseEntity<Carros> criar(@Valid @RequestBody Carros carro) {
-        Carros novoCarro = service.salvar(carro);
+    public ResponseEntity<Carro> criar(@Valid @RequestBody Carro carro) {
+        Carro novoCarro = service.salvar(carro);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoCarro);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Carros> atualizar(@PathVariable Long id, @Valid @RequestBody Carros carro) {
-        Carros carroAtualizado = service.atualizar(id, carro);
+    public ResponseEntity<Carro> atualizar(@PathVariable Long id, @Valid @RequestBody Carro carro) {
+        Carro carroAtualizado = service.atualizar(id, carro);
         return ResponseEntity.ok(carroAtualizado);
     }
 
