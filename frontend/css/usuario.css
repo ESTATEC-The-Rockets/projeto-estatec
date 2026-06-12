@@ -66,40 +66,62 @@ button {
     transition: .3s;
 }
 
+/* ===================================
+    SIDEBAR NAV (CORREÇÃO DEFINITIVA)
+=================================== */
+
 .sidebar-nav {
     flex: 1;
-    margin-top: 20px;
+    margin-top: 30px; 
+    display: block; /* Tira qualquer flexbox estranho que esteja esticando a div inteira */
+}
+
+.sidebar-nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Espacinho mínimo entre um botão e outro */
+    padding: 0;
+    margin: 0;
 }
 
 .nav-item {
-    margin: 4px 10px;
-    position: relative;
+    margin: 0 15px;
+    padding: 0 !important; /* Zera qualquer preenchimento fantasma no item da lista */
+    height: auto !important; /* Impede que a linha estique */
 }
 
 .nav-item a {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: flex-start;
+    gap: 15px;
     color: #d9d9d9;
-    padding: 12px 14px;
-    border-radius: 10px;
-    font-size: 14px;
-    transition: .3s;
+    /* AS DUAS LINHAS ABAIXO MATAM O BOTÃO GIGANTE: */
+    padding: 0 18px !important; 
+    height: 48px !important; /* Altura exata e travada do botão */
+    
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    box-sizing: border-box;
 }
 
 .nav-item a:hover {
-    background: #181818;
+    background: #1a1a1a;
 }
 
 .nav-item.active a {
-    background: #c1122f;
-    color: #fff;
+    background: #c1122f !important;
+    color: #ffffff !important;
 }
 
 .nav-item i {
-    width: 18px;
+    font-size: 18px;
+    width: 24px;
     text-align: center;
 }
+
 
 .menu-text {
     white-space: nowrap;
@@ -212,6 +234,13 @@ button {
 .header-buttons {
     display: flex;
     gap: 15px;
+}
+
+.header-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
 }
 
 .btn-cadastro, 
