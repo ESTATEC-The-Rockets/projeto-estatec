@@ -181,7 +181,7 @@ button {
 .header-buttons {
     display: flex;
     gap: 15px;
-    margin-right: auto; 
+    margin-right: auto; /* Isso é a mágica: empurra tudo que vem depois (o perfil) para a direita, mantendo os botões na esquerda */
 }
 
 .main-content {
