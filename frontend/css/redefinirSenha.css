@@ -1,392 +1,310 @@
 /* =========================
-   RESET
+    RESET
 ========================= */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Inter',sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kameron', serif;
 }
 
 /* =========================
-   BODY
+    BODY
 ========================= */
 
-body{
-    height:100vh;
-    overflow:hidden;
-
-    background:#000000;
-    color:#fff;
+body {
+    height: 100vh;
+    overflow: hidden;
+    background: #000000;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
 }
 
 /* =========================
-   CONTAINER
+    CONTAINER PRINCIPAL
 ========================= */
 
-.reset-container{
-    height:100vh;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    padding:20px 8%;
+.login-container {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Mantém a centralização vertical padrão */
+    padding: 0 10%;
+    height: calc(100vh - 60px);
 }
 
 /* =========================
-   LOGO
+    ÁREA DA LOGO
 ========================= */
 
-.brand-area{
-    flex:1;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    padding-right:120px;
+.brand-area {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 60px;
 }
 
-.brand-content{
-    text-align:center;
-    position:relative;
+.brand-content {
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.brand-content::before{
-    content:"";
-
-    position:absolute;
-
-    width:250px;
-    height:250px;
-
-    background:#c50f2a;
-
-    opacity:.15;
-
-    filter:blur(120px);
-
-    top:50%;
-    left:50%;
-
-    transform:translate(-50%,-50%);
+.brand-content::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: #c50f2a;
+    filter: blur(140px);
+    opacity: .2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
 }
 
-.logo-img{
-    width:100%;
-    max-width:380px;
-
-    user-select:none;
+.logo-img {
+    width: 100%;
+    max-width: 460px;
+    user-select: none;
 }
 
-.brand-subtitle{
-    margin-top:15px;
-
-    font-size:.8rem;
-    letter-spacing:4px;
-
-    color:#aaa;
+.brand-subtitle {
+    margin-top: -35px;
+    font-size: .85rem;
+    letter-spacing: 3px;
+    color: #b0b0b0;
 }
 
 /* =========================
-   CARD
+    CARD REDEFINIR SENHA (Ajustado para descer o bloco)
 ========================= */
 
-.reset-card{
-    width:380px;
+.login-card {
+    width: 440px;
+    padding: 40px 35px;
+    background: #0d0d0d;
+    border: none;
+    border-radius: 24px;
+    box-shadow: 0 0 50px rgba(197, 15, 42, 0.35);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-    padding:25px;
-
-    background:rgba(20,20,20,.96);
-
-    border:1px solid rgba(255,255,255,.08);
-
-    border-radius:25px;
-
-    box-shadow:
-    0 0 40px rgba(197,15,42,.15);
+    margin-top: 50px;
+    /* Adicionado para empurrar apenas o card um pouco para baixo */
 }
 
 /* =========================
-   ÍCONE
+    ÍCONE SUPERIOR
 ========================= */
 
-.reset-icon{
-    width:55px;
-    height:55px;
-
-    margin:0 auto 15px;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    border-radius:50%;
-
-    background:#c50f2a;
-
-    font-size:1.3rem;
+.login-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #cc092f;
+    border-radius: 50%;
+    font-size: 1.5rem;
 }
 
 /* =========================
-   TÍTULO
+    TÍTULOS E SUBTÍTULO
 ========================= */
 
-.reset-card h1{
-    text-align:center;
-    font-size:1.7rem;
-
-    margin-bottom:8px;
+.login-card h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
 }
 
-.reset-description{
-    text-align:center;
-
-    color:#aaa;
-
-    font-size:.9rem;
-
-    margin-bottom:18px;
+.login-description {
+    text-align: center;
+    color: #a0a0a0;
+    font-size: 0.88rem;
+    margin-bottom: 35px;
 }
 
 /* =========================
-   INPUTS
+    INPUTS
 ========================= */
 
-.input-group{
-    margin-bottom:14px;
+.input-group {
+    margin-bottom: 12px;
 }
 
-.input-group label{
-    display:block;
-
-    margin-bottom:8px;
-
-    font-size:.9rem;
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: .88rem;
+    color: #ffffff;
 }
 
-.input-wrapper{
-    position:relative;
+.input-wrapper {
+    position: relative;
 }
 
-.input-icon{
-    position:absolute;
-
-    left:15px;
-    top:50%;
-
-    transform:translateY(-50%);
+.input-wrapper input {
+    width: 100%;
+    height: 48px;
+    padding: 0 45px 0 16px;
+    border: none;
+    border-radius: 10px;
+    background: #161616;
+    color: white;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 6px rgba(197, 15, 42, 0.16);
 }
 
-.input-wrapper input{
-    width:100%;
-    height:48px;
-
-    padding:0 50px;
-
-    background:#1a1a1a;
-
-    border:1px solid #2c2c2c;
-    border-radius:12px;
-
-    color:white;
-
-    outline:none;
-
-    transition:.3s;
+.input-wrapper input:focus {
+    box-shadow: 0 0 12px rgba(204, 9, 47, 0.4);
 }
 
-.input-wrapper input:focus{
-    border-color:#c50f2a;
-}
-
-.eye-icon{
-    position:absolute;
-
-    right:15px;
-    top:50%;
-
-    transform:translateY(-50%);
-
-    background:none;
-    border:none;
-
-    color:#aaa;
-
-    cursor:pointer;
+.eye-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #777777;
+    font-size: 1.1rem;
 }
 
 /* =========================
-   REQUISITOS
+    REQUISITOS DA SENHA
 ========================= */
 
-.requirements{
-    background:#171717;
-
-    border-radius:12px;
-
-    padding:10px 15px;
-
-    margin-bottom:18px;
+.password-requirements {
+    background: transparent;
+    padding-left: 15px;
+    margin-top: 24px;
+    margin-bottom: 24px;
 }
 
-.requirements h4{
-    margin-bottom:10px;
-
-    color:#ddd;
-
-    font-size:.85rem;
+.requirements-title {
+    font-size: 0.82rem;
+    color: #b0b0b0;
+    margin-bottom: 8px;
+    font-weight: 700;
 }
 
-.requirements ul{
-    list-style:none;
+.password-requirements ul {
+    list-style: none;
 }
 
-.requirements li{
-    color:#999;
-
-    font-size:.85rem;
-
-    margin-bottom:5px;
+.password-requirements li {
+    font-size: 0.78rem;
+    color: #777777;
+    margin-bottom: 6px;
 }
 
 /* =========================
-   BOTÃO
+    LINK VOLTAR AO LOGIN
 ========================= */
 
-.btn-save{
-    width:100%;
-    height:48px;
-
-    border:none;
-    border-radius:12px;
-
-    background:#c50f2a;
-
-    color:white;
-
-    font-size:.95rem;
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.3s;
+.forgot-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 38px;
+    margin-bottom: 5px;
 }
 
-.btn-save:hover{
-    background:#dd1738;
+.back-link {
+    color: #cc092f;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.3s ease;
+}
 
-    transform:translateY(-2px);
+.back-link:hover {
+    text-decoration: underline;
+    color: #e60b35;
 }
 
 /* =========================
-   DIVISOR
+    BOTÃO SALVAR
 ========================= */
 
-.divider{
-    display:flex;
-    align-items:center;
-
-    margin:18px 0;
-
-    color:#666;
+.btn-entrar {
+    width: 100%;
+    height: 48px;
+    border: none;
+    border-radius: 10px;
+    background: #cc092f;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(204, 9, 47, 0.2);
+    margin-top: 15px;
 }
 
-.divider::before,
-.divider::after{
-    content:"";
-
-    flex:1;
-
-    height:1px;
-
-    background:#333;
-}
-
-.divider span{
-    margin:0 15px;
-
-    font-size:.8rem;
+.btn-entrar:hover {
+    background: #e60b35;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(204, 9, 47, 0.4);
 }
 
 /* =========================
-   LINK
+    FOOTER
 ========================= */
 
-.back-link{
-    display:block;
-
-    text-align:center;
-
-    text-decoration:none;
-
-    color:white;
-
-    font-size:.9rem;
-
-    transition:.3s;
-}
-
-.back-link:hover{
-    color:#c50f2a;
+.copyright {
+    text-align: center;
+    padding: 20px;
+    background-color: #000000;
+    color: #555555;
+    font-size: 0.85rem;
+    border-top: 1px solid #111111;
+    width: 100%;
 }
 
 /* =========================
-   FOOTER
+    RESPONSIVO
 ========================= */
 
-.copyright{
-    position:fixed;
-
-    bottom:15px;
-    left:0;
-
-    width:100%;
-
-    text-align:center;
-
-    color:#777;
-
-    font-size:.85rem;
-}
-
-/* =========================
-   RESPONSIVO
-========================= */
-
-@media(max-width:900px){
-
-    body{
-        overflow:auto;
+@media (max-width: 950px) {
+    body {
+        overflow-y: auto;
     }
 
-    .reset-container{
-        flex-direction:column;
-
-        justify-content:center;
-
-        gap:40px;
-
-        padding:40px 20px;
+    .login-container {
+        flex-direction: column;
+        justify-content: center;
+        gap: 30px;
+        padding: 40px 20px;
+        height: auto;
     }
 
-    .brand-area{
-        padding-right:0;
+    .brand-area {
+        padding-right: 0;
     }
 
-    .logo-img{
-        max-width:260px;
+    .logo-img {
+        max-width: 300px;
     }
 
-    .reset-card{
-        width:100%;
-        max-width:380px;
-    }
-
-    .copyright{
-        position:static;
-        padding:20px;
+    .login-card {
+        width: 100%;
+        max-width: 420px;
+        margin-top: 0.01px;
+        /* Remove o margin do desktop para o mobile fluir melhor */
     }
 }
