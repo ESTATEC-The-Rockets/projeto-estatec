@@ -1,352 +1,613 @@
-/* ==========================================================================
-   1. VARIÁVEIS E CONFIGURAÇÕES GERAIS
-   ========================================================================== */
-:root {
-    --brand-red: #b2121c;       /* O vermelho exato da sua foto */
-    --brand-red-dark: #8c0a12;  /* Vermelho escuro para o hover/ativo */
-    --brand-dark: #000000;      /* Preto absoluto para o topo */
-    --bg-gray: #e6e6e6;         /* Cinza de fundo da página */
-    --card-gray: #d9d9d9;       /* Cinza dos cards e placeholders */
-    
-    --text-white: #ffffff;
-    --text-dark: #000000;
-    
-    --color-success: #1cb043;
-    --color-danger: #c70a0a;
+/* ===================================
+    RESET
+=================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif; /* Mantém a legibilidade limpa */
+body{
+    background:#000000;
+    color:#ffffff;
+    overflow:hidden;
 }
 
-body {
-    height: 100vh;
+a{
+    text-decoration:none;
+}
+
+ul{
+    list-style:none;
+}
+
+/* ===================================
+    LAYOUT
+=================================== */
+
+.app-container{
+    display:flex;
+    height:100vh;
+}
+
+/* ===================================
+    SIDEBAR
+=================================== */
+
+.sidebar{
+    width:230px;
+    background:#000000;
+    border-right:2px solid #c1122f;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    transition:all .3s ease;
+}
+
+/* ===================================
+    LOGO
+=================================== */
+
+.logo-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:25px 15px;
+}
+
+.logo-estatec{
+    width:220px;
+    height:auto;
+    transition:.3s;
+}
+
+/* ===================================
+    MENU / HEADER (CORRIGIDA COM SEGUNDA IMAGEM)
+=================================== */
+
+.header {
+    height: 65px;
     display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background-color: var(--bg-gray);
-}
-
-/* ==========================================================================
-   2. CABEÇALHO (HEADER) - PRETO E LOGO MAIOR
-   ========================================================================== */
-.estatec-header {
-    height: 80px; /* Aumentado para dar espaço para a logo maior */
-    background-color: var(--brand-dark); /* Preto absoluto */
-    color: var(--text-white);
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0 30px;
-    border-bottom: 3px solid var(--brand-red);
-    position: relative;
-    z-index: 10;
+    padding: 0 25px;
+    border-bottom: 1px solid #c1122f;
+    gap: 20px; 
 }
 
-.header-logo-container {
-    height: 100%;
-    display: flex;
-    align-items: center;
+.menu-toggle {
+    background: transparent;
+    color: #ffffff;
+    font-size: 20px;
+    transition: color 0.3s;
+    border: none;
+    cursor: pointer;
 }
 
-.header-logo-link {
-    height: 85%; /* Logo ocupando quase toda a altura do header */
-    display: flex;
-    align-items: center;
+.menu-toggle:hover {
+    color: #c1122f;
 }
 
-.header-logo-image {
-    height: 100%;
-    width: auto;
-    object-fit: contain;
-}
-
-/* Abas do Header */
-.header-nav {
+.header-buttons {
     display: flex;
     gap: 15px;
+    margin-right: auto; 
 }
 
-.nav-button {
-    background-color: #262626;
-    color: #a3a3a3;
-    border: none;
-    padding: 12px 28px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 13px;
+.btn-cadastro, 
+.btn-estacionamentos {
+    background-color: #101010;
+    color: #ffffff;
+    border: 1px solid #202020;
+    padding: 12px 24px;
+    border-radius: 30px; /* Bordas arredondadas idênticas à imagem 2 */
+    font-size: 11px;
+    font-weight: 700;
     letter-spacing: 0.5px;
-    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-.nav-button.active {
-    background-color: #3d3d3d;
-    color: var(--text-white);
+.btn-cadastro:hover, 
+.btn-estacionamentos:hover {
+    background-color: #181818;
+    border-color: #c1122f;
 }
 
-.nav-button .arrow {
+.btn-estacionamentos i {
     font-size: 10px;
-    margin-left: 5px;
 }
 
-/* Perfil Usuário */
-.header-profile {
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.notifications {
+    color: #888888;
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.notifications:hover {
+    color: #ffffff;
+}
+
+.user-profile {
     display: flex;
     align-items: center;
     gap: 12px;
-}
-
-.profile-icon {
-    font-size: 24px;
-}
-
-.profile-name {
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 13px;
+    font-weight: 700;
     letter-spacing: 0.5px;
+    color: #ffffff;
 }
 
-/* ==========================================================================
-   3. ESTRUTURA DO LAYOUT
-   ========================================================================== */
-.estatec-main-layout {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
+.user-profile i {
+    color: #c1122f;
+    font-size: 22px;
 }
 
-/* ==========================================================================
-   4. SIDEBAR REFEITA (IGUAL AOS PRINTS ENVIADOS)
-   ========================================================================== */
-.estatec-sidebar {
-    width: 250px;
-    background-color: var(--brand-red);
-    color: var(--text-white);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-top: 20px;
-    padding-bottom: 20px;
+.sidebar-nav{
+    flex:1;
 }
 
-.sidebar-nav ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
+.nav-item{
+    margin:4px 10px;
+    position:relative;
 }
 
-.sidebar-nav li {
+.nav-item a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#d9d9d9;
+    padding:12px 14px;
+    border-radius:10px;
+    transition:.3s;
+}
+
+.nav-item a:hover{
+    background:#181818;
+}
+
+.nav-item.active a{
+    background:#c1122f;
+    color:#fff;
+}
+
+.nav-item i{
+    width:18px;
+    text-align:center;
+}
+
+.menu-text{
+    white-space:nowrap;
+}
+
+/* ===================================
+    DROPDOWN MENU (ESTACIONAMENTOS)
+=================================== */
+
+.dropdown-wrapper {
     position: relative;
-    width: 100%;
-    /* Espaçamento vertical generoso igual ao da sua foto */
-    padding: 22px 0 22px 25px; 
-    display: flex;
-    align-items: center;
+    display: inline-block;
 }
 
-/* Item de menu ativo (Ganha o fundo escuro e o indicador branco lateral esquerdo) */
-.sidebar-nav li.active {
-    background-color: var(--brand-red-dark);
-}
-
-/* O indicador vertical branco do print */
-.sidebar-nav li.active::after {
-    content: '';
+.dropdown-menu {
+    display: none;
     position: absolute;
-    right: 0;
-    top: 12%;
-    height: 76%;
-    width: 8px;
-    background-color: var(--text-white);
-    border-radius: 4px 0 0 4px;
+    top: 125%;
+    left: 0;
+    background-color: #0e0e0e;
+    border: 1px solid #1c1c1c;
+    border-radius: 8px;
+    width: 230px;
+    z-index: 1000;
+    padding: 5px 0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
 }
 
-.sidebar-nav li a {
-    text-decoration: none;
-    color: var(--text-white);
-    font-size: 18px; /* Fonte destacada do print */
-    font-weight: bold;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    width: 100%;
+.dropdown-menu.show {
+    display: block;
 }
 
-/* Ícone estilizado com círculo em volta (Igual ao seu layout) */
-.sidebar-nav li .icon {
-    font-size: 16px;
-    width: 40px;
-    height: 40px;
-    border: 2px solid var(--text-white);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.sidebar-footer {
-    text-align: center;
-    font-size: 11px;
-    font-weight: bold;
-    opacity: 0.8;
-    text-transform: lowercase; /* "© estatec" em minúsculo igual ao print */
-}
-
-/* ==========================================================================
-   5. ÁREA DE CONTEÚDO PRINCIPAL
-   ========================================================================== */
-.estatec-content {
-    flex: 1;
-    padding: 40px;
-    overflow-y: auto;
-}
-
-.content-header {
+.dropdown-menu li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 35px;
+    padding: 12px 15px;
+    color: #cfcfcf;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #161616;
 }
 
-.content-title {
-    font-size: 24px;
-    font-weight: 900;
-    color: var(--text-dark);
+.dropdown-menu li:last-child {
+    border-bottom: none;
+}
+
+.dropdown-menu li .actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.dropdown-menu li .actions button {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 12px;
+    transition: color 0.2s ease;
+}
+
+.dropdown-menu li .actions .btn-edit-est:hover {
+    color: #aaaaaa;
+}
+
+.dropdown-menu li .actions .btn-delete-est:hover {
+    color: #c1122f;
+}
+
+/* ===================================
+    FOOTER
+=================================== */
+
+.sidebar-footer{
+    border-top:1px solid #202020;
+    padding:20px 15px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.logout-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px; 
+    width:100%;
+    color:white;
+    margin-bottom:15px;
+    transition:.3s;
+}
+
+.logout-btn:hover{
+    color:#c1122f;
+}
+
+.sidebar-footer p{
+    font-size:12px;
+    color:#777;
+}
+
+/* ===================================
+    MAIN CONTENT
+=================================== */
+
+.main-content{
+    flex:1;
+    background:
+    radial-gradient(
+        circle at top center,
+        rgba(193,18,47,.10),
+        transparent 40%
+    ),
+    #070707;
+    overflow-y:auto;
+    height: 100vh;
+    transition:.3s;
+}
+
+/* ===================================
+    MODAL (EDITAR ESTACIONAMENTO)
+=================================== */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal-content {
+    background-color: #101010;
+    border: 1px solid #1a1a1a;
+    border-radius: 25px;
+    padding: 40px;
+    width: 100%;
+    max-width: 440px;
+    text-align: center;
+    box-shadow: 0 0 35px rgba(193, 18, 47, 0.25); 
+}
+
+.modal-content h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 30px;
     letter-spacing: 0.5px;
 }
 
-/* Barra de Pesquisa Redonda */
-.search-container {
-    background-color: var(--text-white);
+.form-group {
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.form-group input {
+    width: 100%;
+    background-color: #151515;
+    border: 1px solid #222222;
+    border-radius: 8px;
+    padding: 14px 16px;
+    color: #ffffff;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #c1122f;
+}
+
+.form-group input::placeholder {
+    color: #444444;
+}
+
+.btn-modal-save {
+    width: 100%;
+    background-color: #c1122f;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-modal-save:hover {
+    background-color: #a00f26;
+}
+
+/* ===================================
+    SIDEBAR RECOLHÍVEL
+=================================== */
+
+.sidebar.collapsed{
+    width:80px;
+}
+
+.sidebar.collapsed .logo-estatec{
+    width:45px;
+}
+
+.sidebar.collapsed .menu-text,
+.sidebar.collapsed .logout-btn span,
+.sidebar.collapsed .sidebar-footer p{
+    display:none;
+}
+
+.sidebar.collapsed .nav-item a{
+    justify-content:center;
+}
+
+.sidebar.collapsed .logout-btn{
+    justify-content:center;
+}
+
+.sidebar.collapsed .logo-container{
+    padding:20px 10px;
+}
+
+/* ===================================
+   TELA DE SOLICITAÇÕES
+=================================== */
+
+.solicitacoes-body {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.solicitacoes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.solicitacoes-header h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    
+}
+
+/* Barra de Pesquisa */
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #000000;
+    border: 1px solid #222222;
     border-radius: 25px;
     padding: 10px 20px;
     width: 340px;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-.search-icon {
+.search-bar i {
+    color: #666666;
+    font-size: 14px;
     margin-right: 12px;
-    color: #555;
-    font-weight: bold;
 }
 
-.search-container input {
+.search-bar input {
+    background: transparent;
     border: none;
-    outline: none;
-    width: 100%;
+    color: #ffffff;
     font-size: 13px;
-    font-weight: bold;
-    text-transform: uppercase;
+    width: 100%;
+    outline: none;
 }
 
-/* ==========================================================================
-   6. LISTA DE CARDS E BOTOES
-   ========================================================================== */
-.cards-list {
+.search-bar input::placeholder {
+    color: #666666;
+}
+
+/* Lista e Cards de Solicitação */
+.solicitacoes-list {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 14px;
 }
 
-.request-card {
-    background-color: var(--card-gray);
-    border-radius: 35px; /* Formato pílula ultra arredondado do seu print */
-    padding: 12px 40px;
+.solicitacao-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #0b0b0b;
+    border-radius: 12px;
+    padding: 16px 30px;
+    border: 1px solid #141414;
+    transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-.card-info {
+.solicitacao-card:not(.empty-slot):hover {
+    border-color: #222222;
+    transform: translateY(-2px);
+}
+
+.solicitacao-card.empty-slot {
+    height: 65px;
+    background-color: #050505;
+    border: 1px solid #0f0f0f;
+}
+
+/* Detalhes do Usuário e Placa */
+.user-info {
     display: flex;
     align-items: center;
-    gap: 20px;
-    flex: 1;
+    gap: 15px;
+    flex: 1.2;
 }
 
-.card-avatar {
-    background-color: var(--brand-dark);
-    color: var(--text-white);
-    width: 40px;
-    height: 40px;
+.user-icon {
+    width: 36px;
+    height: 36px;
+    background-color: #ffffff;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 18px;
+    color: #000000;
+    font-size: 16px;
 }
 
-.card-details {
-    display: flex;
-    align-items: center; /* Alinha o nome e a placa na horizontal igual ao print */
-    gap: 60px;
+.user-name {
+    font-size: 15px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.plate-info {
     flex: 1;
-}
-
-.card-name {
-    font-weight: bold;
-    font-size: 15px;
-    color: #222;
-    min-width: 200px;
-}
-
-.card-plate {
+    text-align: left;
     font-size: 14px;
-    font-weight: bold;
+    color: #888888;
 }
 
-.plate-code {
-    font-family: monospace;
-    font-size: 15px;
-    font-weight: normal;
-    color: #444;
-    margin-left: 5px;
+.plate-info strong {
+    color: #ffffff;
+    font-weight: 800;
+    margin-right: 5px;
 }
 
-/* Ações */
-.card-actions {
+/* Botões de Ação */
+.action-buttons {
     display: flex;
-    gap: 15px;
+    gap: 12px;
+    flex: 1;
+    justify-content: flex-end;
 }
 
-.btn-accept, .btn-reject {
+.btn-aceitar, .btn-rejeitar {
+    padding: 10px 22px;
     border: none;
-    padding: 10px 35px;
-    border-radius: 20px;
-    font-weight: 900;
-    font-size: 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #ffffff;
     cursor: pointer;
-    text-transform: uppercase;
+    transition: filter 0.2s, transform 0.1s;
     letter-spacing: 0.5px;
-    transition: opacity 0.2s;
 }
 
-.btn-accept {
-    background-color: var(--color-success);
-    color: var(--text-dark);
+.btn-aceitar {
+    background-color: #27d35b;
 }
 
-.btn-reject {
-    background-color: var(--color-danger);
-    color: var(--text-dark);
+.btn-rejeitar {
+    background-color: #c1122f;
 }
 
-.btn-accept:hover, .btn-reject:hover {
-    opacity: 0.85;
+.btn-aceitar:hover, .btn-rejeitar:hover {
+    filter: brightness(1.2);
 }
 
-/* Placeholders de fundo cinza */
-.placeholder-row {
-    background-color: var(--card-gray);
-    height: 64px;
-    border-radius: 35px;
-    opacity: 0.5;
+.btn-aceitar:active, .btn-rejeitar:active {
+    transform: scale(0.96);
+}
+
+/* RESPONSIVO */
+@media (max-width: 900px){
+    .solicitacoes-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .search-bar {
+        width: 100%;
+    }
+    .solicitacao-card {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    .action-buttons {
+        width: 100%;
+        justify-content: flex-start;
+    }
 }
