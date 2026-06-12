@@ -1,101 +1,88 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-    /* =========================
-       SIDEBAR RECOLHÍVEL
-    ========================= */
-
+    // Elementos da Sidebar
     const menuToggle = document.getElementById("menuToggle");
     const sidebar = document.getElementById("sidebar");
 
+    // Elementos do Dropdown e Modal de Estacionamentos
+    const btnEstacionamentos = document.getElementById("btnEstacionamentos");
+    const dropdownEstacionamentos = document.getElementById("dropdownEstacionamentos");
+    const editModal = document.getElementById("editModal");
+    const editForm = document.getElementById("editForm");
+    const btnCadastro = document.querySelector(".btn-cadastro");
+
+    // ==========================================
+    // 1. CONTROLE DA SIDEBAR (ABRIR / FECHAR)
+    // ==========================================
     if (menuToggle && sidebar) {
-
         menuToggle.addEventListener("click", () => {
-
             sidebar.classList.toggle("collapsed");
-
         });
-
     }
 
-    /* =========================
-       DATA AUTOMÁTICA
-    ========================= */
-
-    const currentDate =
-        document.getElementById("currentDate");
-
-    const currentDay =
-        document.getElementById("currentDay");
-
-    if (currentDate && currentDay) {
-
-        const hoje = new Date();
-
-        currentDate.textContent =
-            hoje.toLocaleDateString(
-                "pt-BR",
-                {
-                    day: "2-digit",
-                    month: "long",
-                    year: "numeric"
-                }
-            );
-
-        currentDay.textContent =
-            hoje.toLocaleDateString(
-                "pt-BR",
-                {
-                    weekday: "long"
-                }
-            );
-
-    }
-
-    /* =========================
-       MENU ATIVO
-    ========================= */
-
-    const navItems =
-        document.querySelectorAll(".nav-item");
-
-    navItems.forEach(item => {
-
-        item.addEventListener("click", () => {
-
-            navItems.forEach(nav => {
-
-                nav.classList.remove("active");
-
-            });
-
-            item.classList.add("active");
-
+    // ==========================================
+    // 2. CONTROLE DO DROPDOWN (ESTACIONAMENTOS)
+    // ==========================================
+    if (btnEstacionamentos && dropdownEstacionamentos) {
+        // Abre e fecha ao clicar no botão
+        btnEstacionamentos.addEventListener("click", (e) => {
+            e.stopPropagation();
+            dropdownEstacionamentos.classList.toggle("show");
         });
 
-    });
+        // Fecha se clicar em qualquer outro lugar da tela
+        document.addEventListener("click", () => {
+            dropdownEstacionamentos.classList.remove("show");
+        });
 
-    /* =========================
-       NOTIFICAÇÕES
-    ========================= */
+        // Intercepta cliques nos botões internos (Editar e Excluir)
+        dropdownEstacionamentos.addEventListener("click", (e) => {
+            const editBtn = e.target.closest(".btn-edit-est");
+            const deleteBtn = e.target.closest(".btn-delete-est");
 
-    const badges =
-        document.querySelectorAll(
-            ".notification-badge"
-        );
+            if (editBtn) {
+                e.stopPropagation();
+                dropdownEstacionamentos.classList.remove("show"); // Fecha o menu
+                if (editModal) editModal.classList.add("show");    // Abre o modal
+            }
 
-    badges.forEach(badge => {
+            if (deleteBtn) {
+                e.stopPropagation();
+                const confirmacao = confirm("Deseja realmente excluir este estacionamento?");
+                if (confirmacao) {
+                    e.target.closest("li").remove();
+                }
+            }
+        });
+    }
 
-        const valor =
-            parseInt(
-                badge.textContent.trim()
-            );
+    // ==========================================
+    // 3. CONTROLE DO MODAL DE EDIÇÃO
+    // ==========================================
+    if (editModal) {
+        // Fecha o modal se clicar na parte escura do fundo
+        editModal.addEventListener("click", (e) => {
+            if (e.target === editModal) {
+                editModal.classList.remove("show");
+            }
+        });
+    }
 
-        if (valor <= 0) {
+    if (editForm) {
+        // Ação do formulário ao salvar
+        editForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            // Lógica de salvamento entra aqui
+            alert("Alterações salvas com sucesso!");
+            if (editModal) editModal.classList.remove("show");
+        });
+    }
 
-            badge.style.display = "none";
+    // Redirecionar para a página de cadastro
+    if (btnCadastro) {
+        btnCadastro.addEventListener("click", () => {
+            window.location.href = "../pages/cadastroEstacionamento.html";
+        });
+    }
 
-        }
-
-    });
-
+    
 });
