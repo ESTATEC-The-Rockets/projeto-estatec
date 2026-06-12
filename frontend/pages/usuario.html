@@ -1,137 +1,156 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESTATEC - Usuários</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    
+
     <link rel="stylesheet" href="../css/usuario.css">
 </head>
+
 <body>
 
-<div class="app-container">
+    <div class="app-container">
 
-    <aside class="sidebar" id="sidebar">
-        
-        <div class="logo-container">
-            <img src="../img/estatec.png" alt="ESTATEC" class="logo-estatec">
-        </div>
+        <aside class="sidebar" id="sidebar">
 
-        <nav class="sidebar-nav">
-
-            <div class="nav-item">
-                <a href="#">
-                    <i class="fa-solid fa-database"></i>
-                    <span class="menu-text">Menu</span>
-                </a>
+            <div class="logo-container">
+                <img src="../img/estatec.png" alt="ESTATEC" class="logo-estatec">
             </div>
-            <div class="nav-item active">
-                <a href="#">
-                    <i class="fa-regular fa-user"></i>
-                    <span class="menu-text">Usuários</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="#">
-                    <i class="fa-solid fa-database"></i>
-                    <span class="menu-text">Dados</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="#">
-                    <i class="fa-solid fa-bell"></i>
-                    <span class="menu-text">Solicitações</span>
-                </a>
-            </div>
-        </nav>
 
-        <div class="sidebar-footer">
-            <a href="#" class="logout-btn">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span class="menu-text">SAIR</span>
-            </a>
-            <p>© ESTATEC</p>
-        </div>
-    </aside>
+            <nav class="sidebar-nav">
 
-    <main class="main-content">
-        <header class="header">
-            <button class="menu-toggle" id="menu-toggle">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+                <ul>
 
-            <div class="header-right">
+                    <li class="nav-item active">
+                        <a href="#">
+                            <i class="fa-solid fa-house"></i>
+                            <span class="menu-text">Menu</span>
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a href="#">
+                            <i class="fa-solid fa-user"></i>
+                            <span class="menu-text">Usuários</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            <span class="menu-text">Dados</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#">
+                            <i class="fa-solid fa-bell"></i>
+                            <span class="menu-text">Solicitações</span>
+
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+            <div class="sidebar-footer">
+
+                <a href="../index.html" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Sair</span>
+                </a>
+
+                <p>
+                    © 2026 ESTATEC
+                </p>
+
+            </div>
+
+        </aside>
+
+
+
+        <main class="main-content">
+            <header class="header">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
                 <div class="header-buttons">
                     <button class="btn-cadastro">CADASTRAR ESTACIONAMENTO</button>
                     <button class="btn-estacionamentos">
                         ESTACIONAMENTOS <i class="fa-solid fa-chevron-down"></i>
                     </button>
                 </div>
+
                 <div class="profile user-profile">
                     <div class="profile-avatar">
                         <i class="fa-solid fa-user"></i>
                     </div>
                     <span>DONO ESTACIONAMENTO</span>
                 </div>
-            </div>
-        </header>
+            </header>
 
-        <section class="usuarios-section">
-            <div class="usuarios-top">
-                <div class="titulo-area">
-                    <h1>USUÁRIOS</h1>
+            <section class="usuarios-section">
+                <div class="usuarios-top">
+                    <div class="titulo-area">
+                        <h1>USUÁRIOS</h1>
+                    </div>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="search-input" placeholder="PESQUISAR PLACA/ CLIENTE">
+                    </div>
                 </div>
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="search-input" placeholder="PESQUISAR PLACA/ CLIENTE">
+
+                <div class="usuarios-list" id="users-table-body">
                 </div>
-            </div>
+            </section>
+        </main>
 
-            <div class="usuarios-list" id="users-table-body">
-                </div>
-        </section>
-    </main>
-
-</div>
-
-<div id="tipoModal" class="modal-overlay" onclick="closeModalOutside(event)">
-    <div class="modal-content">
-        <h2>TIPO</h2>
-        
-        <div class="modal-toggles">
-            <button id="btn-visitante" class="toggle-btn active" onclick="setTipo('visitante')">VISITANTE</button>
-            <button id="btn-fixo" class="toggle-btn" onclick="setTipo('fixo')">FIXO</button>
-        </div>
-
-        <div id="modal-dates" class="modal-dates">
-            <div class="input-group">
-                <label>INÍCIO:</label>
-                <div class="input-with-icon">
-                    <input type="text" placeholder="Ex: 20/02/2026">
-                    <i class="fa-regular fa-calendar"></i>
-                </div>
-            </div>
-            
-            <div class="input-group">
-                <label>FIM:</label>
-                <div class="input-with-icon">
-                    <input type="text" placeholder="Ex: 21/02/2026">
-                    <i class="fa-regular fa-calendar"></i>
-                </div>
-            </div>
-        </div>
-
-        <button class="btn-salvar" onclick="closeModal()">SALVAR</button>
     </div>
-</div>
 
-<script src="../js/usuario.js"></script>
+    <div id="tipoModal" class="modal-overlay" onclick="closeModalOutside(event)">
+        <div class="modal-content">
+            <h2>TIPO</h2>
+
+            <div class="modal-toggles">
+                <button id="btn-visitante" class="toggle-btn active" onclick="setTipo('visitante')">VISITANTE</button>
+                <button id="btn-fixo" class="toggle-btn" onclick="setTipo('fixo')">FIXO</button>
+            </div>
+
+            <div id="modal-dates" class="modal-dates">
+                <div class="input-group">
+                    <label>INÍCIO:</label>
+                    <div class="input-with-icon">
+                        <input type="text" placeholder="Ex: 20/02/2026">
+                        <i class="fa-regular fa-calendar"></i>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>FIM:</label>
+                    <div class="input-with-icon">
+                        <input type="text" placeholder="Ex: 21/02/2026">
+                        <i class="fa-regular fa-calendar"></i>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-salvar" onclick="closeModal()">SALVAR</button>
+        </div>
+    </div>
+
+    <script src="../js/usuario.js"></script>
 
 </body>
+
 </html>
