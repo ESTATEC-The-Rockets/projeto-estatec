@@ -1,70 +1,70 @@
 /* ===================================
-   RESET
+    RESET
 =================================== */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Inter',sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kameron', serif;
 }
 
-body{
-    background:#000000;
-    color:#ffffff;
-    overflow:hidden;
+body {
+    background: #000000;
+    color: #ffffff;
+    overflow: hidden;
 }
 
-a{
-    text-decoration:none;
+a {
+    text-decoration: none;
 }
 
-ul{
-    list-style:none;
+ul {
+    list-style: none;
 }
 
 /* ===================================
-   LAYOUT
+    LAYOUT
 =================================== */
 
-.app-container{
-    display:flex;
-    height:100vh;
+.app-container {
+    display: flex;
+    height: 100vh;
 }
 
 /* ===================================
-   SIDEBAR
+    SIDEBAR
 =================================== */
 
-.sidebar{
-    width:230px;
-    background:#000000;
-    border-right:2px solid #c1122f;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    transition:all .3s ease;
+.sidebar {
+    width: 230px;
+    background: #000000;
+    border-right: 2px solid #c1122f;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all .3s ease;
 }
 
 /* ===================================
-   LOGO
+    LOGO
 =================================== */
 
-.logo-container{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:25px 15px;
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 15px;
 }
 
-.logo-estatec{
-    width:220px;
-    height:auto;
-    transition:.3s;
+.logo-estatec {
+    width: 220px;
+    height: auto;
+    transition: .3s;
 }
 
 /* ===================================
-   MENU / HEADER
+    MENU / HEADER
 =================================== */
 
 .header {
@@ -153,45 +153,45 @@ ul{
     font-size: 18px;
 }
 
-.sidebar-nav{
-    flex:1;
+.sidebar-nav {
+    flex: 1;
 }
 
-.nav-item{
-    margin:4px 10px;
-    position:relative;
+.nav-item {
+    margin: 4px 10px;
+    position: relative;
 }
 
-.nav-item a{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    color:#d9d9d9;
-    padding:12px 14px;
-    border-radius:10px;
-    transition:.3s;
+.nav-item a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #d9d9d9;
+    padding: 12px 14px;
+    border-radius: 10px;
+    transition: .3s;
 }
 
-.nav-item a:hover{
-    background:#181818;
+.nav-item a:hover {
+    background: #181818;
 }
 
-.nav-item.active a{
-    background:#c1122f;
-    color:#fff;
+.nav-item.active a {
+    background: #c1122f;
+    color: #fff;
 }
 
-.nav-item i{
-    width:18px;
-    text-align:center;
+.nav-item i {
+    width: 18px;
+    text-align: center;
 }
 
-.menu-text{
-    white-space:nowrap;
+.menu-text {
+    white-space: nowrap;
 }
 
 /* ===================================
-   DROPDOWN MENU (ESTACIONAMENTOS)
+    DROPDOWN MENU (ESTACIONAMENTOS)
 =================================== */
 
 .dropdown-wrapper {
@@ -257,62 +257,62 @@ ul{
 }
 
 /* ===================================
-   BADGE
+    BADGE
 =================================== */
 
-.notification-badge{
-    margin-left:auto;
-    width:18px;
-    height:18px;
-    border-radius:50%;
-    background:#c1122f;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:10px;
-    font-weight:700;
-    color:white;
+.notification-badge {
+    margin-left: auto;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #c1122f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
 }
 
 /* ===================================
-   FOOTER
+    FOOTER
 =================================== */
 
-.sidebar-footer{
-    border-top:1px solid #202020;
-    padding:20px 15px;
-    text-align:center;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
+.sidebar-footer {
+    border-top: 1px solid #202020;
+    padding: 20px 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.logout-btn{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px; 
-    width:100%;
-    color:white;
-    margin-bottom:15px;
-    transition:.3s;
+.logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; 
+    width: 100%;
+    color: white;
+    margin-bottom: 15px;
+    transition: .3s;
 }
 
-.logout-btn:hover{
-    color:#c1122f;
+.logout-btn:hover {
+    color: #c1122f;
 }
 
-.sidebar-footer p{
-    font-size:12px;
-    color:#777;
+.sidebar-footer p {
+    font-size: 12px;
+    color: #777;
 }
 
 /* ===================================
-   MAIN CONTENT
+    MAIN CONTENT
 =================================== */
 
-.main-content{
-    flex:1;
+.main-content {
+    flex: 1;
     background:
     radial-gradient(
         circle at top center,
@@ -320,63 +320,63 @@ ul{
         transparent 40%
     ),
     #070707;
-    overflow:hidden;
-    transition:.3s;
+    overflow: hidden;
+    transition: .3s;
 }
 
 /* ===================================
-   DASHBOARD / WELCOME ROW
+    DASHBOARD / WELCOME ROW
 =================================== */
 
-.dashboard-body{
-    padding:30px; 
+.dashboard-body {
+    padding: 30px; 
 }
 
-.welcome-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.welcome-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 40px; 
 }
 
-.welcome-text h1{
-    font-size:28px;
-    font-weight:700;
-    margin-bottom:5px;
+.welcome-text h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 5px;
 }
 
-.welcome-text p{
-    color:#8f8f8f;
-    font-size:14px;
+.welcome-text p {
+    color: #8f8f8f;
+    font-size: 14px;
 }
 
-.date-card{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    background:#101010;
-    border:1px solid #202020;
-    border-radius:12px;
-    padding:14px 18px;
+.date-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #101010;
+    border: 1px solid #202020;
+    border-radius: 12px;
+    padding: 14px 18px;
 }
 
-.date-card i{
-    font-size:20px;
-    color:#888888; 
+.date-card i {
+    font-size: 20px;
+    color: #888888; 
 }
 
-.date-card span{
-    display:block;
-    font-size:14px;
+.date-card span {
+    display: block;
+    font-size: 14px;
     font-weight: 600;
 }
 
-.date-card small{
-    color:#888;
+.date-card small {
+    color: #888;
 }
 
 /* ===================================
-   ENTRADAS E SAÍDAS (NOVO LAYOUT)
+    ENTRADAS E SAÍDAS
 =================================== */
 
 .entradas-saidas-row {
@@ -387,89 +387,52 @@ ul{
 
 .details-section {
     flex-grow: 1;
-    background:#0e0e0e; 
-    border:1px solid #1c1c1c;
-    border-radius:15px;
-    padding:25px;
+    background: #0e0e0e; 
+    border: 1px solid #1c1c1c;
+    border-radius: 15px;
+    padding: 25px;
 }
 
-.section-header{
-    margin-bottom:20px;
+.section-header {
+    margin-bottom: 20px;
 }
 
-.section-header h3{
-    font-size:18px;
+.section-header h3 {
+    font-size: 18px;
     font-weight: 600;
 }
 
 /* ===================================
-   BOTÃO ADICIONAR VEÍCULO
+    TABELA
 =================================== */
 
-.btn-add-veiculo {
-    flex-shrink: 0;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background-color: #c1122f;
-    color: #ffffff;
-    border: none;
-    font-size: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    align-self: center; 
-}
-
-.btn-add-veiculo:hover {
-    background-color: #a00f26;
-    transform: scale(1.05);
-}
-
-/* ===================================
-   TABELA
-=================================== */
-
-.data-table{
-    width:100%;
+.data-table {
+    width: 100%;
     max-width: 800px;
-    border-collapse:collapse;
+    border-collapse: collapse;
 }
 
-.data-table th{
-    color:#888;
-    padding:15px 10px;
+.data-table th {
+    color: #888;
+    padding: 15px 10px;
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.5px;
 }
 
-.data-table td{
-    padding:15px 10px;
-    border-top:1px solid #1c1c1c;
-    font-size:14px;
+.data-table td {
+    padding: 15px 10px;
+    border-top: 1px solid #1c1c1c;
+    font-size: 14px;
     color: #cfcfcf;
 }
 
-/* Alinhamentos das colunas (Placa na esq, Tipo no meio, Data na dir) */
 .data-table th:nth-child(1), .data-table td:nth-child(1) { text-align: left; }
 .data-table th:nth-child(2), .data-table td:nth-child(2) { text-align: center; }
 .data-table th:nth-child(3), .data-table td:nth-child(3) { text-align: right; }
 
-.entrada{
-    color:#27d35b;
-    font-weight:600;
-}
-
-.saida{
-    color:#ff4f4f;
-    font-weight:600;
-}
-
 /* ===================================
-   MODAL (EDITAR ESTACIONAMENTO)
+    MODAL COMPARTILHADO (OVERLAY)
 =================================== */
 
 .modal-overlay {
@@ -490,15 +453,19 @@ ul{
     display: flex;
 }
 
+/* ===================================
+    MODAL (EDITAR ESTACIONAMENTO)
+=================================== */
+
 .modal-content {
-    background-color: #101010;
-    border: 1px solid #1a1a1a;
+    background-color: #0d0d0d; 
+    border: none; 
     border-radius: 25px;
     padding: 40px;
     width: 100%;
     max-width: 440px;
     text-align: center;
-    box-shadow: 0 0 35px rgba(193, 18, 47, 0.25); 
+    box-shadow: 0 0 50px rgba(193, 18, 47, 0.35); 
 }
 
 .modal-content h2 {
@@ -524,18 +491,19 @@ ul{
 
 .form-group input {
     width: 100%;
-    background-color: #151515;
-    border: 1px solid #222222;
-    border-radius: 8px;
+    background-color: #0d0d0d; 
+    border: none; 
+    outline: none; 
+    border-radius: 10px;
     padding: 14px 16px;
     color: #ffffff;
     font-size: 14px;
-    outline: none;
-    transition: border-color 0.3s;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(193, 18, 47, 0.25); 
 }
 
 .form-group input:focus {
-    border-color: #c1122f;
+    box-shadow: 0 0 16px rgba(193, 18, 47, 0.45); 
 }
 
 .form-group input::placeholder {
@@ -553,68 +521,126 @@ ul{
     font-weight: 700;
     letter-spacing: 0.5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(193, 18, 47, 0.3); 
 }
 
 .btn-modal-save:hover {
-    background-color: #a00f26;
+    background-color: #e60b35;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(193, 18, 47, 0.5); 
 }
 
 /* ===================================
-   SIDEBAR RECOLHÍVEL
+    MODAL (EXCLUSÃO DE ESTACIONAMENTO)
 =================================== */
 
-.sidebar.collapsed{
-    width:80px;
+.modal-confirm-content {
+    background-color: #0d0d0d; 
+    border: none; 
+    border-radius: 25px;
+    padding: 40px;
+    width: 100%;
+    max-width: 440px;
+    text-align: center;
+    box-shadow: 0 0 50px rgba(193, 18, 47, 0.35); 
 }
 
-.sidebar.collapsed .logo-estatec{
-    width:45px;
+.modal-confirm-content h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 35px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+}
+
+.modal-confirm-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.btn-confirm-yes,
+.btn-confirm-no {
+    flex: 1;
+    max-width: 140px;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.btn-confirm-yes {
+    background-color: #00a82d;
+    box-shadow: 0 4px 15px rgba(0, 168, 45, 0.25);
+}
+
+.btn-confirm-yes:hover {
+    background-color: #00cf37;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 168, 45, 0.45);
+}
+
+.btn-confirm-no {
+    background-color: #c1122f;
+    box-shadow: 0 4px 15px rgba(193, 18, 47, 0.25);
+}
+
+.btn-confirm-no:hover {
+    background-color: #e60b35;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(193, 18, 47, 0.45);
+}
+
+/* ===================================
+    SIDEBAR RECOLHÍVEL
+=================================== */
+
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar.collapsed .logo-estatec {
+    width: 45px;
 }
 
 .sidebar.collapsed .menu-text,
 .sidebar.collapsed .logout-btn span,
-.sidebar.collapsed .sidebar-footer p{
-    display:none;
+.sidebar.collapsed .sidebar-footer p {
+    display: none;
 }
 
-.sidebar.collapsed .nav-item a{
-    justify-content:center;
+.sidebar.collapsed .nav-item a,
+.sidebar.collapsed .logout-btn {
+    justify-content: center;
 }
 
-.sidebar.collapsed .logout-btn{
-    justify-content:center;
+.sidebar.collapsed .logo-container {
+    padding: 20px 10px;
 }
-
-.sidebar.collapsed .notification-badge{
-    position:absolute;
-    right:8px;
-    top:8px;
-}
-
-.sidebar.collapsed .logo-container{
-    padding:20px 10px;
-}a
 
 /* ===================================
-   RESPONSIVO
+    RESPONSIVO
 =================================== */
 
-@media (max-width: 1200px){
+@media (max-width: 1200px) {
     .entradas-saidas-row {
         flex-direction: column;
         align-items: center;
     }
-
-    .btn-add-veiculo {
-        margin-top: 20px;
-    }
 }
 
-@media (max-width: 900px){
-    .welcome-row{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:15px;
+@media (max-width: 900px) {
+    .welcome-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
     }
 }

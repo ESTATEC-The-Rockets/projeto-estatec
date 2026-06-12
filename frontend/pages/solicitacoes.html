@@ -6,7 +6,7 @@
     <title>ESTATEC - Solicitações de Cadastro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/solicitacoes.css">
 </head>
@@ -111,9 +111,62 @@
 
                 <div class="solicitacoes-list" id="solicitacoesList">
                     
-                    <div class="status-banco">Conecte seu banco de dados para carregar as solicitações...</div>
+                    <div class="solicitacao-card">
+                        <div class="user-info">
+                            <div class="user-icon"><i class="fa-solid fa-user"></i></div>
+                            <span class="user-name">Roberta de Fátima</span>
+                        </div>
+                        <div class="plate-info">
+                            <strong>PLACA:</strong> LOR2A16
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-aceitar">ACEITAR</button>
+                            <button class="btn-rejeitar">REJEITAR</button>
+                        </div>
+                    </div>
+                    
+                    <div class="solicitacao-card">
+                        <div class="user-info">
+                            <div class="user-icon"><i class="fa-solid fa-user"></i></div>
+                            <span class="user-name">Luan Ferreira</span>
+                        </div>
+                        <div class="plate-info">
+                            <strong>PLACA:</strong> CEU2O11
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-aceitar">ACEITAR</button>
+                            <button class="btn-rejeitar">REJEITAR</button>
+                        </div>
+                    </div>
 
-                    <div class="solicitacao-card empty-slot"></div>
+                    <div class="solicitacao-card">
+                        <div class="user-info">
+                            <div class="user-icon"><i class="fa-solid fa-user"></i></div>
+                            <span class="user-name">Yuri Silveira de Lima</span>
+                        </div>
+                        <div class="plate-info">
+                            <strong>PLACA:</strong> VAI2I55
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-aceitar">ACEITAR</button>
+                            <button class="btn-rejeitar">REJEITAR</button>
+                        </div>
+                    </div>
+
+                    <div class="solicitacao-card">
+                        <div class="user-info">
+                            <div class="user-icon"><i class="fa-solid fa-user"></i></div>
+                            <span class="user-name">Maya Campos</span>
+                        </div>
+                        <div class="plate-info">
+                            <strong>PLACA:</strong> VOU2U03
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-aceitar">ACEITAR</button>
+                            <button class="btn-rejeitar">REJEITAR</button>
+                        </div>
+                    </div>
+
                     <div class="solicitacao-card empty-slot"></div>
                     <div class="solicitacao-card empty-slot"></div>
 
@@ -128,11 +181,21 @@
             <h2>EDITAR ESTACIONAMENTO</h2>
             <form id="editForm">
                 <div class="form-group">
-                    <label for="nomeEstacionamento">Nome do Estacionamento</label>
-                    <input type="text" id="nomeEstacionamento" placeholder="Ex: Estacionamento Central" required>
+                    <label for="newNameInput">NOVO NOME:</label>
+                    <input type="text" id="newNameInput" placeholder="Ex.: Estacionamento Novo" required>
                 </div>
-                <button type="submit" class="btn-modal-save">SALVAR ALTERAÇÕES</button>
+                <button type="submit" class="btn-modal-save">SALVAR</button>
             </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal-confirm-content">
+            <h2>DESEJA EXCLUIR ESTE ESTACIONAMENTO?</h2>
+            <div class="modal-confirm-buttons">
+                <button type="button" class="btn-confirm-yes" id="btnConfirmYes">SIM</button>
+                <button type="button" class="btn-confirm-no" id="btnConfirmNo">NÃO</button>
+            </div>
         </div>
     </div>
 
