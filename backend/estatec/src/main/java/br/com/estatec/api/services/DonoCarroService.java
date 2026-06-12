@@ -19,7 +19,7 @@ public class DonoCarroService {
 	}
 
 	public DonoCarro buscarPorId(Long id) {
-		return repository.findById(id).orElseThrow(() -> new RuntimeException("Dono de Estacionamento não encontrado"));
+		return repository.findById(id).orElseThrow(() -> new RuntimeException("Dono de carro não encontrado"));
 	}
 	
 	public DonoCarro salvar(DonoCarro donoCarro) {

@@ -48,13 +48,13 @@ public class Historico {
 	}
 	
 	public Historico(Long id, Carros carro, Estacionamento estacionamento, LocalDate data, LocalTime horarioEntrada, LocalTime horarioSaida, boolean entrada) {
-		this.data = data;
-		this.carro = carro;
-		this.estacionamento = estacionamento;
-		this.horarioEntrada = horarioEntrada;
-		this.horarioSaida = horarioSaida;
-		this.entrada = entrada;
-		
+	    this.id = id;
+	    this.carro = carro;
+	    this.estacionamento = estacionamento;
+	    this.data = data;
+	    this.horarioEntrada = horarioEntrada;
+	    this.horarioSaida = horarioSaida;
+	    this.entrada = entrada;
 	}
 
 	public Long getId() {

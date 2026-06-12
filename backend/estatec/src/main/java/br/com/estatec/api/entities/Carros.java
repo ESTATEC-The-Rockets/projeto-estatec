@@ -105,4 +105,22 @@ public class Carros {
 	public void setCor(Cor cor) {
 		this.cor = cor;
 	}
+
+	public DonoCarro getDonoCarro() {
+		return donoCarro;
+	}
+
+	public void setDonoCarro(DonoCarro donoCarro) {
+		this.donoCarro = donoCarro;
+	}
+
+	public List<Historico> getHistoricos() {
+		return historicos;
+	}
+
+	public void setHistoricos(List<Historico> historicos) {
+		this.historicos = historicos;
+	}
+	
+	
 }

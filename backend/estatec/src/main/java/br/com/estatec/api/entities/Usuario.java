@@ -2,8 +2,6 @@ package br.com.estatec.api.entities;
 
 import java.time.LocalDate;
 
-import org.hibernate.validator.constraints.br.CPF;
-
 import br.com.estatec.api.validations.annotations.TelefoneBR;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,7 +36,7 @@ public class Usuario {
 	protected String rg;
 
 	@NotBlank(message = "O CPF é obrigatório.")
-	@CPF(message = "O CPF é inválido.")
+	// @CPF(message = "O CPF é inválido.")
 	@Column(name = "cpf", unique = true)
 	protected String cpf;
 
@@ -144,8 +142,5 @@ public class Usuario {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
-	
-
 
 }
