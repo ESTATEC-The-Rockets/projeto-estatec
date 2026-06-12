@@ -1,11 +1,11 @@
 /* ===================================
-    RESET
+    RESET & FONTE MODERNA (MONTSERRAT)
 =================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Kameron', serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 body {
@@ -74,6 +74,8 @@ ul {
     padding: 12px 14px;
     border-radius: 10px;
     transition: .3s;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .nav-item a:hover {
@@ -83,6 +85,7 @@ ul {
 .nav-item.active a {
     background: #c1122f;
     color: #fff;
+    font-weight: 600;
 }
 
 .nav-item i {
@@ -112,6 +115,8 @@ ul {
     color: white;
     margin-bottom: 15px;
     transition: .3s;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .logout-btn:hover {
@@ -119,7 +124,7 @@ ul {
 }
 
 .sidebar-footer p {
-    font-size: 12px;
+    font-size: 11px;
     color: #777;
 }
 
@@ -162,12 +167,14 @@ ul {
     padding: 10px 20px;
     border-radius: 20px;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
+    text-transform: uppercase;
     display: flex;
     align-items: center;
     gap: 8px;
     transition: all 0.3s ease;
     cursor: pointer;
+    letter-spacing: 0.5px;
 }
 
 .btn-cadastro:hover, 
@@ -202,9 +209,11 @@ ul {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
     color: #ffffff;
+    letter-spacing: 0.5px;
 }
 
 .user-profile i {
@@ -306,8 +315,9 @@ ul {
 
 .solicitacoes-header h2 {
     font-size: 22px;
-    font-weight: 700;
+    font-weight: 800;
     color: #ffffff;
+    text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
@@ -334,10 +344,14 @@ ul {
     font-size: 13px;
     width: 100%;
     outline: none;
+    font-weight: 500;
 }
 
 .search-bar input::placeholder {
     color: #666666;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
 }
 
 .solicitacoes-list {
@@ -388,16 +402,17 @@ ul {
 }
 
 .user-name {
-    font-size: 15px;
+    font-size: 14px;
     color: #ffffff;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .plate-info {
     flex: 1;
     text-align: left;
-    font-size: 14px;
+    font-size: 13px;
     color: #888888;
+    letter-spacing: 0.3px;
 }
 
 .plate-info strong {
@@ -418,10 +433,11 @@ ul {
     border: none;
     border-radius: 8px;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 800;
     color: #ffffff;
     cursor: pointer;
     transition: all 0.2s ease;
+    text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
@@ -484,10 +500,11 @@ ul {
 
 .modal-content h2, 
 .modal-confirm-content h2 {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 800;
     color: #ffffff;
     margin-bottom: 30px;
+    text-transform: uppercase;
     letter-spacing: 0.5px;
     line-height: 1.4;
 }
@@ -499,10 +516,12 @@ ul {
 
 .form-group label {
     display: block;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: 700;
     color: #ffffff;
     margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .form-group input {
@@ -514,11 +533,11 @@ ul {
     padding: 14px 16px;
     color: #ffffff;
     font-size: 14px;
+    font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(193, 18, 47, 0.25); /* Padrão do menu inicial */
+    box-shadow: 0 0 10px rgba(193, 18, 47, 0.25);
 }
 
-/* FOCO DO INPUT SINCRONIZADO EXATAMENTE COM O SEU MENU */
 .form-group input:focus {
     box-shadow: 0 0 16px rgba(193, 18, 47, 0.45); 
 }
@@ -534,8 +553,9 @@ ul {
     border: none;
     border-radius: 12px;
     padding: 15px;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 800;
+    text-transform: uppercase;
     letter-spacing: 0.5px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -561,8 +581,8 @@ ul {
     border: none;
     border-radius: 12px;
     padding: 14px 0;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 800;
     color: #ffffff;
     cursor: pointer;
     text-transform: uppercase;

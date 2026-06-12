@@ -77,7 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (editModal) {
                     editModal.classList.add("show");
-                    // Delay sutil para garantir a abertura antes de injetar o foco automático do brilho
                     setTimeout(() => {
                         newNameInput.focus();
                     }, 50);
