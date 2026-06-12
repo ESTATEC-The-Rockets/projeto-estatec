@@ -3,12 +3,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const menuToggle = document.getElementById("menuToggle");
     const sidebar = document.getElementById("sidebar");
 
-    // Elementos do Dropdown e Modal de Estacionamentos
+    // Elementos do Dropdown e Modais
     const btnEstacionamentos = document.getElementById("btnEstacionamentos");
     const dropdownEstacionamentos = document.getElementById("dropdownEstacionamentos");
     const editModal = document.getElementById("editModal");
+    const deleteModal = document.getElementById("deleteModal");
     const editForm = document.getElementById("editForm");
     const btnCadastro = document.querySelector(".btn-cadastro");
+
+    // Botões de ação do Modal de Exclusão
+    const btnConfirmYes = document.getElementById("btnConfirmYes");
+    const btnConfirmNo = document.getElementById("btnConfirmNo");
+
+    // Variável de controle para saber qual item deletar da lista
+    let itemParaDeletar = null;
 
     // ==========================================
     // 1. CONTROLE DA SIDEBAR (ABRIR / FECHAR)
@@ -23,43 +31,65 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. CONTROLE DO DROPDOWN (ESTACIONAMENTOS)
     // ==========================================
     if (btnEstacionamentos && dropdownEstacionamentos) {
-        // Abre e fecha ao clicar no botão
         btnEstacionamentos.addEventListener("click", (e) => {
             e.stopPropagation();
             dropdownEstacionamentos.classList.toggle("show");
         });
 
-        // Fecha se clicar em qualquer outro lugar da tela
         document.addEventListener("click", () => {
             dropdownEstacionamentos.classList.remove("show");
         });
 
-        // Intercepta cliques nos botões internos (Editar e Excluir)
+        // Delegação de cliques nos botões internos do Dropdown
         dropdownEstacionamentos.addEventListener("click", (e) => {
             const editBtn = e.target.closest(".btn-edit-est");
             const deleteBtn = e.target.closest(".btn-delete-est");
 
+            // Clique no Lápis (Editar)
             if (editBtn) {
                 e.stopPropagation();
-                dropdownEstacionamentos.classList.remove("show"); // Fecha o menu
-                if (editModal) editModal.classList.add("show");    // Abre o modal
+                dropdownEstacionamentos.classList.remove("show"); 
+                if (editModal) editModal.classList.add("show");    
             }
 
+            // Clique na Lixeira (Excluir)
             if (deleteBtn) {
                 e.stopPropagation();
-                const confirmacao = confirm("Deseja realmente excluir este estacionamento?");
-                if (confirmacao) {
-                    e.target.closest("li").remove();
-                }
+                dropdownEstacionamentos.classList.remove("show"); 
+                
+                // Salva o elemento 'li' correspondente na memória
+                itemParaDeletar = e.target.closest("li");
+                
+                // Abre o modal estilizado customizado
+                if (deleteModal) deleteModal.classList.add("show");
             }
         });
     }
 
     // ==========================================
-    // 3. CONTROLE DO MODAL DE EDIÇÃO
+    // 3. CONTROLE DO MODAL DE EXCLUSÃO (AÇÕES)
+    // ==========================================
+    if (btnConfirmYes) {
+        btnConfirmYes.addEventListener("click", () => {
+            if (itemParaDeletar) {
+                itemParaDeletar.remove(); // Remove o elemento da interface gráfica
+                itemParaDeletar = null;
+            }
+            if (deleteModal) deleteModal.classList.remove("show");
+        });
+    }
+
+    if (btnConfirmNo) {
+        btnConfirmNo.addEventListener("click", () => {
+            itemParaDeletar = null; // Cancela a exclusão
+            if (deleteModal) deleteModal.classList.remove("show");
+        });
+    }
+
+    // ==========================================
+    // 4. FECHAR MODAIS AO CLICAR FORA (OVERLAY)
     // ==========================================
     if (editModal) {
-        // Fecha o modal se clicar na parte escura do fundo
         editModal.addEventListener("click", (e) => {
             if (e.target === editModal) {
                 editModal.classList.remove("show");
@@ -67,22 +97,29 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    if (deleteModal) {
+        deleteModal.addEventListener("click", (e) => {
+            if (e.target === deleteModal) {
+                deleteModal.classList.remove("show");
+                itemParaDeletar = null;
+            }
+        });
+    }
+
+    // ==========================================
+    // 5. FORMULÁRIOS E REDIRECIONAMENTOS
+    // ==========================================
     if (editForm) {
-        // Ação do formulário ao salvar
         editForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            // Lógica de salvamento entra aqui
             alert("Alterações salvas com sucesso!");
             if (editModal) editModal.classList.remove("show");
         });
     }
 
-    // Redirecionar para a página de cadastro
     if (btnCadastro) {
-        btnCadastro.addEventListener("click", () => {
+        btnCadastro.addEventListener("click", (e) => {
             window.location.href = "../pages/cadastroEstacionamento.html";
         });
     }
-
-    
 });

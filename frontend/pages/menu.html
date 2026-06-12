@@ -7,9 +7,7 @@
     <title>ESTATEC - Menu</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <link rel="stylesheet" href="../css/menu.css">
 </head>
 
@@ -77,19 +75,15 @@
                             <li>
                                 <span>ESTACIONAMENTO 01</span>
                                 <div class="actions">
-                                    <button class="btn-edit-est" title="Editar"><i
-                                            class="fa-solid fa-pencil"></i></button>
-                                    <button class="btn-delete-est" title="Excluir"><i
-                                            class="fa-solid fa-trash"></i></button>
+                                    <button class="btn-edit-est" title="Editar"><i class="fa-solid fa-pencil"></i></button>
+                                    <button class="btn-delete-est" title="Excluir"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </li>
                             <li>
                                 <span>ESTACIONAMENTO 02</span>
                                 <div class="actions">
-                                    <button class="btn-edit-est" title="Editar"><i
-                                            class="fa-solid fa-pencil"></i></button>
-                                    <button class="btn-delete-est" title="Excluir"><i
-                                            class="fa-solid fa-trash"></i></button>
+                                    <button class="btn-edit-est" title="Editar"><i class="fa-solid fa-pencil"></i></button>
+                                    <button class="btn-delete-est" title="Excluir"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </li>
                         </ul>
@@ -107,9 +101,7 @@
                 </div>
             </header>
 
-
             <main class="dashboard-body">
-
                 <div class="welcome-row">
                     <div class="welcome-text">
                         <h1>BEM-VINDO!</h1>
@@ -126,7 +118,6 @@
                 </div>
 
                 <div class="entradas-saidas-row">
-
                     <section class="details-section">
                         <div class="section-header">
                             <h3>Últimas Entradas e Saídas</h3>
@@ -144,14 +135,10 @@
                             </tbody>
                         </table>
                     </section>
-
-
                 </div>
-
             </main>
 
         </div>
-
     </div>
 
     <div class="modal-overlay" id="editModal">
@@ -167,8 +154,17 @@
         </div>
     </div>
 
-    <script src="../script/menu.js"></script>
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal-confirm-content">
+            <h2>Deseja realmente excluir este estacionamento?</h2>
+            <div class="modal-confirm-buttons">
+                <button type="button" class="btn-confirm-yes" id="btnConfirmYes">Sim</button>
+                <button type="button" class="btn-confirm-no" id="btnConfirmNo">Não</button>
+            </div>
+        </div>
+    </div>
 
+    <script src="../script/menu.js"></script>
 </body>
 
 </html>

@@ -3,16 +3,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const menuToggle = document.getElementById("menuToggle");
     const sidebar = document.getElementById("sidebar");
 
-    // Elementos do Dropdown e Modal de Estacionamentos
+    // Elementos do Dropdown e Modais Customizados
     const btnEstacionamentos = document.getElementById("btnEstacionamentos");
     const dropdownEstacionamentos = document.getElementById("dropdownEstacionamentos");
+    
     const editModal = document.getElementById("editModal");
+    const deleteModal = document.getElementById("deleteModal");
     const editForm = document.getElementById("editForm");
+    const newNameInput = document.getElementById("newNameInput");
+    
+    const btnConfirmYes = document.getElementById("btnConfirmYes");
+    const btnConfirmNo = document.getElementById("btnConfirmNo");
     const btnCadastro = document.querySelector(".btn-cadastro");
 
     // Elementos da Tela de Solicitações
     const solicitacoesList = document.getElementById("solicitacoesList");
     const searchInput = document.getElementById("searchInput");
+
+    // Armazena temporariamente o elemento ativo selecionado nas listas
+    let itemSelecionadoParaAcao = null;
 
     // ==========================================
     // 1. CONTROLE DA SIDEBAR (ABRIR / FECHAR)
@@ -30,48 +39,95 @@ document.addEventListener("DOMContentLoaded", () => {
         btnEstacionamentos.addEventListener("click", (e) => {
             e.stopPropagation();
             dropdownEstacionamentos.classList.toggle("show");
+            
+            const icon = btnEstacionamentos.querySelector("i");
+            if (icon) {
+                icon.style.transform = dropdownEstacionamentos.classList.contains("show") ? "rotate(180deg)" : "rotate(0deg)";
+            }
         });
 
         document.addEventListener("click", () => {
-            dropdownEstacionamentos.classList.remove("show");
+            fecharDropdown();
         });
+    }
 
+    function fecharDropdown() {
+        if (dropdownEstacionamentos) {
+            dropdownEstacionamentos.classList.remove("show");
+            const icon = btnEstacionamentos.querySelector("i");
+            if (icon) icon.style.transform = "rotate(0deg)";
+        }
+    }
+
+    // =======================================================
+    // 3. CAPTURA DE EVENTOS DO DROPDOWN (MODAIS EXCLUSIVOS)
+    // =======================================================
+    if (dropdownEstacionamentos) {
         dropdownEstacionamentos.addEventListener("click", (e) => {
             const editBtn = e.target.closest(".btn-edit-est");
             const deleteBtn = e.target.closest(".btn-delete-est");
 
             if (editBtn) {
                 e.stopPropagation();
-                dropdownEstacionamentos.classList.remove("show");
-                if (editModal) editModal.classList.add("show");
+                fecharDropdown();
+                itemSelecionadoParaAcao = e.target.closest("li");
+                
+                const nomeAtual = itemSelecionadoParaAcao.querySelector("span").textContent;
+                newNameInput.value = nomeAtual;
+
+                if (editModal) {
+                    editModal.classList.add("show");
+                    // Delay sutil para garantir a abertura antes de injetar o foco automático do brilho
+                    setTimeout(() => {
+                        newNameInput.focus();
+                    }, 50);
+                }
             }
 
             if (deleteBtn) {
                 e.stopPropagation();
-                const confirmacao = confirm("Deseja realmente excluir este estacionamento?");
-                if (confirmacao) {
-                    e.target.closest("li").remove();
-                }
+                fecharDropdown();
+                itemSelecionadoParaAcao = e.target.closest("li");
+                
+                if (deleteModal) deleteModal.classList.add("show");
             }
         });
     }
 
     // ==========================================
-    // 3. CONTROLE DO MODAL DE EDIÇÃO
+    // 4. AÇÕES DO MODAL DE EXCLUSÃO (SIM / NÃO)
     // ==========================================
-    if (editModal) {
-        editModal.addEventListener("click", (e) => {
-            if (e.target === editModal) {
-                editModal.classList.remove("show");
+    if (btnConfirmYes) {
+        btnConfirmYes.addEventListener("click", () => {
+            if (itemSelecionadoParaAcao) {
+                itemSelecionadoParaAcao.remove();
+                itemSelecionadoParaAcao = null;
             }
+            if (deleteModal) deleteModal.classList.remove("show");
         });
     }
 
+    if (btnConfirmNo) {
+        btnConfirmNo.addEventListener("click", () => {
+            itemSelecionadoParaAcao = null;
+            if (deleteModal) deleteModal.classList.remove("show");
+        });
+    }
+
+    // ==========================================
+    // 5. ENVIO DO FORMULÁRIO DE EDIÇÃO (SALVAR)
+    // ==========================================
     if (editForm) {
         editForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            alert("Alterações salvas com sucesso!");
+            const novoNome = newNameInput.value.trim();
+            
+            if (novoNome && itemSelecionadoParaAcao) {
+                itemSelecionadoParaAcao.querySelector("span").textContent = novoNome.toUpperCase();
+            }
+            
             if (editModal) editModal.classList.remove("show");
+            itemSelecionadoParaAcao = null;
         });
     }
 
@@ -82,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 4. FUNCIONALIDADES DE SOLICITAÇÕES
+    // 6. FUNCIONALIDADES DE SOLICITAÇÕES
     // ==========================================
     if (solicitacoesList) {
         solicitacoesList.addEventListener("click", (e) => {
@@ -90,21 +146,19 @@ document.addEventListener("DOMContentLoaded", () => {
             
             if (!card || card.classList.contains("empty-slot")) return;
 
+            // Clicou em Aceitar
             if (e.target.classList.contains("btn-aceitar")) {
-                alert("Solicitação aceita com sucesso!");
                 card.remove(); 
             }
 
+            // Clicou em Rejeitar
             if (e.target.classList.contains("btn-rejeitar")) {
-                const confirmar = confirm("Deseja realmente rejeitar esta solicitação?");
-                if (confirmar) {
-                    card.remove();
-                }
+                card.remove();
             }
         });
     }
 
-    // Filtro da Barra de Pesquisa
+    // Filtro Dinâmico da Barra de Pesquisa
     if (searchInput) {
         searchInput.addEventListener("input", (e) => {
             const termoBusca = e.target.value.toLowerCase();
@@ -122,4 +176,16 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+
+    // Fechar modais clicando fora no fundo escuro
+    window.addEventListener("click", (e) => {
+        if (e.target === editModal) {
+            editModal.classList.remove("show");
+            itemSelecionadoParaAcao = null;
+        }
+        if (e.target === deleteModal) {
+            deleteModal.classList.remove("show");
+            itemSelecionadoParaAcao = null;
+        }
+    });
 });
