@@ -1,393 +1,294 @@
 /* =========================
-   RESET
+    RESET
 ========================= */
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Kameron', serif;
 }
 
 /* =========================
-   BODY
+    BODY
 ========================= */
 
-body{
+body {
     height: 100vh;
     overflow: hidden;
-
     background: #000000;
     color: #fff;
-
     display: flex;
     flex-direction: column;
 }
 
 /* =========================
-   CONTAINER PRINCIPAL
+    CONTAINER PRINCIPAL
 ========================= */
 
-.login-container{
+.login-container {
     flex: 1;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    padding: 20px 8%;
+    padding: 20px 10%;
 }
 
 /* =========================
-   ÁREA DA LOGO
+    ÁREA DA LOGO
 ========================= */
 
-.brand-area{
+.brand-area {
     flex: 1;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
-    padding-right: 120px;
+    padding-right: 60px;
 }
 
-.brand-content{
+.brand-content {
     text-align: center;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* brilho vermelho atrás da logo */
-
-.brand-content::before{
+/* Brilho vermelho atrás da logo */
+.brand-content::before {
     content: "";
-
     position: absolute;
-
-    width: 250px;
-    height: 250px;
-
+    width: 300px;
+    height: 300px;
     background: #c50f2a;
-
-    filter: blur(120px);
-    opacity: .15;
-
+    filter: blur(140px);
+    opacity: .2;
     top: 50%;
     left: 50%;
-
     transform: translate(-50%, -50%);
     z-index: -1;
 }
 
-.logo-img{
+.logo-img {
     width: 100%;
-    max-width: 380px;
-
+    max-width: 460px;
     user-select: none;
 }
 
-.brand-subtitle{
-    margin-top: 15px;
-
-    font-size: .8rem;
-    letter-spacing: 4px;
-
+.brand-subtitle {
+    margin-top: -35px;
+    font-size: .85rem;
+    letter-spacing: 3px;
     color: #b0b0b0;
 }
 
 /* =========================
-   CARD LOGIN
+    CARD LOGIN
 ========================= */
 
-.login-card{
-    width: 420px;
-
-    padding: 30px;
-
-    background: rgba(20,20,20,.95);
-
-    border: 1px solid rgba(255,255,255,.08);
-
-    border-radius: 30px;
-
-    box-shadow:
-        0 0 40px rgba(197,15,42,.15);
+.login-card {
+    width: 440px;
+    padding: 40px 35px;
+    background: #0d0d0d;
+    border: none;
+    border-radius: 24px;
+    box-shadow: 0 0 50px rgba(197, 15, 42, 0.35); 
+    
+    /* Ajuste para abaixar um pouco o card na tela */
+    position: relative;
+    top: 25px; 
 }
 
 /* =========================
-   ÍCONE LOGIN
+    ÍCONE LOGIN
 ========================= */
 
-.login-icon{
-    width: 65px;
-    height: 65px;
-
-    margin: 0 auto 20px;
-
+.login-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 25px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    background: #c50f2a;
-
+    background: #cc092f;
     border-radius: 50%;
+    font-size: 1.8rem;
+}
 
+/* =========================
+    TÍTULOS
+========================= */
+
+.login-card h1 {
+    text-align: center;
     font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+.login-description {
+    text-align: center;
+    color: #a0a0a0;
+    font-size: 0.95rem;
+    margin-bottom: 35px;
 }
 
 /* =========================
-   TÍTULOS
+    INPUTS
 ========================= */
 
-.login-card h1{
-    text-align: center;
-    margin-bottom: 10px;
+.input-group {
+    margin-bottom: 22px; 
 }
 
-.login-description{
-    text-align: center;
-
-    color: #aaa;
-
-    margin-bottom: 25px;
-}
-
-/* =========================
-   INPUTS
-========================= */
-
-.input-group{
-    margin-bottom: 18px;
-}
-
-.input-group label{
+.input-group label {
     display: block;
-
-    margin-bottom: 8px;
-
+    margin-bottom: 10px;
     font-size: .95rem;
+    font-weight: 400;
+    color: #ffffff;
 }
 
-.input-wrapper{
+.input-wrapper {
     position: relative;
 }
 
-.input-icon{
-    position: absolute;
-
-    left: 15px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    opacity: .6;
-}
-
-.input-wrapper input{
+.input-wrapper input {
     width: 100%;
-    height: 52px;
-
-    padding: 0 50px;
-
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 12px;
-
-    background: #1b1b1b;
-
+    height: 54px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 10px;
+    background: #161616;
     color: white;
-
+    font-size: 0.95rem;
     outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 6px rgba(197, 15, 42, 0.16); 
 }
 
-.input-wrapper input:focus{
-    border-color: #c50f2a;
+/* Efeito ao focar na caixa */
+.input-wrapper input:focus {
+    box-shadow: 0 0 12px rgba(204, 9, 47, 0.4);
 }
 
 /* =========================
-   OLHO DA SENHA
+    OLHO DA SENHA
 ========================= */
 
-.eye-icon{
+.eye-icon {
     position: absolute;
-
-    right: 15px;
+    right: 18px;
     top: 50%;
-
     transform: translateY(-50%);
-
     background: none;
     border: none;
-
     cursor: pointer;
-
     color: #aaa;
+    font-size: 1.1rem;
 }
 
 /* =========================
-   OPÇÕES
+    OPÇÕES (Lembrar-me / Esqueci a senha)
 ========================= */
 
-.options-row{
+.options-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    margin: 18px 0;
+    margin: 50px 0 24px 0; 
+    font-size: 0.9rem;
 }
 
-.remember-me{
+.remember-me {
     display: flex;
     align-items: center;
     gap: 8px;
-
     cursor: pointer;
+    color: #a0a0a0;
 }
 
-.forgot-password{
-    color: #c50f2a;
+.forgot-password {
+    color: #cc092f;
     text-decoration: none;
-
-    font-size: .9rem;
 }
 
-.forgot-password:hover{
+.forgot-password:hover {
     text-decoration: underline;
 }
 
 /* =========================
-   BOTÃO ENTRAR
+    BOTÃO ENTRAR
 ========================= */
 
-.btn-entrar{
+.btn-entrar {
     width: 100%;
-    height: 52px;
-
+    height: 54px;
     border: none;
-    border-radius: 12px;
-
-    background: #c50f2a;
-
+    border-radius: 10px;
+    background: #cc092f;
     color: white;
-
     font-size: 1rem;
     font-weight: 700;
-
     cursor: pointer;
-
-    transition: .3s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(204, 9, 47, 0.2);
 }
 
-.btn-entrar:hover{
-    background: #dd1738;
+.btn-entrar:hover {
+    background: #e60b35;
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(204, 9, 47, 0.4);
 }
 
 /* =========================
-   DIVISOR
+    FOOTER
 ========================= */
 
-.divider{
-    display: flex;
-    align-items: center;
-
-    margin: 20px 0;
-
-    color: #888;
-}
-
-.divider::before,
-.divider::after{
-    content: "";
-
-    flex: 1;
-
-    height: 1px;
-
-    background: #333;
-}
-
-.divider span{
-    margin: 0 15px;
-}
-
-/* =========================
-   BOTÃO GOOGLE
-========================= */
-
-.btn-google{
-    width: 100%;
-    height: 52px;
-
-    background: transparent;
-
-    border: 1px solid #444;
-    border-radius: 12px;
-
-    color: white;
-
-    cursor: pointer;
-
-    transition: .3s;
-}
-
-.btn-google:hover{
-    background: #1d1d1d;
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-.copyright{
-    position: fixed;
-
-    bottom: 15px;
-    left: 0;
-
-    width: 100%;
-
+.copyright {
     text-align: center;
-
-    color: #777;
-
-    font-size: .85rem;
+    padding: 20px;
+    background-color: #000000;
+    color: #555555;
+    font-size: 0.85rem;
+    border-top: 1px solid #111111;
+    width: 100%;
 }
 
 /* =========================
-   RESPONSIVO
+    RESPONSIVO
 ========================= */
 
-@media (max-width: 900px){
-
-    body{
+@media (max-width: 950px) {
+    body {
         overflow-y: auto;
     }
 
-    .login-container{
+    .login-container {
         flex-direction: column;
-
         justify-content: center;
-
-        gap: 40px;
-
-        padding: 40px 20px;
+        gap: 50px;
+        padding: 60px 20px;
     }
 
-    .brand-area{
+    .brand-area {
         padding-right: 0;
     }
 
-    .logo-img{
-        max-width: 280px;
+    .logo-img {
+        max-width: 320px;
     }
 
-    .login-card{
+    .brand-subtitle {
+        margin-top: -25px;
+    }
+
+    .login-card {
         width: 100%;
         max-width: 420px;
-    }
-
-    .copyright{
-        position: static;
-        padding-bottom: 20px;
+        
+        /* Reseta a posição relativa no mobile para não quebrar o fluxo vertical */
+        top: 0; 
     }
 }

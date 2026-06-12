@@ -7,82 +7,68 @@
     <title>ESTATEC - Login</title>
 
     <link rel="stylesheet" href="css/index.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kameron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
     <main class="login-container">
 
-        <!-- Lado esquerdo -->
         <section class="brand-area">
-
             <div class="brand-content">
                 <img src="../img/estatec.png" alt="ESTATEC" class="logo-img">
-
                 <p class="brand-subtitle">
                     SISTEMA DE CONTROLE DE ESTACIONAMENTOS
                 </p>
             </div>
-
         </section>
 
-        <!-- Card Login -->
         <section class="login-card">
 
             <div class="login-icon">
                 🔒
             </div>
 
-            <h1>Bem-vindo de volta!</h1>
+            <h1>BEM-VINDO DE VOLTA!</h1>
 
             <p class="login-description">
-                Faça login para acessar o sistema
+                Faça login para acessar o sistema.
             </p>
 
             <form id="loginForm">
 
                 <div class="input-group">
-                    <label for="email">E-mail</label>
-
+                    <label for="email">E-mail:</label>
                     <div class="input-wrapper">
-                        <span class="input-icon">✉</span>
-
                         <input
                             type="email"
                             id="email"
-                            placeholder="Ex.: usuario@email.com"
+                            placeholder="Ex.: estatec@gmail.com"
                             required>
                     </div>
                 </div>
 
                 <div class="input-group">
-                    <label for="password">Senha</label>
-
+                    <label for="password">Senha:</label>
                     <div class="input-wrapper password-wrapper">
-
-                        <span class="input-icon">🔒</span>
-
                         <input
                             type="password"
                             id="password"
-                            placeholder="Digite sua senha"
+                            placeholder="Ex.: estatec123"
                             required>
 
                         <button
                             type="button"
                             id="togglePassword"
                             class="eye-icon">
-
                             <span id="eyeOpen">👁</span>
-
                         </button>
-
                     </div>
                 </div>
 
                 <div class="options-row">
-
                     <label class="remember-me">
                         <input type="checkbox">
                         <span>Lembrar-me</span>
@@ -91,7 +77,6 @@
                     <a href="pages/redefinirSenha.html" class="forgot-password">
                         Esqueci minha senha
                     </a>
-
                 </div>
 
                 <button type="submit" class="btn-entrar">
@@ -99,7 +84,6 @@
                 </button>
 
             </form>
-
 
         </section>
 

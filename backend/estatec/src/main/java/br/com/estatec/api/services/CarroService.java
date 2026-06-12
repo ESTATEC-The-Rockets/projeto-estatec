@@ -5,30 +5,30 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.estatec.api.entities.Carros;
-import br.com.estatec.api.repositories.CarrosRepository;
+import br.com.estatec.api.entities.Carro;
+import br.com.estatec.api.repositories.CarroRepository;
 
 @Service
-public class CarrosService {
+public class CarroService {
 
 	@Autowired
-	private CarrosRepository repository;
+	private CarroRepository repository;
 
-	public List<Carros> listarTodos() {
+	public List<Carro> listarTodos() {
 		return repository.findAll();
 	}
 
-	public Carros buscarPorId(Long id) {
+	public Carro buscarPorId(Long id) {
 
 		return repository.findById(id).orElseThrow(() -> new RuntimeException("Carro não encontrado."));
 	}
 
-	public Carros salvar(Carros carro) {
+	public Carro salvar(Carro carro) {
 		if (carro.getPlaca() == null || carro.getPlaca().isBlank()) {
 			throw new RuntimeException("A placa do carro é obrigatória.");
 		}
 
-		Carros carroExistente = repository.findByPlaca(carro.getPlaca());
+		Carro carroExistente = repository.findByPlaca(carro.getPlaca());
 
 		if (carroExistente != null) {
 			throw new RuntimeException("Já existe um carro cadastrado com esta placa.");
@@ -37,8 +37,8 @@ public class CarrosService {
 		return repository.save(carro);
 	}
 
-	public Carros atualizar(Long id, Carros carroNovo) {
-		Carros carroAntigo = buscarPorId(id);
+	public Carro atualizar(Long id, Carro carroNovo) {
+		Carro carroAntigo = buscarPorId(id);
 
 		if (carroNovo.getMarca() != null && !carroNovo.getMarca().isBlank()) {
 			carroAntigo.setMarca(carroNovo.getMarca());
@@ -52,7 +52,7 @@ public class CarrosService {
 			carroAntigo.setPlaca(carroNovo.getPlaca());
 		}
 
-		Carros existente = repository.findByPlaca(carroNovo.getPlaca());
+		Carro existente = repository.findByPlaca(carroNovo.getPlaca());
 
 		if (existente != null && !existente.getIdCarros().equals(id)) {
 
