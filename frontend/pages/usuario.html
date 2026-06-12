@@ -1,151 +1,137 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESTATEC - Usuários</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="/css/usuario.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    
+    <link rel="stylesheet" href="../css/usuario.css">
 </head>
-
 <body>
 
-    <div class="container">
-        <aside class="sidebar">
-            <div class="logo-area">
-                <img src="/img/estatec.png" alt="ESTATEC" class="logo-img">
+<div class="app-container">
+
+    <aside class="sidebar" id="sidebar">
+        
+        <div class="logo-container">
+            <img src="../img/estatec.png" alt="ESTATEC" class="logo-estatec">
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-item">
+                <a href="#">
+                    <i class="fa-solid fa-database"></i>
+                    <span class="menu-text">Menu</span>
+                </a>
             </div>
-
-            <nav class="menu">
-                <a href="#" class="menu-item">
-                    <i class="fa-solid fa-house"></i> Dashboard
+            <div class="nav-item active">
+                <a href="#">
+                    <i class="fa-regular fa-user"></i>
+                    <span class="menu-text">Usuários</span>
                 </a>
-                <a href="#" class="menu-item">
-                    <i class="fa-solid fa-square-p"></i> Estacionamentos
-                </a>
-                <a href="#" class="menu-item active">
-                    <i class="fa-solid fa-user"></i> Usuários
-                </a>
-                <a href="#" class="menu-item">
-                    <i class="fa-solid fa-chart-simple"></i> Relatórios
-                </a>
-                <a href="#" class="menu-item justify-between">
-                    <span><i class="fa-solid fa-bell"></i> Solicitações</span>
-                    <span class="badge">2</span>
-                </a>
-                <a href="#" class="menu-item">
-                    <i class="fa-solid fa-gear"></i> Configurações
-                </a>
-            </nav>
-
-            <div class="sidebar-footer">
-                <a href="#" class="btn-logout">
-                    <i class="fa-solid fa-right-from-bracket"></i> Sair
-                </a>
-                <p class="copyright">© 2026 ESTATEC</p>
             </div>
-        </aside>
+            <div class="nav-item">
+                <a href="#">
+                    <i class="fa-solid fa-database"></i>
+                    <span class="menu-text">Dados</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="menu-text">Solicitações</span>
+                </a>
+            </div>
+        </nav>
 
-        <main class="main-content">
-            <header class="main-header">
-                <div class="header-top-row">
-                    <button class="menu-toggle">
-                        <i class="fa-solid fa-bars"></i>
+        <div class="sidebar-footer">
+            <a href="#" class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span class="menu-text">SAIR</span>
+            </a>
+            <p>© ESTATEC</p>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <button class="menu-toggle" id="menu-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="header-right">
+                <div class="header-buttons">
+                    <button class="btn-cadastro">CADASTRAR ESTACIONAMENTO</button>
+                    <button class="btn-estacionamentos">
+                        ESTACIONAMENTOS <i class="fa-solid fa-chevron-down"></i>
                     </button>
-
-                    <div class="user-profile">
-                        <div class="avatar">
-                            <i class="fa-solid fa-user"></i>
-                        </div>
-                        <span class="username">Dono Estacionamento</span>
-                    </div>
                 </div>
-                
-                <div class="header-full-line"></div>
-                
-                <div class="header-bottom-row">
-                    <div class="date-box">
-                        <div class="date-box-inner">
-                            <i class="fa-solid fa-calendar-days date-icon"></i>
-                            <div class="date-texts">
-                                <span class="date-str" id="current-date">10 de junho de 2026</span>
-                                <span class="day-str">quarta-feira</span>
-                            </div>
-                        </div>
+                <div class="profile user-profile">
+                    <div class="profile-avatar">
+                        <i class="fa-solid fa-user"></i>
                     </div>
+                    <span>DONO ESTACIONAMENTO</span>
                 </div>
-            </header>
+            </div>
+        </header>
 
-            <section class="content-body">
-                <div class="page-title-area">
-                    <h1>Usuários</h1>
-                    <p>Gerencie os clientes e veículos cadastrados no sistema.</p>
+        <section class="usuarios-section">
+            <div class="usuarios-top">
+                <div class="titulo-area">
+                    <h1>USUÁRIOS</h1>
                 </div>
-
-                <div class="card shadow-wrapper">
-                    <div class="card-header-actions">
-                        <h3>Clientes Cadastrados</h3>
-
-                        <div class="search-container">
-                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                            <input type="text" id="search-input" placeholder="Pesquisar carros / clientes...">
-                        </div>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table class="custom-table">
-                            <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Placa</th>
-                                    <th class="text-right">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="users-table-body">
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-input" placeholder="PESQUISAR PLACA/ CLIENTE">
                 </div>
-            </section>
-        </main>
-    </div>
+            </div>
 
-    <div id="type-modal" class="modal-overlay">
-        <div class="modal-card">
-            <div class="modal-header">
-                <h2>TIPO</h2>
-                <button class="close-modal-btn" onclick="closeModal()">&times;</button>
+            <div class="usuarios-list" id="users-table-body">
+                </div>
+        </section>
+    </main>
+
+</div>
+
+<div id="tipoModal" class="modal-overlay" onclick="closeModalOutside(event)">
+    <div class="modal-content">
+        <h2>TIPO</h2>
+        
+        <div class="modal-toggles">
+            <button id="btn-visitante" class="toggle-btn active" onclick="setTipo('visitante')">VISITANTE</button>
+            <button id="btn-fixo" class="toggle-btn" onclick="setTipo('fixo')">FIXO</button>
+        </div>
+
+        <div id="modal-dates" class="modal-dates">
+            <div class="input-group">
+                <label>INÍCIO:</label>
+                <div class="input-with-icon">
+                    <input type="text" placeholder="Ex: 20/02/2026">
+                    <i class="fa-regular fa-calendar"></i>
+                </div>
             </div>
             
-            <div class="modal-tabs-row">
-                <button id="tab-visitante" class="tab-btn active" onclick="switchTab('VISITANTE')">VISITANTE</button>
-                <button id="tab-fixo" class="tab-btn" onclick="switchTab('FIXO')">FIXO</button>
-            </div>
-
-            <div class="modal-body">
-                <div id="date-inputs-container" class="form-group-container">
-                    <div class="form-group">
-                        <label for="input-inicio">INÍCIO:</label>
-                        <input type="text" id="input-inicio" placeholder="Ex.: 20/02/2026" maxlength="10">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="input-fim">FIM:</label>
-                        <input type="text" id="input-fim" placeholder="Ex.: 21/02/2026" maxlength="10">
-                    </div>
+            <div class="input-group">
+                <label>FIM:</label>
+                <div class="input-with-icon">
+                    <input type="text" placeholder="Ex: 21/02/2026">
+                    <i class="fa-regular fa-calendar"></i>
                 </div>
-
-                <button class="btn-modal-save" onclick="saveTypeSelection()">SALVAR</button>
             </div>
         </div>
+
+        <button class="btn-salvar" onclick="closeModal()">SALVAR</button>
     </div>
+</div>
 
-    <script src="/script/usuario.js"></script>
+<script src="../js/usuario.js"></script>
+
 </body>
-
 </html>
