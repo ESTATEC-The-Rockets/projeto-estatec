@@ -15,9 +15,8 @@ public class DonoCarro extends Usuario {
 	
 	public DonoCarro() {}
 	
-	public DonoCarro(String nome, String rg, String cpf, LocalDate dataNascimento, String email, String senha,
-			String telefone) {
-		super(nome, dataNascimento, cpf, rg, email, senha, telefone);
+	public DonoCarro(String nome, String rg, String cpf, LocalDate dataNascimento, String email, String senha, String telefone) {
+	    super(nome, dataNascimento, email, senha, telefone, rg, cpf);
 	}
 	
 

@@ -24,14 +24,14 @@ public class Estacionamento {
 	@Column(name = "nome_estacionamento", unique = true, length = 100)
 	private String nomeEstacionamento;
 	
-	@ManyToOne
+	@ManyToOne(cascade = jakarta.persistence.CascadeType.MERGE)
     @JoinColumn(name = "fk_dono_estacionamento")
     private DonoEstacionamento donoEstacionamento;
 
 	public Estacionamento() {
 	}
 
-	public Estacionamento(String nomeEstacionamento, int qtdVagas, String localizacao) {
+	public Estacionamento(String nomeEstacionamento) {
 		this.nomeEstacionamento = nomeEstacionamento;
 	}
 
@@ -41,6 +41,22 @@ public class Estacionamento {
 
 	public void setNomeEstacionamento(String nomeEstacionamento) {
 		this.nomeEstacionamento = nomeEstacionamento;
+	}
+	
+	public Long getIdEstacionamento() {
+	    return idEstacionamento;
+	}
+
+	public void setIdEstacionamento(Long idEstacionamento) {
+	    this.idEstacionamento = idEstacionamento;
+	}
+
+	public DonoEstacionamento getDonoEstacionamento() {
+	    return donoEstacionamento;
+	}
+
+	public void setDonoEstacionamento(DonoEstacionamento donoEstacionamento) {
+	    this.donoEstacionamento = donoEstacionamento;
 	}
 
 }

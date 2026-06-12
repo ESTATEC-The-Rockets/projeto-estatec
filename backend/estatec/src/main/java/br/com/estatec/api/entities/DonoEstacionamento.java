@@ -17,10 +17,10 @@ public class DonoEstacionamento extends Usuario {
 	public DonoEstacionamento() {
 		
 	}
-	public DonoEstacionamento(String nome, String rg, String cpf, LocalDate dataNascimento, String email, String senha,
-			String telefone) {
-
-		super(nome, dataNascimento, cpf, rg, email, senha, telefone);
+	public DonoEstacionamento(String nome, LocalDate dataNascimento, String email, String senha,
+	        String telefone, String rg, String cpf) {
+	    
+		super(nome, dataNascimento, email, senha, telefone, rg, cpf);
 	}
 	
 }

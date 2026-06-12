@@ -30,8 +30,7 @@ body {
     flex: 1;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    /* Mantém a centralização vertical padrão */
+    align-items: center; /* Mantém a centralização vertical padrão */
     padding: 0 10%;
     height: calc(100vh - 60px);
 }
@@ -93,13 +92,12 @@ body {
     background: #0d0d0d;
     border: none;
     border-radius: 24px;
-    box-shadow: 0 0 50px rgba(197, 15, 42, 0.35);
+    box-shadow: 0 0 50px rgba(197, 15, 42, 0.35); 
     display: flex;
     flex-direction: column;
     justify-content: center;
-
-    margin-top: 50px;
-    /* Adicionado para empurrar apenas o card um pouco para baixo */
+    
+    margin-top: 50px; /* Adicionado para empurrar apenas o card um pouco para baixo */
 }
 
 /* =========================
@@ -167,7 +165,7 @@ body {
     font-size: 0.9rem;
     outline: none;
     transition: all 0.3s ease;
-    box-shadow: 0 0 6px rgba(197, 15, 42, 0.16);
+    box-shadow: 0 0 6px rgba(197, 15, 42, 0.16); 
 }
 
 .input-wrapper input:focus {
@@ -192,9 +190,9 @@ body {
 
 .password-requirements {
     background: transparent;
-    padding-left: 15px;
-    margin-top: 24px;
-    margin-bottom: 24px;
+    padding-left: 15px;       
+    margin-top: 24px;         
+    margin-bottom: 24px;      
 }
 
 .requirements-title {
@@ -221,7 +219,7 @@ body {
 .forgot-row {
     display: flex;
     justify-content: flex-end;
-    margin-top: 38px;
+    margin-top: 38px;    
     margin-bottom: 5px;
 }
 
@@ -304,7 +302,6 @@ body {
     .login-card {
         width: 100%;
         max-width: 420px;
-        margin-top: 0.01px;
-        /* Remove o margin do desktop para o mobile fluir melhor */
+        margin-top: 0; /* Remove o margin do desktop para o mobile fluir melhor */
     }
 }
