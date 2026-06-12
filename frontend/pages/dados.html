@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESTATEC - Menu</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+    <title>ESTATEC - Dados</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <link rel="stylesheet" href="../css/menu.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dados.css">
 </head>
-
 <body>
 
     <div class="app-container">
-
+        
         <aside class="sidebar" id="sidebar">
             <div class="logo-container">
                 <img src="../img/estatec.png" alt="ESTATEC" class="logo-estatec">
@@ -58,8 +55,8 @@
             </div>
         </aside>
 
-        <div class="main-content">
-
+        <main class="main-content">
+            
             <header class="header">
                 <button class="menu-toggle" id="menuToggle">
                     <i class="fa-solid fa-bars"></i>
@@ -67,32 +64,14 @@
 
                 <div class="header-buttons">
                     <a href="../pages/cadastroEstacionamento.html" class="btn-cadastro">CADASTRAR ESTACIONAMENTO</a>
-
+                    
                     <div class="dropdown-wrapper">
                         <button class="btn-estacionamentos" id="btnEstacionamentos">
                             ESTACIONAMENTOS <i class="fa-solid fa-chevron-down"></i>
                         </button>
-
+                        
                         <ul class="dropdown-menu" id="dropdownEstacionamentos">
-                            <li>
-                                <span>ESTACIONAMENTO 01</span>
-                                <div class="actions">
-                                    <button class="btn-edit-est" title="Editar"><i
-                                            class="fa-solid fa-pencil"></i></button>
-                                    <button class="btn-delete-est" title="Excluir"><i
-                                            class="fa-solid fa-trash"></i></button>
-                                </div>
-                            </li>
-                            <li>
-                                <span>ESTACIONAMENTO 02</span>
-                                <div class="actions">
-                                    <button class="btn-edit-est" title="Editar"><i
-                                            class="fa-solid fa-pencil"></i></button>
-                                    <button class="btn-delete-est" title="Excluir"><i
-                                            class="fa-solid fa-trash"></i></button>
-                                </div>
-                            </li>
-                        </ul>
+                            </ul>
                     </div>
                 </div>
 
@@ -107,51 +86,26 @@
                 </div>
             </header>
 
-
-            <main class="dashboard-body">
-
-                <div class="welcome-row">
-                    <div class="welcome-text">
-                        <h1>BEM-VINDO!</h1>
-                        <p>Aqui está o resumo do seu estacionamento.</p>
-                    </div>
-
-                    <div class="date-card">
-                        <i class="fa-regular fa-calendar"></i>
-                        <div>
-                            <span id="currentDate">10 de junho de 2026</span>
-                            <small id="currentDay">quarta-feira</small>
+            <div class="dados-section">
+                
+                <section class="chart-container">
+                    <h1>DADOS</h1>
+                    <div class="chart-container-box">
+                        <h3>Fluxo de Entrada no Estacionamento</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="fluxoChart"></canvas>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <div class="entradas-saidas-row">
-
-                    <section class="details-section">
-                        <div class="section-header">
-                            <h3>Últimas Entradas e Saídas</h3>
+                <section class="historico-container">
+                    <h2>HISTÓRICO</h2>
+                    <div class="historico-list" id="historicoList">
                         </div>
+                </section>
 
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>PLACA</th>
-                                    <th>TIPO</th>
-                                    <th>DATA</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </section>
-
-
-                </div>
-
-            </main>
-
-        </div>
-
+            </div>
+        </main>
     </div>
 
     <div class="modal-overlay" id="editModal">
@@ -159,16 +113,15 @@
             <h2>EDITAR ESTACIONAMENTO</h2>
             <form id="editForm">
                 <div class="form-group">
-                    <label for="newNameInput">NOVO NOME:</label>
-                    <input type="text" id="newNameInput" placeholder="Ex.: Estacionamento Novo" required>
+                    <label for="novoNome">NOVO NOME:</label>
+                    <input type="text" id="novoNome" placeholder="Ex.: Estacionamento Novo" required>
                 </div>
                 <button type="submit" class="btn-modal-save">SALVAR</button>
             </form>
         </div>
     </div>
 
-    <script src="../script/menu.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../script/dados.js"></script>
 </body>
-
 </html>
