@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 4. CONFIGURAÇÃO DO GRÁFICO (CHART.JS)
+    // 4. CONFIGURAÇÃO DO GRÁFICO VERMELHO NEON
     // ==========================================
     const ctx = document.getElementById('fluxoChart');
     if (ctx) {
@@ -131,9 +131,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     backgroundColor: gradient,
                     fill: true,
                     tension: 0.4, 
-                    pointBackgroundColor: '#c1122f',
-                    pointBorderColor: '#ffffff',
-                    pointHoverRadius: 7
+                    
+                    // Customização completa das bolinhas vermelhas neon (Miolos + Bordas)
+                    pointBackgroundColor: '#c1122f', 
+                    pointBorderColor: '#ff2e51',      
+                    pointBorderWidth: 2,
+                    pointRadius: 6,
+                    pointHoverRadius: 9,
+                    pointHoverBackgroundColor: '#ff2e51',
+                    pointHoverBorderColor: '#ffffff'
                 }]
             },
             options: {
@@ -152,7 +158,20 @@ document.addEventListener("DOMContentLoaded", () => {
                         ticks: { color: '#888888', font: { family: 'Inter' } }
                     }
                 }
-            }
+            },
+            // Criação do efeito luminoso (Glow effect) diretamente no canvas
+            plugins: [{
+                id: 'neonGlow',
+                beforeDraw: (chart) => {
+                    const ctxCanvas = chart.ctx;
+                    ctxCanvas.save();
+                    ctxCanvas.shadowBlur = 12;
+                    ctxCanvas.shadowColor = '#c1122f';
+                },
+                afterDraw: (chart) => {
+                    chart.ctx.restore();
+                }
+            }]
         });
     }
 });

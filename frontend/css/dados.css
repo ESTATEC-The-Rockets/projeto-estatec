@@ -13,7 +13,7 @@ body, html {
     color: #ffffff;
     width: 100vw;
     height: 100vh;
-    overflow: hidden; /* Força a tela a ficar totalmente fixa, sem rolamento */
+    overflow: hidden;
 }
 
 a {
@@ -203,7 +203,6 @@ ul {
     color: #ffffff;
 }
 
-/* ÍCONE DE USUÁRIO TOTALMENTE LIMPO (SEM CÍRCULO OU BORDA VERMELHA) */
 .user-profile {
     display: flex;
     align-items: center;
@@ -216,7 +215,7 @@ ul {
 
 .clean-avatar-icon {
     color: #c1122f;
-    font-size: 22px; /* Ícone limpo direto sem contornos artificiais */
+    font-size: 22px;
     background: transparent !important;
     border: none !important;
     outline: none !important;
@@ -285,7 +284,7 @@ ul {
 }
 
 /* ===================================
-    MAIN CONTENT (Ajustado para a Esquerda)
+    MAIN CONTENT
 =================================== */
 .main-content {
     flex: 1;
@@ -293,12 +292,12 @@ ul {
     background: radial-gradient(circle at top center, rgba(193,18,47,.10), transparent 40%), #070707;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Mantém o escopo da página travado */
+    overflow: hidden;
 }
 
 .dashboard-body {
     flex: 1;
-    padding: 30px 40px 30px 15px; /* Reduzido de 30px para 15px na esquerda para mover o conteúdo */
+    padding: 30px 40px 30px 15px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -338,19 +337,19 @@ ul {
 
 .chart-wrapper {
     width: 100%;
-    height: 240px; /* Reduzido levemente para encaixar perfeitamente em telas sem scroll */
+    height: 240px;
     position: relative;
 }
 
 /* ===================================
-    LISTA DE HISTÓRICO (Cores Normais)
+    LISTA DE HISTÓRICO (DATAS CENTRALIZADAS)
 =================================== */
 .historico-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 100%;
-    overflow-y: auto; /* Se o histórico crescer muito, rola apenas dentro da caixinha */
+    overflow-y: auto;
     padding-right: 5px;
 }
 
@@ -361,8 +360,15 @@ ul {
     padding: 16px 25px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     transition: all 0.25s ease;
+}
+
+/* Configuração em Grid de 3 Colunas: Nome na Esquerda, Datas no Centro Perfeito */
+.historico-wrapper-left {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    width: 100%;
 }
 
 .historico-item:hover {
@@ -374,6 +380,7 @@ ul {
     display: flex;
     align-items: center;
     gap: 15px;
+    justify-self: start; /* Fixa o nome na extremidade esquerda */
 }
 
 .avatar-bg {
@@ -399,9 +406,11 @@ ul {
     font-family: 'Inter', sans-serif;
 }
 
+/* Mantém as informações de entrada e saída centralizadas na linha */
 .timestamp-info {
     display: flex;
-    gap: 40px;
+    gap: 35px; 
+    justify-self: center; /* Move e fixa o bloco no centro */
 }
 
 .time-block {
@@ -409,10 +418,9 @@ ul {
     font-size: 14px;
 }
 
-/* TEXTOS DE ENTRADA E SAÍDA COM COR NORMAL (BRANCO) */
 .label {
     font-weight: 700;
-    color: #ffffff; /* Modificado de vermelho para branco padrão */
+    color: #ffffff; 
     margin-right: 6px;
 }
 
@@ -421,7 +429,7 @@ ul {
 }
 
 /* ===================================
-    MODAIS (Mantidos Dinâmicos)
+    MODAIS
 =================================== */
 .modal-overlay {
     display: none;
