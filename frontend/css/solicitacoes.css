@@ -101,7 +101,7 @@ ul{
     color: #ffffff;
     border: 1px solid #202020;
     padding: 12px 24px;
-    border-radius: 30px; /* Bordas arredondadas idênticas à imagem 2 */
+    border-radius: 30px; 
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.5px;
@@ -433,20 +433,23 @@ ul{
 }
 
 /* ===================================
-   TELA DE SOLICITAÇÕES
+   TELA DE SOLICITAÇÕES (AJUSTADO À ESQUERDA)
 =================================== */
 
 .solicitacoes-body {
     padding: 40px;
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100%;
+    /* Removido o max-width restrito para colar o h2 totalmente na esquerda da tela */
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 .solicitacoes-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
+    width: 100%;
 }
 
 .solicitacoes-header h2 {
@@ -454,7 +457,9 @@ ul{
     font-weight: 700;
     color: #ffffff;
     letter-spacing: 0.5px;
-    
+    /* Força o título a alinhar totalmente à esquerda */
+    text-align: left;
+    margin: 0;
 }
 
 /* Barra de Pesquisa */
@@ -492,6 +497,7 @@ ul{
     display: flex;
     flex-direction: column;
     gap: 14px;
+    width: 100%;
 }
 
 .solicitacao-card {
@@ -514,6 +520,13 @@ ul{
     height: 65px;
     background-color: #050505;
     border: 1px solid #0f0f0f;
+}
+
+.status-banco {
+    color: #555555;
+    font-size: 14px;
+    font-style: italic;
+    padding: 10px 5px;
 }
 
 /* Detalhes do Usuário e Placa */

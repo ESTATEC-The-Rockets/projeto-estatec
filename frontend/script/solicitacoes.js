@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (e.target.classList.contains("btn-rejeitar")) {
-                const confirmar = confirm("Deseja realmente rejeitar esta solicitação?");
+                const confirmar = confirm("Deseja realmente rejeitar esta solicitaçao?");
                 if (confirmar) {
                     card.remove();
                 }
@@ -122,4 +122,47 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+
+    // ========================================================
+    // FUNÇÃO PARA INJETAR OS DADOS DO SEU BANCO DE DADOS (API)
+    // ========================================================
+    function carregarSolicitacoesDoBanco() {
+        // Exemplo de Array estruturado que virá do seu Banco de Dados futuramente
+        const dadosDoBanco = [
+            { nome: "Roberta de Fátima", placa: "LOR2A16" },
+            { nome: "Luan Ferreira", placa: "CEU2O11" },
+            { nome: "Yuri Silveira de Lima", placa: "VAI2I55" },
+            { nome: "Maya Campos", placa: "VOU2U03" }
+        ];
+
+        if (!solicitacoesList) return;
+
+        // Limpa o texto de aviso "Conecte seu banco..." antes de injetar
+        const statusMsg = solicitacoesList.querySelector(".status-banco");
+        if (statusMsg) statusMsg.remove();
+
+        // Loop para renderizar cada card vindo do Banco
+        dadosDoBanco.forEach(item => {
+            const cardHtml = `
+                <div class="solicitacao-card">
+                    <div class="user-info">
+                        <div class="user-icon"><i class="fa-solid fa-user"></i></div>
+                        <span class="user-name">${item.nome}</span>
+                    </div>
+                    <div class="plate-info">
+                        <strong>PLACA:</strong> ${item.placa}
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-aceitar">ACEITAR</button>
+                        <button class="btn-rejeitar">REJEITAR</button>
+                    </div>
+                </div>
+            `;
+            // Insere os cards no início da lista, mantendo os slots vazios decorativos embaixo
+            solicitacoesList.insertAdjacentHTML("afterbegin", cardHtml);
+        });
+    }
+
+    // DESCOMENTE A LINHA ABAIXO para simular o banco de dados funcionando na hora!
+    // carregarSolicitacoesDoBanco();
 });
