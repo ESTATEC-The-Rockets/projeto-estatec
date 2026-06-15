@@ -50,7 +50,6 @@ public class Carro {
 	
 	@ManyToOne
 	@JoinColumn(name = "fk_dono_carro")
-	@JsonIgnore
 	private DonoCarro donoCarro;
 	
 	@OneToMany(mappedBy = "carro", cascade = CascadeType.ALL)

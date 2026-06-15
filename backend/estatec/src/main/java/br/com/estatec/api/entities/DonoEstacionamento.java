@@ -3,6 +3,8 @@ package br.com.estatec.api.entities;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -11,6 +13,7 @@ import jakarta.persistence.OneToMany;
 public class DonoEstacionamento extends Usuario {
 	
 	@OneToMany(mappedBy = "donoEstacionamento", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Estacionamento> estacionamentos;
 	
 	
