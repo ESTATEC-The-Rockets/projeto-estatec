@@ -113,7 +113,4 @@ public class Historico {
 		this.entrada = entrada;
 	}
 	
-	
-	
-
 }
