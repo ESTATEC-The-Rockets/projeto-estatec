@@ -52,9 +52,6 @@ public class Carro {
 	@JoinColumn(name = "fk_dono_carro")
 	private Usuario usuario;
 	
-	@OneToMany(mappedBy = "carro", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Historico> historicos;
 
 	public Carro() {}
 
@@ -113,13 +110,6 @@ public class Carro {
 		this.usuario = usuario;
 	}
 
-	public List<Historico> getHistoricos() {
-		return historicos;
-	}
 
-	public void setHistoricos(List<Historico> historicos) {
-		this.historicos = historicos;
-	}
-	
 	
 }

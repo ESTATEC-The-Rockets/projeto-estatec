@@ -3,7 +3,7 @@ const formCadastro = document.getElementById("cadastroForm");
 formCadastro.addEventListener("submit", async function(event) {
     event.preventDefault();
 
-    const idInput = document.getElementById("estacionamentoId").value;
+    const idInput = document.getElementById("idEstacionamento").value;
     const nomeInput = document.getElementById("nomeEstacionamento").value;
 
     const urlBase = "http://localhost:8080/estacionamento";
