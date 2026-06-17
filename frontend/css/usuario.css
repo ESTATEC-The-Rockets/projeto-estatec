@@ -40,13 +40,13 @@ button {
 }
 
 /* ===================================
-   SIDEBAR (PADRONIZADA)
+   SIDEBAR (OTIMIZADA E MODERNA)
 =================================== */
 
 .sidebar {
-    width: 230px;
+    width: 210px;
     background: #000000;
-    border-right: 2px solid #c1122f;
+    border-right: 1px solid #c1122f;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -57,63 +57,71 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 25px 15px;
+    padding: 20px 15px;
 }
 
 .logo-estatec {
-    width: 170px;
+    width: 140px;
     height: auto;
     transition: .3s;
 }
 
 /* ===================================
-    SIDEBAR NAV (CORREÇÃO DEFINITIVA)
+    SIDEBAR NAV (ITENS MAIS JUNTOS E MODERNOS)
 =================================== */
 
 .sidebar-nav {
     flex: 1;
+    padding: 10px 0;
+}
 
+.sidebar-nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .nav-item {
-    margin: 0 15px;
-   position: relative
+    margin: 0 12px;
+    position: relative;
 }
 
 .nav-item a {
     display: flex;
     align-items: center;
     gap: 12px;
-    color: #d9d9d9;
-    padding: 12px 14px;;   
-    border-radius: 10px;
-    font-size: 15px;
-    transition: .3s;
-
+    color: #a3a3a3;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
 .nav-item a:hover {
-    background: #1a1a1a;
+    background: #141414;
+    color: #ffffff;
 }
 
 .nav-item.active a {
     background: #c1122f !important;
     color: #ffffff !important;
+    font-weight: 600;
 }
 
 .nav-item i {
-    width: 24px;
+    width: 20px;
     text-align: center;
+    font-size: 16px;
 }
-
 
 .menu-text {
     white-space: nowrap;
 }
 
 .sidebar-footer {
-    border-top: 1px solid #202020;
-    padding: 20px 15px;
+    border-top: 1px solid #141414;
+    padding: 15px 12px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -126,19 +134,22 @@ button {
     justify-content: center;
     gap: 10px; 
     width: 100%;
-    color: white;
-    margin-bottom: 15px;
+    color: #a3a3a3;
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 10px;
     font-size: 14px;
     transition: .3s;
 }
 
 .logout-btn:hover {
+    background: #141414;
     color: #c1122f;
 }
 
 .sidebar-footer p {
-    font-size: 12px;
-    color: #777;
+    font-size: 11px;
+    color: #525252;
 }
 
 /* ===================================
@@ -146,11 +157,11 @@ button {
 =================================== */
 
 .sidebar.collapsed {
-    width: 80px;
+    width: 70px;
 }
 
 .sidebar.collapsed .logo-estatec {
-    width: 45px;
+    width: 35px;
 }
 
 .sidebar.collapsed .menu-text,
@@ -161,6 +172,7 @@ button {
 
 .sidebar.collapsed .nav-item a {
     justify-content: center;
+    padding: 10px 0;
 }
 
 .sidebar.collapsed .logout-btn {
@@ -168,7 +180,7 @@ button {
 }
 
 .sidebar.collapsed .logo-container {
-    padding: 20px 10px;
+    padding: 15px 10px;
 }
 
 /* ===================================
@@ -181,13 +193,13 @@ button {
     align-items: center;
     padding: 0 25px;
     border-bottom: 1px solid #1c1c1c;
-    gap: 30px; /* Adiciona um espaço base entre o menu, os botões e o perfil */
+    gap: 30px; 
 }
 
 .header-buttons {
     display: flex;
     gap: 15px;
-    margin-right: auto; /* Isso é a mágica: empurra tudo que vem depois (o perfil) para a direita, mantendo os botões na esquerda */
+    margin-right: auto; 
 }
 
 .main-content {
@@ -199,25 +211,13 @@ button {
     transition: .3s;
 }
 
-.header {
-    height: 65px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-    border-bottom: 1px solid #1c1c1c;
-}
+/* Removi a classe duplicada .header que estava reescrevendo o estilo principal */
 
 .header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-}
-
-.header-buttons {
-    display: flex;
-    gap: 15px;
 }
 
 .header-right {
@@ -253,17 +253,29 @@ button {
     font-size: 10px;
 }
 
-.profile {
+/* Estilo atualizado do Usuário para a cor vermelha */
+.user-profile {
     display: flex;
     align-items: center;
     gap: 10px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600; /* Deixei um pouco mais grosso para dar destaque */
+    color: #c1122f; /* A cor vermelha do seu layout */
 }
 
-.profile-avatar {
-    color: #c1122f;
+.user-profile i {
     font-size: 18px;
+}
+
+.notifications {
+    color: #cfcfcf;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.notifications:hover {
+    color: #ffffff;
 }
 
 /* ===================================
@@ -321,4 +333,3 @@ button {
 .search-box input::placeholder {
     color: #666666;
 }
-

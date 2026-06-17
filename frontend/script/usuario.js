@@ -103,4 +103,11 @@ async function handleDelete(id) {
 // INICIALIZAÇÃO: Dispara assim que a página abre
 document.addEventListener("DOMContentLoaded", () => {
     carregarTabela();
+
+    if (menuToggle && sidebar) {
+        menuToggle.addEventListener("click", () => {
+            sidebar.classList.toggle("collapsed");
+        });
+    }
 });
+

@@ -104,7 +104,7 @@ async function handleDelete(id) {
 // INICIALIZAÇÃO: Dispara assim que a página abre
 document.addEventListener("DOMContentLoaded", () => {
     carregarTabela();
-=======
+
     // Elementos do Dropdown e Modais
     const btnEstacionamentos = document.getElementById("btnEstacionamentos");
     const dropdownEstacionamentos = document.getElementById("dropdownEstacionamentos");
@@ -225,4 +225,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 >>>>>>> ba4205a5f926623b5bcbb4cdf8d4a4d89a674a80
+
+if (menuToggle && sidebar) {
+        menuToggle.addEventListener("click", () => {
+            sidebar.classList.toggle("collapsed");
+        });
+    }
 });
+
