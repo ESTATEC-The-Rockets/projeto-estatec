@@ -26,7 +26,7 @@ public class Estacionamento {
 	
 	@ManyToOne(cascade = jakarta.persistence.CascadeType.MERGE)
     @JoinColumn(name = "fk_dono_estacionamento")
-    private DonoEstacionamento donoEstacionamento;
+    private Usuario usuario;
 
 	public Estacionamento() {
 	}
@@ -51,12 +51,12 @@ public class Estacionamento {
 	    this.idEstacionamento = idEstacionamento;
 	}
 
-	public DonoEstacionamento getDonoEstacionamento() {
-	    return donoEstacionamento;
+	public Usuario getUsario() {
+	    return usuario;
 	}
 
-	public void setDonoEstacionamento(DonoEstacionamento donoEstacionamento) {
-	    this.donoEstacionamento = donoEstacionamento;
+	public void setUsuario(Usuario usuario) {
+	    this.usuario = usuario;
 	}
 
 }

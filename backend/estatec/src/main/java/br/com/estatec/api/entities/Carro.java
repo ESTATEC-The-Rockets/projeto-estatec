@@ -50,7 +50,7 @@ public class Carro {
 	
 	@ManyToOne
 	@JoinColumn(name = "fk_dono_carro")
-	private DonoCarro donoCarro;
+	private Usuario usuario;
 	
 	@OneToMany(mappedBy = "carro", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -105,12 +105,12 @@ public class Carro {
 		this.cor = cor;
 	}
 
-	public DonoCarro getDonoCarro() {
-		return donoCarro;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setDonoCarro(DonoCarro donoCarro) {
-		this.donoCarro = donoCarro;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public List<Historico> getHistoricos() {
