@@ -9,6 +9,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/menu.css">
+    <style>
+        body, html, .app-container {
+            overflow-y: auto !important;
+            min-height: 100vh !important;
+        }
+        .main-content {
+            overflow-y: auto !important;
+            height: 100vh !important;
+        }
+    </style>
+</head>
 </head>
 
 <body>
@@ -131,7 +142,7 @@
                                     <th>MODELO CARRO</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="users-table-body">
                             </tbody>
                         </table>
                     </section>

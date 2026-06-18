@@ -17,13 +17,15 @@ async function carregarTabela() {
         renderTabela(historicoLista); 
     } catch (error) {
         console.error("Erro ao buscar dados do servidor:", error);
-        tableBody.innerHTML = `
-            <tr>
-                <td colspan="3" style="text-align: center; color: #ff3b30; padding: 32px;">
-                    Erro ao conectar com o servidor Java. Verifique se o Back-end está rodando.
-                </td>
-            </tr>
-        `;
+        if(tableBody) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="3" style="text-align: center; color: #ff3b30; padding: 32px;">
+                        Erro ao conectar com o servidor Java. Verifique se o Back-end está a correr.
+                    </td>
+                </tr>
+            `;
+        }
     }
 }
 
@@ -31,13 +33,15 @@ async function carregarTabela() {
 // RENDERIZAÇÃO DA TABELA (PLACA, USUÁRIO E MODELO)
 // ==========================================
 function renderTabela(lista) {
+    if (!tableBody) return; // Proteção extra caso o HTML não carregue a tempo
+
     tableBody.innerHTML = "";
 
     if (lista.length === 0) {
         tableBody.innerHTML = `
             <tr>
                 <td colspan="3" style="text-align: center; color: #8e8e93; padding: 32px;">
-                    Nenhum registro de estacionamento encontrado.
+                    Nenhum registo de estacionamento encontrado.
                 </td>
             </tr>
         `;
@@ -47,11 +51,15 @@ function renderTabela(lista) {
     lista.forEach(registro => {
         const tr = document.createElement("tr");
         
-        // Aqui exibimos exatamente os 3 dados solicitados (Sem botões de excluir)
+        // CORREÇÃO AQUI: Agora a usar '.nome' exatamente como está na sua classe Usuario.java
+        const placaSegura = registro?.carro?.placa || "Sem placa";
+        const nomeSeguro = registro?.carro?.usuario?.nome || "Não identificado";
+        const modeloSeguro = registro?.carro?.modelo || "Sem modelo";
+
         tr.innerHTML = `
-            <td style="font-weight: 500;">${registro.carro.placa}</td>
-            <td style="color: #b3b3b3; font-family: monospace; font-size: 15px; letter-spacing: 0.5px;">${registro.carro.usuario.nome}</td>
-            <td style="color: #b3b3b3; font-family: monospace; font-size: 15px; letter-spacing: 0.5px;">${registro.carro.modelo}</td>
+            <td style="font-weight: 500;">${placaSegura}</td>
+            <td style="color: #b3b3b3; font-family: monospace; font-size: 15px; letter-spacing: 0.5px;">${nomeSeguro}</td>
+            <td style="color: #b3b3b3; font-family: monospace; font-size: 15px; letter-spacing: 0.5px;">${modeloSeguro}</td>
         `;
         
         tableBody.appendChild(tr);
@@ -66,12 +74,14 @@ if (searchInput) {
         const searchTerm = e.target.value.toLowerCase().trim();
         
         const listaFiltrada = historicoLista.filter(registro => {
-            // Criando variáveis para evitar erros caso algum dado venha nulo do banco
             const placa = registro.carro && registro.carro.placa ? registro.carro.placa.toLowerCase() : "";
-            const nomeUsuario = registro.carro && registro.carro.usuario && registro.carro.usuario.nome ? registro.carro.usuario.nome.toLowerCase() : "";
+            
+            // CORREÇÃO AQUI: Ajustado também no filtro de pesquisa para '.nome'
+            const nomeBusca = registro.carro && registro.carro.usuario && registro.carro.usuario.nome ? registro.carro.usuario.nome.toLowerCase() : "";
+            
             const modelo = registro.carro && registro.carro.modelo ? registro.carro.modelo.toLowerCase() : "";
 
-            return placa.includes(searchTerm) || nomeUsuario.includes(searchTerm) || modelo.includes(searchTerm);
+            return placa.includes(searchTerm) || nomeBusca.includes(searchTerm) || modelo.includes(searchTerm);
         });
         
         renderTabela(listaFiltrada);
@@ -84,9 +94,9 @@ if (searchInput) {
 document.addEventListener("DOMContentLoaded", () => {
     carregarTabela();
 
-    // Controle do menu lateral (Sidebar)
-    const menuToggle = document.getElementById("menuToggle"); // Ajuste o ID se necessário
-    const sidebar = document.querySelector(".sidebar"); // Ajuste a classe se necessário
+    // Controlo do menu lateral (Sidebar)
+    const menuToggle = document.getElementById("menuToggle"); 
+    const sidebar = document.querySelector(".sidebar"); 
 
     if (menuToggle && sidebar) {
         menuToggle.addEventListener("click", () => {
@@ -94,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Controle de redirecionamento do botão cadastrar
+    // Controlo de redirecionamento do botão cadastrar
     const btnCadastro = document.querySelector(".btn-cadastro");
     if (btnCadastro) {
         btnCadastro.addEventListener("click", () => {
