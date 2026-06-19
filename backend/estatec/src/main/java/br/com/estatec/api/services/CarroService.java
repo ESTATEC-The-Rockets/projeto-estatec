@@ -11,18 +11,22 @@ import br.com.estatec.api.repositories.CarroRepository;
 @Service
 public class CarroService {
 
+	// herda funcionalidades da classe "Repository"
 	@Autowired
 	private CarroRepository repository;
 
+	// Função para listar todos os carros
 	public List<Carro> listarTodos() {
 		return repository.findAll();
 	}
 
+	// Função para buscar o carro pelo id
 	public Carro buscarPorId(Long id) {
 
 		return repository.findById(id).orElseThrow(() -> new RuntimeException("Carro não encontrado."));
 	}
 
+	// Função para salvar o carro registrados pelo usuario
 	public Carro salvar(Carro carro) {
 		if (carro.getPlaca() == null || carro.getPlaca().isBlank()) {
 			throw new RuntimeException("A placa do carro é obrigatória.");
@@ -30,6 +34,7 @@ public class CarroService {
 
 		Carro carroExistente = repository.findByPlaca(carro.getPlaca());
 
+		// condicional para validar se o carro ja existe ou não
 		if (carroExistente != null) {
 			throw new RuntimeException("Já existe um carro cadastrado com esta placa.");
 		}
@@ -37,6 +42,7 @@ public class CarroService {
 		return repository.save(carro);
 	}
 
+	// Função para atualizar o carro conforme a edição do usuário
 	public Carro atualizar(Long id, Carro carroNovo) {
 		Carro carroAntigo = buscarPorId(id);
 
@@ -69,7 +75,9 @@ public class CarroService {
 
 	}
 
+	// Função para deletar carros ja registrados
 	public void deletar(Long id) {
 		repository.deleteById(id);
+		
 	}
 }

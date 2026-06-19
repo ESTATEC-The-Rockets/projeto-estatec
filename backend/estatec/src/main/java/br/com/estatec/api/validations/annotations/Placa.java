@@ -14,6 +14,8 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = PlacaValidator.class)
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
+
+// Transformando a validação criada em uma anotação do sistema
 public @interface Placa {
     
     String message() default "Placa fora dos padrões.";

@@ -4,6 +4,8 @@ import br.com.estatec.api.validations.annotations.TelefoneBR;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+
+// Criação de uma validação personalizada de telefones brasileiros
 public class TelefoneBRValidator implements ConstraintValidator<TelefoneBR, String>{
 
 	@Override

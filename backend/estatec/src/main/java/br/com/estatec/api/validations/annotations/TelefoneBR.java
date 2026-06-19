@@ -14,6 +14,8 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = TelefoneBRValidator.class)
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
+
+// Transformando a validação em uma anotação do sistema
 public @interface TelefoneBR {
 	
 	String message() default "Telefone inválido.";

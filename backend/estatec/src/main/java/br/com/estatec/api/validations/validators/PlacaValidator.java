@@ -4,6 +4,8 @@ import br.com.estatec.api.validations.annotations.Placa;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+
+// Criação de uma validação personalizada de placas
 public class PlacaValidator implements ConstraintValidator<Placa, String> {
 
     @Override
