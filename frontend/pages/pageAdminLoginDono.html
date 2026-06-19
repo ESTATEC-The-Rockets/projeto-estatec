@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - ESTATEC</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #0b0b0b; 
+            color: #ffffff;
+            padding: 20px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container { 
+            background: #141414; 
+            padding: 40px; 
+            border-radius: 12px; 
+            width: 100%; 
+            max-width: 500px; 
+            box-shadow: 0 4px 25px rgba(204, 9, 47, 0.2); 
+            border: 1px solid #222;
+        }
+        h2 { text-align: center; color: #cc092f; margin-bottom: 5px; font-weight: 700; }
+        p { text-align: center; color: #888; margin-bottom: 30px; font-size: 14px; }
+        .input-group { margin-bottom: 18px; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #bbb; font-size: 14px; }
+        .input-group input { 
+            width: 100%; 
+            padding: 12px; 
+            background: #1f1f1f;
+            border: 1px solid #333; 
+            border-radius: 6px; 
+            color: #fff;
+            box-sizing: border-box; 
+        }
+        .input-group input:focus { border-color: #cc092f; outline: none; }
+        .btn-container { display: flex; flex-direction: column; gap: 10px; margin-top: 25px; }
+        .btn { 
+            width: 100%; 
+            padding: 14px; 
+            border: none; 
+            border-radius: 6px; 
+            font-weight: bold; 
+            font-size: 15px; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+        }
+        .btn-cadastrar { background-color: #cc092f; color: white; }
+        .btn-cadastrar:hover { background-color: #e60b35; }
+        .btn-sair { background-color: #222; color: #aaa; border: 1px solid #333; }
+        .btn-sair:hover { background-color: #333; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>PAINEL DO ADMINISTRADOR</h2>
+        <p>Cadastre novos Donos de Estacionamento no Banco de Dados</p>
+        
+        <form id="formCadastroDono">
+            <div class="input-group">
+                <label>Nome Completo:</label>
+                <input type="text" id="cad-nome" placeholder="Ex: João Silva" required>
+            </div>
+            <div class="input-group">
+                <label>CPF:</label>
+                <input type="text" id="cad-cpf" placeholder="123.456.789-00" required>
+            </div>
+            <div class="input-group">
+                <label>RG:</label>
+                <input type="text" id="cad-rg" placeholder="12.345.678-9" required>
+            </div>
+            <div class="input-group">
+                <label>Data de Nascimento:</label>
+                <input type="date" id="cad-dataNascimento" required>
+            </div>
+            <div class="input-group">
+                <label>Telefone:</label>
+                <input type="text" id="cad-telefone" placeholder="11999999999" required>
+            </div>
+            <div class="input-group">
+                <label>E-mail (Login do Dono):</label>
+                <input type="email" id="cad-email" placeholder="dono@email.com" required>
+            </div>
+            <div class="input-group">
+                <label>Senha de Acesso:</label>
+                <input type="password" id="cad-senha" placeholder="Mínimo 8 caracteres" required>
+            </div>
+            
+            <div class="btn-container">
+                <button type="submit" class="btn btn-cadastrar">CADASTRAR DONO</button>
+                <button type="button" class="btn btn-sair" onclick="sairAdmin()">SAIR DO PAINEL</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="../script/pageAdminLoginDono.js"></script>
+</body>
+</html>

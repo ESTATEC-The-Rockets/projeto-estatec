@@ -37,9 +37,20 @@ public class UsuarioController {
 
 	@PostMapping("/login")
 	public ResponseEntity<Usuario> login(@RequestBody Usuario usuarioLogin){
-		Usuario usuario = service.login(usuarioLogin.getEmail(), usuarioLogin.getSenha());
-		
-		return ResponseEntity.ok(usuario);
+	    try {
+	        Usuario usuario = service.login(usuarioLogin.getEmail(), usuarioLogin.getSenha());
+	        
+	        // Se encontrou o utilizador e a senha bateu certo
+	        if (usuario != null) {
+	            return ResponseEntity.ok(usuario);
+	        }
+	        
+	        // Se as credenciais estiverem erradas, devolve o erro 401 Unauthorized
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	        
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	    }
 	}
 	
 	@GetMapping
