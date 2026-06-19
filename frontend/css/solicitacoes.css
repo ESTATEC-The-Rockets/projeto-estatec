@@ -300,17 +300,18 @@ ul {
 /* ===================================
     TELA DE SOLICITAÇÕES
 =================================== */
+/* AJUSTE REALIZADO AQUI PARA ALINHAR À ESQUERDA */
 .solicitacoes-body {
     padding: 40px;
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 100%; /* Alterado para ocupar o espaço disponível */
+    margin: 0; /* Removido o 'auto' para que não fique centralizado */
 }
 
 .solicitacoes-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px; /* ERRO CORRIGIDO AQUI: de 2000px para 20px */
 }
 
 .solicitacoes-header h2 {
