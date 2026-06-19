@@ -22,9 +22,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "tb_carros")
+@Table(name = "tb_carros") // Torna a entidade uma tabela no banco de dados
 public class Carro {
 
+	
+	// Atributos necessários para a entidade "Carro" com as restrições e validações de segurança
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idCarros;
@@ -48,11 +50,13 @@ public class Carro {
 	@Column(name = "cor")
 	private Cor cor;	
 	
+	// Relação da entidade "Carro" com a entidade "Usuario"
 	@ManyToOne
-	@JoinColumn(name = "fk_dono_carro")
+	@JoinColumn(name = "fk_dono_carro") // gera uma foreign key na tabela do banco de dados
 	private Usuario usuario;
 	
 
+	// Métodos construtores para a entidade "Carro"
 	public Carro() {}
 
 	public Carro(String marca, String modelo, String placa, Cor cor) {
@@ -62,6 +66,7 @@ public class Carro {
 		this.cor = cor;
 	}
 
+	// Getter e setter da entidade "Carro"
 	public Long getIdCarros() {
 		return idCarros;
 	}

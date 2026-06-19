@@ -14,17 +14,20 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.PastOrPresent;
 
 @Entity
-@Table(name = "tb_historico") 
+@Table(name = "tb_historico") // 
 public class Historico {
 	
+	// Atributos necessários para a entidade e suas restrições e validações
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	// Relacionamento entre a entidade "Carro" e a entidade "Histórico"
 	@ManyToOne
 	@JoinColumn(name = "fk_carro")
 	private Carro carro;
 	
+	// Relacionamento entre a entidade "Estacionamento" e a entidade "Histórico"
 	@ManyToOne
 	@JoinColumn(name = "fk_estacionamento")
 	private Estacionamento estacionamento;
@@ -43,6 +46,7 @@ public class Historico {
 	private boolean entrada;
 	
 	
+	// Métodos construtores da entidade
 	public Historico(){
 		
 	}
@@ -57,6 +61,7 @@ public class Historico {
 	    this.entrada = entrada;
 	}
 
+	// Getters e setters da entidade 
 	public Long getId() {
 		return id;
 	}
