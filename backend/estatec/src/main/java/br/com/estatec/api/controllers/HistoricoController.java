@@ -32,7 +32,6 @@ public class HistoricoController {
 		
 	}
 	
-	
 	@GetMapping("/{id}")
 	public ResponseEntity<Historico> buscar(@PathVariable Long id){
 		

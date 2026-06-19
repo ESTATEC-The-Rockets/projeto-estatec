@@ -20,13 +20,15 @@ import br.com.estatec.api.services.UsuarioService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/usuarios")
-@CrossOrigin("*")
+@RequestMapping("/usuarios") // endpoint
+@CrossOrigin("*") // libera o acesso para qualquer origem
 public class UsuarioController {
 	
+	// herda todas as funções da classe "Service"
 	@Autowired
 	private UsuarioService service;
 
+	// Método para cadastrar o usuario no sistema
 	@PostMapping("/cadastro")
 	public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody Usuario usuario) {
 
@@ -35,6 +37,7 @@ public class UsuarioController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioSalvo);
 	}
 
+	// metodo para validar o login do usuário no sistema
 	@PostMapping("/login")
 	public ResponseEntity<Usuario> login(@RequestBody Usuario usuarioLogin){
 	    try {
@@ -53,11 +56,13 @@ public class UsuarioController {
 	    }
 	}
 	
+	// Método para listar todos usuários registrados
 	@GetMapping
 	public ResponseEntity<List<Usuario>> listarTodos(){
 	    return ResponseEntity.ok(service.listarTodos());
 	}
 	
+	// Método para buscar os usuários pelo id
 	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> buscarPorId(@PathVariable Long id){
 
@@ -66,6 +71,7 @@ public class UsuarioController {
 	            .orElse(ResponseEntity.notFound().build());
 	}
 	
+	// Método para editar/atualizar o usuário ja registrado já
 	@PutMapping("/{id}")
 	public ResponseEntity<Usuario> atualizar(
 	        @PathVariable Long id,
@@ -76,6 +82,7 @@ public class UsuarioController {
 	    return ResponseEntity.ok(atualizado);
 	}
 	
+	// Método para deletar usuário registrados do sistema
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deletar(@PathVariable Long id){
 
