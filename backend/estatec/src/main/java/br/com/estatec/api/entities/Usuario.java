@@ -17,9 +17,10 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "tb_usuario")
+@Table(name = "tb_usuario") // Torna a entidade uma tabela no banco de dados
 public class Usuario {
-
+	
+	// Atributos necessários da entidade "Usuario" com as restrições e validações de segurança
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idUsuario;
@@ -61,6 +62,8 @@ public class Usuario {
 	@NotBlank(message = "O telefone é obrigatório.")
 	protected String telefone;
 
+	
+	// Métodos construtores da entidade 
 	public Usuario() {
 
 	}
@@ -78,6 +81,8 @@ public class Usuario {
 		this.telefone = telefone;
 	}
 
+	
+	// Getter e setter da entidade
 	public Long getId() {
 	    return idUsuario;
 	}
