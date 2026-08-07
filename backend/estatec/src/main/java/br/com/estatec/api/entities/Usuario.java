@@ -2,8 +2,6 @@ package br.com.estatec.api.entities;
 
 import java.time.LocalDate;
 
-import org.hibernate.validator.constraints.br.CPF;
-
 import br.com.estatec.api.validations.annotations.TelefoneBR;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,47 +17,53 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "tb_usuario")
+@Table(name = "tb_usuario") // Torna a entidade uma tabela no banco de dados
 public class Usuario {
-
+	
+	// Atributos necessários da entidade "Usuario" com as restrições e validações de segurança
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long idUsuario;
 
 	@Pattern(regexp = "^[\\p{L}]+( [\\p{L}]+)*$", message = "O nome do usuário deve conter apenas letras e espaços.")
 	@NotBlank(message = "O nome do usuário é obrigatório.")
+	@Column(name = "nome_usuario", length = 120, unique = false)
 	protected String nome;
 
 	@NotBlank(message = "O RG é obrigatório.")
 	@Pattern(regexp = "^[A-Za-z0-9.-]+$", message = "RG deve conter apenas números, letras, ponto e hífen.")
 	@Size(min = 7, max = 12, message = "RG deve ter pelo menos 7 dígitos.")
-	@Column(nullable = false, unique = true, length = 12)
+	@Column(name = "rg", unique = true, length = 12)
 	protected String rg;
 
 	@NotBlank(message = "O CPF é obrigatório.")
-	@CPF(message = "O CPF é inválido.")
-	@Column(nullable = false, unique = true, length = 14)
+	// @CPF(message = "O CPF é inválido.")
+	@Column(name = "cpf", unique = true)
 	protected String cpf;
 
 	@NotNull(message = "A data de nascimento é obrigatória.")
 	@Past(message = "Data de nascimento deve estar no passado.")
+	@Column(name = "data_nascimento", unique = false)
 	protected LocalDate dataNascimento;
 
 	@Email(message = "E-mail inválido.")
 	@Size(max = 120, message = "E-mail deve ter no máximo 120 caracteres.")
-	@Column(unique = true, length = 120)
+	@Column(name = "email", unique = true)
+	@NotBlank(message = "O e-mail é obrigatório.")
 	protected String email;
 
 	@NotBlank(message = "A senha é obrigatória.")
-	@Pattern(regexp = "^[A-Za-z0-9_@#]+$", message = "A senha deve conter apenas letras, números, underline, arroba e hashtag.")
 	@Size(min = 8, message = "A senha deve conter no mínimo 8 caracteres.")
+	@Column(name = "senha")
 	protected String senha;
 
 	@TelefoneBR(message = "Telefone deve estar no padrão brasileiro.")
-	@Column(length = 20, unique = true)
+	@Column(unique = true, name = "telefone")
 	@NotBlank(message = "O telefone é obrigatório.")
 	protected String telefone;
 
+	
+	// Métodos construtores da entidade 
 	public Usuario() {
 
 	}
@@ -75,16 +79,16 @@ public class Usuario {
 		this.email = email;
 		this.senha = senha;
 		this.telefone = telefone;
-		this.rg = rg;
-		this.cpf = cpf;
 	}
 
+	
+	// Getter e setter da entidade
 	public Long getId() {
-		return id;
+	    return idUsuario;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+	    this.idUsuario = id;
 	}
 
 	public String getNome() {
@@ -143,8 +147,5 @@ public class Usuario {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
-	
-
 
 }

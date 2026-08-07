@@ -1,96 +1,199 @@
+/* =========================
+    RESET & FONTE PADRÃO
+========================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: 'Inter', sans-serif;
 }
 
 body {
-    background-color: #000;
-    height: 88vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.login-container {
-    width: 100%;
-    max-width: 450px;
+    background: #000000;
+    color: #fff;
+    height: 100vh;
+    overflow: hidden; /* Mantém a tela 100% fixa, sem rolagem */
     display: flex;
     flex-direction: column;
+}
+
+/* =========================
+    POSICIONAMENTO CENTRALIZADO
+========================= */
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 0px 20px 20px; 
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
     align-items: center;
 }
 
-.logo-img {
-    width: 400px;
-    margin-bottom: 20px;
+/* LOGO NO TOPO */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    margin-top: -120px;   /* Subiu apenas a logo em direção ao topo */
+    margin-bottom: 45px;  /* Aumentado para empurrar o card de volta para baixo */
 }
 
-.login-card {
-    background-color: #f8faf8;
-    width: 90%;
-    padding: 40px;
-    border-radius: 40px;
+/* Efeito esfumado atrás do logotipo */
+.logo-container::before {
+    content: "";
+    position: absolute;
+    width: 350px;
+    height: 180px;
+    background: #c50f2a;
+    filter: blur(140px);
+    opacity: .15;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.logo {
+    width: 100%;
+    max-width: 380px; 
+    height: auto;
+}
+
+/* =========================
+    CARD DE CADASTRO
+========================= */
+
+.cadastro-card {
+    width: 100%;
+    max-width: 640px; 
+    padding: 40px 35px;
+    background: #0d0d0d;
+    border: none;
+    border-radius: 24px;
+    
+    /* Esfumado vermelho ao redor do card */
+    box-shadow: 0 0 50px rgba(197, 15, 42, 0.35); 
+    
+    margin-top: 0px; 
+}
+
+.cadastro-card h1 {
     text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
 }
 
-.title {
-    font-size: 1.2rem;
-    font-weight: 800;
-    margin-bottom: 30px;
-    color: #000;
+.description {
+    text-align: center;
+    color: #a0a0a0;
+    font-size: 0.88rem;
+    margin-bottom: 35px;
 }
+
+/* =========================
+    INPUTS NO PADRÃO ESCURO
+========================= */
 
 .input-group {
-    text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .input-group label {
     display: block;
-    font-weight: 600;
-    font-size: 0.9rem;
     margin-bottom: 8px;
-    color: #333;
+    font-size: .88rem;
+    color: #ffffff;
+    font-weight: 400;
 }
 
-input {
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper input {
     width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ccc;
+    height: 48px;
+    padding: 0 16px;
+    border: none;
     border-radius: 10px;
-    outline: none;
+    background: #161616; 
+    color: white;
     font-size: 0.9rem;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 6px rgba(197, 15, 42, 0.16); 
 }
 
-input::placeholder {
-    color: #bbb;
+.input-wrapper input:focus {
+    box-shadow: 0 0 12px rgba(204, 9, 47, 0.4);
 }
+
+/* =========================
+    BOTÃO CADASTRAR
+========================= */
 
 .btn-cadastrar {
     width: 100%;
-    background-color: #bc1624;
-    color: #fff;
+    height: 48px;
     border: none;
-    padding: 14px;
-    border-radius: 12px;
+    border-radius: 10px;
+    background: #cc092f;
+    color: white;
+    font-size: 0.95rem;
     font-weight: 700;
-    font-size: 1rem;
     cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(204, 9, 47, 0.2);
 }
 
 .btn-cadastrar:hover {
-    filter: brightness(1.2);
+    background: #e60b35;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(204, 9, 47, 0.4);
 }
 
+/* =========================
+    RODAPÉ PADRÃO
+========================= */
+
 .copyright {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    font-size: 0.8rem;
+    text-align: center;
+    padding: 20px;
+    background-color: #000000;
+    color: #555555;
+    font-size: 0.85rem;
+    border-top: 1px solid #111111;
+    width: 100%;
+    margin-top: auto; 
+}
+
+/* =========================
+    RESPONSIVO
+========================= */
+
+@media(max-width:768px) {
+    body {
+        overflow-y: auto; 
+    }
+
+    .logo-container {
+        margin-top: 0px; 
+        margin-bottom: 15px;
+    }
+
+    .cadastro-card {
+        padding: 30px 20px;
+    }
+
+    .logo {
+        max-width: 280px;
+    }
 }

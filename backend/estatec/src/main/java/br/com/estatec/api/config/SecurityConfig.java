@@ -3,28 +3,36 @@ package br.com.estatec.api.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity 
 public class SecurityConfig {
 
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-           
-        http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth.requestMatchers("/usuarios/**").permitAll()
-                                                                            .requestMatchers("/api/estacionamento/**").permitAll()
-                                                                            .requestMatchers("/api/carros").permitAll()
-                                                                            .requestMatchers("api/donos-carro").permitAll()
-                                                                            .requestMatchers("api/donos-estacionamento").permitAll()
-                                                                            .anyRequest().authenticated());
-        
-        return http.build();
-    }
-	
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		
+		http
+			.cors(cors -> cors.disable()) 
+			.csrf(csrf -> csrf.disable()) 
+			.authorizeHttpRequests(auth -> auth
+				.requestMatchers("/error").permitAll() 
+				.requestMatchers("/usuarios/**").permitAll()
+				.requestMatchers("/estacionamento/**").permitAll()
+				.requestMatchers("/carros/**").permitAll()
+				.requestMatchers("/donos-carro/**").permitAll()
+				.requestMatchers("/donos-estacionamento/**").permitAll()
+				.requestMatchers("/historico/**").permitAll()
+				.anyRequest().authenticated()
+			);
+
+		return http.build();
+	}
 }

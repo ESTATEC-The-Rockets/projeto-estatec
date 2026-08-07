@@ -1,146 +1,294 @@
+/* =========================
+    RESET
+========================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: 'Inter', sans-serif;
 }
+
+/* =========================
+    BODY
+========================= */
 
 body {
-    background-color: #000;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     overflow: hidden;
+    background: #000000;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
 }
+
+/* =========================
+    CONTAINER PRINCIPAL
+========================= */
 
 .login-container {
-    width: 100%;
-    max-width: 1100px;
-    padding: 40px;
+    flex: 1;
     display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: space-between;
-    gap: 50px;
+    align-items: center;
+    padding: 20px 10%;
 }
 
-.logo-area {
+/* =========================
+    ÁREA DA LOGO
+========================= */
+
+.brand-area {
     flex: 1;
     display: flex;
     justify-content: center;
-    margin-bottom: 0;
+    align-items: center;
+    padding-right: 60px;
+}
+
+.brand-content {
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Brilho vermelho atrás da logo */
+.brand-content::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: #c50f2a;
+    filter: blur(140px);
+    opacity: .2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
 }
 
 .logo-img {
     width: 100%;
-    max-width: 500px;
-    height: auto;
+    max-width: 460px;
+    user-select: none;
 }
+
+.brand-subtitle {
+    margin-top: -35px;
+    font-size: .85rem;
+    letter-spacing: 3px;
+    color: #b0b0b0;
+}
+
+/* =========================
+    CARD LOGIN
+========================= */
 
 .login-card {
-    background-color: #f4f6f1;
-    width: 100%;
-    max-width: 400px;
-    padding: 50px 40px;
-    border-radius: 40px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 440px;
+    padding: 40px 35px;
+    background: #0d0d0d;
+    border: none;
+    border-radius: 24px;
+    box-shadow: 0 0 50px rgba(197, 15, 42, 0.35); 
+    
+    /* Ajuste para abaixar um pouco o card na tela */
+    position: relative;
+    top: 25px; 
 }
 
-h1 {
-    font-size: 1.4rem;
-    margin-bottom: 30px;
-    letter-spacing: 1px;
-    font-weight: 800;
-    color: #000;
+/* =========================
+    ÍCONE LOGIN
+========================= */
+
+.login-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #cc092f;
+    border-radius: 50%;
+    font-size: 1.8rem;
 }
+
+/* =========================
+    TÍTULOS
+========================= */
+
+.login-card h1 {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+.login-description {
+    text-align: center;
+    color: #a0a0a0;
+    font-size: 0.95rem;
+    margin-bottom: 35px;
+}
+
+/* =========================
+    INPUTS
+========================= */
 
 .input-group {
-    text-align: left;
-    margin-bottom: 20px;
-
+    margin-bottom: 22px; 
 }
 
 .input-group label {
     display: block;
-    font-weight: 500;
-    margin-bottom: 8px;
-    font-size: 1rem;
-    color: #333;
+    margin-bottom: 10px;
+    font-size: .95rem;
+    font-weight: 400;
+    color: #ffffff;
 }
 
-input {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    outline: none;
-    font-size: 0.9rem;
-    background-color: #fff;
-}
-
-.password-wrapper {
+.input-wrapper {
     position: relative;
 }
 
+.input-wrapper input {
+    width: 100%;
+    height: 54px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 10px;
+    background: #161616;
+    color: white;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 6px rgba(197, 15, 42, 0.16); 
+}
+
+/* Efeito ao focar na caixa */
+.input-wrapper input:focus {
+    box-shadow: 0 0 12px rgba(204, 9, 47, 0.4);
+}
+
+/* =========================
+    OLHO DA SENHA
+========================= */
+
 .eye-icon {
     position: absolute;
-    right: 15px;
+    right: 18px;
     top: 50%;
     transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
+    color: #aaa;
+    font-size: 1.1rem;
 }
+
+/* =========================
+    OPÇÕES (Lembrar-me / Esqueci a senha)
+========================= */
+
+.options-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 50px 0 24px 0; 
+    font-size: 0.9rem;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #a0a0a0;
+}
+
+.forgot-password {
+    color: #cc092f;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+    BOTÃO ENTRAR
+========================= */
 
 .btn-entrar {
     width: 100%;
-    background-color: #bc1623;
-    color: white;
+    height: 54px;
     border: none;
-    padding: 14px;
     border-radius: 10px;
-    font-weight: bold;
+    background: #cc092f;
+    color: white;
     font-size: 1rem;
+    font-weight: 700;
     cursor: pointer;
-    margin-top: 15px;
-    transition: filter 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(204, 9, 47, 0.2);
 }
 
 .btn-entrar:hover {
-    filter: brightness(1.2);
+    background: #e60b35;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(204, 9, 47, 0.4);
 }
 
-.footer-links {
-    margin-top: 25px;
-    display: flex;
-    justify-content: center;
-}
-
-.footer-links a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    font-size: 0.75rem;
-}
+/* =========================
+    FOOTER
+========================= */
 
 .copyright {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    font-size: 0.8rem;
+    text-align: center;
+    padding: 20px;
+    background-color: #000000;
+    color: #555555;
+    font-size: 0.85rem;
+    border-top: 1px solid #111111;
+    width: 100%;
 }
 
-@media (max-width: 850px) {
-    .login-container {
-        flex-direction: column;
-        text-align: center;
+/* =========================
+    RESPONSIVO
+========================= */
+
+@media (max-width: 950px) {
+    body {
+        overflow-y: auto;
     }
 
-    .logo-area {
-        margin-bottom: 30px;
+    .login-container {
+        flex-direction: column;
+        justify-content: center;
+        gap: 50px;
+        padding: 60px 20px;
+    }
+
+    .brand-area {
+        padding-right: 0;
+    }
+
+    .logo-img {
+        max-width: 320px;
+    }
+
+    .brand-subtitle {
+        margin-top: -25px;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 420px;
+        
+        /* Reseta a posição relativa no mobile para não quebrar o fluxo vertical */
+        top: 0; 
     }
 }

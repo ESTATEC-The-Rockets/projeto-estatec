@@ -1,38 +1,43 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const togglePassword = document.querySelector('#togglePassword');
-    const passwordInput = document.querySelector('#password');
-    const loginForm = document.querySelector('#loginForm');
-    const forgotPasswordLink = document.querySelector('#forgotPassword');
+const formLogin = document.getElementById("loginForm");
 
-    if (togglePassword && passwordInput) {
-        togglePassword.addEventListener('click', () => {
-            const isPassword = passwordInput.getAttribute('type') === 'password';
-            const type = isPassword ? 'text' : 'password';
+formLogin.addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-            passwordInput.setAttribute('type', type);
-            togglePassword.innerHTML = isPassword ? '<span>🗨️</span>' : '<span>👁️‍🗨️</span>';
-        });
+    const emailInput = document.getElementById("email").value.trim();
+    const passwordInput = document.getElementById("password").value;
+
+    // 1. VALIDAÇÃO LOCAL DO ADMINISTRADOR GERAL
+    if (emailInput === "admin@estacionamento.com" && passwordInput === "admin123") {
+        localStorage.setItem("token", "token_admin_gerado_2026");
+        localStorage.setItem("isAdmin", "true");
+        
+        // Redireciona diretamente para o painel de administração de donos
+        window.location.href = "pages/pageAdminLoginDono.html";
+        return; 
     }
 
-    if (forgotPasswordLink) {
-        forgotPasswordLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = "../redefinirSenha/index.html";
+    // 2. LOGIN DOS DONOS DE ESTACIONAMENTO VIA API SPRING BOOT
+    try {
+        const resposta = await fetch("http://localhost:8080/usuarios/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }, 
+            body: JSON.stringify({
+                email: emailInput,      
+                senha: passwordInput    
+            })
         });
-    }
 
-    if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const email = document.querySelector('#email').value;
-            const password = passwordInput.value;
-
-            if (email && password) {
-                window.location.href = "../menuInicial/index.html";
-            } else {
-                alert("Por favor, preencha o e-mail e a senha.");
-            }
-        });
+        if (resposta.ok) { 
+            const dadosUsuario = await resposta.json(); 
+            localStorage.setItem("usuarioSessao", JSON.stringify(dadosUsuario));
+            localStorage.setItem("isAdmin", "false"); // Garante que não é admin geral
+            
+            window.location.href = "pages/menu.html";
+        } else {
+            alert("E-mail ou senha inválidos!");
+        }
+    } catch (erro) {
+        console.error(erro);
+        alert("Erro ao conectar com o servidor. Verifique se o Spring Boot está rodando.");
     }
 });

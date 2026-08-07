@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.estatec.api.enums.Cor;
 import br.com.estatec.api.validations.annotations.Placa;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,55 +14,59 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "tb_carros")
-public class Carros {
+@Table(name = "tb_carros") // Torna a entidade uma tabela no banco de dados
+public class Carro {
 
+	
+	// Atributos necessários para a entidade "Carro" com as restrições e validações de segurança
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idCarros;
 
 	@Size(min = 3, max = 15, message = "O nome da marca deve ter de 3 a 15 letras.")
 	@NotBlank(message = "A marca não pode ficar em branco.")
+	@Column(name = "marca" )
 	private String marca;
 
 	@Size(min = 2, max = 50, message = "O nome do modelo do carro deve ter de 2 a 50 caracteres.")
 	@NotBlank(message = "O modelo não pode ficar em branco.")
+	@Column(name = "modelo")
 	private String modelo;
 
 	@Placa
-	@Column(unique = true, length = 8)
+	@Column(name = "placa", unique = true, length = 8)
 	@NotBlank(message = "A placa não pode estar vazia")
 	private String placa;
 
-	// _________________________________________________
-
 	@Enumerated(EnumType.STRING)
-	private Cor cor;
-
-	// __________________________________________________
+	@Column(name = "cor")
+	private Cor cor;	
 	
+	// Relação da entidade "Carro" com a entidade "Usuario"
+	@ManyToOne
+	@JoinColumn(name = "fk_dono_carro") // gera uma foreign key na tabela do banco de dados
+	private Usuario usuario;
 	
-	@OneToMany(mappedBy = "carro")
-    @JsonIgnore
-    private List<DonoCarro> donos;
 
-	public Carros() {
+	// Métodos construtores para a entidade "Carro"
+	public Carro() {}
 
-	}
-
-	public Carros(String marca, String modelo, String placa, Cor cor) {
+	public Carro(String marca, String modelo, String placa, Cor cor) {
 		this.marca = marca;
 		this.modelo = modelo;
 		this.placa = placa;
 		this.cor = cor;
 	}
 
+	// Getter e setter da entidade "Carro"
 	public Long getIdCarros() {
 		return idCarros;
 	}
@@ -101,4 +106,15 @@ public class Carros {
 	public void setCor(Cor cor) {
 		this.cor = cor;
 	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+
+	
 }

@@ -1,5 +1,6 @@
 package br.com.estatec.api.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,40 +9,38 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
-@Table(name = "tb_estacionamento")
+@Table(name = "tb_estacionamento") // Torna a entidade uma tabela no banco de dados
 public class Estacionamento {
 	
+	// Atributos necessários da entidade "Estacionamento" com as restrições e validações de segurança
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long idEstacionamento;
 
 	@Pattern(regexp = "^[\\p{L}]+( [\\p{L}]+)*$", message = "O nome do estacionamento deve conter apenas letras e espaços.")
 	@NotBlank(message = "O nome do estacionamento é obrigatório.")
+	@Column(name = "nome_estacionamento", unique = true, length = 100)
 	private String nomeEstacionamento;
 	
-	@NotNull(message = "A quantidade de vagas é obrigatória.")
-	private int qtdVagas;
-	
-	@NotNull(message = "Insira a localização do seu estacionamento.")
-	private String localizacao;
-	
-	@ManyToOne
-    @JoinColumn(name = "dono_id")
-    private DonoEstacionamento donoEstacionamento;
+	// Relação das entidades "Usuario" e "Estacionamento"
+	@ManyToOne(cascade = jakarta.persistence.CascadeType.MERGE)
+    @JoinColumn(name = "fk_dono_estacionamento") // gera uma foreign key na tabela no banco de dados
+    private Usuario usuario;
 
+	
+	// Metodos construtores da entidade "Estacionamento"
 	public Estacionamento() {
 	}
 
-	public Estacionamento(String nomeEstacionamento, int qtdVagas, String localizacao) {
+	public Estacionamento(String nomeEstacionamento) {
 		this.nomeEstacionamento = nomeEstacionamento;
-		this.qtdVagas = qtdVagas;
-		this.localizacao = localizacao;
 	}
+	
 
+	// Getters e setter da entidade "Estacionamento"
 	public String getNomeEstacionamento() {
 		return nomeEstacionamento;
 	}
@@ -49,20 +48,21 @@ public class Estacionamento {
 	public void setNomeEstacionamento(String nomeEstacionamento) {
 		this.nomeEstacionamento = nomeEstacionamento;
 	}
-
-	public int getQtdVagas() {
-		return qtdVagas;
-	}
-
-	public void setQtdVagas(int qtdVagas) {
-		this.qtdVagas = qtdVagas;
-	}
 	
-	public String getLocalizacao() {
-		return localizacao;
+	public Long getIdEstacionamento() {
+	    return idEstacionamento;
 	}
-	public void setLocalizacao(String localizacao) {
-		this.localizacao = localizacao;
+
+	public void setIdEstacionamento(Long idEstacionamento) {
+	    this.idEstacionamento = idEstacionamento;
+	}
+
+	public Usuario getUsario() {
+	    return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+	    this.usuario = usuario;
 	}
 
 }

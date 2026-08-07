@@ -1,371 +1,172 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 
-
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESTATEC - Dados</title>
 
-    <title>ESTATEC - Usuários</title>
-
-
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-    <link rel="stylesheet" href="../css/usuario.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Kameron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/dados.css">
 </head>
-
-
 
 <body>
 
-
-
     <div class="app-container">
 
-
-
         <aside class="sidebar" id="sidebar">
-
             <div class="logo-container">
-
                 <img src="../img/estatec.png" alt="ESTATEC" class="logo-estatec">
-
             </div>
-
-
-
             <nav class="sidebar-nav">
-
                 <ul>
-
                     <li class="nav-item">
-
-                        <a href="./menu.html">
-
+                        <a href="menu.html">
                             <i class="fa-solid fa-house"></i>
-
                             <span class="menu-text">Menu</span>
-
                         </a>
-
                     </li>
-
-
-
-                    <li class="nav-item active">
-
-                        <a href="#">
-
+                    <li class="nav-item">
+                        <a href="../pages/usuario.html">
                             <i class="fa-solid fa-user"></i>
-
                             <span class="menu-text">Usuários</span>
-
                         </a>
-
                     </li>
-
-
-
-                    <li class="nav-item">
-
-                        <a href="./dados.html">
-
+                    <li class="nav-item active">
+                        <a href="../pages/dados.html">
                             <i class="fa-solid fa-chart-simple"></i>
-
                             <span class="menu-text">Dados</span>
-
                         </a>
-
                     </li>
-
-
-
                     <li class="nav-item">
-
-                        <a href="./solicitacoes.html">
-
+                        <a href="../pages/solicitacoes.html">
                             <i class="fa-solid fa-bell"></i>
-
                             <span class="menu-text">Solicitações</span>
-
                         </a>
-
                     </li>
-
                 </ul>
-
             </nav>
-
-
-
             <div class="sidebar-footer">
-
                 <a href="../index.html" class="logout-btn">
-
                     <i class="fa-solid fa-right-from-bracket"></i>
-
                     <span>Sair</span>
-
                 </a>
-
                 <p>© 2026 ESTATEC</p>
-
             </div>
-
         </aside>
 
-
-
-        <main class="main-content">
+        <div class="main-content">
 
             <header class="header">
-
                 <button class="menu-toggle" id="menuToggle">
-
                     <i class="fa-solid fa-bars"></i>
-
                 </button>
 
-                
-
                 <div class="header-buttons">
-
                     <a href="../pages/cadastroEstacionamento.html" class="btn-cadastro">CADASTRAR ESTACIONAMENTO</a>
 
-                    
-
                     <div class="dropdown-wrapper">
-
                         <button class="btn-estacionamentos" id="btnEstacionamentos">
-
                             ESTACIONAMENTOS <i class="fa-solid fa-chevron-down"></i>
-
                         </button>
 
-
-
                         <ul class="dropdown-menu" id="dropdownEstacionamentos">
-
                             <li>
-
                                 <span>ESTACIONAMENTO 01</span>
-
                                 <div class="actions">
-
                                     <button class="btn-edit-est" title="Editar"><i class="fa-solid fa-pencil"></i></button>
-
                                     <button class="btn-delete-est" title="Excluir"><i class="fa-solid fa-trash"></i></button>
-
                                 </div>
-
                             </li>
-
                             <li>
-
                                 <span>ESTACIONAMENTO 02</span>
-
                                 <div class="actions">
-
                                     <button class="btn-edit-est" title="Editar"><i class="fa-solid fa-pencil"></i></button>
-
                                     <button class="btn-delete-est" title="Excluir"><i class="fa-solid fa-trash"></i></button>
-
                                 </div>
-
                             </li>
-
                         </ul>
-
                     </div>
-
                 </div>
-
-
 
                 <div class="header-right">
-
                     <a href="solicitacoes.html" class="notifications">
-
                         <i class="fa-solid fa-bell"></i>
-
                     </a>
-
                     <div class="user-profile">
-
                         <i class="fa-solid fa-circle-user clean-avatar-icon"></i>
-
                         <span>Dono Estacionamento</span>
-
                     </div>
-
                 </div>
-
             </header>
 
-
-
-            <section class="usuarios-section">
-
-                <div class="usuarios-top">
-
-                    <div class="titulo-area">
-
-                        <h1>USUÁRIOS</h1>
-
+            <main class="dashboard-body">
+                
+                <h1 class="main-title">DADOS</h1>
+                
+                <div class="chart-container-box">
+                    <h3 class="chart-title">Fluxo de Entrada no Estacionamento</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="fluxoChart"></canvas>
                     </div>
-
-                    <div class="search-box">
-
-                        <i class="fa-solid fa-magnifying-glass"></i>
-
-                        <input type="text" id="search-input" placeholder="PESQUISAR PLACA/ CLIENTE">
-
-                    </div>
-
                 </div>
 
+                <h2 class="sub-title">HISTÓRICO</h2>
 
-
-                <div class="usuarios-list" id="users-table-body">
-
+                <div class="historico-list">
+                    <div class="historico-item">
+                        <div class="historico-wrapper-left">
+                            <div class="user-info">
+                                <div class="avatar-bg">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <span class="user-name">Lucas Emanuel de Souza</span>
+                            </div>
+                            <div class="timestamp-info">
+                                <div class="time-block">
+                                    <span class="label">ENTRADA:</span>
+                                    <span class="date-value">20-02-2026</span>
+                                </div>
+                                <div class="time-block">
+                                    <span class="label">SAÍDA:</span>
+                                    <span class="date-value">20-02-2026</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-            </section>
+            </main>
 
-        </main>
-
-
-
+        </div>
     </div>
-
-
 
     <div class="modal-overlay" id="editModal">
-
         <div class="modal-content">
-
             <h2>EDITAR ESTACIONAMENTO</h2>
-
             <form id="editForm">
-
                 <div class="form-group">
-
                     <label for="newNameInput">NOVO NOME:</label>
-
                     <input type="text" id="newNameInput" placeholder="Ex.: Estacionamento Novo" required>
-
                 </div>
-
                 <button type="submit" class="btn-modal-save">SALVAR</button>
-
             </form>
-
         </div>
-
     </div>
-
-
 
     <div class="modal-overlay" id="deleteModal">
-
         <div class="modal-confirm-content">
-
             <h2>Deseja realmente excluir este estacionamento?</h2>
-
             <div class="modal-confirm-buttons">
-
                 <button type="button" class="btn-confirm-yes" id="btnConfirmYes">Sim</button>
-
                 <button type="button" class="btn-confirm-no" id="btnConfirmNo">Não</button>
-
             </div>
-
         </div>
-
     </div>
 
-
-
-    <div id="tipoModal" class="modal-overlay" onclick="closeModalOutside(event)">
-
-        <div class="modal-content">
-
-            <h2>TIPO</h2>
-
-
-
-            <div class="modal-toggles">
-
-                <button id="btn-visitante" class="toggle-btn active" onclick="setTipo('visitante')">VISITANTE</button>
-
-                <button id="btn-fixo" class="toggle-btn" onclick="setTipo('fixo')">FIXO</button>
-
-            </div>
-
-
-
-            <div id="modal-dates" class="modal-dates">
-
-                <div class="input-group">
-
-                    <label>INÍCIO:</label>
-
-                    <div class="input-with-icon">
-
-                        <input type="text" placeholder="Ex: 20/02/2026">
-
-                        <i class="fa-regular fa-calendar"></i>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="input-group">
-
-                    <label>FIM:</label>
-
-                    <div class="input-with-icon">
-
-                        <input type="text" placeholder="Ex: 21/02/2026">
-
-                        <i class="fa-regular fa-calendar"></i>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <button class="btn-salvar" onclick="closeModal()">SALVAR</button>
-
-        </div>
-
-    </div>
-
-
-
-    <script src="../js/usuario.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../script/dados.js"></script>
 </body>
-
-
 
 </html>

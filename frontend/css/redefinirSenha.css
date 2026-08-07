@@ -1,7 +1,15 @@
+<<<<<<< HEAD
+=======
+/* =========================
+    RESET
+========================= */
+
+>>>>>>> ce898303ea702f059a6f986927f65b1c7eba2edf
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+<<<<<<< HEAD
     font-family: 'Georgia', 'Times New Roman', serif;
 }
 
@@ -17,11 +25,58 @@ body {
     width: 100%;
     max-width: 400px;
     padding: 20px;
+=======
+    font-family: 'Inter', sans-serif;
+}
+
+/* =========================
+    BODY
+========================= */
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    background: #000000;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================
+    CONTAINER PRINCIPAL
+========================= */
+
+.login-container {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Mantém a centralização vertical padrão */
+    padding: 0 10%;
+    height: calc(100vh - 60px);
+}
+
+/* =========================
+    ÁREA DA LOGO
+========================= */
+
+.brand-area {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 60px;
+}
+
+.brand-content {
+    text-align: center;
+    position: relative;
+>>>>>>> ce898303ea702f059a6f986927f65b1c7eba2edf
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+<<<<<<< HEAD
 .logo-area {
     margin-bottom: 30px;
 }
@@ -50,10 +105,99 @@ h1 {
 .input-group {
     text-align: left;
     margin-bottom: 20px;
+=======
+.brand-content::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: #c50f2a;
+    filter: blur(140px);
+    opacity: .2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.logo-img {
+    width: 100%;
+    max-width: 460px;
+    user-select: none;
+}
+
+.brand-subtitle {
+    margin-top: -35px;
+    font-size: .85rem;
+    letter-spacing: 3px;
+    color: #b0b0b0;
+}
+
+/* =========================
+    CARD REDEFINIR SENHA (Ajustado para descer o bloco)
+========================= */
+
+.login-card {
+    width: 440px;
+    padding: 40px 35px;
+    background: #0d0d0d;
+    border: none;
+    border-radius: 24px;
+    box-shadow: 0 0 50px rgba(197, 15, 42, 0.35); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    margin-top: 50px; /* Adicionado para empurrar apenas o card um pouco para baixo */
+}
+
+/* =========================
+    ÍCONE SUPERIOR
+========================= */
+
+.login-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #cc092f;
+    border-radius: 50%;
+    font-size: 1.5rem;
+}
+
+/* =========================
+    TÍTULOS E SUBTÍTULO
+========================= */
+
+.login-card h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.login-description {
+    text-align: center;
+    color: #a0a0a0;
+    font-size: 0.88rem;
+    margin-bottom: 35px;
+}
+
+/* =========================
+    INPUTS
+========================= */
+
+.input-group {
+    margin-bottom: 12px;
+>>>>>>> ce898303ea702f059a6f986927f65b1c7eba2edf
 }
 
 .input-group label {
     display: block;
+<<<<<<< HEAD
     font-weight: bold;
     margin-bottom: 8px;
     font-size: 0.9rem;
@@ -79,11 +223,44 @@ input::placeholder {
 .eye-icon {
     position: absolute;
     right: 15px;
+=======
+    margin-bottom: 8px;
+    font-size: .88rem;
+    color: #ffffff;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper input {
+    width: 100%;
+    height: 48px;
+    padding: 0 45px 0 16px;
+    border: none;
+    border-radius: 10px;
+    background: #161616;
+    color: white;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 6px rgba(197, 15, 42, 0.16); 
+}
+
+.input-wrapper input:focus {
+    box-shadow: 0 0 12px rgba(204, 9, 47, 0.4);
+}
+
+.eye-icon {
+    position: absolute;
+    right: 16px;
+>>>>>>> ce898303ea702f059a6f986927f65b1c7eba2edf
     top: 50%;
     transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
+<<<<<<< HEAD
     font-size: 1.2rem;
 }
 
@@ -156,4 +333,130 @@ input::placeholder {
     transform: translateX(-50%);
     color: #fff;
     font-size: 0.8rem;
+=======
+    color: #777777;
+    font-size: 1.1rem;
+}
+
+/* =========================
+    REQUISITOS DA SENHA
+========================= */
+
+.password-requirements {
+    background: transparent;
+    padding-left: 15px;       
+    margin-top: 24px;         
+    margin-bottom: 24px;      
+}
+
+.requirements-title {
+    font-size: 0.82rem;
+    color: #b0b0b0;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.password-requirements ul {
+    list-style: none;
+}
+
+.password-requirements li {
+    font-size: 0.78rem;
+    color: #777777;
+    margin-bottom: 6px;
+}
+
+/* =========================
+    LINK VOLTAR AO LOGIN
+========================= */
+
+.forgot-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 38px;    
+    margin-bottom: 5px;
+}
+
+.back-link {
+    color: #cc092f;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+    color: #e60b35;
+}
+
+/* =========================
+    BOTÃO SALVAR
+========================= */
+
+.btn-entrar {
+    width: 100%;
+    height: 48px;
+    border: none;
+    border-radius: 10px;
+    background: #cc092f;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(204, 9, 47, 0.2);
+    margin-top: 15px;
+}
+
+.btn-entrar:hover {
+    background: #e60b35;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(204, 9, 47, 0.4);
+}
+
+/* =========================
+    FOOTER
+========================= */
+
+.copyright {
+    text-align: center;
+    padding: 20px;
+    background-color: #000000;
+    color: #555555;
+    font-size: 0.85rem;
+    border-top: 1px solid #111111;
+    width: 100%;
+}
+
+/* =========================
+    RESPONSIVO
+========================= */
+
+@media (max-width: 950px) {
+    body {
+        overflow-y: auto;
+    }
+
+    .login-container {
+        flex-direction: column;
+        justify-content: center;
+        gap: 30px;
+        padding: 40px 20px;
+        height: auto;
+    }
+
+    .brand-area {
+        padding-right: 0;
+    }
+
+    .logo-img {
+        max-width: 300px;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 420px;
+        margin-top: 0; /* Remove o margin do desktop para o mobile fluir melhor */
+    }
+>>>>>>> ce898303ea702f059a6f986927f65b1c7eba2edf
 }

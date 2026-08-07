@@ -4,38 +4,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESTATEC - Cadastro Estacionamento</title>
+    <title>ESTATEC - Cadastro de Estacionamentos</title>
     <link rel="stylesheet" href="../css/cadastroEstacionamento.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Importação da fonte Kameron -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kameron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <main class="login-container">
-        <div class="logo-area">
-            <img src="../img/estatec.png" alt="ESTATEC" class="logo-img">
+    <!-- Mantida a estrutura container original para manter o alinhamento vertical -->
+    <main class="container">
+
+        <!-- LOGO (Mantida centralizada no topo) -->
+        <div class="logo-container">
+            <img src="../img/estatec.png" alt="ESTATEC" class="logo">
         </div>
 
-        <div class="login-card">
-            <h1 class="title">CADASTRO ESTACIONAMENTO</h1>
+        <!-- CARD CADASTRO (Mantido no centro, mudando apenas os estilos visuais) -->
+        <section class="cadastro-card">
+
+            <h1>CADASTRE SEU ESTACIONAMENTO</h1>
+
+            <p class="description">
+                Preencha as informações para cadastrar um novo estacionamento.
+            </p>
 
             <form id="cadastroForm">
+
+                <!-- Mantido o input hidden da sua API -->
+                <input type="hidden" id="estacionamentoId">
+
+                <!-- CAMPO NOME DO ESTACIONAMENTO -->
                 <div class="input-group">
-                    <label for="nomeEstacionamento">Nome estacionamento:</label>
-                    <input type="text" id="nomeEstacionamento" placeholder="Ex.: Estacione rápido" required>
+                    <label for="nomeEstacionamento">Nome do estacionamento</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="text"
+                            id="nomeEstacionamento"
+                            placeholder="Ex.: Estacionamento Centro"
+                            required>
+                    </div>
                 </div>
 
+<<<<<<< HEAD
                 <button class="btn-cadastrar" type="submit"
                     onclick="window.location.href='../menu/index.html'">CADASTRAR </button>
-            </form>
-        </div>
+=======
+                <!-- BOTÃO CADASTRAR -->
+                <button type="submit" class="btn-cadastrar">
+                    CADASTRAR
+                </button>
 
-        <footer class="copyright">
-            © ESTATEC
-        </footer>
+>>>>>>> ce898303ea702f059a6f986927f65b1c7eba2edf
+            </form>
+
+        </section>
+
     </main>
 
+    <!-- RODAPÉ PADRÃO -->
+    <footer class="copyright">
+        © 2026 ESTATEC. Todos os direitos reservados.
+    </footer>
+
+    <!-- Seus scripts originais -->
+    <script src="../script/api.js"></script>
     <script src="../script/cadastroEstacionamento.js"></script>
+
 </body>
 
 </html>

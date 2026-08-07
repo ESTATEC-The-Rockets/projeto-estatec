@@ -1,20 +1,46 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const cadastroForm = document.querySelector('#cadastroForm');
+const formCadastro = document.getElementById("cadastroForm");
 
-    if (cadastroForm) {
-        cadastroForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+formCadastro.addEventListener("submit", async function(event) {
+    event.preventDefault();
 
+    const idInput = document.getElementById("idEstacionamento").value;
+    const nomeInput = document.getElementById("nomeEstacionamento").value;
 
-            const nome = document.getElementById('nomeEstacionamento').value;
-            const vagas = document.getElementById('qtdVagas').value;
-            const local = document.getElementById('local').value;
+    const urlBase = "http://localhost:8080/estacionamento";
+    let urlConfigurada = urlBase;
+    let metodoHttp = "POST"; 
 
-            console.log("Dados Enviados:", { nome, vagas, local });
+    if (idInput) {
+        urlConfigurada = `${urlBase}/${idInput}`; 
+        metodoHttp = "PUT";
+    }
 
-            alert("Estacionamento cadastrado com sucesso!");
-
-            cadastroForm.reset();
+    try {
+        const resposta = await fetch(urlConfigurada, {
+            method: metodoHttp,
+            headers: { "Content-Type": "application/json" },
+            
+            body: JSON.stringify({
+                nomeEstacionamento: nomeInput 
+            })
         });
+
+        if (resposta.ok) {
+            const dadosSalvos = await resposta.json(); 
+
+            if (metodoHttp === "POST") {
+                alert("Estacionamento cadastrado com sucesso!"); 
+            } else {
+                alert("Estacionamento atualizado com sucesso!"); 
+            }
+
+            formCadastro.reset(); 
+        } else {
+            alert("Erro ao salvar! Certifique-se de que o nome possui apenas letras e espaços, ou que não seja duplicado.");
+        }
+
+    } catch (erro) {
+        console.error(erro);
+        alert("Erro de conexão. Certifique-se de que o Spring Boot está rodando.");
     }
 });
