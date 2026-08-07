@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnVoltar) {
         btnVoltar.addEventListener('click', () => {
-            window.location.href = "../paginaLogin/index.html";
+            window.location.href = "../index.html";
 
         });
     }
