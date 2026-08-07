@@ -1,100 +1,43 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESTATEC - Login</title>
-
-    <link rel="stylesheet" href="css/index.css">
+    <title>ESTATEC - Sistema de Controle de Estacionamentos</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kameron:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/index.css"> 
 </head>
-
 <body>
 
-    <main class="login-container">
+    <header class="navbar">
+        <div class="logo">
+            <img src="../img/estatec.png" alt="Logo Estatec">
+        </div>
+        <nav class="menu"></nav>
+    </header>
 
-        <section class="brand-area">
-            <div class="brand-content">
-                <img src="../img/estatec.png" alt="ESTATEC" class="logo-img">
-                <p class="brand-subtitle">
-                    SISTEMA DE CONTROLE DE ESTACIONAMENTOS
-                </p>
+    <main class="hero">
+        <div class="hero-content">
+            <h1>GESTÃO INTELIGENTE DE ESTACIONAMENTOS</h1>
+            <p>Monitore entradas, saídas, usuários e relatórios em uma única plataforma moderna e intuitiva.</p>
+            <div class="hero-buttons">
+                <a href="pages/homePage.html" class="btn-primary">ACESSAR SISTEMA</a>
             </div>
-        </section>
-
-        <section class="login-card">
-
-            <div class="login-icon">
-                🔒
-            </div>
-
-            <h1>BEM-VINDO DE VOLTA!</h1>
-
-            <p class="login-description">
-                Faça login para acessar o sistema.
-            </p>
-
-            <form id="loginForm">
-
-                <div class="input-group">
-                    <label for="email">E-mail:</label>
-                    <div class="input-wrapper">
-                        <input
-                            type="email"
-                            id="email"
-                            placeholder="Ex.: estatec@gmail.com"
-                            required>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label for="password">Senha:</label>
-                    <div class="input-wrapper password-wrapper">
-                        <input
-                            type="password"
-                            id="password"
-                            placeholder="Ex.: estatec123"
-                            required>
-
-                        <button
-                            type="button"
-                            id="togglePassword"
-                            class="eye-icon">
-                            <span id="eyeOpen">👁</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="options-row">
-                    <label class="remember-me">
-                        <input type="checkbox">
-                        <span>Lembrar-me</span>
-                    </label>
-
-                    <a href="pages/redefinirSenha.html" class="forgot-password">
-                        Esqueci minha senha
-                    </a>
-                </div>
-
-                <button type="submit" class="btn-entrar">
-                    ENTRAR
-                </button>
-
-            </form>
-
-        </section>
-
+        </div>
+        <div class="hero-image">
+            <img src="../img/imagCarro2.0.png" alt="Preview do Sistema">
+        </div>
     </main>
 
-    <footer class="copyright">
-        © 2026 ESTATEC. Todos os direitos reservados.
+    <footer>
+        <p>&copy; 2026 ESTATE. Todos os direitos reservados.</p>
     </footer>
-
-    <script src="script/script.js"></script>
 
 </body>
 
+<script src="script/"></script>
 </html>
