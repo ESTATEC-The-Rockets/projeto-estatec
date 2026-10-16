@@ -6,17 +6,14 @@ formLogin.addEventListener("submit", async function(event) {
     const emailInput = document.getElementById("email").value.trim();
     const passwordInput = document.getElementById("password").value;
 
-    // 1. VALIDAÇÃO LOCAL DO ADMINISTRADOR GERAL
     if (emailInput === "admin@estacionamento.com" && passwordInput === "admin123") {
         localStorage.setItem("token", "token_admin_gerado_2026");
         localStorage.setItem("isAdmin", "true");
         
-        // CORRIGIDO: Redireciona diretamente dentro da mesma pasta 'pages'
         window.location.href = "pageAdminLoginDono.html";
         return; 
     }
 
-    // 2. LOGIN DOS DONOS DE ESTACIONAMENTO VIA API SPRING BOOT
     try {
         const resposta = await fetch("http://localhost:8080/usuarios/login", {
             method: "POST",
@@ -30,10 +27,9 @@ formLogin.addEventListener("submit", async function(event) {
         if (resposta.ok) { 
             const dadosUsuario = await resposta.json(); 
             localStorage.setItem("usuarioSessao", JSON.stringify(dadosUsuario));
-            localStorage.setItem("isAdmin", "false"); // Garante que não é admin geral
+            localStorage.setItem("isAdmin", "false"); 
             
-            // CORRIGIDO: Redireciona para menu.html na mesma pasta 'pages'
-            window.location.href = "./pageAdminLoginDono.html";
+            window.location.href = "./menu.html";
         } else {
             alert("E-mail ou senha inválidos!");
         }
