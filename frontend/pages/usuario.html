@@ -52,6 +52,7 @@
                 <p>© 2026 ESTATEC</p>
             </div>
         </aside>
+        
         <main class="main-content">
             <header class="header">
                 <button class="menu-toggle" id="menuToggle">
@@ -67,19 +68,15 @@
                             <li>
                                 <span>ESTACIONAMENTO 01</span>
                                 <div class="actions">
-                                    <button class="btn-edit-est" title="Editar"><i
-                                            class="fa-solid fa-pencil"></i></button>
-                                    <button class="btn-delete-est" title="Excluir"><i
-                                            class="fa-solid fa-trash"></i></button>
+                                    <button class="btn-edit-est" title="Editar"><i class="fa-solid fa-pencil"></i></button>
+                                    <button class="btn-delete-est" title="Excluir"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </li>
                             <li>
                                 <span>ESTACIONAMENTO 02</span>
                                 <div class="actions">
-                                    <button class="btn-edit-est" title="Editar"><i
-                                            class="fa-solid fa-pencil"></i></button>
-                                    <button class="btn-delete-est" title="Excluir"><i
-                                            class="fa-solid fa-trash"></i></button>
+                                    <button class="btn-edit-est" title="Editar"><i class="fa-solid fa-pencil"></i></button>
+                                    <button class="btn-delete-est" title="Excluir"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </li>
                         </ul>
@@ -95,6 +92,7 @@
                     </div>
                 </div>
             </header>
+
             <section class="usuarios-section">
                 <div class="usuarios-top">
                     <div class="titulo-area">
@@ -105,58 +103,26 @@
                         <input type="text" id="search-input" placeholder="PESQUISAR PLACA/ CLIENTE">
                     </div>
                 </div>
-                <div class="usuarios-list" id="users-table-body">
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left;">NOME</th>
+                                <th style="text-align: left;">E-MAIL</th>
+                                <th style="text-align: right;">AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                        </tbody>
+                    </table>
                 </div>
             </section>
         </main>
     </div>
-    <div class="modal-overlay" id="editModal">
-        <div class="modal-content">
-            <h2>EDITAR ESTACIONAMENTO</h2>
-            <form id="editForm">
-                <div class="form-group">
-                    <label for="newNameInput">NOVO NOME:</label>
-                    <input type="text" id="newNameInput" placeholder="Ex.: Estacionamento Novo" required>
-                </div>
-                <button type="submit" class="btn-modal-save">SALVAR</button>
-            </form>
-        </div>
-    </div>
-    <div class="modal-overlay" id="deleteModal">
-        <div class="modal-confirm-content">
-            <h2>Deseja realmente excluir este estacionamento?</h2>
-            <div class="modal-confirm-buttons">
-                <button type="button" class="btn-confirm-yes" id="btnConfirmYes">Sim</button>
-                <button type="button" class="btn-confirm-no" id="btnConfirmNo">Não</button>
-            </div>
-        </div>
-    </div>
-    <div id="tipoModal" class="modal-overlay" onclick="closeModalOutside(event)">
-        <div class="modal-content">
-            <h2>TIPO</h2>
-            <div class="modal-toggles">
-                <button id="btn-visitante" class="toggle-btn active" onclick="setTipo('visitante')">VISITANTE</button>
-                <button id="btn-fixo" class="toggle-btn" onclick="setTipo('fixo')">FIXO</button>
-            </div>
-            <div id="modal-dates" class="modal-dates">
-                <div class="input-group">
-                    <label>INÍCIO:</label>
-                    <div class="input-with-icon">
-                        <input type="text" placeholder="Ex: 20/02/2026">
-                        <i class="fa-regular fa-calendar"></i>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label>FIM:</label>
-                    <div class="input-with-icon">
-                        <input type="text" placeholder="Ex: 21/02/2026">
-                        <i class="fa-regular fa-calendar"></i>
-                    </div>
-                </div>
-            </div>
-            <button class="btn-salvar" onclick="closeModal()">SALVAR</button>
-        </div>
-    </div>
+
+   
+
     <script src="../script/usuario.js"></script>
 </body>
 </html>
