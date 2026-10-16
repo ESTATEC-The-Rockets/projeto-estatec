@@ -11,8 +11,8 @@ formLogin.addEventListener("submit", async function(event) {
         localStorage.setItem("token", "token_admin_gerado_2026");
         localStorage.setItem("isAdmin", "true");
         
-        // Redireciona diretamente para o painel de administração de donos
-        window.location.href = "pages/pageAdminLoginDono.html";
+        // CORRIGIDO: Redireciona diretamente dentro da mesma pasta 'pages'
+        window.location.href = "pageAdminLoginDono.html";
         return; 
     }
 
@@ -32,7 +32,8 @@ formLogin.addEventListener("submit", async function(event) {
             localStorage.setItem("usuarioSessao", JSON.stringify(dadosUsuario));
             localStorage.setItem("isAdmin", "false"); // Garante que não é admin geral
             
-            window.location.href = "pages/menu.html";
+            // CORRIGIDO: Redireciona para menu.html na mesma pasta 'pages'
+            window.location.href = "./pageAdminLoginDono.html";
         } else {
             alert("E-mail ou senha inválidos!");
         }
