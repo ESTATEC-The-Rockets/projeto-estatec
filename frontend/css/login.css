@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif; 
+    font-family: 'Inter', sans-serif; /* Atualizado para Inter */
 }
 
 body {
@@ -15,19 +15,23 @@ body {
     align-items: center;
 }
 
-/* Container Principal */
+/* CUSTOMIZAÇÃO DA BARRA DE ROLAGEM */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #000000; }
+::-webkit-scrollbar-thumb { background: #222222; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #c1122f; }
+
 .login-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 100px; /* Aumentado de 80px */
+    gap: 100px;
     flex: 1;
     width: 100%;
-    max-width: 1250px; /* Aumentado de 1100px */
+    max-width: 1250px;
     padding: 30px;
 }
 
-/* Área da Logo Esquerda */
 .brand-area {
     display: flex;
     flex-direction: column;
@@ -36,48 +40,47 @@ body {
 }
 
 .logo-img {
-    max-width: 380px; /* Aumentado de 320px */
+    max-width: 380px;
     height: auto;
     margin-bottom: 16px;
 }
 
 .brand-subtitle {
-    font-size: 0.9rem; /* Aumentado de 0.8rem */
+    font-size: 0.9rem;
     color: #cccccc;
     letter-spacing: 1.2px;
     text-transform: uppercase;
 }
 
-/* Card de Login */
+/* ESTILO PREMIUM PARA O CARTÃO (Substitui o Neon) */
 .login-card {
     background-color: #0d0d0d;
     border-radius: 22px;
-    padding: 45px 40px; /* Aumentado de 35px 30px */
+    padding: 45px 40px;
     width: 100%;
-    max-width: 450px; /* Aumentado de 380px */
+    max-width: 450px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0 0 35px rgba(160, 0, 25, 0.35);
-    border: 1px solid rgba(144, 0, 24, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Ícone do Cadeado */
 .login-icon {
     background-color: #900018;
-    width: 60px; /* Aumentado de 52px */
-    height: 60px; /* Aumentado de 52px */
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem; /* Aumentado de 1.3rem */
+    font-size: 1.5rem;
     margin-bottom: 22px;
     box-shadow: 0 4px 15px rgba(144, 0, 24, 0.4);
 }
 
 .login-card h1 {
-    font-size: 1.5rem; /* Aumentado de 1.3rem */
+    font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 8px;
     letter-spacing: 0.5px;
@@ -85,18 +88,17 @@ body {
 }
 
 .login-description {
-    font-size: 0.95rem; /* Aumentado de 0.85rem */
+    font-size: 0.95rem;
     color: #a0a0a0;
     margin-bottom: 28px;
     text-align: center;
 }
 
-/* Form e Inputs */
 #loginForm {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Aumentado de 18px */
+    gap: 20px;
 }
 
 .input-group {
@@ -106,8 +108,8 @@ body {
 }
 
 .input-group label {
-    font-size: 0.95rem; /* Aumentado de 0.9rem */
-    font-weight: 700;
+    font-size: 0.95rem;
+    font-weight: 600;
     color: #ffffff;
 }
 
@@ -118,18 +120,20 @@ body {
 
 .input-wrapper input {
     width: 100%;
-    padding: 14px 16px; /* Aumentado de 12px 14px */
+    padding: 14px 16px;
     background-color: #1a1a1a;
     border: 1px solid #331015;
     border-radius: 8px;
     color: #ffffff;
-    font-size: 0.95rem; /* Aumentado de 0.85rem */
+    font-size: 0.95rem;
     outline: none;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
+/* FOCO MODERNO NOS INPUTS */
 .input-wrapper input:focus {
-    border-color: #900018;
+    border-color: #c1122f;
+    box-shadow: 0 0 0 3px rgba(193, 18, 47, 0.2);
 }
 
 .input-wrapper input::placeholder {
@@ -140,7 +144,6 @@ body {
     padding-right: 45px;
 }
 
-/* Ícone do Olho */
 .eye-icon {
     position: absolute;
     right: 14px;
@@ -160,12 +163,11 @@ body {
     color: #ffffff;
 }
 
-/* Opções de Lembrar-me e Esqueci Senha */
 .options-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.88rem; /* Aumentado de 0.8rem */
+    font-size: 0.88rem;
     margin-top: -2px;
 }
 
@@ -179,8 +181,8 @@ body {
 
 .remember-me input[type="checkbox"] {
     accent-color: #ffffff;
-    width: 16px; /* Aumentado de 14px */
-    height: 16px; /* Aumentado de 14px */
+    width: 16px;
+    height: 16px;
     cursor: pointer;
 }
 
@@ -195,15 +197,14 @@ body {
     color: #b3001e;
 }
 
-/* Botão Entrar */
 .btn-entrar {
     width: 100%;
-    padding: 14px; /* Aumentado de 12px */
+    padding: 14px;
     background-color: #900018;
     color: #ffffff;
     border: none;
     border-radius: 8px;
-    font-size: 0.95rem; /* Aumentado de 0.9rem */
+    font-size: 0.95rem;
     font-weight: 700;
     letter-spacing: 1px;
     cursor: pointer;
@@ -216,7 +217,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* Rodapé */
 .copyright {
     text-align: center;
     padding: 20px;
@@ -224,4 +224,9 @@ body {
     font-size: 0.85rem;
     width: 100%;
     border-top: 1px solid #111111;
+}
+
+/* RESPONSIVO */
+@media(max-width:900px) {
+    .login-container { flex-direction: column; gap: 40px; }
 }
