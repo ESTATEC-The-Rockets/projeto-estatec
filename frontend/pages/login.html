@@ -1,100 +1,57 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESTATEC - Login</title>
-
-    <link rel="stylesheet" href="../css/login.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kameron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/interface.css">
+    <link rel="stylesheet" href="../css/acesso.css">
+    <script src="../script/interface.js" defer></script>
+    <script src="../script/script.js" defer></script>
 </head>
-
-<body>
-
-    <main class="login-container">
-
-        <section class="brand-area">
-            <div class="brand-content">
-                <img src="../img/estatec.png" alt="ESTATEC" class="logo-img">
-                <p class="brand-subtitle">
-                    SISTEMA DE CONTROLE DE ESTACIONAMENTOS
-                </p>
-            </div>
+<body class="body-acesso">
+    <a class="acesso-skip" href="#loginForm">Pular para o login</a>
+    <header class="acesso-header">
+        <a class="acesso-brand" href="../index.html" aria-label="ESTATEC — página inicial">ESTATEC<span aria-hidden="true"> /</span></a>
+        <a class="back-link" href="../index.html"><span aria-hidden="true">← </span>Voltar ao início</a>
+    </header>
+    <main class="acesso-layout">
+        <section class="acesso-intro" aria-labelledby="introTitle">
+            <p class="acesso-eyebrow">Controle de estacionamentos</p>
+            <h2 id="introTitle">Sua operação.<br> Em um só lugar.</h2>
+            <p>Acesse usuários, estacionamentos e movimentações com clareza.</p>
+            <span class="acesso-rule" aria-hidden="true"></span>
         </section>
-
-        <section class="login-card">
-
-            <div class="login-icon">
-                🔒
-            </div>
-
-            <h1>BEM-VINDO DE VOLTA!</h1>
-
-            <p class="login-description">
-                Faça login para acessar o sistema
-            </p>
-
-            <form id="loginForm">
-
-                <div class="input-group">
-                    <label for="email">E-mail:</label>
-                    <div class="input-wrapper">
-                        <input
-                            type="email"
-                            id="email"
-                            placeholder="Ex.: estatec@gmail.com"
-                            required>
+        <section class="acesso-card" aria-labelledby="loginTitle">
+            <p class="acesso-eyebrow">Acesso ao sistema</p>
+            <h1 id="loginTitle">Bem-vindo de volta</h1>
+            <p class="acesso-description">Entre com seu e-mail e senha.</p>
+            <form id="loginForm" class="acesso-form" method="post" tabindex="-1" aria-describedby="loginFeedback">
+                <div class="acesso-field">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" placeholder="voce@exemplo.com" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false" required>
+                </div>
+                <div class="acesso-field">
+                    <label for="password">Senha</label>
+                    <div class="acesso-password">
+                        <input type="password" id="password" name="password" autocomplete="current-password" required>
+                        <button type="button" id="togglePassword" class="acesso-toggle" aria-controls="password" aria-pressed="false" aria-label="Mostrar senha">Mostrar senha</button>
                     </div>
                 </div>
-
-                <div class="input-group">
-                    <label for="password">Senha:</label>
-                    <div class="input-wrapper password-wrapper">
-                        <input
-                            type="password"
-                            id="password"
-                            placeholder="Ex.: estatec123"
-                            required>
-
-                        <button
-                            type="button"
-                            id="togglePassword"
-                            class="eye-icon">
-                            👁
-                        </button>
-                    </div>
-                </div>
-
-                <div class="options-row">
-                    <label class="remember-me">
-                        <input type="checkbox">
-                        <span>Lembrar-me</span>
+                <div class="acesso-options">
+                    <label class="acesso-remember" for="rememberEmail">
+                        <input type="checkbox" id="rememberEmail" name="rememberEmail" aria-describedby="rememberHint">
+                        <span>Lembrar somente meu e-mail</span>
                     </label>
-
-                    <a href="./redefinirSenha.html" class="forgot-password">
-                        Esqueci minha senha
-                    </a>
+                    <a href="./redefinirSenha.html">Esqueci minha senha</a>
                 </div>
-
-                <button type="submit" class="btn-entrar">
-                    ENTRAR
-                </button>
-
+                <p class="acesso-hint" id="rememberHint">Opção para este navegador. A senha não será lembrada pelo site.</p>
+                <p id="loginFeedback" class="acesso-feedback" role="status" aria-live="polite" aria-atomic="true"></p>
+                <button type="submit" class="acesso-primary">Entrar</button>
             </form>
-
+            <noscript>Ative o JavaScript para entrar no sistema.</noscript>
         </section>
-
     </main>
-
-    <footer class="copyright">
-        &copy; 2026 ESTATE. Todos os direitos reservados.
-    </footer>
-
-    <script src="script/script.js"></script>
-
+    <footer class="acesso-footer">© 2026 ESTATEC. Todos os direitos reservados.</footer>
 </body>
-
 </html>

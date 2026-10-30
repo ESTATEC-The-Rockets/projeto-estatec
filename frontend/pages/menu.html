@@ -1,28 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESTATEC - Menu</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/menu.css">
-    <style>
-        body, html, .app-container {
-            overflow-y: auto !important;
-            min-height: 100vh !important;
-        }
-        .main-content {
-            overflow-y: auto !important;
-            height: 100vh !important;
-        }
-    </style>
-</head>
+    <link rel="stylesheet" href="../css/interface.css">
+    <script src="../script/interface.js" defer></script>
+    <script src="../script/consultas-model.js" defer></script>
 </head>
 
-<body>
+<body class="app-page">
 
     <div class="app-container">
 
@@ -39,24 +28,24 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="../pages/usuario.html">
+                        <a href="usuario.html">
                             <i class="fa-solid fa-user"></i>
                             <span class="menu-text">Usuários</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="../pages/dados.html">
-                            <i class="fa-solid fa-chart-simple"></i>
-                            <span class="menu-text">Dados</span>
+                        <a href="carros.html">
+                            <i class="fa-solid fa-car"></i>
+                            <span class="menu-text">Carros</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="../pages/solicitacoes.html">
-                            <i class="fa-solid fa-bell"></i>
-                            <span class="menu-text">Solicitações</span>
+                        <a href="dados.html">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            <span class="menu-text">Histórico</span>
                         </a>
                     </li>
-                </ul>
+                <li class="nav-item"><a href="estacionamentos.html"><i class="fa-solid fa-square-parking"></i><span class="menu-text">Estacionamentos</span></a></li></ul>
             </nav>
             <div class="sidebar-footer">
                 <a href="../index.html" class="logout-btn">
@@ -75,35 +64,20 @@
                 </button>
 
                 <div class="header-buttons">
-                    <a href="../pages/cadastroEstacionamento.html" class="btn-cadastro">CADASTRAR ESTACIONAMENTO</a>
-
                     <div class="dropdown-wrapper">
-                        <button class="btn-estacionamentos" id="btnEstacionamentos">
-                            ESTACIONAMENTOS <i class="fa-solid fa-chevron-down"></i>
+                        <button class="btn-estacionamentos" id="btnEstacionamentos" aria-expanded="false" aria-controls="dropdownEstacionamentos">
+                            Estacionamentos <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
                         </button>
 
                         <ul class="dropdown-menu" id="dropdownEstacionamentos">
-                            <li>
-                                <span>ESTACIONAMENTO 01</span>
-                                <div class="actions">
-                                    <button class="btn-edit-est" title="Editar"><i class="fa-solid fa-pencil"></i></button>
-                                    <button class="btn-delete-est" title="Excluir"><i class="fa-solid fa-trash"></i></button>
-                                </div>
-                            </li>
-                            <li>
-                                <span>ESTACIONAMENTO 02</span>
-                                <div class="actions">
-                                    <button class="btn-edit-est" title="Editar"><i class="fa-solid fa-pencil"></i></button>
-                                    <button class="btn-delete-est" title="Excluir"><i class="fa-solid fa-trash"></i></button>
-                                </div>
-                            </li>
+                            <li>Carregando estacionamentos...</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="header-right">
-                    <a href="solicitacoes.html" class="notifications">
-                        <i class="fa-solid fa-bell"></i>
+                    <a href="adminCrud.html" class="notifications" id="adminPanelLink" style="display: none;" title="Administração" aria-label="Abrir administração">
+                        <i class="fa-solid fa-shield-halved"></i>
                     </a>
                     <div class="user-profile">
                         <i class="fa-solid fa-circle-user"></i>
@@ -115,36 +89,49 @@
             <main class="dashboard-body">
                 <div class="welcome-row">
                     <div class="welcome-text">
-                        <h1>BEM-VINDO!</h1>
-                        <p>Aqui está o resumo do seu estacionamento.</p>
+                        <h1>Visão geral</h1>
+                        <p>Uma visão rápida da operação. Escolha por onde começar.</p>
                     </div>
 
                     <div class="date-card">
                         <i class="fa-regular fa-calendar"></i>
                         <div>
-                            <span id="currentDate">10 de junho de 2026</span>
-                            <small id="currentDay">quarta-feira</small>
+                            <span id="currentDate"></span>
+                            <small id="currentDay"></small>
                         </div>
                     </div>
                 </div>
 
+                <nav class="quick-links" aria-label="Atalhos rápidos">
+                    <a href="usuario.html"><i class="fa-solid fa-user" aria-hidden="true"></i> Consultar usuários <span aria-hidden="true">↗</span></a>
+                    <a href="estacionamentos.html"><i class="fa-solid fa-square-parking" aria-hidden="true"></i> Estacionamentos <span aria-hidden="true">↗</span></a>
+                    <a href="dados.html"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> Histórico do dia <span aria-hidden="true">↗</span></a>
+                </nav>
+                <div class="stats" aria-label="Resumo de hoje">
+                    <div class="stat">Entradas hoje<strong id="todayEntries">—</strong></div>
+                    <div class="stat">Saídas hoje<strong id="todayExits">—</strong></div>
+                    <div class="stat">Estacionamentos cadastrados<strong id="parkingCount">—</strong></div>
+                </div>
+                <div id="dashboardStatus" class="status" role="status" aria-live="polite" hidden></div>
+
                 <div class="entradas-saidas-row">
                     <section class="details-section">
                         <div class="section-header">
-                            <h3>Últimas Entradas e Saídas</h3>
+                            <h3>Últimas movimentações</h3>
+                            <a href="dados.html">Ver histórico completo ↗</a>
                         </div>
-
+                        <div class="table-wrap">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>PLACA</th>
-                                    <th>USUÁRIO</th>
-                                    <th>MODELO CARRO</th>
+                                    <th>Movimentação</th><th>Data / horário</th><th>Usuário</th><th>Placa</th><th>Estacionamento</th>
                                 </tr>
                             </thead>
                             <tbody id="users-table-body">
+                                <tr><td colspan="5">Carregando movimentações...</td></tr>
                             </tbody>
                         </table>
+                        </div>
                     </section>
                 </div>
             </main>
@@ -154,28 +141,19 @@
 
     <div class="modal-overlay" id="editModal">
         <div class="modal-content">
-            <h2>EDITAR ESTACIONAMENTO</h2>
+            <h2>Editar estacionamento</h2>
             <form id="editForm">
                 <div class="form-group">
-                    <label for="newNameInput">NOVO NOME:</label>
+                    <label for="newNameInput">Nome do estacionamento</label>
                     <input type="text" id="newNameInput" placeholder="Ex.: Estacionamento Novo" required>
                 </div>
-                <button type="submit" class="btn-modal-save">SALVAR</button>
+                <button type="submit" class="btn-modal-save">Salvar alteração</button>
             </form>
         </div>
     </div>
 
-    <div class="modal-overlay" id="deleteModal">
-        <div class="modal-confirm-content">
-            <h2>Deseja realmente excluir este estacionamento?</h2>
-            <div class="modal-confirm-buttons">
-                <button type="button" class="btn-confirm-yes" id="btnConfirmYes">Sim</button>
-                <button type="button" class="btn-confirm-no" id="btnConfirmNo">Não</button>
-            </div>
-        </div>
-    </div>
-
     <script src="../script/menu.js"></script>
+    <script src="../script/navegacao.js"></script>
 </body>
 
 </html>

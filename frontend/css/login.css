@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Space+Grotesk:wght@400;500;700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Kameron', serif;
+    font-family: 'Space Grotesk', sans-serif;
 }
 
 body {
@@ -224,4 +226,29 @@ body {
     font-size: 0.85rem;
     width: 100%;
     border-top: 1px solid #111111;
+}
+
+/* TECH STYLE OVERRIDE */
+body {
+    background:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+        radial-gradient(circle at 90% 10%, rgba(193, 18, 47, 0.14), transparent 35%),
+        #060606;
+    background-size: 30px 30px, 30px 30px, auto, auto;
+}
+
+h1, h2, h3, .brand-subtitle, .btn-entrar {
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.login-card,
+.input-wrapper,
+input,
+button,
+.btn-entrar,
+.copyright {
+    border-radius: 0 !important;
 }

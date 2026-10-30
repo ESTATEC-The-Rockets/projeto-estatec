@@ -29,4 +29,19 @@ public class HistoricoService {
 		return repository.save(historico);
 	}
 
+	public Historico atualizar(Long id, Historico alterado) {
+		Historico atual = buscarPorId(id);
+		atual.setCarro(alterado.getCarro());
+		atual.setEstacionamento(alterado.getEstacionamento());
+		atual.setData(alterado.getData());
+		atual.setHorarioEntrada(alterado.getHorarioEntrada());
+		atual.setHorarioSaida(alterado.getHorarioSaida());
+		atual.setEntrada(alterado.isEntrada());
+		return repository.save(atual);
+	}
+
+	public void deletar(Long id) {
+		repository.deleteById(buscarPorId(id).getId());
+	}
+
 }

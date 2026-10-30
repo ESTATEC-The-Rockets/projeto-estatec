@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const editModal = document.getElementById("editModal");
     const deleteModal = document.getElementById("deleteModal");
     const editForm = document.getElementById("editForm");
+    const newNameInput = document.getElementById("newNameInput");
     const btnCadastro = document.querySelector(".btn-cadastro");
 
     // Botões de ação do Modal de Exclusão
@@ -34,10 +35,19 @@ document.addEventListener("DOMContentLoaded", () => {
         btnEstacionamentos.addEventListener("click", (e) => {
             e.stopPropagation();
             dropdownEstacionamentos.classList.toggle("show");
+
+            const icon = btnEstacionamentos.querySelector("i");
+            if (icon) {
+                icon.style.transform = dropdownEstacionamentos.classList.contains("show")
+                    ? "rotate(180deg)"
+                    : "rotate(0deg)";
+            }
         });
 
         document.addEventListener("click", () => {
             dropdownEstacionamentos.classList.remove("show");
+            const icon = btnEstacionamentos.querySelector("i");
+            if (icon) icon.style.transform = "rotate(0deg)";
         });
 
         dropdownEstacionamentos.addEventListener("click", (e) => {
@@ -47,7 +57,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (editBtn) {
                 e.stopPropagation();
                 dropdownEstacionamentos.classList.remove("show"); 
-                if (editModal) editModal.classList.add("show");    
+                itemParaDeletar = editBtn.closest("li");
+
+                const nomeAtual = itemParaDeletar?.querySelector("span")?.textContent || "";
+                if (newNameInput) newNameInput.value = nomeAtual;
+
+                if (editModal) editModal.classList.add("show");
             }
 
             if (deleteBtn) {
@@ -97,14 +112,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (editForm) {
         editForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            alert("Alterações salvas com sucesso!");
+
+            const novoNome = newNameInput?.value.trim();
+            if (novoNome && itemParaDeletar) {
+                const spanNome = itemParaDeletar.querySelector("span");
+                if (spanNome) spanNome.textContent = novoNome.toUpperCase();
+            }
+
             if (editModal) editModal.classList.remove("show");
+            itemParaDeletar = null;
         });
     }
 
     if (btnCadastro) {
         btnCadastro.addEventListener("click", () => {
-            window.location.href = "../pages/cadastroEstacionamento.html";
+            window.location.href = "./cadastroEstacionamento.html";
         });
     }
 

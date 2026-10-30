@@ -6,8 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.estatec.api.entities.Usuario;
+import br.com.estatec.api.repositories.CarroRepository;
+import br.com.estatec.api.repositories.EstacionamentoRepository;
+import br.com.estatec.api.repositories.RegistroRepository;
 import br.com.estatec.api.repositories.UsuarioRepository;
 
 @Service
@@ -16,6 +20,15 @@ public class UsuarioService {
 	// Herda as funcionalidades do repository
 	@Autowired
 	private UsuarioRepository repository;
+
+	@Autowired
+	private EstacionamentoRepository estacionamentoRepository;
+
+	@Autowired
+	private CarroRepository carroRepository;
+
+	@Autowired
+	private RegistroRepository registroRepository;
 
 	// Herda a criptografia do BCrypt
 	@Autowired
@@ -120,11 +133,16 @@ public class UsuarioService {
 	}
 
 	// Função para deletar o usuário
+	@Transactional
 	public void deletar(Long id) {
 
 		if (!repository.existsById(id)) {
 			throw new RuntimeException("Usuário não encontrado.");
 		}
+		// Remove os vínculos dependentes antes do usuário para respeitar as FKs.
+		registroRepository.deletarPorUsuario(id);
+		estacionamentoRepository.limparDono(id);
+		carroRepository.limparDono(id);
 		repository.deleteById(id);
 	}
 }

@@ -21,14 +21,9 @@ public class CorsConfig {
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
-		source.registerCorsConfiguration("/usuarios", config);
-		source.registerCorsConfiguration("/usuarios/login", config);
-		source.registerCorsConfiguration("/usuarios/cadastro", config);
-		source.registerCorsConfiguration("/historico", config);
-		source.registerCorsConfiguration("/estacionamento", config);
-		source.registerCorsConfiguration("/donos-estacionamento", config);
-		source.registerCorsConfiguration("/donos-carro", config);
-		source.registerCorsConfiguration("/carros", config);
+		// Os endpoints de edição e exclusão usam o sufixo /{id}.
+		// O padrão /** também cobre o preflight OPTIONS dessas requisições.
+		source.registerCorsConfiguration("/**", config);
 
 		return new CorsFilter(source);
 	}

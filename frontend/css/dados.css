@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Space+Grotesk:wght@400;500;700&display=swap');
+
 /* ===================================
     RESET & LAYOUT BASE (Tela Fixa)
 =================================== */
@@ -5,7 +7,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
 }
 
 body, html {
@@ -541,3 +543,23 @@ ul {
 .sidebar.collapsed .nav-item a,
 .sidebar.collapsed .logout-btn { justify-content: center; }
 .sidebar.collapsed .logo-container { padding: 20px 10px; }
+
+/* TECH STYLE OVERRIDE */
+h1, h2, h3, .btn-cadastro, .btn-estacionamentos {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+button,
+input,
+.btn-cadastro,
+.btn-estacionamentos,
+.dropdown-menu,
+.nav-item a,
+.chart-container-box,
+.historico-item,
+.modal-content,
+.modal-confirm-content {
+    border-radius: 0 !important;
+}

@@ -7,37 +7,51 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kameron:wght@400;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="../css/index.css"> 
+    <link rel="stylesheet" href="css/index.css"> 
+    <link rel="stylesheet" href="css/interface.css">
+    <script src="script/interface.js" defer></script>
 </head>
 <body>
 
     <header class="navbar">
         <div class="logo">
-            <img src="../img/estatec.png" alt="Logo Estatec">
+            <img src="img/estatec.png" alt="Logo Estatec">
         </div>
-        <nav class="menu"></nav>
+        <nav class="menu" aria-label="Navegação principal">
+            <a href="#recursos">Conheça a plataforma</a>
+            <a href="pages/login.html" class="nav-login">Entrar <span aria-hidden="true">↗</span></a>
+        </nav>
     </header>
 
-    <main class="hero">
+    <main>
+    <section class="hero" aria-labelledby="heroTitle">
         <div class="hero-content">
-            <h1>GESTÃO INTELIGENTE DE ESTACIONAMENTOS</h1>
-            <p>Monitore entradas, saídas, usuários e relatórios em uma única plataforma moderna e intuitiva.</p>
+            <span class="eyebrow">Menos complexidade. Mais controle.</span>
+            <h1 id="heroTitle">Seu estacionamento.<br><span>Uma visão completa.</span></h1>
+            <p>Organize usuários, acompanhe veículos e consulte cada movimentação. Tudo em um só lugar, sem complicar a sua rotina.</p>
             <div class="hero-buttons">
-                <a href="pages/login.html" class="btn-primary">ACESSAR SISTEMA</a>
+                <a href="pages/login.html" class="btn-primary">Acessar sistema <span aria-hidden="true">↗</span></a>
+                <a href="#recursos" class="text-link">Explorar recursos <span aria-hidden="true">↓</span></a>
             </div>
+            <p class="hero-note">Gestão de usuários · Veículos · Histórico de acesso</p>
         </div>
         <div class="hero-image">
-            <img src="../img/imagCarro2.0.png" alt="Preview do Sistema">
+            <img src="img/imagCarro2.0.png" alt="Veículo representando a gestão de estacionamentos" fetchpriority="high">
         </div>
+    </section>
+    <section class="features" id="recursos" aria-labelledby="featuresTitle">
+        <div class="features-heading"><span class="eyebrow">Tudo conectado</span><h2 id="featuresTitle">O essencial para a sua operação.</h2><p>Encontre as informações de que precisa, sem perder tempo entre telas.</p></div>
+        <div class="feature-grid">
+            <article><span class="feature-number">01 / Pessoas</span><h3>Usuários e veículos</h3><p>Perfis organizados com informações, placas e estacionamentos cadastrados.</p></article>
+            <article><span class="feature-number">02 / Espaços</span><h3>Seus estacionamentos</h3><p>Consulte os usuários cadastrados e acompanhe o movimento de cada unidade.</p></article>
+            <article><span class="feature-number">03 / Movimentações</span><h3>Histórico em detalhes</h3><p>Pesquise entradas e saídas por dia, usuário, placa ou estacionamento.</p></article>
+        </div>
+    </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 ESTATE. Todos os direitos reservados.</p>
+        <p>&copy; 2026 ESTATEC. Todos os direitos reservados.</p>
     </footer>
 
 </body>
-
-<script src="script/"></script>
 </html>

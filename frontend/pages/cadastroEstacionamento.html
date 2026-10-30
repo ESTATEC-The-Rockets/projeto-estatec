@@ -1,67 +1,46 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESTATEC - Cadastro de Estacionamentos</title>
-    <link rel="stylesheet" href="../css/cadastroEstacionamento.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kameron:wght@400;700&display=swap" rel="stylesheet">
+    <title>ESTATEC - Cadastro de estacionamentos</title>
+    <link rel="stylesheet" href="../css/interface.css">
+    <link rel="stylesheet" href="../css/acesso.css">
+    <script src="../script/interface.js" defer></script>
+    <script src="../script/api.js" defer></script>
+    <script src="../script/cadastroEstacionamento.js" defer></script>
 </head>
-
-<body>
-
-    <main class="container">
-
-        <div class="logo-container">
-            <img src="../img/estatec.png" alt="ESTATEC" class="logo">
-        </div>
-
-        <section class="cadastro-card">
-
-            <h1>CADASTRE SEU ESTACIONAMENTO</h1>
-
-            <p class="description">
-                Preencha as informações para cadastrar um novo estacionamento.
-            </p>
-
-            <form id="cadastroForm">
-
-                <!-- Mantido o input hidden da sua API -->
-                <input type="hidden" id="estacionamentoId">
-
-                <!-- CAMPO NOME DO ESTACIONAMENTO -->
-                <div class="input-group">
-                    <label for="nomeEstacionamento">Nome do estacionamento</label>
-                    <div class="input-wrapper">
-                        <input
-                            type="text"
-                            id="nomeEstacionamento"
-                            placeholder="Ex.: Estacionamento Centro"
-                            required>
-                    </div>
-                </div>
-
-                <button class="btn-cadastrar" type="submit"
-                    onclick="window.location.href='../pages/menu.html'">CADASTRAR</button>
-
-
-            </form>
-
+<body class="body-acesso">
+    <a class="acesso-skip" href="#cadastroForm">Pular para o cadastro</a>
+    <header class="acesso-header">
+        <a class="acesso-brand" href="./menu.html" aria-label="ESTATEC — menu principal">ESTATEC<span aria-hidden="true"> /</span></a>
+        <a class="back-link" href="./menu.html"><span aria-hidden="true">← </span>Voltar ao menu</a>
+    </header>
+    <main class="acesso-layout">
+        <section class="acesso-intro" aria-labelledby="introTitle">
+            <p class="acesso-eyebrow">Gestão de espaços</p>
+            <h2 id="introTitle">Um novo espaço.<br> O mesmo controle.</h2>
+            <p>Cadastre o estacionamento e consulte seus dados na lista do sistema.</p>
+            <span class="acesso-rule" aria-hidden="true"></span>
         </section>
-
+        <section class="acesso-card" aria-labelledby="cadastroTitle">
+            <p class="acesso-eyebrow">Novo estacionamento</p>
+            <h1 id="cadastroTitle">Cadastrar estacionamento</h1>
+            <p class="acesso-description">Informe o nome que identificará o espaço. Campo obrigatório.</p>
+            <form id="cadastroForm" class="acesso-form" method="post" tabindex="-1" aria-describedby="cadastroFeedback">
+                <input type="hidden" id="estacionamentoId" name="estacionamentoId">
+                <div class="acesso-field">
+                    <label for="nomeEstacionamento">Nome do estacionamento</label>
+                    <input type="text" id="nomeEstacionamento" name="nomeEstacionamento" placeholder="Ex.: Estacionamento Centro" autocomplete="organization" aria-describedby="nomeHint" required>
+                    <p class="acesso-hint" id="nomeHint">Use um nome claro para facilitar a identificação.</p>
+                </div>
+                <p id="cadastroFeedback" class="acesso-feedback" role="status" aria-live="polite" aria-atomic="true"></p>
+                <button class="acesso-primary" type="submit">Cadastrar estacionamento</button>
+            </form>
+            <p id="cadastroSuccess" class="acesso-success" hidden><a href="./estacionamentos.html">Abrir lista de estacionamentos <span aria-hidden="true">→</span></a></p>
+            <noscript>Ative o JavaScript para cadastrar um estacionamento.</noscript>
+        </section>
     </main>
-
-    <!-- RODAPÉ PADRÃO -->
-    <footer class="copyright">
-        © 2026 ESTATEC. Todos os direitos reservados.
-    </footer>
-
-    <script src="../script/api.js"></script>
-    <script src="../script/cadastroEstacionamento.js"></script>
-
+    <footer class="acesso-footer">© 2026 ESTATEC. Todos os direitos reservados.</footer>
 </body>
-
 </html>
