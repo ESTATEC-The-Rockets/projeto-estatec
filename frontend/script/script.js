@@ -91,7 +91,7 @@
                         password.setAttribute("aria-invalid", "true");
                         showFeedback("E-mail ou senha inválidos. Confira os dados e tente novamente.");
                     } else {
-                        showFeedback(`Não foi possível entrar (HTTP ${response.status}). Tente novamente mais tarde.`);
+                        showFeedback("Não foi possível entrar. Tente novamente mais tarde.");
                     }
                     return;
                 }
@@ -108,7 +108,7 @@
                 localStorage.setItem("token", "token_admin_gerado_2026");
                 localStorage.setItem("isAdmin", "true");
             } else {
-                // A API legada pode retornar senhas: nunca persistir esses campos.
+                // Alguns acessos antigos podem retornar senhas: nunca guardar esses campos.
                 const safeSession = JSON.stringify(session, (key, value) => /senha|password/i.test(key) ? undefined : value);
                 localStorage.setItem("usuarioSessao", safeSession);
                 localStorage.removeItem("token");

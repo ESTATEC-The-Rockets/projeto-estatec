@@ -10,6 +10,7 @@ const Consultas = (() => {
     const parkingLink = (parking, card = false) => parking?.idEstacionamento ? `<a${card ? ' class="card-primary-link"' : ''} href="estacionamento.html?id=${encodeURIComponent(parking.idEstacionamento)}">${esc(parking.nomeEstacionamento)}</a>` : 'Estacionamento não identificado';
     const owner = parking => parking.usuario || parking.usario;
     const carOwner = car => car.usuario || car.usario;
+    const carLink = (car, card = false) => car?.idCarros ? `<a${card ? ' class="card-primary-link"' : ''} href="perfil.html?tipo=carro&id=${encodeURIComponent(car.idCarros)}">${esc(car.placa || 'Carro sem placa')}</a>` : 'Carro não identificado';
     const userById = id => data.users.find(u => Number(u.id) === Number(id));
     const parkingById = id => data.parking.find(p => Number(p.idEstacionamento) === Number(id));
     const carById = id => data.cars.find(c => Number(c.idCarros) === Number(id));
@@ -25,7 +26,7 @@ const Consultas = (() => {
             const response = await fetch(base + path, { ...options, signal: controller.signal });
             const text = await response.text();
             if (!response.ok) {
-                let message = `Falha HTTP ${response.status}`;
+                let message = 'Não foi possível concluir a solicitação.';
                 try { const body = JSON.parse(text); message = body.detail || body.message || message; } catch { /* resposta sem JSON */ }
                 throw new Error(message);
             }
@@ -72,7 +73,7 @@ const Consultas = (() => {
         render();
     }
     function parkingPage() {
-        document.getElementById('pageContent').innerHTML = `<p class="muted">Abra um estacionamento para consultar usuários, dashboard e movimentações.</p>${searchToolbar('Nome do estacionamento ou responsável')}`;
+        document.getElementById('pageContent').innerHTML = `<p class="muted">Abra um estacionamento para consultar usuários, painel e movimentações.</p>${searchToolbar('Nome do estacionamento ou responsável')}`;
         const render = () => {
             const list = data.parking.filter(p => model.matches([p.nomeEstacionamento, owner(p)?.nome], document.getElementById('listSearch').value));
             document.getElementById('listCount').textContent = `${list.length} estacionamento(s)`;
@@ -82,7 +83,7 @@ const Consultas = (() => {
         render();
     }
     function carsPage() {
-        document.getElementById('pageContent').innerHTML = `<p class="muted">Todos os carros cadastrados, seus usuários, estacionamentos vinculados e histórico de movimentações.</p><div class="toolbar"><label>Pesquisar<input id="carSearch" type="search" placeholder="Placa, modelo, usuário ou estacionamento"></label><label>Data do histórico<input id="carHistoryDate" type="date"></label><button type="button" class="btn-cancel" data-clear-cars>Limpar filtros</button><span id="carCount" class="muted" role="status"></span></div><div id="carResults" class="line-list"></div>`;
+        document.getElementById('pageContent').innerHTML = `<p class="muted">Todos os carros cadastrados, seus usuários, estacionamentos vinculados e histórico de movimentações.</p><div class="toolbar"><label>Pesquisar<input id="carSearch" type="search" placeholder="Placa, modelo, usuário ou estacionamento"></label><button type="button" class="btn-cancel" data-clear-cars>Limpar pesquisa</button><span id="carCount" class="muted" role="status"></span></div><div id="carResults" class="line-list"></div>`;
         const carParking = car => {
             const user = carOwner(car);
             if (!user?.id) return [];
@@ -93,7 +94,6 @@ const Consultas = (() => {
         };
         const render = () => {
             const term = document.getElementById('carSearch').value;
-            const date = document.getElementById('carHistoryDate').value;
             const list = data.cars.filter(car => {
                 const user = carOwner(car);
                 const parkingNames = carParking(car).map(p => p.nomeEstacionamento);
@@ -103,15 +103,12 @@ const Consultas = (() => {
             document.getElementById('carResults').innerHTML = list.map(car => {
                 const user = carOwner(car);
                 const parking = carParking(car);
-                const records = data.history.filter(record => Number(record.carro?.idCarros) === Number(car.idCarros));
-                const events = model.events(records).filter(event => !date || event.date === date);
-                return `<article class="card" data-entity-card="car" data-entity-id="${Number(car.idCarros)}"><h2><span class="plate">${esc(car.placa || 'Sem placa')}</span></h2><dl><div><dt>Marca</dt><dd>${esc(car.marca || 'Não informada')}</dd></div><div><dt>Modelo</dt><dd>${esc(car.modelo || 'Não informado')}</dd></div><div><dt>Cor</dt><dd>${esc(car.cor || 'Não informada')}</dd></div></dl><h3>Usuário responsável</h3><p>${userLink(user)}</p><h3>Estacionamentos do usuário</h3>${parking.length ? `<div class="chips">${parking.map(item => `<span class="chip">${parkingLink(item)}</span>`).join('')}</div>` : empty('Nenhum estacionamento vinculado ao usuário.')}<h3>Histórico do carro</h3>${eventTable(events)}</article>`;
+return `<article class="card" data-entity-card="car" data-entity-id="${Number(car.idCarros)}"><h2><span class="plate">${carLink(car, true)}</span></h2><dl><div><dt>Marca</dt><dd>${esc(car.marca || 'Não informada')}</dd></div><div><dt>Modelo</dt><dd>${esc(car.modelo || 'Não informado')}</dd></div><div><dt>Cor</dt><dd>${esc(car.cor || 'Não informada')}</dd></div></dl><h3>Usuário responsável</h3><p>${userLink(user)}</p><h3>Estacionamento do carro</h3>${parking.length ? `<div class="chips">${parking.map(item => `<span class="chip">${parkingLink(item)}</span>`).join('')}</div>` : empty('Nenhum estacionamento vinculado ao carro.')}</article>`;
             }).join('') || empty('Nenhum carro encontrado.');
         };
-        ['carSearch', 'carHistoryDate'].forEach(id => document.getElementById(id).addEventListener('input', render));
+        document.getElementById('carSearch').addEventListener('input', render);
         document.querySelector('[data-clear-cars]').addEventListener('click', () => {
             document.getElementById('carSearch').value = '';
-            document.getElementById('carHistoryDate').value = '';
             render();
         });
         render();
@@ -145,7 +142,17 @@ const Consultas = (() => {
         ['historyDate', 'historySearch', 'historyParking', 'historyType'].forEach(id => document.getElementById(id)?.addEventListener('input', render));
         render();
     }
+    function carProfile(id) {
+        const car = carById(id);
+        if (!car) throw new Error('Carro não encontrado. Volte à lista e selecione um carro válido.');
+        const user = carOwner(car);
+        const parking = data.memberships.filter(m => Number(m.carroId) === Number(id)).map(m => parkingById(m.estacionamentoId)).filter(Boolean);
+        const records = data.history.filter(record => Number(record.carro?.idCarros) === Number(id));
+        document.getElementById('pageContent').innerHTML = `<p><a href="carros.html">← Voltar aos carros</a></p><section class="panel"><h2>${carLink(car)}</h2><dl><div><dt>Marca</dt><dd>${esc(car.marca || 'Não informada')}</dd></div><div><dt>Modelo</dt><dd>${esc(car.modelo || 'Não informado')}</dd></div><div><dt>Cor</dt><dd>${esc(car.cor || 'Não informada')}</dd></div><div><dt>Usuário responsável</dt><dd>${userLink(user)}</dd></div></dl></section><section class="panel"><h2>Estacionamentos cadastrados</h2>${parking.length ? `<div class="chips">${parking.map(item => `<span class="chip">${parkingLink(item)}</span>`).join('')}</div>` : empty('Nenhum estacionamento vinculado ao carro.')}</section><section class="panel"><h2>Histórico do carro</h2>${eventTable(model.events(records))}</section>`;
+    }
+
     function profilePage(id) {
+        if (new URLSearchParams(location.search).get('tipo') === 'carro') return carProfile(id);
         const user = userById(id);
         if (!user) throw new Error('Usuário não encontrado. Volte à lista e selecione um usuário válido.');
         const memberships = membershipsFor(id);
@@ -158,7 +165,7 @@ const Consultas = (() => {
         if (!parking) throw new Error('Estacionamento não encontrado. Volte à lista e selecione um estacionamento válido.');
         const memberships = data.memberships.filter(m => Number(m.estacionamentoId) === Number(id));
         const users = [...new Map(memberships.map(m => userById(m.usuarioId)).filter(Boolean).map(user => [user.id, user])).values()];
-        document.getElementById('pageContent').innerHTML = `<p><a href="estacionamentos.html">← Voltar aos estacionamentos</a></p><section class="panel"><h2>${esc(parking.nomeEstacionamento)}</h2><p>Responsável: ${userLink(owner(parking))}</p><p class="muted">${users.length} usuário(s) cadastrado(s). O responsável não é automaticamente um frequentador cadastrado.</p></section><section class="panel"><h2>Dashboard e histórico de entrada e saída</h2><div id="historyArea"></div></section><section class="panel"><h2>Usuários cadastrados</h2><div id="membershipControls"></div><div class="cards">${users.map(user => { const membership = memberships.find(m => Number(m.usuarioId) === Number(user.id)); return `<article class="card"><h3>${userLink(user, true)}</h3><p class="muted">${esc(user.email)}</p>${registeredPlates(user.id, id)}${removeButton(membership.id)}</article>`; }).join('') || empty('Nenhum usuário cadastrado neste estacionamento.')}</div></section>`;
+        document.getElementById('pageContent').innerHTML = `<p><a href="estacionamentos.html">← Voltar aos estacionamentos</a></p><section class="panel"><h2>${esc(parking.nomeEstacionamento)}</h2><p>Responsável: ${userLink(owner(parking))}</p><p class="muted">${users.length} usuário(s) cadastrado(s). O responsável não é automaticamente um frequentador cadastrado.</p></section><section class="panel"><h2>Painel e histórico de entrada e saída</h2><div id="historyArea"></div></section><section class="panel"><h2>Usuários cadastrados</h2><div id="membershipControls"></div><div class="cards">${users.map(user => { const membership = memberships.find(m => Number(m.usuarioId) === Number(user.id)); return `<article class="card"><h3>${userLink(user, true)}</h3><p class="muted">${esc(user.email)}</p>${registeredPlates(user.id, id)}${removeButton(membership.id)}</article>`; }).join('') || empty('Nenhum usuário cadastrado neste estacionamento.')}</div></section>`;
         membershipControls('parking', id);
         historyView(data.history.filter(r => Number(r.estacionamento?.idEstacionamento) === Number(id)), false, true);
     }
@@ -280,7 +287,7 @@ const Consultas = (() => {
             await load(required[document.body.dataset.page]);
             renderPage(); status('');
         } catch (error) {
-            status('Não foi possível carregar a página: ' + error.message + '. Verifique se o backend atualizado está em execução.');
+            status('Não foi possível carregar a página: ' + error.message + '. Verifique se o sistema está disponível.');
             const retry = document.createElement('button'); retry.textContent = 'Tentar novamente'; retry.onclick = () => location.reload();
             document.getElementById('pageContent').replaceChildren(retry);
         }

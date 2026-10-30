@@ -15,7 +15,7 @@ async function requestJson(url, options = {}) {
         const text = await response.text();
         let body;
         try { body = text ? JSON.parse(text) : null; } catch { body = text; }
-        if (!response.ok) throw new Error(body?.message || body?.detail || `Não foi possível concluir a operação (HTTP ${response.status}).`);
+        if (!response.ok) throw new Error(body?.message || body?.detail || "Não foi possível concluir a operação.");
         return body;
     } finally { clearTimeout(timeout); }
 }

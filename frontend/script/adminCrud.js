@@ -26,12 +26,12 @@ async function requestJson(url, options = {}) {
         }
         if (!response.ok) {
             const detail = typeof body === "string" ? body : body?.message || body?.detail || body?.error;
-            throw new Error(detail || `Falha HTTP ${response.status}.`);
+            throw new Error(detail || "Não foi possível concluir a operação.");
         }
         return text ? body : null;
     } catch (error) {
         if (error.name === "AbortError") throw new Error("O servidor demorou para responder. Tente novamente.");
-        if (error instanceof TypeError) throw new Error("Não foi possível conectar à API. Verifique o backend e a conexão.");
+        if (error instanceof TypeError) throw new Error("Não foi possível conectar ao sistema. Verifique sua conexão.");
         throw error;
     } finally {
         clearTimeout(timer);
@@ -181,7 +181,7 @@ async function loadAll() {
     const keys = Object.keys(resources);
     const results = await Promise.allSettled(keys.map(async (key) => {
         const rows = await requestJson(resources[key].url);
-        if (!Array.isArray(rows)) throw new Error("A API retornou uma lista inválida.");
+        if (!Array.isArray(rows)) throw new Error("Não foi possível carregar a lista.");
         return rows;
     }));
     const failures = [];
@@ -221,7 +221,7 @@ function setEditMode(key, id = "") {
         $("userSenha").value = "";
         $("userSenhaLabel").textContent = editing ? "Nova senha (obrigatória)" : "Senha";
         $("userSenhaHelp").textContent = editing
-            ? "Informe uma nova senha com pelo menos 8 caracteres. O backend exige a senha completa no PUT; salvar substituirá a senha atual. A senha do servidor nunca é preenchida."
+            ? "Informe uma nova senha com pelo menos 8 caracteres. Ela substituirá a senha atual."
             : "Use no mínimo 8 caracteres.";
     }
 }

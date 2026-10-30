@@ -4,7 +4,6 @@
     const API = 'http://localhost:8080';
     const paths = { user: '/usuarios', car: '/carros', parking: '/estacionamento' };
     const labels = { user: 'usuário', car: 'carro', parking: 'estacionamento' };
-    const pluralLabels = { user: 'usuários', car: 'carros', parking: 'estacionamentos' };
     const pageTypes = { usuarios: 'user', carros: 'car', estacionamentos: 'parking' };
     const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -31,15 +30,13 @@
     }
 
     function emptyCallToAction(type) {
-        if (type === 'user') return;
-        const results = document.getElementById('listResults');
+        const results = document.getElementById('listResults') || document.getElementById('carResults');
         const search = document.getElementById('listSearch') || document.getElementById('carSearch');
         if (!results || results.querySelector('[data-entity-empty-action]') || search?.value.trim() || results.querySelector('[data-entity-card]')) return;
         if (!/Nenhum/i.test(results.textContent)) return;
         const cta = document.createElement('div');
         cta.className = 'entity-empty-cta';
         cta.dataset.entityEmptyAction = type;
-        cta.innerHTML = `<i class="fa-solid fa-plus" aria-hidden="true"></i><span>Não há ${pluralLabels[type]} criados ainda.</span>`;
         const button = iconButton('create', type);
         button.innerHTML = '<i class="fa-solid fa-plus" aria-hidden="true"></i><span>Cadastrar novo ' + labels[type] + '</span>';
         cta.append(button);
@@ -51,13 +48,6 @@
         if (!type) return;
         const toolbar = document.querySelector('#pageContent .toolbar');
         if (toolbar && !toolbar.querySelector('[data-entity-action="create"]')) toolbar.append(iconButton('create', type));
-        document.querySelectorAll('#listResults [data-entity-card]').forEach(card => {
-            if (card.querySelector('.entity-actions')) return;
-            const actions = document.createElement('div');
-            actions.className = 'entity-actions';
-            actions.append(iconButton('edit', type, card.dataset.entityId), iconButton('delete', type, card.dataset.entityId));
-            card.append(actions);
-        });
         emptyCallToAction(type);
     }
 
@@ -93,7 +83,7 @@
                 form.querySelectorAll('input, select, button').forEach(control => { control.disabled = true; });
                 const endpoint = `${API}${paths[type]}${id ? `/${encodeURIComponent(id)}` : type === 'user' ? '/cadastro' : ''}`;
                 const response = await fetch(endpoint, { method: id ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                if (!response.ok) throw new Error(`Falha HTTP ${response.status}`);
+                if (!response.ok) throw new Error('Não foi possível salvar as informações.');
                 close();
                 window.Interface?.notify(`${labels[type][0].toUpperCase() + labels[type].slice(1)} salvo com sucesso.`, 'success');
                 location.reload();
@@ -107,7 +97,7 @@
 
     async function fetchRow(type, id) {
         const response = await fetch(`${API}${paths[type]}/${encodeURIComponent(id)}`);
-        if (!response.ok) throw new Error(`Falha HTTP ${response.status}`);
+        if (!response.ok) throw new Error('Não foi possível carregar as informações.');
         return response.json();
     }
 
@@ -115,7 +105,7 @@
         const approved = await (window.Interface?.confirm || (async message => confirm(message)))(`Tem certeza que deseja excluir este ${labels[type]}? Esta ação não pode ser desfeita.`);
         if (!approved) return;
         const response = await fetch(`${API}${paths[type]}/${encodeURIComponent(id)}`, { method: 'DELETE' });
-        if (!response.ok) throw new Error(`Falha HTTP ${response.status}`);
+        if (!response.ok) throw new Error('Não foi possível excluir as informações.');
         location.reload();
     }
 
