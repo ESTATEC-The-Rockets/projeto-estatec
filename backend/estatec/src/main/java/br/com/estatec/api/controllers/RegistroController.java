@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.estatec.api.dto.RegistroDTO;
-import br.com.estatec.api.dto.RegistroRequest;
+import br.com.estatec.api.entities.Registro;
 import br.com.estatec.api.services.RegistroService;
 import jakarta.validation.Valid;
 
@@ -31,17 +30,17 @@ public class RegistroController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RegistroDTO>> listar() {
+    public ResponseEntity<List<Registro>> listar() {
         return ResponseEntity.ok(service.listarTodos());
     }
 
     @PostMapping
-    public ResponseEntity<RegistroDTO> criar(@Valid @RequestBody RegistroRequest request) {
+    public ResponseEntity<Registro> criar(@Valid @RequestBody Registro request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.criar(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RegistroDTO> atualizar(@PathVariable("id") Long id, @Valid @RequestBody RegistroRequest request) {
+    public ResponseEntity<Registro> atualizar(@PathVariable("id") Long id, @Valid @RequestBody Registro request) {
         return ResponseEntity.ok(service.atualizar(id, request));
     }
 

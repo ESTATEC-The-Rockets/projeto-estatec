@@ -2,17 +2,17 @@
 
 ## Navegação
 
-- **Usuários** (`pages/usuario.html`): todos os usuários, seus vínculos de cadastro em estacionamentos e veículos. Busca por nome, e-mail, placa e estacionamento.
+- **Usuários** (`pages/usuario.html`): todos os usuários, seus registros em estacionamentos e veículos. Busca por nome, e-mail, placa e estacionamento.
 - **Estacionamentos** (`pages/estacionamentos.html`): todos os estacionamentos, responsável e número de usuários cadastrados.
 - **Perfil do usuário** (`pages/perfil.html?id=ID`): informações gerais, placas, estacionamentos cadastrados e histórico diário.
 - **Perfil do estacionamento** (`pages/estacionamento.html?id=ID`): usuários cadastrados com suas placas, histórico e dashboard (entradas, saídas, registros do dia em aberto e entradas por hora).
 - **Histórico** (`pages/dados.html`, URL antiga mantida): movimentações do dia atual por padrão, ordenadas da mais recente para a mais antiga. Permite mudar a data, pesquisar e filtrar estacionamento. Cada entrada e cada saída é exibida separadamente com usuário, placa e estacionamento.
 
-As placas são de propriedade do usuário; cada cadastro liga um usuário, um carro e um estacionamento. O mesmo usuário pode cadastrar vários carros no mesmo estacionamento. O responsável por um estacionamento não é automaticamente cadastrado como frequentador. Históricos anteriores também não geram cadastros automaticamente.
+As placas são de propriedade do usuário; cada registro liga um usuário, um carro e um estacionamento. O mesmo usuário pode registrar vários carros no mesmo estacionamento. O responsável por um estacionamento não é automaticamente registrado como frequentador. Históricos anteriores também não geram registros automaticamente.
 
-## Cadastro de vínculos
+## Registro de vínculos
 
-Entre como administrador e abra um perfil de usuário ou estacionamento. O seletor **Cadastrar carro no estacionamento** cria o cadastro persistente e permite pesquisar o estacionamento e o carro por nome, placa ou modelo. **Remover cadastro** remove somente essa matrícula, preservando o usuário, os carros e o histórico. A lista de destinos exclui vínculos já existentes.
+Entre como administrador e abra um perfil de usuário ou estacionamento. O seletor **Registrar carro no estacionamento** cria o registro persistente e permite pesquisar o estacionamento e o carro por nome, placa ou modelo. **Remover registro** remove somente esse vínculo, preservando o usuário, os carros e o histórico. A lista de destinos exclui vínculos já existentes.
 
 ## Backend e banco
 
@@ -45,4 +45,4 @@ Os testes de frontend usam Node e um DOM mínimo, sem dependências externas. Os
 
 ## Segurança preexistente
 
-A visibilidade dos controles de matrícula usa a sessão de administrador atual no frontend. Isso **não é autorização de servidor**: o projeto ainda permite publicamente os endpoints de usuários/estacionamentos e usa login administrativo local. Antes de publicar o sistema, implemente autenticação real e autorização por perfil no backend, além de DTOs para não retornar senhas nos endpoints legados. A API de matrícula retorna somente os IDs, sem serializar dados pessoais/senhas.
+A visibilidade dos controles de registro usa a sessão de administrador atual no frontend. Isso **não é autorização de servidor**: o projeto ainda permite publicamente os endpoints de usuários/estacionamentos e usa login administrativo local. Antes de publicar o sistema, implemente autenticação real e autorização por perfil no backend, além de DTOs para não retornar senhas nos endpoints legados. A API de registro retorna somente os IDs, sem serializar dados pessoais/senhas.

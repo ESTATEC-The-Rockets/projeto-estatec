@@ -1,15 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     const page = location.pathname.split('/').pop();
-    const header = document.querySelector('.header');
-    if (header && page !== 'menu.html' && !header.querySelector('.home-nav-button')) {
-        const home = document.createElement('a');
-        home.className = 'home-nav-button';
-        home.href = './menu.html';
-        home.setAttribute('aria-label', 'Voltar ao menu');
-        home.title = 'Voltar ao menu';
-        home.innerHTML = '<i class="fa-solid fa-house" aria-hidden="true"></i>';
-        header.insertBefore(home, header.firstElementChild);
-    }
     const links = [
         ['menu.html', 'Menu', 'house'],
         ['usuario.html', 'Usuários', 'user'],
@@ -36,23 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
             span.className = 'menu-text';
             span.textContent = label;
             a.append(i, span);
-            li.append(a);
-            nav.append(li);
-        }
-        if (localStorage.getItem('isAdmin') === 'true') {
-            const li = document.createElement('li');
-            li.className = 'nav-item';
-            const a = document.createElement('a');
-            a.href = './adminCrud.html';
-            a.setAttribute('aria-label', 'Administração');
-            a.title = 'Administração';
-            const icon = document.createElement('i');
-            icon.className = 'fa-solid fa-sliders';
-            icon.setAttribute('aria-hidden', 'true');
-            const text = document.createElement('span');
-            text.className = 'menu-text';
-            text.textContent = 'Administração';
-            a.append(icon, text);
             li.append(a);
             nav.append(li);
         }
