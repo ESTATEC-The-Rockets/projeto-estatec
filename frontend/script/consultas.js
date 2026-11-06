@@ -1,14 +1,16 @@
-/* Consultas reais: cadastros são matrículas explícitas, nunca inferidos do histórico. */
+/* Consultas reais: registros são vínculos explícitos, nunca inferidos do histórico. */
 const Consultas = (() => {
     const base = 'http://localhost:8080';
     const model = window.ConsultaModel;
     const data = { users: [], cars: [], parking: [], memberships: [], history: [] };
     const paths = { users: '/usuarios', cars: '/carros', parking: '/estacionamento', memberships: '/estacionamento/registros', history: '/historico' };
+    const normalizeMembership = membership => ({ ...membership, usuarioId: membership.usuarioId ?? membership.usuario?.id ?? membership.usuario?.idUsuario, estacionamentoId: membership.estacionamentoId ?? membership.estacionamento?.idEstacionamento, carroId: membership.carroId ?? membership.carro?.idCarros });
     const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     const userLink = (user, card = false) => user?.id ? `<a${card ? ' class="card-primary-link"' : ''} href="perfil.html?id=${encodeURIComponent(user.id)}">${esc(user.nome || 'Usuário')}</a>` : 'Usuário não identificado';
     const parkingLink = (parking, card = false) => parking?.idEstacionamento ? `<a${card ? ' class="card-primary-link"' : ''} href="estacionamento.html?id=${encodeURIComponent(parking.idEstacionamento)}">${esc(parking.nomeEstacionamento)}</a>` : 'Estacionamento não identificado';
     const owner = parking => parking.usuario || parking.usario;
     const carOwner = car => car.usuario || car.usario;
+    const carLink = (car, card = false) => car?.idCarros ? `<a${card ? ' class="card-primary-link"' : ''} href="perfil.html?tipo=carro&id=${encodeURIComponent(car.idCarros)}">${esc(car.placa || 'Carro sem placa')}</a>` : 'Carro não identificado';
     const userById = id => data.users.find(u => Number(u.id) === Number(id));
     const parkingById = id => data.parking.find(p => Number(p.idEstacionamento) === Number(id));
     const carById = id => data.cars.find(c => Number(c.idCarros) === Number(id));
@@ -24,7 +26,7 @@ const Consultas = (() => {
             const response = await fetch(base + path, { ...options, signal: controller.signal });
             const text = await response.text();
             if (!response.ok) {
-                let message = `Falha HTTP ${response.status}`;
+                let message = 'Não foi possível concluir a solicitação.';
                 try { const body = JSON.parse(text); message = body.detail || body.message || message; } catch { /* resposta sem JSON */ }
                 throw new Error(message);
             }
@@ -38,7 +40,7 @@ const Consultas = (() => {
         await Promise.all(keys.map(async key => {
             const list = await request(paths[key]);
             if (!Array.isArray(list)) throw new Error('Formato inesperado na consulta ' + paths[key]);
-            data[key] = list;
+            data[key] = key === 'memberships' ? list.map(normalizeMembership) : list;
         }));
     }
     const empty = message => `<p class="muted">${esc(message)}</p>`;
@@ -52,15 +54,15 @@ const Consultas = (() => {
     };
     function userCard(user) {
         const memberships = membershipsFor(user.id);
-        return `<article class="card"><h2>${userLink(user, true)}</h2><p class="muted">${esc(user.email)}</p>
-            <h3>Estacionamentos cadastrados</h3>${memberships.length ? memberships.map(m => `<details class="membership-details"><summary>${parkingLink(parkingById(m.estacionamentoId))}<span class="muted"> · Ver placas</span></summary>${plates(user.id)}</details>`).join('') : empty('Sem cadastro em estacionamentos.')}
+        return `<article class="card" data-entity-card="user" data-entity-id="${Number(user.id)}"><h2>${userLink(user, true)}</h2><p class="muted">${esc(user.email)}</p>
+            <h3>Estacionamentos registrados</h3>${memberships.length ? memberships.map(m => `<details class="membership-details"><summary>${parkingLink(parkingById(m.estacionamentoId))}<span class="muted"> · Ver placas</span></summary>${plates(user.id)}</details>`).join('') : empty('Sem registros em estacionamentos.')}
             <h3>Placas do usuário</h3>${plates(user.id)}</article>`;
     }
     function searchToolbar(label) {
-        return `<div class="toolbar"><label>Pesquisar<input id="listSearch" type="search" placeholder="${esc(label)}"></label><button type="button" class="btn-cancel" data-clear-list>Limpar busca</button><span id="listCount" class="muted" role="status"></span></div><div id="listResults" class="line-list"></div>`;
+        return `<div class="toolbar"><label>Pesquisar<input id="listSearch" type="search" placeholder="${esc(label)}"></label><button type="button" class="btn-cancel" data-clear-list>Limpar pesquisa</button><span id="listCount" class="muted" role="status"></span></div><div id="listResults" class="line-list"></div>`;
     }
     function usersPage() {
-        document.getElementById('pageContent').innerHTML = `<p class="muted">Todos os usuários, seus cadastros e veículos. Clique em um card para abrir o perfil.</p>${searchToolbar('Nome, e-mail, placa ou estacionamento')}`;
+        document.getElementById('pageContent').innerHTML = `<p class="muted">Usuários, registros e veículos. Selecione um item para consultar o perfil.</p>${searchToolbar('Nome, e-mail, placa ou estacionamento')}`;
         const render = () => {
             const term = document.getElementById('listSearch').value;
             const list = data.users.filter(u => model.matches([u.nome, u.email, ...carsFor(u.id).map(c => c.placa), ...membershipsFor(u.id).map(m => parkingById(m.estacionamentoId)?.nomeEstacionamento)], term));
@@ -71,17 +73,17 @@ const Consultas = (() => {
         render();
     }
     function parkingPage() {
-        document.getElementById('pageContent').innerHTML = `<p class="muted">Abra um estacionamento para consultar usuários, dashboard e movimentações.</p>${searchToolbar('Nome do estacionamento ou responsável')}`;
+        document.getElementById('pageContent').innerHTML = `<p class="muted">Abra um estacionamento para consultar usuários, painel e movimentações.</p>${searchToolbar('Nome do estacionamento ou responsável')}`;
         const render = () => {
             const list = data.parking.filter(p => model.matches([p.nomeEstacionamento, owner(p)?.nome], document.getElementById('listSearch').value));
             document.getElementById('listCount').textContent = `${list.length} estacionamento(s)`;
-            document.getElementById('listResults').innerHTML = list.map(p => `<article class="card"><h2>${parkingLink(p, true)}</h2><p>Responsável: ${userLink(owner(p))}</p><p class="muted">${data.memberships.filter(m => Number(m.estacionamentoId) === Number(p.idEstacionamento)).length} usuário(s) cadastrado(s)</p></article>`).join('') || empty('Nenhum estacionamento cadastrado.');
+            document.getElementById('listResults').innerHTML = list.map(p => `<article class="card" data-entity-card="parking" data-entity-id="${Number(p.idEstacionamento)}"><h2>${parkingLink(p, true)}</h2><p>Responsável: ${userLink(owner(p))}</p><p class="muted">${data.memberships.filter(m => Number(m.estacionamentoId) === Number(p.idEstacionamento)).length} usuário(s) cadastrado(s)</p></article>`).join('') || empty('Nenhum estacionamento cadastrado.');
         };
         document.getElementById('listSearch').addEventListener('input', render);
         render();
     }
     function carsPage() {
-        document.getElementById('pageContent').innerHTML = `<p class="muted">Todos os carros cadastrados, seus usuários, estacionamentos vinculados e histórico de movimentações.</p><div class="toolbar"><label>Pesquisar<input id="carSearch" type="search" placeholder="Placa, modelo, usuário ou estacionamento"></label><label>Data do histórico<input id="carHistoryDate" type="date"></label><button type="button" class="btn-cancel" data-clear-cars>Limpar filtros</button><span id="carCount" class="muted" role="status"></span></div><div id="carResults" class="line-list"></div>`;
+        document.getElementById('pageContent').innerHTML = `<p class="muted">Todos os carros cadastrados, seus usuários, estacionamentos vinculados e histórico de movimentações.</p><div class="toolbar"><label>Pesquisar<input id="carSearch" type="search" placeholder="Placa, modelo, usuário ou estacionamento"></label><button type="button" class="btn-cancel" data-clear-cars>Limpar pesquisa</button><span id="carCount" class="muted" role="status"></span></div><div id="carResults" class="line-list"></div>`;
         const carParking = car => {
             const user = carOwner(car);
             if (!user?.id) return [];
@@ -92,7 +94,6 @@ const Consultas = (() => {
         };
         const render = () => {
             const term = document.getElementById('carSearch').value;
-            const date = document.getElementById('carHistoryDate').value;
             const list = data.cars.filter(car => {
                 const user = carOwner(car);
                 const parkingNames = carParking(car).map(p => p.nomeEstacionamento);
@@ -102,15 +103,12 @@ const Consultas = (() => {
             document.getElementById('carResults').innerHTML = list.map(car => {
                 const user = carOwner(car);
                 const parking = carParking(car);
-                const records = data.history.filter(record => Number(record.carro?.idCarros) === Number(car.idCarros));
-                const events = model.events(records).filter(event => !date || event.date === date);
-                return `<article class="card"><h2><span class="plate">${esc(car.placa || 'Sem placa')}</span></h2><dl><div><dt>Marca</dt><dd>${esc(car.marca || 'Não informada')}</dd></div><div><dt>Modelo</dt><dd>${esc(car.modelo || 'Não informado')}</dd></div><div><dt>Cor</dt><dd>${esc(car.cor || 'Não informada')}</dd></div></dl><h3>Usuário responsável</h3><p>${userLink(user)}</p><h3>Estacionamentos do usuário</h3>${parking.length ? `<div class="chips">${parking.map(item => `<span class="chip">${parkingLink(item)}</span>`).join('')}</div>` : empty('Nenhum estacionamento vinculado ao usuário.')}<h3>Histórico do carro</h3>${eventTable(events)}</article>`;
+return `<article class="card" data-entity-card="car" data-entity-id="${Number(car.idCarros)}"><h2><span class="plate">${carLink(car, true)}</span></h2><dl><div><dt>Marca</dt><dd>${esc(car.marca || 'Não informada')}</dd></div><div><dt>Modelo</dt><dd>${esc(car.modelo || 'Não informado')}</dd></div><div><dt>Cor</dt><dd>${esc(car.cor || 'Não informada')}</dd></div></dl><h3>Usuário responsável</h3><p>${userLink(user)}</p><h3>Estacionamento do carro</h3>${parking.length ? `<div class="chips">${parking.map(item => `<span class="chip">${parkingLink(item)}</span>`).join('')}</div>` : empty('Nenhum estacionamento vinculado ao carro.')}</article>`;
             }).join('') || empty('Nenhum carro encontrado.');
         };
-        ['carSearch', 'carHistoryDate'].forEach(id => document.getElementById(id).addEventListener('input', render));
+        document.getElementById('carSearch').addEventListener('input', render);
         document.querySelector('[data-clear-cars]').addEventListener('click', () => {
             document.getElementById('carSearch').value = '';
-            document.getElementById('carHistoryDate').value = '';
             render();
         });
         render();
@@ -121,7 +119,7 @@ const Consultas = (() => {
     }
     function historyView(records, showParkingFilter = false, dashboard = false) {
         const target = document.getElementById('historyArea');
-        target.innerHTML = `<div class="toolbar"><label>Dia das movimentações<input id="historyDate" type="date" value="${model.localDay()}"></label><label>Pesquisar<input id="historySearch" type="search" placeholder="Usuário, placa ou estacionamento"></label>${showParkingFilter ? `<label class="relation-filter">Estacionamento<div class="relation-picker" data-picker="historyParking"><input type="hidden" id="historyParking"><input id="historyParkingSearch" type="search" placeholder="Pesquisar estacionamento" autocomplete="off"><div id="historyParkingOptions" class="relation-options" role="listbox" hidden></div><p id="historyParkingSelected" class="selected-relation">Todos os estacionamentos</p></div></label>` : ''}<label>Movimentação<select id="historyType"><option value="">Todas</option><option value="Entrada">Entradas</option><option value="Saída">Saídas</option></select></label><button type="button" class="btn-cancel" data-reset-history>Hoje / limpar filtros</button><span class="muted" id="eventCount" role="status"></span></div><div id="parkingStats"></div><div id="historyResults"></div>`;
+        target.innerHTML = `<div class="toolbar history-toolbar"><label>Dia das movimentações<input id="historyDate" type="date" value="${model.localDay()}"></label><label>Pesquisar<input id="historySearch" type="search" placeholder="Usuário, placa ou estacionamento"></label>${showParkingFilter ? `<label class="relation-filter">Estacionamento<div class="relation-picker" data-picker="historyParking"><input type="hidden" id="historyParking"><input id="historyParkingSearch" type="search" placeholder="Pesquisar estacionamento" autocomplete="off"><div id="historyParkingOptions" class="relation-options" role="listbox" hidden></div><p id="historyParkingSelected" class="selected-relation">Todos os estacionamentos</p></div></label>` : ''}<label>Movimentação<select id="historyType"><option value="">Todas</option><option value="Entrada">Entradas</option><option value="Saída">Saídas</option></select></label><button type="button" class="btn-cancel" data-reset-history>Limpar filtros</button><span class="muted" id="eventCount" role="status"></span></div><div id="parkingStats"></div><div id="historyResults"></div>`;
         const render = () => {
             const date = document.getElementById('historyDate').value;
             const term = document.getElementById('historySearch').value;
@@ -144,7 +142,17 @@ const Consultas = (() => {
         ['historyDate', 'historySearch', 'historyParking', 'historyType'].forEach(id => document.getElementById(id)?.addEventListener('input', render));
         render();
     }
+    function carProfile(id) {
+        const car = carById(id);
+        if (!car) throw new Error('Carro não encontrado. Volte à lista e selecione um carro válido.');
+        const user = carOwner(car);
+        const parking = data.memberships.filter(m => Number(m.carroId) === Number(id)).map(m => parkingById(m.estacionamentoId)).filter(Boolean);
+        const records = data.history.filter(record => Number(record.carro?.idCarros) === Number(id));
+        document.getElementById('pageContent').innerHTML = `<p><a href="carros.html">← Voltar aos carros</a></p><section class="panel"><h2>${carLink(car)}</h2><dl><div><dt>Marca</dt><dd>${esc(car.marca || 'Não informada')}</dd></div><div><dt>Modelo</dt><dd>${esc(car.modelo || 'Não informado')}</dd></div><div><dt>Cor</dt><dd>${esc(car.cor || 'Não informada')}</dd></div><div><dt>Usuário responsável</dt><dd>${userLink(user)}</dd></div></dl></section><section class="panel"><h2>Estacionamentos cadastrados</h2>${parking.length ? `<div class="chips">${parking.map(item => `<span class="chip">${parkingLink(item)}</span>`).join('')}</div>` : empty('Nenhum estacionamento vinculado ao carro.')}</section><section class="panel"><h2>Histórico do carro</h2>${eventTable(model.events(records))}</section>`;
+    }
+
     function profilePage(id) {
+        if (new URLSearchParams(location.search).get('tipo') === 'carro') return carProfile(id);
         const user = userById(id);
         if (!user) throw new Error('Usuário não encontrado. Volte à lista e selecione um usuário válido.');
         const memberships = membershipsFor(id);
@@ -157,12 +165,12 @@ const Consultas = (() => {
         if (!parking) throw new Error('Estacionamento não encontrado. Volte à lista e selecione um estacionamento válido.');
         const memberships = data.memberships.filter(m => Number(m.estacionamentoId) === Number(id));
         const users = [...new Map(memberships.map(m => userById(m.usuarioId)).filter(Boolean).map(user => [user.id, user])).values()];
-        document.getElementById('pageContent').innerHTML = `<p><a href="estacionamentos.html">← Voltar aos estacionamentos</a></p><section class="panel"><h2>${esc(parking.nomeEstacionamento)}</h2><p>Responsável: ${userLink(owner(parking))}</p><p class="muted">${users.length} usuário(s) cadastrado(s). O responsável não é automaticamente um frequentador cadastrado.</p></section><section class="panel"><h2>Dashboard e histórico de entrada e saída</h2><div id="historyArea"></div></section><section class="panel"><h2>Usuários cadastrados</h2><div id="membershipControls"></div><div class="cards">${users.map(user => { const membership = memberships.find(m => Number(m.usuarioId) === Number(user.id)); return `<article class="card"><h3>${userLink(user, true)}</h3><p class="muted">${esc(user.email)}</p>${registeredPlates(user.id, id)}${removeButton(membership.id)}</article>`; }).join('') || empty('Nenhum usuário cadastrado neste estacionamento.')}</div></section>`;
+        document.getElementById('pageContent').innerHTML = `<p><a href="estacionamentos.html">← Voltar aos estacionamentos</a></p><section class="panel"><h2>${esc(parking.nomeEstacionamento)}</h2><p>Responsável: ${userLink(owner(parking))}</p><p class="muted">${users.length} usuário(s) cadastrado(s). O responsável não é automaticamente um frequentador cadastrado.</p></section><section class="panel"><h2>Painel e histórico de entrada e saída</h2><div id="historyArea"></div></section><section class="panel"><h2>Usuários cadastrados</h2><div id="membershipControls"></div><div class="cards">${users.map(user => { const membership = memberships.find(m => Number(m.usuarioId) === Number(user.id)); return `<article class="card"><h3>${userLink(user, true)}</h3><p class="muted">${esc(user.email)}</p>${registeredPlates(user.id, id)}${removeButton(membership.id)}</article>`; }).join('') || empty('Nenhum usuário cadastrado neste estacionamento.')}</div></section>`;
         membershipControls('parking', id);
         historyView(data.history.filter(r => Number(r.estacionamento?.idEstacionamento) === Number(id)), false, true);
     }
     function removeButton(id) {
-        return localStorage.getItem('isAdmin') === 'true' ? `<button type="button" data-remove-membership="${Number(id)}">Remover cadastro</button>` : '';
+        return localStorage.getItem('isAdmin') === 'true' ? `<button type="button" data-remove-membership="${Number(id)}">Remover registro</button>` : '';
     }
     function sessionUserId() {
         try { return JSON.parse(localStorage.getItem('usuarioSessao') || 'null')?.id; } catch { return null; }
@@ -203,7 +211,7 @@ const Consultas = (() => {
             : data.users;
         const cars = type === 'user' ? data.cars.filter(c => Number(carOwner(c)?.id) === fixedUser) : data.cars;
         if (!targetItems.length) {
-            area.innerHTML = empty(!cars.length ? 'Este usuÃ¡rio ainda nÃ£o possui carros cadastrados.' : 'NÃ£o hÃ¡ opÃ§Ãµes de cadastro disponÃ­veis.');
+            area.innerHTML = empty(!cars.length ? 'Este usuÃ¡rio ainda nÃ£o possui carros cadastrados.' : 'NÃ£o hÃ¡ opÃ§Ãµes de registro disponÃ­veis.');
             return;
         }
         area.innerHTML = `<form id="membershipForm" class="membership-form"><label>${type === 'user' ? 'Estacionamento' : 'UsuÃ¡rio'}<div class="relation-picker" data-picker="membershipTarget"><input type="hidden" id="membershipTarget" required><input id="membershipTargetSearch" type="search" placeholder="Pesquisar por nome" autocomplete="off"><div id="membershipTargetOptions" class="relation-options" role="listbox" hidden></div><p id="membershipTargetSelected" class="selected-relation">Selecione uma opÃ§Ã£o</p></div></label><label>Carro do usuÃ¡rio<div class="relation-picker" data-picker="membershipCar"><input type="hidden" id="membershipCar" required><input id="membershipCarSearch" type="search" placeholder="Pesquisar placa ou modelo" autocomplete="off"><div id="membershipCarOptions" class="relation-options" role="listbox" hidden></div><p id="membershipCarSelected" class="selected-relation">Selecione um carro</p></div></label><button type="submit">Cadastrar carro no estacionamento</button></form>`;
@@ -222,8 +230,8 @@ const Consultas = (() => {
             const button = event.currentTarget.querySelector('button');
             button.disabled = true;
             try {
-                const payload = { usuarioId, estacionamentoId };
-                if (carId) payload.carroId = carId;
+                const payload = { usuario: { id: usuarioId }, estacionamento: { idEstacionamento: estacionamentoId } };
+                if (carId) payload.carro = { idCarros: carId };
                 await request(paths.memberships, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 await load(['memberships']); renderPage(); status('Carro cadastrado no estacionamento com sucesso.');
             } catch (error) { status('NÃ£o foi possÃ­vel cadastrar: ' + error.message); button.disabled = false; }
@@ -239,7 +247,7 @@ const Consultas = (() => {
         else if (page === 'perfil') profilePage(id);
         else if (page === 'estacionamento') parkingProfile(id);
         else if (page === 'historico') {
-            document.getElementById('pageContent').innerHTML = '<p class="muted">Últimas entradas e saídas do dia. Cada movimentação mostra usuário, placa e estacionamento. Selecione outra data para consultar dias anteriores.</p><section class="panel"><div id="historyArea"></div></section>';
+        document.getElementById('pageContent').innerHTML = '<p class="muted">Entradas e saídas registradas no dia selecionado.</p><section class="panel"><div id="historyArea"></div></section>';
             historyView(data.history, true);
         }
     }
@@ -260,11 +268,11 @@ const Consultas = (() => {
             const button = event.target.closest('[data-remove-membership]');
             if (!button || button.disabled || localStorage.getItem('isAdmin') !== 'true') return;
             button.disabled = true;
-            const approved = await (window.Interface?.confirm || (async message => confirm(message)))('Remover o cadastro deste usuário no estacionamento? O histórico será preservado.');
+            const approved = await (window.Interface?.confirm || (async message => confirm(message)))('Remover o registro deste usuário no estacionamento? O histórico será preservado.');
             if (!approved) { button.disabled = false; return; }
             try {
                 await request(paths.memberships + '/' + Number(button.dataset.removeMembership), { method: 'DELETE' });
-                await load(['memberships']); renderPage(); status('Cadastro removido. Histórico preservado.');
+                await load(['memberships']); renderPage(); status('Registro removido. Histórico preservado.');
             } catch (error) { status('Não foi possível remover: ' + error.message); button.disabled = false; }
         });
         try {
@@ -279,7 +287,7 @@ const Consultas = (() => {
             await load(required[document.body.dataset.page]);
             renderPage(); status('');
         } catch (error) {
-            status('Não foi possível carregar a página: ' + error.message + '. Verifique se o backend atualizado está em execução.');
+            status('Não foi possível carregar a página: ' + error.message + '. Verifique se o sistema está disponível.');
             const retry = document.createElement('button'); retry.textContent = 'Tentar novamente'; retry.onclick = () => location.reload();
             document.getElementById('pageContent').replaceChildren(retry);
         }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESTATEC - Administração</title>
+    <title>ESTATEC - Gerenciamento</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/adminCrud.css">
     <link rel="stylesheet" href="../css/interface.css">
@@ -11,26 +11,23 @@
     <script src="../script/adminCrud.js" defer></script>
 </head>
 <body>
-    <a class="skip-link" href="#adminTabs">Ir para os cadastros</a>
+    <a class="skip-link" href="#adminTabs">Ir para os registros</a>
     <header class="topbar">
-        <a href="./menu.html" class="home-nav-button" aria-label="Voltar ao menu" title="Voltar ao menu"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
-        <div><p class="eyebrow">ESTATEC</p><h1>Administração</h1></div>
+        <div><p class="eyebrow">ESTATEC</p><h1>Gerenciamento</h1></div>
         <div class="topbar-actions">
             <button type="button" id="logoutAdmin" class="btn-top danger">Sair</button>
         </div>
     </header>
     <main class="content">
-        <div class="intro"><h2>Cadastros</h2><p>Gerencie usuários, carros e estacionamentos.</p></div>
+        <div class="intro"><h2>Gerenciamento</h2><p>Gerencie usuários, carros, estacionamentos e registros.</p></div>
         <div class="load-feedback">
             <p id="loadStatus" class="status" role="status" aria-live="polite" aria-atomic="true">Aguardando carregamento.</p>
             <button type="button" id="retryLoad" class="btn-cancel" hidden>Tentar novamente</button>
         </div>
-        <div id="adminTabs" class="tabs" role="tablist" aria-label="Cadastros" aria-orientation="horizontal">
+        <div id="adminTabs" class="tabs" role="tablist" aria-label="Entidades do sistema" aria-orientation="horizontal">
             <button type="button" id="userTab" role="tab" aria-selected="true" aria-controls="userPanel" tabindex="0">Usuários</button>
             <button type="button" id="carTab" role="tab" aria-selected="false" aria-controls="carPanel" tabindex="-1">Carros</button>
             <button type="button" id="parkingTab" role="tab" aria-selected="false" aria-controls="parkingPanel" tabindex="-1">Estacionamentos</button>
-            <button type="button" id="registrationTab" role="tab" aria-selected="false" aria-controls="registrationPanel" tabindex="-1">Cadastros</button>
-            <button type="button" id="historyTab" role="tab" aria-selected="false" aria-controls="historyPanel" tabindex="-1">Histórico</button>
         </div>
         <section id="userPanel" class="crud-section" role="tabpanel" aria-labelledby="userTab" tabindex="0">
             <div class="section-header">
@@ -39,7 +36,10 @@
                     <label for="userSearch">Filtrar usuários</label>
                     <input type="search" id="userSearch" placeholder="Nome, e-mail, CPF ou telefone" aria-controls="userTableBody">
                 </div>
+                <button type="button" class="btn-save icon-action modal-open" data-modal="userModal" aria-label="Criar usuário" title="Criar usuário"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
             </div>
+            <dialog id="userModal" class="crud-modal" aria-labelledby="userFormTitle">
+            <div class="modal-card"><button type="button" class="modal-close" data-modal-close="userModal" aria-label="Fechar">×</button>
             <form id="userForm" class="crud-form" aria-labelledby="userFormTitle" aria-describedby="userStatus">
                 <h3 id="userFormTitle">Novo usuário</h3>
                 <input type="hidden" id="userId">
@@ -57,7 +57,7 @@
                     <button type="button" id="userCancelEdit" class="btn-cancel" hidden>Cancelar edição</button>
                 </div>
                 <p id="userStatus" class="status" role="status" aria-live="polite" aria-atomic="true"></p>
-            </form>
+            </form></div></dialog>
             <div class="table-wrapper" role="region" aria-label="Lista de usuários" tabindex="0">
                 <table>
                     <caption class="sr-only">Usuários cadastrados</caption>
@@ -73,7 +73,10 @@
                     <label for="carSearch">Filtrar carros</label>
                     <input type="search" id="carSearch" placeholder="Placa, modelo, marca ou dono" aria-controls="carTableBody">
                 </div>
+                <button type="button" class="btn-save icon-action modal-open" data-modal="carModal" aria-label="Criar carro" title="Criar carro"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
             </div>
+            <dialog id="carModal" class="crud-modal" aria-labelledby="carFormTitle">
+            <div class="modal-card"><button type="button" class="modal-close" data-modal-close="carModal" aria-label="Fechar">×</button>
             <form id="carForm" class="crud-form" aria-labelledby="carFormTitle" aria-describedby="carStatus">
                 <h3 id="carFormTitle">Novo carro</h3>
                 <input type="hidden" id="carId">
@@ -89,7 +92,7 @@
                     <button type="button" id="carCancelEdit" class="btn-cancel" hidden>Cancelar edição</button>
                 </div>
                 <p id="carStatus" class="status" role="status" aria-live="polite" aria-atomic="true"></p>
-            </form>
+            </form></div></dialog>
             <div class="table-wrapper" role="region" aria-label="Lista de carros" tabindex="0">
                 <table>
                     <caption class="sr-only">Carros cadastrados</caption>
@@ -103,51 +106,51 @@
                 <div><h2>Estacionamentos</h2><p id="parkingCount" class="count">0 registros</p></div>
                 <div class="search-field">
                     <label for="parkingSearch">Filtrar estacionamentos</label>
-                    <input type="search" id="parkingSearch" placeholder="Nome ou dono" aria-controls="parkingTableBody">
+                    <input type="search" id="parkingSearch" placeholder="Nome do estacionamento" aria-controls="parkingTableBody">
                 </div>
+                <button type="button" class="btn-save icon-action modal-open" data-modal="parkingModal" aria-label="Criar estacionamento" title="Criar estacionamento"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
             </div>
+            <dialog id="parkingModal" class="crud-modal" aria-labelledby="parkingFormTitle">
+            <div class="modal-card"><button type="button" class="modal-close" data-modal-close="parkingModal" aria-label="Fechar">×</button>
             <form id="parkingForm" class="crud-form" aria-labelledby="parkingFormTitle" aria-describedby="parkingStatus">
                 <h3 id="parkingFormTitle">Novo estacionamento</h3>
                 <input type="hidden" id="parkingId">
                 <div class="form-grid">
                     <div class="field"><label for="parkingNome">Nome do estacionamento</label><input type="text" id="parkingNome" aria-describedby="parkingNomeHelp" required><p id="parkingNomeHelp" class="field-help">Apenas letras e espaços.</p></div>
-                    <div class="field"><label for="parkingUsuarioSearch">Dono (opcional)</label><div class="relation-picker" data-picker="parkingUsuarioId"><input type="hidden" id="parkingUsuarioId"><input type="search" id="parkingUsuarioSearch" placeholder="Pesquisar usuário por nome" autocomplete="off" aria-controls="parkingUsuarioOptions"><div id="parkingUsuarioOptions" class="relation-options" role="listbox" hidden></div><p id="parkingUsuarioSelected" class="selected-relation">Sem dono</p></div></div>
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn-save">Salvar estacionamento</button>
                     <button type="button" id="parkingCancelEdit" class="btn-cancel" hidden>Cancelar edição</button>
                 </div>
                 <p id="parkingStatus" class="status" role="status" aria-live="polite" aria-atomic="true"></p>
-            </form>
+            </form></div></dialog>
             <div class="table-wrapper" role="region" aria-label="Lista de estacionamentos" tabindex="0">
                 <table>
                     <caption class="sr-only">Estacionamentos cadastrados</caption>
-                    <thead><tr><th scope="col">ID</th><th scope="col">Nome</th><th scope="col">Dono</th><th scope="col">Ações</th></tr></thead>
-                    <tbody id="parkingTableBody"><tr><td colspan="4" class="empty-state">Aguardando carregamento.</td></tr></tbody>
+                    <thead><tr><th scope="col">ID</th><th scope="col">Nome</th><th scope="col">Ações</th></tr></thead>
+                <tbody id="parkingTableBody"><tr><td colspan="3" class="empty-state">Aguardando carregamento.</td></tr></tbody>
                 </table>
             </div>
-        </section>
-        <section id="registrationPanel" class="crud-section" role="tabpanel" aria-labelledby="registrationTab" tabindex="0" hidden>
+        <section id="registrationPanel" class="registration-section" role="region" aria-labelledby="registrationTitle" tabindex="0">
             <div class="section-header">
-                <div><h2>Cadastros no estacionamento</h2><p id="registrationCount" class="count">0 registros</p></div>
-                <div class="search-field"><label for="registrationSearch">Filtrar cadastros</label><input type="search" id="registrationSearch" placeholder="Usuário, carro, placa ou estacionamento" aria-controls="registrationTableBody"></div>
+                <div><h2 id="registrationTitle">Registros no estacionamento</h2><p id="registrationCount" class="count">0 registros</p></div>
+                <div class="search-field"><label for="registrationSearch">Filtrar registros</label><input type="search" id="registrationSearch" placeholder="Usuário, carro, placa ou estacionamento" aria-controls="registrationTableBody"></div>
+                <button type="button" class="btn-save icon-action modal-open" data-modal="registrationModal" aria-label="Criar registro" title="Criar registro"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
             </div>
+            <dialog id="registrationModal" class="crud-modal" aria-labelledby="registrationFormTitle">
+            <div class="modal-card"><button type="button" class="modal-close" data-modal-close="registrationModal" aria-label="Fechar">×</button>
             <form id="registrationForm" class="crud-form" aria-labelledby="registrationFormTitle" aria-describedby="registrationStatus">
-                <h3 id="registrationFormTitle">Novo cadastro</h3><input type="hidden" id="registrationId">
+                <h3 id="registrationFormTitle">Novo registro</h3><input type="hidden" id="registrationId">
                 <div class="form-grid">
                     <div class="field"><label for="registrationUsuarioSearch">Usuário</label><div class="relation-picker" data-picker="registrationUsuarioId"><input type="hidden" id="registrationUsuarioId" required><input type="search" id="registrationUsuarioSearch" placeholder="Pesquisar usuário por nome" autocomplete="off"><div id="registrationUsuarioOptions" class="relation-options" role="listbox" hidden></div><p id="registrationUsuarioSelected" class="selected-relation">Selecione um usuário</p></div></div>
                     <div class="field"><label for="registrationCarroSearch">Carro</label><div class="relation-picker" data-picker="registrationCarroId"><input type="hidden" id="registrationCarroId" required><input type="search" id="registrationCarroSearch" placeholder="Pesquisar placa ou modelo" autocomplete="off"><div id="registrationCarroOptions" class="relation-options" role="listbox" hidden></div><p id="registrationCarroSelected" class="selected-relation">Selecione um carro</p></div></div>
                     <div class="field"><label for="registrationParkingSearch">Estacionamento</label><div class="relation-picker" data-picker="registrationParkingId"><input type="hidden" id="registrationParkingId" required><input type="search" id="registrationParkingSearch" placeholder="Pesquisar estacionamento" autocomplete="off"><div id="registrationParkingOptions" class="relation-options" role="listbox" hidden></div><p id="registrationParkingSelected" class="selected-relation">Selecione um estacionamento</p></div></div>
                 </div>
-                <div class="form-actions"><button type="submit" class="btn-save">Salvar cadastro</button><button type="button" id="registrationCancelEdit" class="btn-cancel" hidden>Cancelar edição</button></div>
+                <div class="form-actions"><button type="submit" class="btn-save">Salvar registro</button><button type="button" id="registrationCancelEdit" class="btn-cancel" hidden>Cancelar edição</button></div>
                 <p id="registrationStatus" class="status" role="status" aria-live="polite" aria-atomic="true"></p>
-            </form>
-            <div class="table-wrapper" role="region" aria-label="Lista de cadastros" tabindex="0"><table><caption class="sr-only">Cadastros de carros em estacionamentos</caption><thead><tr><th scope="col">ID</th><th scope="col">Usuário</th><th scope="col">Carro</th><th scope="col">Estacionamento</th><th scope="col">Ações</th></tr></thead><tbody id="registrationTableBody"><tr><td colspan="5" class="empty-state">Aguardando carregamento.</td></tr></tbody></table></div>
+            </form></div></dialog>
+            <div class="table-wrapper" role="region" aria-label="Lista de registros" tabindex="0"><table><caption class="sr-only">Registros de carros em estacionamentos</caption><thead><tr><th scope="col">ID</th><th scope="col">Usuário</th><th scope="col">Carro</th><th scope="col">Estacionamento</th><th scope="col">Ações</th></tr></thead><tbody id="registrationTableBody"><tr><td colspan="5" class="empty-state">Aguardando carregamento.</td></tr></tbody></table></div>
         </section>
-        <section id="historyPanel" class="crud-section" role="tabpanel" aria-labelledby="historyTab" tabindex="0" hidden>
-            <div class="section-header"><div><h2>Histórico de movimentações</h2><p id="historyCount" class="count">0 registros</p></div><div class="search-field"><label for="historySearch">Filtrar histórico</label><input type="search" id="historySearch" placeholder="Placa, usuário, estacionamento ou data" aria-controls="historyTableBody"></div></div>
-            <form id="historyForm" class="crud-form" aria-labelledby="historyFormTitle" aria-describedby="historyStatus"><h3 id="historyFormTitle">Novo movimento</h3><input type="hidden" id="historyId"><div class="form-grid"><div class="field"><label for="historyCarSearch">Carro</label><div class="relation-picker" data-picker="historyCarId"><input type="hidden" id="historyCarId" required><input type="search" id="historyCarSearch" placeholder="Pesquisar placa ou modelo" autocomplete="off"><div id="historyCarOptions" class="relation-options" role="listbox" hidden></div><p id="historyCarSelected" class="selected-relation">Selecione um carro</p></div></div><div class="field"><label for="historyParkingSearch">Estacionamento</label><div class="relation-picker" data-picker="historyParkingId"><input type="hidden" id="historyParkingId" required><input type="search" id="historyParkingSearch" placeholder="Pesquisar estacionamento" autocomplete="off"><div id="historyParkingOptions" class="relation-options" role="listbox" hidden></div><p id="historyParkingSelected" class="selected-relation">Selecione um estacionamento</p></div></div><div class="field"><label for="historyData">Data</label><input type="date" id="historyData" required></div><div class="field"><label for="historyEntrada">Entrada</label><input type="time" id="historyEntrada"></div><div class="field"><label for="historySaida">Saída</label><input type="time" id="historySaida"></div><div class="field"><label for="historyIsEntrada">Tipo</label><select id="historyIsEntrada"><option value="true">Entrada</option><option value="false">Saída</option></select></div></div><div class="form-actions"><button type="submit" class="btn-save">Salvar movimento</button><button type="button" id="historyCancelEdit" class="btn-cancel" hidden>Cancelar edição</button></div><p id="historyStatus" class="status" role="status" aria-live="polite"></p></form>
-            <div class="table-wrapper" role="region" aria-label="Lista de históricos" tabindex="0"><table><caption class="sr-only">Movimentações registradas</caption><thead><tr><th>ID</th><th>Data</th><th>Carro</th><th>Estacionamento</th><th>Entrada</th><th>Saída</th><th>Ações</th></tr></thead><tbody id="historyTableBody"><tr><td colspan="7" class="empty-state">Aguardando carregamento.</td></tr></tbody></table></div>
         </section>
     </main>
 </body>

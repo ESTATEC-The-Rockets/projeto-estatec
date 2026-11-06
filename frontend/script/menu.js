@@ -15,7 +15,7 @@ async function requestJson(url, options = {}) {
         const text = await response.text();
         let body;
         try { body = text ? JSON.parse(text) : null; } catch { body = text; }
-        if (!response.ok) throw new Error(body?.message || body?.detail || `Não foi possível concluir a operação (HTTP ${response.status}).`);
+        if (!response.ok) throw new Error(body?.message || body?.detail || "Não foi possível concluir a operação.");
         return body;
     } finally { clearTimeout(timeout); }
 }
@@ -86,12 +86,13 @@ async function carregarEstacionamentos() {
         estacionamentosLista = await requestJson(API_ESTACIONAMENTO);
         if (!Array.isArray(estacionamentosLista)) throw new Error('Resposta inválida.');
         document.getElementById('parkingCount').textContent = estacionamentosLista.length;
-        renderDropdownEstacionamentos();
     } catch (error) {
         console.error("Erro ao buscar estacionamentos:", error);
         const dropdown = document.getElementById('dropdownEstacionamentos');
-        dropdown.innerHTML = '<li><button type="button" id="retryParking">Não foi possível carregar. Tentar novamente</button></li>';
-        document.getElementById('retryParking').addEventListener('click', carregarEstacionamentos);
+        if (dropdown) {
+            dropdown.innerHTML = '<li><button type="button" id="retryParking">Não foi possível carregar. Tentar novamente</button></li>';
+            document.getElementById('retryParking').addEventListener('click', carregarEstacionamentos);
+        }
     }
 }
 
@@ -133,10 +134,8 @@ function atualizarDataAtual() {
 function aplicarVisaoAdmin() {
     const isAdmin = localStorage.getItem("isAdmin") === "true";
     const profileSpan = document.querySelector(".user-profile span");
-    const adminPanelLink = document.getElementById("adminPanelLink");
 
     if (profileSpan) profileSpan.textContent = isAdmin ? "Administrador" : "Dono Estacionamento";
-    if (adminPanelLink) adminPanelLink.style.display = isAdmin ? "inline-flex" : "none";
 }
 
 function bindLayoutEvents() {

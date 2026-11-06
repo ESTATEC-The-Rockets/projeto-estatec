@@ -4,15 +4,13 @@ const API_USUARIOS = "http://localhost:8080/usuarios";
 const API_CARROS = "http://localhost:8080/carros";
 const API_ESTACIONAMENTO = "http://localhost:8080/estacionamento";
 const API_REGISTROS = "http://localhost:8080/estacionamento/registros";
-const API_HISTORICO = "http://localhost:8080/historico";
 const $ = (id) => document.getElementById(id);
 const state = { loading: false, busy: false };
 const resources = {
     user: { url: API_USUARIOS, createUrl: `${API_USUARIOS}/cadastro`, id: "id", label: "usuário", plural: "usuários", columns: 6, rows: [], loaded: false, error: false, filter: "" },
     car: { url: API_CARROS, id: "idCarros", label: "carro", plural: "carros", columns: 7, rows: [], loaded: false, error: false, filter: "" },
-    parking: { url: API_ESTACIONAMENTO, id: "idEstacionamento", label: "estacionamento", plural: "estacionamentos", columns: 4, rows: [], loaded: false, error: false, filter: "" },
-    registration: { url: API_REGISTROS, id: "id", label: "cadastro", plural: "cadastros", columns: 5, rows: [], loaded: false, error: false, filter: "" }
-    ,history: { url: API_HISTORICO, id: "id", label: "movimento", plural: "movimentos", columns: 7, rows: [], loaded: false, error: false, filter: "" }
+    parking: { url: API_ESTACIONAMENTO, id: "idEstacionamento", label: "estacionamento", plural: "estacionamentos", columns: 3, rows: [], loaded: false, error: false, filter: "" },
+    registration: { url: API_REGISTROS, id: "id", label: "registro", plural: "registros", columns: 5, rows: [], loaded: false, error: false, filter: "" }
 };
 
 async function requestJson(url, options = {}) {
@@ -28,12 +26,12 @@ async function requestJson(url, options = {}) {
         }
         if (!response.ok) {
             const detail = typeof body === "string" ? body : body?.message || body?.detail || body?.error;
-            throw new Error(detail || `Falha HTTP ${response.status}.`);
+            throw new Error(detail || "Não foi possível concluir a operação.");
         }
         return text ? body : null;
     } catch (error) {
         if (error.name === "AbortError") throw new Error("O servidor demorou para responder. Tente novamente.");
-        if (error instanceof TypeError) throw new Error("Não foi possível conectar à API. Verifique o backend e a conexão.");
+        if (error instanceof TypeError) throw new Error("Não foi possível conectar ao sistema. Verifique sua conexão.");
         throw error;
     } finally {
         clearTimeout(timer);
@@ -64,12 +62,18 @@ function formatTelefone(value) {
 function formatPlaca(value) { return String(value || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 7); }
 function getOwnerName(item) { return item?.usuario?.nome || item?.usario?.nome || "—"; }
 function getOwnerId(item) { return item?.usuario?.id ?? item?.usario?.id ?? ""; }
+function currentUserId() {
+    try {
+        const session = JSON.parse(localStorage.getItem("usuarioSessao") || "null");
+        return session?.id ?? session?.idUsuario ?? null;
+    } catch {
+        return null;
+    }
+}
 function userName(id) { return resources.user.rows.find((item) => String(item.id) === String(id))?.nome || `Usuário #${id ?? "—"}`; }
 function parkingName(id) { return resources.parking.rows.find((item) => String(item.idEstacionamento) === String(id))?.nomeEstacionamento || `Estacionamento #${id ?? "—"}`; }
 function carForId(id) { return resources.car.rows.find((item) => String(item.idCarros) === String(id)); }
 function carLabel(id) { const car = carForId(id); return car ? `${car.placa} · ${car.marca} ${car.modelo}` : `Carro #${id ?? "—"}`; }
-function historyCar(row) { return row?.carro?.placa ? `${row.carro.placa} · ${row.carro.modelo || ""}` : "Carro —"; }
-function historyParking(row) { return row?.estacionamento?.nomeEstacionamento || "Estacionamento —"; }
 
 function setControls() {
     const locked = state.loading || state.busy;
@@ -82,6 +86,14 @@ function setControls() {
     $("retryLoad").disabled = locked;
 }
 
+function registrationIds(row) {
+    return {
+        usuarioId: row.usuarioId ?? row.usuario?.id ?? row.usuario?.idUsuario,
+        carroId: row.carroId ?? row.carro?.idCarros,
+        estacionamentoId: row.estacionamentoId ?? row.estacionamento?.idEstacionamento
+    };
+}
+
 function renderOwnerPicker(id) {
     const input = $(`${id.replace("Id", "Search")}`);
     const options = $(`${id.replace("Id", "Options")}`);
@@ -92,7 +104,7 @@ function renderOwnerPicker(id) {
     options.hidden = false;
 }
 function fillOwnerSelects() {
-    ["carUsuarioId", "parkingUsuarioId"].forEach((id) => {
+    ["carUsuarioId"].forEach((id) => {
         const selected = $(id).value;
         const user = resources.user.rows.find((item) => String(item.id) === String(selected));
         $(`${id.replace("Id", "Selected")}`).textContent = user ? `Selecionado: ${user.nome}` : "Sem dono";
@@ -139,45 +151,14 @@ function fillRegistrationPickers() {
     });
 }
 
-function fillHistoryPickers() {
-    const definitions = {
-        historyCarId: [resources.car.rows, (item) => `${item.placa} · ${item.marca} ${item.modelo} · ${getOwnerName(item)}`, item => item.idCarros],
-        historyParkingId: [resources.parking.rows, (item) => `${item.nomeEstacionamento} · ${getOwnerName(item)}`, item => item.idEstacionamento]
-    };
-    Object.entries(definitions).forEach(([id, [items, labelFor, valueFor]]) => {
-        const input = $(`${id.replace("Id", "Search")}`);
-        const options = $(`${id.replace("Id", "Options")}`);
-        const selected = $(id).value;
-        const renderPicker = () => {
-            const term = input.value.trim().toLocaleLowerCase("pt-BR");
-            const filtered = items.filter(item => !term || labelFor(item).toLocaleLowerCase("pt-BR").includes(term));
-            options.innerHTML = filtered.map(item => `<button type="button" class="relation-option${String(valueFor(item)) === String($(id).value) ? " is-selected" : ""}" data-history-value="${escapeHtml(valueFor(item))}"><strong>${escapeHtml(labelFor(item))}</strong></button>`).join("") || `<p class="relation-empty">Nenhum resultado encontrado.</p>`;
-            options.hidden = false;
-        };
-        const current = items.find(item => String(valueFor(item)) === String(selected));
-        $(`${id.replace("Id", "Selected")}`).textContent = current ? `Selecionado: ${labelFor(current)}` : "Selecione uma opção";
-        input.onfocus = renderPicker;
-        input.oninput = renderPicker;
-        options.onclick = event => {
-            const option = event.target.closest("[data-history-value]");
-            if (!option) return;
-            $(id).value = option.dataset.historyValue;
-            input.value = "";
-            options.hidden = true;
-            fillHistoryPickers();
-        };
-    });
-}
-
 function render(key) {
     const resource = resources[key];
     const filter = resource.filter.toLocaleLowerCase("pt-BR");
     const cellsFor = (row) => {
         if (key === "user") return [row.id, row.nome, row.email, row.cpf, row.telefone];
         if (key === "car") return [row.idCarros, row.placa, row.marca, row.modelo, row.cor, getOwnerName(row)];
-        if (key === "registration") return [row.id, userName(row.usuarioId), carLabel(row.carroId), parkingName(row.estacionamentoId)];
-        if (key === "history") return [row.id, row.data, historyCar(row), historyParking(row), row.horarioEntrada, row.horarioSaida];
-        return [row.idEstacionamento, row.nomeEstacionamento, getOwnerName(row)];
+        if (key === "registration") { const ids = registrationIds(row); return [row.id, userName(ids.usuarioId), carLabel(ids.carroId), parkingName(ids.estacionamentoId)]; }
+        return [row.idEstacionamento, row.nomeEstacionamento];
     };
     const rows = resource.rows.filter((row) => cellsFor(row).join(" ").toLocaleLowerCase("pt-BR").includes(filter));
     $(`${key}Count`).textContent = resource.loaded
@@ -187,7 +168,7 @@ function render(key) {
     if (!resource.loaded) empty = resource.error ? "Não foi possível carregar. Use Tentar novamente acima." : "Carregando registros…";
     $(`${key}TableBody`).innerHTML = rows.length ? rows.map((row) => {
         const id = escapeHtml(row[resource.id]);
-        return `<tr>${cellsFor(row).map((value) => `<td>${escapeHtml(value ?? "—")}</td>`).join("")}<td><div class="row-actions"><button type="button" class="btn-edit" data-${key}-edit="${id}" aria-label="Editar ${resource.label} ${id}">Editar</button><button type="button" class="btn-delete icon-only-delete" data-${key}-delete="${id}" aria-label="Excluir ${resource.label} ${id}" title="Excluir ${resource.label}"><i class="fa-solid fa-trash" aria-hidden="true"></i></button></div></td></tr>`;
+        return `<tr>${cellsFor(row).map((value) => `<td>${escapeHtml(value ?? "—")}</td>`).join("")}<td><div class="row-actions"><button type="button" class="btn-edit icon-action" data-${key}-edit="${id}" aria-label="Editar ${resource.label} ${id}" title="Editar ${resource.label}"><i class="fa-solid fa-pencil" aria-hidden="true"></i></button><button type="button" class="btn-delete icon-action" data-${key}-delete="${id}" aria-label="Excluir ${resource.label} ${id}" title="Excluir ${resource.label}"><i class="fa-solid fa-trash" aria-hidden="true"></i></button></div></td></tr>`;
     }).join("") : `<tr><td colspan="${resource.columns}" class="empty-state">${empty}</td></tr>`;
     setControls();
 }
@@ -200,7 +181,7 @@ async function loadAll() {
     const keys = Object.keys(resources);
     const results = await Promise.allSettled(keys.map(async (key) => {
         const rows = await requestJson(resources[key].url);
-        if (!Array.isArray(rows)) throw new Error("A API retornou uma lista inválida.");
+        if (!Array.isArray(rows)) throw new Error("Não foi possível carregar a lista.");
         return rows;
     }));
     const failures = [];
@@ -212,7 +193,7 @@ async function loadAll() {
             failures.push(resource.plural);
             feedback(key, `Falha ao carregar ${resource.plural}: ${result.reason.message} Use Tentar novamente.`, "error", false);
         } else {
-            resource.rows = result.value;
+            resource.rows = key === "registration" ? result.value.map((row) => ({ ...row, ...registrationIds(row) })) : result.value;
             resource.loaded = true;
             if ($(`${key}Status`).dataset.loadError === "true") feedback(key, "Dados atualizados.", "info", false);
         }
@@ -220,7 +201,6 @@ async function loadAll() {
     });
     if (results[0].status === "fulfilled") fillOwnerSelects();
     if (results.every((result) => result.status === "fulfilled")) fillRegistrationPickers();
-    if (results.every((result) => result.status === "fulfilled")) fillHistoryPickers();
     state.loading = false;
     keys.forEach(render);
     $("retryLoad").hidden = failures.length === 0;
@@ -241,15 +221,26 @@ function setEditMode(key, id = "") {
         $("userSenha").value = "";
         $("userSenhaLabel").textContent = editing ? "Nova senha (obrigatória)" : "Senha";
         $("userSenhaHelp").textContent = editing
-            ? "Informe uma nova senha com pelo menos 8 caracteres. O backend exige a senha completa no PUT; salvar substituirá a senha atual. A senha do servidor nunca é preenchida."
+            ? "Informe uma nova senha com pelo menos 8 caracteres. Ela substituirá a senha atual."
             : "Use no mínimo 8 caracteres.";
     }
+}
+
+function openModal(key) {
+    const modal = $(`${key}Modal`);
+    if (modal && !modal.open) modal.showModal();
+}
+
+function closeModal(key) {
+    const modal = $(`${key}Modal`);
+    if (modal?.open) modal.close();
 }
 
 function resetForm(key) {
     $(`${key}Form`).reset();
     $(`${key}Form`).querySelectorAll("input, select").forEach((field) => field.setCustomValidity(""));
     setEditMode(key);
+    closeModal(key);
 }
 
 function editRow(key, id) {
@@ -262,9 +253,7 @@ function editRow(key, id) {
         userTelefone: formatTelefone(row.telefone), userDataNascimento: String(row.dataNascimento || "").slice(0, 10)
     } : key === "car" ? {
         carMarca: row.marca, carModelo: row.modelo, carPlaca: formatPlaca(row.placa), carCor: row.cor, carUsuarioId: getOwnerId(row)
-    } : key === "parking" ? { parkingNome: row.nomeEstacionamento, parkingUsuarioId: getOwnerId(row) }
-      : key === "registration" ? { registrationUsuarioId: row.usuarioId, registrationCarroId: row.carroId, registrationParkingId: row.estacionamentoId }
-      : { historyCarId: row.carro?.idCarros, historyParkingId: row.estacionamento?.idEstacionamento, historyData: row.data, historyEntrada: row.horarioEntrada?.slice(0, 5), historySaida: row.horarioSaida?.slice(0, 5), historyIsEntrada: String(row.entrada) };
+    } : { parkingNome: row.nomeEstacionamento };
     Object.entries(fields).forEach(([id, value]) => {
         const field = $(id);
 
@@ -276,10 +265,10 @@ function editRow(key, id) {
         }
     });
     if (key === "registration") fillRegistrationPickers();
-    if (key === "history") fillHistoryPickers();
     feedback(key, "Modo de edição ativo. Altere os campos ou cancele a edição.", "info", false);
+    openModal(key);
     $(`${key}Form`).scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
-    $(key === "user" ? "userNome" : key === "car" ? "carMarca" : key === "parking" ? "parkingNome" : key === "registration" ? "registrationUsuarioSearch" : "historyCarSearch").focus({ preventScroll: true });
+    $(key === "user" ? "userNome" : key === "car" ? "carMarca" : key === "parking" ? "parkingNome" : "registrationUsuarioSearch").focus({ preventScroll: true });
 }
 
 function payloadFromForm(key) {
@@ -288,11 +277,15 @@ function payloadFromForm(key) {
         nome: value("userNome"), email: value("userEmail"), senha: $("userSenha").value,
         cpf: value("userCpf"), rg: value("userRg"), telefone: value("userTelefone"), dataNascimento: value("userDataNascimento")
     };
-    const ownerId = Number(value(`${key}UsuarioId`));
+    const ownerId = key === "car" ? Number(value("carUsuarioId")) : currentUserId();
     const usuario = ownerId ? { id: ownerId } : null;
     if (key === "car") return { marca: value("carMarca"), modelo: value("carModelo"), placa: formatPlaca(value("carPlaca")), cor: value("carCor"), usuario };
-    if (key === "registration") return { usuarioId: Number(value("registrationUsuarioId")), carroId: Number(value("registrationCarroId")), estacionamentoId: Number(value("registrationParkingId")) };
-    if (key === "history") return { carro: { idCarros: Number(value("historyCarId")) }, estacionamento: { idEstacionamento: Number(value("historyParkingId")) }, data: value("historyData"), horarioEntrada: value("historyEntrada") || null, horarioSaida: value("historySaida") || null, entrada: $("historyIsEntrada").value === "true" };
+    if (key === "registration") {
+        const usuarioId = Number(value("registrationUsuarioId"));
+        const carroId = Number(value("registrationCarroId"));
+        const estacionamentoId = Number(value("registrationParkingId"));
+        return { usuario: { id: usuarioId }, carro: { idCarros: carroId }, estacionamento: { idEstacionamento: estacionamentoId }, usuarioId, carroId, estacionamentoId };
+    }
     return { nomeEstacionamento: value("parkingNome"), usuario };
 }
 
@@ -319,11 +312,6 @@ function validatePayload(key, payload) {
         if (!payload.usuarioId) reject("registrationUsuarioSearch", "Selecione um usuário.");
         if (!payload.carroId) reject("registrationCarroSearch", "Selecione um carro.");
         if (!payload.estacionamentoId) reject("registrationParkingSearch", "Selecione um estacionamento.");
-    } else if (key === "history") {
-        if (!payload.carro.idCarros) reject("historyCarSearch", "Selecione um carro.");
-        if (!payload.estacionamento.idEstacionamento) reject("historyParkingSearch", "Selecione um estacionamento.");
-        if (!payload.data) reject("historyData", "Informe a data.");
-        if (!payload.horarioEntrada && !payload.horarioSaida) reject("historyEntrada", "Informe ao menos um horário.");
     } else if (!namePattern.test(payload.nomeEstacionamento)) {
         reject("parkingNome", "O nome do estacionamento deve conter apenas letras e espaços.");
     }
@@ -347,7 +335,7 @@ async function saveForm(key, event) {
         });
         resetForm(key);
         const refreshed = await loadAll();
-        feedback(key, `${resource.label[0].toUpperCase() + resource.label.slice(1)} salvo.${refreshed ? "" : " A gravação foi concluída, mas a atualização das listas falhou. Use Tentar novamente; não reenvie o cadastro."}`, refreshed ? "success" : "warning");
+        feedback(key, `${resource.label[0].toUpperCase() + resource.label.slice(1)} salvo.${refreshed ? "" : " A gravação foi concluída, mas a atualização das listas falhou. Use Tentar novamente; não reenvie o registro."}`, refreshed ? "success" : "warning");
     } catch (error) {
         feedback(key, `Não foi possível salvar: ${error.message}`, "error");
     } finally {
@@ -420,6 +408,19 @@ function protectRoute() {
 document.addEventListener("DOMContentLoaded", () => {
     if (!protectRoute()) return;
     bindTabs();
+    document.querySelectorAll("[data-modal]").forEach((button) => {
+        button.addEventListener("click", () => {
+            const key = button.dataset.modal.replace("Modal", "");
+            resetForm(key);
+            openModal(key);
+        });
+    });
+    document.querySelectorAll("[data-modal-close]").forEach((button) => {
+        button.addEventListener("click", () => closeModal(button.dataset.modalClose.replace("Modal", "")));
+    });
+    document.querySelectorAll(".crud-modal").forEach((modal) => {
+        modal.addEventListener("click", (event) => { if (event.target === modal) modal.close(); });
+    });
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     $("userDataNascimento").max = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, "0")}-${String(yesterday.getDate()).padStart(2, "0")}`;
@@ -449,7 +450,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (remove) void deleteRow(key, remove.getAttribute(`data-${key}-delete`));
         });
     });
-    ["carUsuarioId", "parkingUsuarioId"].forEach((id) => {
+    ["carUsuarioId"].forEach((id) => {
         const search = $(`${id.replace("Id", "Search")}`);
         const options = $(`${id.replace("Id", "Options")}`);
         search.addEventListener("focus", () => renderOwnerPicker(id));

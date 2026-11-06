@@ -2,6 +2,8 @@ package br.com.estatec.api.entities;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.estatec.api.validations.annotations.TelefoneBR;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -116,6 +118,7 @@ public class Usuario {
 		this.email = email;
 	}
 
+	@JsonIgnore
 	public String getSenha() {
 		return senha;
 	}

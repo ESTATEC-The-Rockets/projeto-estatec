@@ -7,15 +7,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import br.com.estatec.api.dto.RegistroDTO;
 import br.com.estatec.api.entities.Registro;
 
 public interface RegistroRepository extends JpaRepository<Registro, Long> {
 
-    @Query("select new br.com.estatec.api.dto.RegistroDTO("
-            + "m.id, m.usuario.idUsuario, m.estacionamento.idEstacionamento, m.carro.idCarros) "
-            + "from Registro m order by m.id")
-    List<RegistroDTO> listarDTOs();
+    List<Registro> findAllByOrderByIdAsc();
 
     boolean existsByUsuario_IdUsuarioAndEstacionamento_IdEstacionamento(
             Long usuarioId, Long estacionamentoId);

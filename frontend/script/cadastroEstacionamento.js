@@ -2,7 +2,7 @@
 
 (() => {
     if (localStorage.getItem("isAdmin") !== "true") {
-        window.location.replace("./adminCrud.html");
+        window.location.replace("./menu.html");
         return;
     }
 
@@ -15,6 +15,15 @@
     const button = formCadastro.querySelector('button[type="submit"]');
     let submitting = false;
     let saved = false;
+
+    function currentUserId() {
+        try {
+            const session = JSON.parse(localStorage.getItem("usuarioSessao") || "null");
+            return session?.id ?? session?.idUsuario ?? null;
+        } catch {
+            return null;
+        }
+    }
 
     function showFeedback(message, state = "error") {
         feedback.dataset.state = state;
@@ -60,20 +69,23 @@
             const response = await fetch(url, {
                 method: id ? "PUT" : "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ nomeEstacionamento: nome.value }),
+                body: JSON.stringify({
+                    nomeEstacionamento: nome.value,
+                    usuario: currentUserId() ? { id: currentUserId() } : null
+                }),
                 signal: controller.signal
             });
             if (!response.ok) {
                 if (response.status === 400 || response.status === 422) {
                     nome.setAttribute("aria-invalid", "true");
-                    showFeedback("O servidor recusou os dados. Verifique o nome: use letras e espaços.");
+                    showFeedback("Não foi possível salvar. Verifique o nome: use letras e espaços.");
                 } else if (response.status === 409) {
                     showFeedback("Já existe um cadastro conflitante. Consulte a lista antes de tentar novamente.");
                     success.hidden = false;
                 } else if (response.status === 401 || response.status === 403) {
-                    showFeedback("Sem permissão para salvar. Volte ao menu e verifique seu acesso com o administrador.");
+                    showFeedback("Sem permissão para salvar. Volte ao menu e verifique seu acesso.");
                 } else {
-                    showFeedback(`Não foi possível confirmar o salvamento (HTTP ${response.status}). Consulte a lista antes de reenviar.`);
+                    showFeedback("Não foi possível confirmar o salvamento. Consulte a lista antes de tentar novamente.");
                     success.hidden = false;
                 }
                 return;
