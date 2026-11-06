@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 /* Base visual compartilhada. Não altera as fontes dos ícones Font Awesome. */
-:root { color-scheme: dark; --bg: #090a0c; --surface: #111215; --surface-hover: #18191d; --line: #2b2d33; --text: #f3f3f5; --muted: #acafb8; --accent: #c1122f; --accent-hover: #e12546; --danger-text: #ff9bab; --focus: #ff6d85; }
+:root { color-scheme: dark; --bg: #050704; --surface: #111215; --surface-hover: #18191d; --line: #2b2d33; --text: #f3f3f5; --muted: #acafb8; --accent: #c1122f; --accent-hover: #e12546; --danger-text: #ff9bab; --focus: #ff6d85; }
 [hidden] { display: none !important; }
 html { scroll-behavior: smooth; scroll-padding-top: 24px; }
 body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 15px; line-height: 1.6; }
