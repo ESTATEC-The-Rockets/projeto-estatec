@@ -85,7 +85,6 @@
                     body: JSON.stringify({ email: emailValue, senha: passwordValue }),
                     signal: controller.signal
                 });
-
                 if (!response.ok) {
                     if (response.status === 401 || response.status === 403 || response.status === 400) {
                         email.setAttribute("aria-invalid", "true");
@@ -96,16 +95,10 @@
                     }
                     return;
                 }
-
                 stage = "response";
                 session = await response.json();
-                
-                // Validação estrita do objeto retornado: se vier nulo, vazio ou sem ID de usuário
-                if (!session || typeof session !== "object" || Array.isArray(session) || (!session.id && !session.idUsuario)) {
-                    email.setAttribute("aria-invalid", "true");
-                    password.setAttribute("aria-invalid", "true");
-                    showFeedback("E-mail ou senha inválidos. Confira os dados e tente novamente.");
-                    return;
+                if (!session || typeof session !== "object" || Array.isArray(session)) {
+                    throw new Error("Resposta de login inválida");
                 }
             }
 
