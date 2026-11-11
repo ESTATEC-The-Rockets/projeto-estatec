@@ -56,4 +56,3 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.replace('./index.html');
     }));
     document.querySelectorAll('.logout-btn').forEach(link => { link.setAttribute('aria-label', 'Sair do sistema'); link.title = 'Sair do sistema'; });
-
