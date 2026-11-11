@@ -1,15 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Proteção de rotas: verifica se o usuário possui sessão ou token ativo
-    const tokenAdmin = localStorage.getItem('token');
-    const usuarioSessao = localStorage.getItem('usuarioSessao');
-    const isAdmin = localStorage.getItem('isAdmin') === 'true';
-
-    // Se não estiver autenticado, redireciona para a página de login
-    if (!tokenAdmin && !usuarioSessao && !isAdmin) {
-        window.location.replace('./index.html');
-        return;
-    }
-
     const page = location.pathname.split('/').pop();
     const links = [
         ['menu.html', 'Menu', 'house'],
@@ -41,10 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
             nav.append(li);
         }
     }
-    document.querySelectorAll('.logout-btn').forEach(link => link.addEventListener('click', (e) => {
-        e.preventDefault();
+    document.querySelectorAll('.logout-btn').forEach(link => link.addEventListener('click', () => {
         ['isAdmin', 'token', 'usuarioSessao'].forEach(key => localStorage.removeItem(key));
-        window.location.replace('./index.html');
     }));
     document.querySelectorAll('.logout-btn').forEach(link => { link.setAttribute('aria-label', 'Sair do sistema'); link.title = 'Sair do sistema'; });
 });
