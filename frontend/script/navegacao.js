@@ -2,7 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
 =======
 >>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
 =======
@@ -20,6 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
+=======
 >>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
 =======
 >>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
@@ -59,12 +65,15 @@ document.addEventListener('DOMContentLoaded', () => {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     document.querySelectorAll('.logout-btn').forEach(link => link.addEventListener('click', () => {
         ['isAdmin', 'token', 'usuarioSessao'].forEach(key => localStorage.removeItem(key));
     }));
     document.querySelectorAll('.logout-btn').forEach(link => { link.setAttribute('aria-label', 'Sair do sistema'); link.title = 'Sair do sistema'; });
 });
 =======
+=======
+>>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
 =======
 >>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
 =======
@@ -77,6 +86,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.logout-btn').forEach(link => { link.setAttribute('aria-label', 'Sair do sistema'); link.title = 'Sair do sistema'; });
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+});
+>>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
+=======
 });
 >>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
 =======
