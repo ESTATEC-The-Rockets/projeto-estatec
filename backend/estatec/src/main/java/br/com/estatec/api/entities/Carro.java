@@ -1,12 +1,7 @@
 package br.com.estatec.api.entities;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import br.com.estatec.api.enums.Cor;
 import br.com.estatec.api.validations.annotations.Placa;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,9 +11,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -44,6 +39,10 @@ public class Carro {
 	@Placa
 	@Column(name = "placa", unique = true, length = 8)
 	@NotBlank(message = "A placa não pode estar vazia")
+	@Pattern(
+		    regexp = "^(?:[A-Z]{3}[0-9]{4}|[A-Z]{3}[0-9][A-Z][0-9]{2})$",
+		    message = "Placa inválida! Informe um modelo de placa válido."
+		)
 	private String placa;
 
 	@Enumerated(EnumType.STRING)
@@ -96,7 +95,9 @@ public class Carro {
 	}
 
 	public void setPlaca(String placa) {
-		this.placa = placa;
+		this.placa = placa == null
+	            ? null
+	                    : placa.toUpperCase().replace("-", "").trim();
 	}
 
 	public Cor getCor() {

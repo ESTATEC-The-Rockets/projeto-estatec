@@ -29,7 +29,6 @@ public class Estacionamento {
 	@ManyToOne(cascade = jakarta.persistence.CascadeType.MERGE)
     @JoinColumn(name = "fk_dono_estacionamento") // gera uma foreign key na tabela no banco de dados
     private Usuario usuario;
-
 	
 	// Metodos construtores da entidade "Estacionamento"
 	public Estacionamento() {
