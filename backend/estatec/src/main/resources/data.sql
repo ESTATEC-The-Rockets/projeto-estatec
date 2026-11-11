@@ -31,8 +31,9 @@ VALUES
     (5, 2, 3);
 
 INSERT IGNORE INTO tb_historico
-    (fk_carro, fk_estacionamento, dia, horario_entrada, horario_saida, calculo_entrada)
+    (placa_lida, fk_carro, fk_estacionamento, data_hora, is_entrada, autorizado)
 VALUES
-    (1, 1, '2026-06-17', '08:00:00', '12:00:00', 1),
-    (2, 1, '2026-06-17', '09:00:00', '18:00:00', 1),
-    (3, 2, '2026-06-17', '10:30:00', '11:30:00', 1);
+    ('ABC-1234', 1, 1, '2026-06-17 08:00:00', 1, 1),
+    ('XYZ-5678', 2, 1, '2026-06-17 09:00:00', 1, 1),
+    ('DEF-9012', 3, 2, '2026-06-17 10:30:00', 1, 1),
+    ('KJJ-9999', NULL, 1, '2026-06-17 11:15:00', 1, 0);

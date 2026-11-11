@@ -1,7 +1,6 @@
 package br.com.estatec.api.entities;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,111 +10,100 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.PastOrPresent;
 
 @Entity
-@Table(name = "tb_historico") // 
+@Table(name = "tb_historico")
 public class Historico {
-	
-	// Atributos necessários para a entidade e suas restrições e validações
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	// Relacionamento entre a entidade "Carro" e a entidade "Histórico"
-	@ManyToOne
-	@JoinColumn(name = "fk_carro")
-	private Carro carro;
-	
-	// Relacionamento entre a entidade "Estacionamento" e a entidade "Histórico"
-	@ManyToOne
-	@JoinColumn(name = "fk_estacionamento")
-	private Estacionamento estacionamento;
-	
-	@PastOrPresent
-	@Column(name = "dia")
-	private LocalDate data; 	
-	
-	@Column(name = "horario_entrada")
-	private LocalTime horarioEntrada;
 
-	@Column(name = "horario_saida")
-	private LocalTime horarioSaida;
-	
-	@Column(name = "calculo_entrada")
-	private boolean entrada;
-	
-	
-	// Métodos construtores da entidade
-	public Historico(){
-		
-	}
-	
-	public Historico(Long id, Carro carro, Estacionamento estacionamento, LocalDate data, LocalTime horarioEntrada, LocalTime horarioSaida, boolean entrada) {
-	    this.id = id;
-	    this.carro = carro;
-	    this.estacionamento = estacionamento;
-	    this.data = data;
-	    this.horarioEntrada = horarioEntrada;
-	    this.horarioSaida = horarioSaida;
-	    this.entrada = entrada;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	// Getters e setters da entidade 
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "placa_lida", nullable = false)
+    private String placaLida;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @ManyToOne
+    @JoinColumn(name = "fk_carro", nullable = true)
+    private Carro carro;
 
-	public Carro getCarro() {
-		return carro;
-	}
+    @ManyToOne
+    @JoinColumn(name = "fk_estacionamento", nullable = false)
+    private Estacionamento estacionamento;
 
-	public void setCarro(Carro carro) {
-		this.carro = carro;
-	}
+    @Column(name = "data_hora", nullable = false)
+    private LocalDateTime dataHora;
 
-	public Estacionamento getEstacionamento() {
-		return estacionamento;
-	}
+    @Column(name = "is_entrada")
+    private boolean entrada;
 
-	public void setEstacionamento(Estacionamento estacionamento) {
-		this.estacionamento = estacionamento;
-	}
+    @Column(name = "autorizado", nullable = false)
+    private boolean autorizado;
 
-	public LocalDate getData() {
-		return data;
-	}
+    public Historico() {}
 
-	public void setData(LocalDate data) {
-		this.data = data;
-	}
+    public Historico(String placaLida, Carro carro, Estacionamento estacionamento, LocalDateTime dataHora, boolean entrada, boolean autorizado) {
+        this.placaLida = placaLida;
+        this.carro = carro;
+        this.estacionamento = estacionamento;
+        this.dataHora = dataHora;
+        this.entrada = entrada;
+        this.autorizado = autorizado;
+    }
 
-	public LocalTime getHorarioEntrada() {
-		return horarioEntrada;
-	}
+    // Getters e Setters
+    public Long getId() {
+        return id;
+    }
 
-	public void setHorarioEntrada(LocalTime horarioEntrada) {
-		this.horarioEntrada = horarioEntrada;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public LocalTime getHorarioSaida() {
-		return horarioSaida;
-	}
+    public String getPlacaLida() {
+        return placaLida;
+    }
 
-	public void setHorarioSaida(LocalTime horarioSaida) {
-		this.horarioSaida = horarioSaida;
-	}
+    public void setPlacaLida(String placaLida) {
+        this.placaLida = placaLida;
+    }
 
-	public boolean isEntrada() {
-		return entrada;
-	}
+    public Carro getCarro() {
+        return carro;
+    }
 
-	public void setEntrada(boolean entrada) {
-		this.entrada = entrada;
-	}
-	
+    public void setCarro(Carro carro) {
+        this.carro = carro;
+    }
+
+    public Estacionamento getEstacionamento() {
+        return estacionamento;
+    }
+
+    public void setEstacionamento(Estacionamento estacionamento) {
+        this.estacionamento = estacionamento;
+    }
+
+    public LocalDateTime getDataHora() {
+        return dataHora;
+    }
+
+    public void setDataHora(LocalDateTime dataHora) {
+        this.dataHora = dataHora;
+    }
+
+    public boolean isEntrada() {
+        return entrada;
+    }
+
+    public void setEntrada(boolean entrada) {
+        this.entrada = entrada;
+    }
+
+    public boolean isAutorizado() {
+        return autorizado;
+    }
+
+    public void setAutorizado(boolean autorizado) {
+        this.autorizado = autorizado;
+    }
 }
