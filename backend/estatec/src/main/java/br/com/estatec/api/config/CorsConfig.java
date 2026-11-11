@@ -3,27 +3,29 @@ package br.com.estatec.api.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.List;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class CorsConfig {
 
 	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
+	public CorsFilter corsFilter() {
 		CorsConfiguration config = new CorsConfiguration();
 
-		config.setAllowedOrigins(List.of("*"));
-		config.setAllowedHeaders(List.of("*"));
-		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+		config.addAllowedOrigin("*");
+
+		config.addAllowedHeader("*");
+
+		config.addAllowedMethod("*");
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		
-		// O padrão /** cobre todos os endpoints e o preflight OPTIONS
+
+		// Os endpoints de edição e exclusão usam o sufixo /{id}.
+		// O padrão /** também cobre o preflight OPTIONS dessas requisições.
 		source.registerCorsConfiguration("/**", config);
 
-		return source;
+		return new CorsFilter(source);
 	}
+
 }

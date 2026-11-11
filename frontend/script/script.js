@@ -100,6 +100,7 @@
                 stage = "response";
                 session = await response.json();
                 
+                // Validação estrita do objeto retornado: se vier nulo, vazio ou sem ID de usuário
                 if (!session || typeof session !== "object" || Array.isArray(session) || (!session.id && !session.idUsuario)) {
                     email.setAttribute("aria-invalid", "true");
                     password.setAttribute("aria-invalid", "true");
@@ -114,6 +115,7 @@
                 localStorage.setItem("token", "token_admin_gerado_2026");
                 localStorage.setItem("isAdmin", "true");
             } else {
+                // Alguns acessos antigos podem retornar senhas: nunca guardar esses campos.
                 const safeSession = JSON.stringify(session, (key, value) => /senha|password/i.test(key) ? undefined : value);
                 localStorage.setItem("usuarioSessao", safeSession);
                 localStorage.removeItem("token");
@@ -122,11 +124,7 @@
             rememberEmail();
             password.value = "";
             showFeedback("Acesso confirmado. Abrindo o menu…", "success");
-            
-            // Redirecionamento dinâmico que detecta a localização da página (raiz ou pasta /pages/)
-            const emPagesDir = location.pathname.includes("/pages/");
-            window.location.href = emPagesDir ? "./menu.html" : "./pages/menu.html";
-
+            window.location.href = "./menu.html";
         } catch (error) {
             if (stage === "storage") {
                 showFeedback("Não foi possível guardar a sessão. Libere o armazenamento do navegador e tente novamente.");
