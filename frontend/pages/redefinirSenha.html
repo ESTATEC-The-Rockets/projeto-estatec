@@ -1,60 +1,33 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESTATEC - Redefinir Senha</title>
-    <link rel="stylesheet" href="style.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>ESTATEC - Recuperação de acesso</title>
+    <link rel="stylesheet" href="../css/interface.css">
+    <link rel="stylesheet" href="../css/acesso.css">
+    <script src="../script/interface.js" defer></script>
+    <script src="../script/redefinirSenha.js" defer></script>
 </head>
-
-<body>
-
-    <main class="login-container">
-        <div class="logo-area">
-            <img src="../img/estatec.png" alt="ESTATEC" class="logo-img">
-        </div>
-
-        <div class="login-card">
-            <h1 class="title">REDEFINIR SENHA</h1>
-
-            <form id="resetForm">
-                <div class="input-group">
-                    <label for="newPassword">Nova senha:</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="newPassword" placeholder="Ex.: 123456" required>
-                        <button type="button" class="eye-icon toggle-btn" data-target="newPassword">
-                            <span class="eye-span">👁️‍🗨️</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label for="confirmPassword">Confirme sua senha:</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="confirmPassword" placeholder="Ex.: 123456" required>
-                        <button type="button" class="eye-icon toggle-btn" data-target="confirmPassword">
-                            <span class="eye-span">👁️‍🗨️</span>
-                        </button>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-salvar">SALVAR</button>
-                <button type="button" class="btn-voltar">VOLTAR AO LOGIN</button>
-            </form>
-        </div>
-
-        <footer class="copyright">
-            © ESTATEC
-        </footer>
-
+<body class="body-acesso">
+    <a class="acesso-skip" href="#redefinirForm">Pular para as informações de recuperação</a>
+    <header class="acesso-header">
+        <a class="acesso-brand" href="../index.html" aria-label="ESTATEC — página inicial">ESTATEC<span aria-hidden="true"> /</span></a>
+        <a class="back-link" href="./login.html"><span aria-hidden="true">← </span>Voltar ao login</a>
+    </header>
+    <main class="acesso-layout acesso-layout-single">
+        <section class="acesso-card" aria-labelledby="recoveryTitle">
+            <p class="acesso-eyebrow">Recuperação de acesso</p>
+            <h1 id="recoveryTitle">Precisa de ajuda para entrar?</h1>
+            <p class="acesso-description">A recuperação de senha ainda não está disponível neste sistema.</p>
+            <div id="redefinirForm" class="acesso-notice" tabindex="-1" aria-labelledby="recoveryStatus">
+                <h2 id="recoveryStatus">Entre em contato com o administrador</h2>
+                <p id="newPassword">Solicite orientação ao administrador responsável pelo seu acesso. Não envie sua senha atual nem uma nova senha.</p>
+                <p id="confirmPassword"><strong>Nenhuma senha foi alterada.</strong> Esta página não coleta senhas nem envia solicitações de recuperação.</p>
+            </div>
+            <a href="./login.html" class="acesso-primary">Voltar ao login</a>
+        </section>
     </main>
-
-    <script src="../script/redefinirSenha.js"></script>
+    <footer class="acesso-footer">© 2026 ESTATEC. Todos os direitos reservados.</footer>
 </body>
-
 </html>
