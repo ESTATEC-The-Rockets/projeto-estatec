@@ -1,15 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
-=======
->>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
-=======
->>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
+
     // Proteção de rotas: verifica se o usuário possui sessão ou token ativo
     const tokenAdmin = localStorage.getItem('token');
     const usuarioSessao = localStorage.getItem('usuarioSessao');
@@ -21,16 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
-=======
->>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
-=======
->>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
-=======
->>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
     const page = location.pathname.split('/').pop();
     const links = [
         ['menu.html', 'Menu', 'house'],
@@ -62,39 +42,18 @@ document.addEventListener('DOMContentLoaded', () => {
             nav.append(li);
         }
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     document.querySelectorAll('.logout-btn').forEach(link => link.addEventListener('click', () => {
         ['isAdmin', 'token', 'usuarioSessao'].forEach(key => localStorage.removeItem(key));
     }));
     document.querySelectorAll('.logout-btn').forEach(link => { link.setAttribute('aria-label', 'Sair do sistema'); link.title = 'Sair do sistema'; });
 });
-=======
-=======
->>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
-=======
->>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
-=======
->>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
+
+
     document.querySelectorAll('.logout-btn').forEach(link => link.addEventListener('click', (e) => {
         e.preventDefault();
         ['isAdmin', 'token', 'usuarioSessao'].forEach(key => localStorage.removeItem(key));
         window.location.replace('./index.html');
     }));
     document.querySelectorAll('.logout-btn').forEach(link => { link.setAttribute('aria-label', 'Sair do sistema'); link.title = 'Sair do sistema'; });
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-});
->>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
-=======
-});
->>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
-=======
-});
->>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
-=======
-});
->>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
+
