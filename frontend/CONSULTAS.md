@@ -45,4 +45,4 @@ Os testes de frontend usam Node e um DOM mínimo, sem dependências externas. Os
 
 ## Segurança preexistente
 
-Os controles do frontend são apenas apresentação. O backend exige sessão, restringe alterações de registros ao administrador e omite a senha nas respostas de usuário. A API de registro retorna somente os IDs nas relações.
+A visibilidade dos controles de registro usa a sessão de administrador atual no frontend. Isso **não é autorização de servidor**: o projeto ainda permite publicamente os endpoints de usuários/estacionamentos e usa login administrativo local. Antes de publicar o sistema, implemente autenticação real e autorização por perfil no backend, além de DTOs para não retornar senhas nos endpoints legados. A API de registro retorna somente os IDs, sem serializar dados pessoais/senhas.

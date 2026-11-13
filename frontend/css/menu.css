@@ -86,8 +86,6 @@ ul {
     cursor: pointer;
 }
 
-.toggle-logo { display: block; width: 86px; height: 40px; object-fit: contain; }
-
 .menu-toggle:hover {
     color: #c1122f;
 }

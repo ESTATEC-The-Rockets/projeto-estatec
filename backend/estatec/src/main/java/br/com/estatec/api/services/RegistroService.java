@@ -37,12 +37,6 @@ public class RegistroService {
         return repository.findAllByOrderByIdAsc();
     }
 
-    @Transactional(readOnly = true)
-    public Registro buscarPorId(Long id) {
-        return repository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Registro não encontrado."));
-    }
-
     @Transactional
     public Registro criar(Registro request) {
         Long usuarioId = usuarioId(request);

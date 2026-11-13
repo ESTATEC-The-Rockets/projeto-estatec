@@ -5,16 +5,6 @@
     }
     function events(records) {
         return records.flatMap(record => {
-            if (record.dataHora) {
-                const [date, time = '00:00:00'] = String(record.dataHora).split('T');
-                return [{
-                    recordId: record.id, date, time,
-                    type: record.entrada ? 'Entrada' : 'Saída',
-                    user: record.carro?.usuario,
-                    plate: record.placaLida || record.carro?.placa || 'Sem placa',
-                    parking: record.estacionamento
-                }];
-            }
             const common = { recordId: record.id, date: record.data, user: record.carro?.usuario,
                 plate: record.carro?.placa || 'Sem placa', parking: record.estacionamento };
             const result = [];

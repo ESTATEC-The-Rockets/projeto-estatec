@@ -12,9 +12,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
-@Table(name = "tb_estacionamento") 
+@Table(name = "tb_estacionamento") // Torna a entidade uma tabela no banco de dados
 public class Estacionamento {
 	
+	// Atributos necessários da entidade "Estacionamento" com as restrições e validações de segurança
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idEstacionamento;
@@ -24,11 +25,13 @@ public class Estacionamento {
 	@Column(name = "nome_estacionamento", unique = true, length = 100)
 	private String nomeEstacionamento;
 	
+	// Relação das entidades "Usuario" e "Estacionamento"
 	@ManyToOne(cascade = jakarta.persistence.CascadeType.MERGE)
     @JoinColumn(name = "fk_dono_estacionamento") // gera uma foreign key na tabela no banco de dados
     private Usuario usuario;
 
 	
+	// Metodos construtores da entidade "Estacionamento"
 	public Estacionamento() {
 	}
 
@@ -37,6 +40,7 @@ public class Estacionamento {
 	}
 	
 
+	// Getters e setter da entidade "Estacionamento"
 	public String getNomeEstacionamento() {
 		return nomeEstacionamento;
 	}
@@ -53,7 +57,7 @@ public class Estacionamento {
 	    this.idEstacionamento = idEstacionamento;
 	}
 
-	public Usuario getUsuario() {
+	public Usuario getUsario() {
 	    return usuario;
 	}
 

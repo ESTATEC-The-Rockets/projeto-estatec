@@ -1,1 +1,1 @@
-const API_URL = (window.ESTATEC_API_ORIGIN + "");
+const API_URL = 'http://localhost:8080';

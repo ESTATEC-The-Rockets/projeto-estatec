@@ -21,7 +21,6 @@ button:disabled { opacity: .5; cursor: wait; }
 .sidebar.collapsed .menu-text, .sidebar.collapsed .sidebar-footer, .sidebar.collapsed .logo-container { display: none; }
 .main-content { flex: 1; min-width: 0; }
 .header { min-height: 72px; padding: 16px 28px; display: flex; align-items: center; gap: 18px; border-bottom: 1px solid var(--line); }
-.toggle-logo { display: block; width: 86px; height: 40px; object-fit: contain; }
 .header a { margin-left: auto; }
 .dashboard-body { padding: 32px; max-width: 1500px; margin: auto; }
 h1,h2,h3 { font-family: 'Orbitron', sans-serif; line-height: 1.5; }

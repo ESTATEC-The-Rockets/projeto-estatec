@@ -1,8 +1,7 @@
-window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, { credentials: "include", ...options }));
 "use strict";
 
 (() => {
-    if (localStorage.getItem("isAdmin") !== "false") {
+    if (localStorage.getItem("isAdmin") !== "true") {
         window.location.replace("./menu.html");
         return;
     }
@@ -54,7 +53,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
         }
 
         const id = document.getElementById("estacionamentoId").value.trim();
-        const urlBase = (window.ESTATEC_API_ORIGIN + "/estacionamento");
+        const urlBase = "http://localhost:8080/estacionamento";
         const url = id ? `${urlBase}/${encodeURIComponent(id)}` : urlBase;
         submitting = true;
         button.disabled = true;
@@ -67,7 +66,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
         const timeout = setTimeout(() => controller.abort(), 20000);
 
         try {
-            const response = await window.estatecFetch(url, {
+            const response = await fetch(url, {
                 method: id ? "PUT" : "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

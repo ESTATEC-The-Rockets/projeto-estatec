@@ -1,13 +1,11 @@
-window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, { credentials: "include", ...options }));
 (function () {
     'use strict';
 
-    const API = (window.ESTATEC_API_ORIGIN + "");
+    const API = 'http://localhost:8080';
     const paths = { user: '/usuarios', car: '/carros', parking: '/estacionamento' };
     const labels = { user: 'usuário', car: 'carro', parking: 'estacionamento' };
     const pageTypes = { usuarios: 'user', carros: 'car', estacionamentos: 'parking' };
     const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    const canManage = type => type !== 'user' && localStorage.getItem('isAdmin') === 'false';
 
     function sessionUserId() {
         try {
@@ -47,7 +45,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
 
     function decorate() {
         const type = pageTypes[document.body.dataset.page];
-        if (!type || !canManage(type)) return;
+        if (!type) return;
         const toolbar = document.querySelector('#pageContent .toolbar');
         if (toolbar && !toolbar.querySelector('[data-entity-action="create"]')) toolbar.append(iconButton('create', type));
         emptyCallToAction(type);
@@ -84,7 +82,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
             try {
                 form.querySelectorAll('input, select, button').forEach(control => { control.disabled = true; });
                 const endpoint = `${API}${paths[type]}${id ? `/${encodeURIComponent(id)}` : type === 'user' ? '/cadastro' : ''}`;
-                const response = await window.estatecFetch(endpoint, { method: id ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const response = await fetch(endpoint, { method: id ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 if (!response.ok) throw new Error('Não foi possível salvar as informações.');
                 close();
                 window.Interface?.notify(`${labels[type][0].toUpperCase() + labels[type].slice(1)} salvo com sucesso.`, 'success');
@@ -98,7 +96,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
     }
 
     async function fetchRow(type, id) {
-        const response = await window.estatecFetch(`${API}${paths[type]}/${encodeURIComponent(id)}`);
+        const response = await fetch(`${API}${paths[type]}/${encodeURIComponent(id)}`);
         if (!response.ok) throw new Error('Não foi possível carregar as informações.');
         return response.json();
     }
@@ -106,7 +104,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
     async function remove(type, id) {
         const approved = await (window.Interface?.confirm || (async message => confirm(message)))(`Tem certeza que deseja excluir este ${labels[type]}? Esta ação não pode ser desfeita.`);
         if (!approved) return;
-        const response = await window.estatecFetch(`${API}${paths[type]}/${encodeURIComponent(id)}`, { method: 'DELETE' });
+        const response = await fetch(`${API}${paths[type]}/${encodeURIComponent(id)}`, { method: 'DELETE' });
         if (!response.ok) throw new Error('Não foi possível excluir as informações.');
         location.reload();
     }
@@ -115,7 +113,6 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
         const button = event.target.closest('[data-entity-action]');
         if (!button) return;
         const type = button.dataset.entityType;
-        if (!canManage(type)) return;
         const action = button.dataset.entityAction;
         try {
             if (action === 'create') openModal(type);

@@ -2,7 +2,6 @@ package br.com.estatec.api.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,8 +16,6 @@ import br.com.estatec.api.repositories.UsuarioRepository;
 
 @Service
 public class UsuarioService {
-
-	private static final Pattern BCRYPT_HASH = Pattern.compile("^\\$2[aby]\\$\\d{2}\\$[./A-Za-z0-9]{53}$");
 
 	// Herda as funcionalidades do repository
 	@Autowired
@@ -104,19 +101,11 @@ public class UsuarioService {
 	    Usuario usuario = repository.findByEmail(email)
 	            .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
 
-	    String senhaArmazenada = usuario.getSenha();
-	    boolean senhaCriptografada = senhaArmazenada != null && BCRYPT_HASH.matcher(senhaArmazenada).matches();
-	    boolean senhaValida = senha != null && (senhaCriptografada
-	            ? password.matches(senha, senhaArmazenada)
-	            : senhaArmazenada != null && !senhaArmazenada.startsWith("$") && senha.equals(senhaArmazenada));
+	    // validação da senha / condicional para verificar se a senha inserida é a mesma da senha registrada no banco de dados
+	    boolean senhaValida = password.matches(senha, usuario.getSenha());
 
 	    if (!senhaValida) {
 	        throw new RuntimeException("Senha inválida.");
-	    }
-
-	    if (!senhaCriptografada) {
-	        usuario.setSenha(password.encode(senha));
-	        repository.save(usuario);
 	    }
 
 	    return usuario;
