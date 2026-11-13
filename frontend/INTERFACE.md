@@ -26,7 +26,7 @@ As folhas de estilo antigas de login, recuperação e cadastro não são mais ca
 
 ## Limitações funcionais mantidas explícitas
 
-Recuperação de senha não possui endpoint implementado no backend; a página informa indisponibilidade e não alega ter alterado uma senha. Login administrativo local e controle de permissão via localStorage continuam sendo limitações preexistentes, não mecanismos de segurança para produção.
+Recuperação de senha não possui endpoint implementado no backend; a página informa indisponibilidade e não alega ter alterado uma senha. O login administrativo é validado pelo backend; o localStorage controla apenas a apresentação da interface.
 
 A atualização de usuário no backend exige senha completa. Por isso o painel pede uma senha nova na edição e nunca preenche o formulário com o hash devolvido pela API.
 

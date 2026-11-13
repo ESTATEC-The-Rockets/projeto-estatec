@@ -1,5 +1,6 @@
-const API_HISTORICO = "http://localhost:8080/historico";
-const API_ESTACIONAMENTO = "http://localhost:8080/estacionamento";
+window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, { credentials: "include", ...options }));
+const API_HISTORICO = (window.ESTATEC_API_ORIGIN + "/historico");
+const API_ESTACIONAMENTO = (window.ESTATEC_API_ORIGIN + "/estacionamento");
 
 let historicoLista = [];
 let estacionamentosLista = [];
@@ -11,7 +12,7 @@ async function requestJson(url, options = {}) {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
     try {
-        const response = await fetch(url, { ...options, signal: controller.signal });
+        const response = await window.estatecFetch(url, { ...options, signal: controller.signal });
         const text = await response.text();
         let body;
         try { body = text ? JSON.parse(text) : null; } catch { body = text; }
@@ -110,7 +111,7 @@ function renderDropdownEstacionamentos() {
             <li data-est-id="${e.idEstacionamento}">
                 <span><a href="estacionamento.html?id=${Number(e.idEstacionamento)}">${(e.nomeEstacionamento || "SEM NOME").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])).toUpperCase()}</a></span>
                 <div class="actions">
-                    <button class="btn-edit-est" title="Editar" aria-label="Editar estacionamento"><i class="fa-solid fa-pencil" aria-hidden="true"></i></button>
+                    ${localStorage.getItem('isAdmin') === 'true' ? '<button class="btn-edit-est" title="Editar" aria-label="Editar estacionamento"><i class="fa-solid fa-pencil" aria-hidden="true"></i></button>' : ''}
                 </div>
             </li>
         `)
@@ -178,6 +179,7 @@ function bindLayoutEvents() {
 
             const editBtn = e.target.closest(".btn-edit-est");
             const deleteBtn = e.target.closest(".btn-delete-est");
+            if ((editBtn || deleteBtn) && localStorage.getItem('isAdmin') !== 'true') return;
             const id = Number(li.dataset.estId);
 
             if (editBtn) {

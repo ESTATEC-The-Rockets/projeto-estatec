@@ -1,4 +1,5 @@
 import re
+import os
 import time
 import cv2
 import requests
@@ -11,11 +12,9 @@ from gpiozero import OutputDevice
 PINO_RELE = 17
 catraca = OutputDevice(PINO_RELE, active_high=False, initial_value=False)
 
-# Substitua pelo IP do computador onde o Spring Boot está rodando
-# Exemplo: "http://192.168.0.105:8080/api/acesso/validar"
-IP_SPRING_BOOT = "192.168.137.193"
-PORTA_SPRING = "8080"
-URL_API = "http://192.168.137.193:8080/api/acesso/validar"
+URL_API = os.environ.get("ESTATEC_API_URL", "http://api.estatec.lab/api/acesso/validar")
+API_KEY = os.environ.get("ESTATEC_ACCESS_API_KEY", "")
+ESTACIONAMENTO_ID = os.environ.get("ESTATEC_ESTACIONAMENTO_ID", "")
 
 def acionar_catraca():
     """Ativa o relé por 3 segundos para abrir a catraca."""
@@ -31,9 +30,11 @@ def limpar_texto_placa(texto):
     return texto_limpo
 
 def enviar_para_backend(placa):
-    """Envia o payload {"placa": "..."} para o AcessoController do Spring Boot."""
-    payload = {"placa": placa}
-    headers = {"Content-Type": "application/json"}
+    """Envia a placa e o estacionamento configurado para a API."""
+    if not API_KEY or not ESTACIONAMENTO_ID:
+        raise RuntimeError("Configure ESTATEC_ACCESS_API_KEY e ESTATEC_ESTACIONAMENTO_ID.")
+    payload = {"placa": placa, "estacionamentoId": ESTACIONAMENTO_ID}
+    headers = {"Content-Type": "application/json", "X-API-Key": API_KEY}
     
     try:
         print(f"📡 Enviando placa '{placa}' para a API...")

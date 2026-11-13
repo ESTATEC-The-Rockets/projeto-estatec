@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:8080/usuarios";
+window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, { credentials: "include", ...options }));
+const API_URL = (window.ESTATEC_API_ORIGIN + "/usuarios");
 
 let users = [];
 let tipoSelecionado = "visitante";
@@ -32,7 +33,7 @@ async function carregarTabela() {
     if (!container) return;
 
     try {
-        const response = await fetch(API_URL);
+        const response = await window.estatecFetch(API_URL);
         users = await response.json();
     } catch (error) {
         console.error('Erro ao buscar dados do servidor:', error);
@@ -86,7 +87,7 @@ async function handleDelete(id) {
     if (!confirm(`Tem certeza que deseja excluir o usuário ${user.nome}?`)) return;
 
     try {
-        const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+        const response = await window.estatecFetch(`${API_URL}/${id}`, { method: 'DELETE' });
         if (response.ok) {
             // remove localmente
             users = users.filter(u => u.id !== id);

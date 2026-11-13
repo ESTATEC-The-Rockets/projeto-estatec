@@ -17,6 +17,7 @@ import br.com.estatec.api.entities.Estacionamento;
 import br.com.estatec.api.entities.Registro;
 import br.com.estatec.api.entities.Usuario;
 import br.com.estatec.api.services.RegistroService;
+import br.com.estatec.api.config.AccessControl;
 
 class RegistroControllerTest {
     private static final String URL = "/estacionamento/registros";
@@ -26,7 +27,9 @@ class RegistroControllerTest {
     @BeforeEach
     void prepararController() {
         service = mock(RegistroService.class);
-        mvc = MockMvcBuilders.standaloneSetup(new RegistroController(service)).build();
+        AccessControl access = mock(AccessControl.class);
+        when(access.isAdmin(any())).thenReturn(true);
+        mvc = MockMvcBuilders.standaloneSetup(new RegistroController(service, access)).build();
     }
 
     private Registro registro() {

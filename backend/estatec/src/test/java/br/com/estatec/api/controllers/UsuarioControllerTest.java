@@ -26,6 +26,8 @@ class UsuarioControllerTest {
         service = org.mockito.Mockito.mock(UsuarioService.class);
         UsuarioController controller = new UsuarioController();
         ReflectionTestUtils.setField(controller, "service", service);
+        ReflectionTestUtils.setField(controller, "adminEmail", "");
+        ReflectionTestUtils.setField(controller, "adminPasswordHash", "");
         mvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
@@ -33,6 +35,7 @@ class UsuarioControllerTest {
     void loginRecebeSenhaDoJsonSemExporNaResposta() throws Exception {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
+        usuario.setNome("João Silva");
         usuario.setEmail("joao@estacionamento.com");
         usuario.setSenha("senha123");
         when(service.login("joao@estacionamento.com", "senha123")).thenReturn(usuario);
@@ -41,7 +44,8 @@ class UsuarioControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"joao@estacionamento.com\",\"senha\":\"senha123\"}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.idUsuario").value(1))
+                .andExpect(jsonPath("$.admin").value(false))
                 .andExpect(jsonPath("$.senha").doesNotExist())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 

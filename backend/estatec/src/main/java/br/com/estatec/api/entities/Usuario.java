@@ -57,6 +57,7 @@ public class Usuario {
 
 	@NotBlank(message = "A senha é obrigatória.")
 	@Size(min = 8, message = "A senha deve conter no mínimo 8 caracteres.")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Column(name = "senha")
 	protected String senha;
 

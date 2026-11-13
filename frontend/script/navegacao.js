@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const isAdmin = localStorage.getItem('isAdmin') === 'true'
-        && localStorage.getItem('token') === 'token_admin_gerado_2026';
+    const isAdmin = localStorage.getItem('isAdmin') === 'true';
     const isUser = localStorage.getItem('isAdmin') === 'false';
     let usuarioSessao = null;
 
@@ -52,10 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    document.querySelectorAll('.logout-btn').forEach(link => link.addEventListener('click', event => {
-        event.preventDefault();
+    document.querySelectorAll('.logout-btn').forEach(link => { link.setAttribute('aria-label', 'Sair do sistema'); link.title = 'Sair do sistema'; });
+    document.querySelectorAll('.logout-btn').forEach(link => link.addEventListener('click', async (e) => {
+        e.preventDefault();
+        try {
+            await fetch(window.ESTATEC_API_ORIGIN + '/usuarios/logout', { method: 'POST', credentials: 'include' });
+        } catch (_) {
+            // Limpa a sessão local mesmo quando a rede estiver indisponível.
+        }
         ['isAdmin', 'token', 'usuarioSessao'].forEach(key => localStorage.removeItem(key));
         window.location.replace('./login.html');
     }));
-    document.querySelectorAll('.logout-btn').forEach(link => { link.setAttribute('aria-label', 'Sair do sistema'); link.title = 'Sair do sistema'; });
 });
