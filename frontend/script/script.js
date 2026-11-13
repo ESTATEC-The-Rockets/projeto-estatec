@@ -97,18 +97,13 @@
                 }
                 stage = "response";
                 session = await response.json();
-<<<<<<< HEAD
-                if (!session || typeof session !== "object" || Array.isArray(session)) {
-                    throw new Error("Resposta de login inválida");
-=======
-                
-                // Validação estrita do objeto retornado: se vier nulo, vazio ou sem ID de usuário
-                if (!session || typeof session !== "object" || Array.isArray(session) || (!session.id && !session.idUsuario)) {
+                const userId = session && (session.id ?? session.idUsuario);
+                if (!session || typeof session !== "object" || Array.isArray(session)
+                    || !Number.isInteger(Number(userId)) || Number(userId) <= 0) {
                     email.setAttribute("aria-invalid", "true");
                     password.setAttribute("aria-invalid", "true");
                     showFeedback("E-mail ou senha inválidos. Confira os dados e tente novamente.");
                     return;
->>>>>>> parent of f3c53e3 (Merge branch 'main' of https://github.com/ESTATEC-The-Rockets/projeto-estatec)
                 }
             }
 

@@ -1,13 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const isAdmin = localStorage.getItem('isAdmin') === 'true'
+        && localStorage.getItem('token') === 'token_admin_gerado_2026';
+    const isUser = localStorage.getItem('isAdmin') === 'false';
+    let usuarioSessao = null;
 
-    // Proteção de rotas: verifica se o usuário possui sessão ou token ativo
-    const tokenAdmin = localStorage.getItem('token');
-    const usuarioSessao = localStorage.getItem('usuarioSessao');
-    const isAdmin = localStorage.getItem('isAdmin') === 'true';
+    if (isUser) {
+        try {
+            usuarioSessao = JSON.parse(localStorage.getItem('usuarioSessao'));
+        } catch {
+            usuarioSessao = null;
+        }
+    }
 
-    // Se não estiver autenticado, redireciona para a página de login
-    if (!tokenAdmin && !usuarioSessao && !isAdmin) {
-        window.location.replace('./index.html');
+    const userId = usuarioSessao && (usuarioSessao.id ?? usuarioSessao.idUsuario);
+    const usuarioAutenticado = isUser && Number.isInteger(Number(userId)) && Number(userId) > 0;
+    if (!isAdmin && !usuarioAutenticado) {
+        ['isAdmin', 'token', 'usuarioSessao'].forEach(key => localStorage.removeItem(key));
+        window.location.replace('./login.html');
         return;
     }
 
@@ -43,16 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    document.querySelectorAll('.logout-btn').forEach(link => link.addEventListener('click', () => {
+    document.querySelectorAll('.logout-btn').forEach(link => link.addEventListener('click', event => {
+        event.preventDefault();
         ['isAdmin', 'token', 'usuarioSessao'].forEach(key => localStorage.removeItem(key));
+        window.location.replace('./login.html');
     }));
     document.querySelectorAll('.logout-btn').forEach(link => { link.setAttribute('aria-label', 'Sair do sistema'); link.title = 'Sair do sistema'; });
 });
-
-
-    document.querySelectorAll('.logout-btn').forEach(link => link.addEventListener('click', (e) => {
-        e.preventDefault();
-        ['isAdmin', 'token', 'usuarioSessao'].forEach(key => localStorage.removeItem(key));
-        window.location.replace('./index.html');
-    }));
-    document.querySelectorAll('.logout-btn').forEach(link => { link.setAttribute('aria-label', 'Sair do sistema'); link.title = 'Sair do sistema'; });

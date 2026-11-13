@@ -398,10 +398,10 @@ function bindTabs() {
 }
 
 function protectRoute() {
-    // Mantém a proteção existente; não substitui autorização no backend.
-    if (localStorage.getItem("isAdmin") === "true") return true;
+    if (localStorage.getItem("isAdmin") === "true"
+        && localStorage.getItem("token") === "token_admin_gerado_2026") return true;
     feedback("load", "Acesso restrito ao administrador.", "error");
-    window.location.href = "./menu.html";
+    window.location.replace("./login.html");
     return false;
 }
 

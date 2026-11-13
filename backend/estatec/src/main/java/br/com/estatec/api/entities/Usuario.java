@@ -3,7 +3,7 @@ package br.com.estatec.api.entities;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.estatec.api.validations.annotations.TelefoneBR;
 import jakarta.persistence.Column;
@@ -124,7 +124,7 @@ public class Usuario {
 		this.email = email;
 	}
 
-	@JsonIgnore
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	public String getSenha() {
 		return senha;
 	}

@@ -1,7 +1,8 @@
 "use strict";
 
 (() => {
-    if (localStorage.getItem("isAdmin") !== "true") {
+    if (localStorage.getItem("isAdmin") !== "true"
+        || localStorage.getItem("token") !== "token_admin_gerado_2026") {
         window.location.replace("./menu.html");
         return;
     }

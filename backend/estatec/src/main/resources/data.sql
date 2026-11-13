@@ -1,5 +1,6 @@
 -- Dados iniciais do ESTATEC.
 -- INSERT IGNORE permite reiniciar o sistema sem duplicar os registros.
+-- As senhas de exemplo estão em texto legado e são convertidas para BCrypt no primeiro login.
 
 INSERT IGNORE INTO tb_usuario
     (cpf, data_nascimento, email, nome_usuario, rg, senha, telefone)
