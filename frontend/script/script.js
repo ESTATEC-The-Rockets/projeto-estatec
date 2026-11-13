@@ -122,7 +122,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
             rememberEmail();
             password.value = "";
             showFeedback("Acesso confirmado. Abrindo o menu…", "success");
-            window.location.href = "./menu.html";
+            window.location.href = session.admin === true ? "./adminCrud.html" : "./menu.html";
         } catch (error) {
             if (stage === "storage") {
                 showFeedback("Não foi possível guardar a sessão. Libere o armazenamento do navegador e tente novamente.");

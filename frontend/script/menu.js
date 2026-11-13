@@ -87,6 +87,7 @@ async function carregarEstacionamentos() {
         estacionamentosLista = await requestJson(API_ESTACIONAMENTO);
         if (!Array.isArray(estacionamentosLista)) throw new Error('Resposta inválida.');
         document.getElementById('parkingCount').textContent = estacionamentosLista.length;
+        renderDropdownEstacionamentos();
     } catch (error) {
         console.error("Erro ao buscar estacionamentos:", error);
         const dropdown = document.getElementById('dropdownEstacionamentos');
@@ -111,7 +112,7 @@ function renderDropdownEstacionamentos() {
             <li data-est-id="${e.idEstacionamento}">
                 <span><a href="estacionamento.html?id=${Number(e.idEstacionamento)}">${(e.nomeEstacionamento || "SEM NOME").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])).toUpperCase()}</a></span>
                 <div class="actions">
-                    ${localStorage.getItem('isAdmin') === 'true' ? '<button class="btn-edit-est" title="Editar" aria-label="Editar estacionamento"><i class="fa-solid fa-pencil" aria-hidden="true"></i></button>' : ''}
+                    ${localStorage.getItem('isAdmin') === 'false' ? '<button class="btn-edit-est" title="Editar" aria-label="Editar estacionamento"><i class="fa-solid fa-pencil" aria-hidden="true"></i></button>' : ''}
                 </div>
             </li>
         `)
@@ -179,7 +180,7 @@ function bindLayoutEvents() {
 
             const editBtn = e.target.closest(".btn-edit-est");
             const deleteBtn = e.target.closest(".btn-delete-est");
-            if ((editBtn || deleteBtn) && localStorage.getItem('isAdmin') !== 'true') return;
+            if ((editBtn || deleteBtn) && localStorage.getItem('isAdmin') !== 'false') return;
             const id = Number(li.dataset.estId);
 
             if (editBtn) {

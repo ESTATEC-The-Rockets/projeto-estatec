@@ -17,6 +17,8 @@ import br.com.estatec.api.entities.Estacionamento;
 import br.com.estatec.api.entities.Registro;
 import br.com.estatec.api.entities.Usuario;
 import br.com.estatec.api.services.RegistroService;
+import br.com.estatec.api.services.CarroService;
+import br.com.estatec.api.services.EstacionamentoService;
 import br.com.estatec.api.config.AccessControl;
 
 class RegistroControllerTest {
@@ -29,7 +31,12 @@ class RegistroControllerTest {
         service = mock(RegistroService.class);
         AccessControl access = mock(AccessControl.class);
         when(access.isAdmin(any())).thenReturn(true);
-        mvc = MockMvcBuilders.standaloneSetup(new RegistroController(service, access)).build();
+        EstacionamentoService estacionamentos = mock(EstacionamentoService.class);
+        when(estacionamentos.buscarPorId(2L)).thenReturn(registro().getEstacionamento());
+        when(access.currentUser(any())).thenReturn(registro().getUsuario());
+        when(service.buscarPorId(3L)).thenReturn(registro());
+        mvc = MockMvcBuilders.standaloneSetup(new RegistroController(
+                service, access, mock(CarroService.class), estacionamentos)).build();
     }
 
     private Registro registro() {

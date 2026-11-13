@@ -2,7 +2,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
 "use strict";
 
 (() => {
-    if (localStorage.getItem("isAdmin") !== "true") {
+    if (localStorage.getItem("isAdmin") !== "false") {
         window.location.replace("./menu.html");
         return;
     }

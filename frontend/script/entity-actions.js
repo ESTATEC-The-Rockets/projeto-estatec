@@ -7,7 +7,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
     const labels = { user: 'usuário', car: 'carro', parking: 'estacionamento' };
     const pageTypes = { usuarios: 'user', carros: 'car', estacionamentos: 'parking' };
     const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    const canManage = type => type === 'user' || localStorage.getItem('isAdmin') === 'true';
+    const canManage = type => type !== 'user' && localStorage.getItem('isAdmin') === 'false';
 
     function sessionUserId() {
         try {

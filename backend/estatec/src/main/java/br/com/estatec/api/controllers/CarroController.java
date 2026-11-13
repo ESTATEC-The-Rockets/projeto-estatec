@@ -49,7 +49,7 @@ public class CarroController {
     // Método para registrar o carro no sistema
     @PostMapping
     public ResponseEntity<Carro> criar(@Valid @RequestBody Carro carro, HttpSession session) {
-        if (!access.isAdmin(session)) carro.setUsuario(access.currentUser(session));
+        carro.setUsuario(access.currentUser(session));
         Carro novoCarro = service.salvar(carro);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoCarro);
     }
@@ -57,8 +57,8 @@ public class CarroController {
     // Método para editar/atualizar o carro ja registrado já
     @PutMapping("/{id}")
     public ResponseEntity<Carro> atualizar(@PathVariable Long id, @Valid @RequestBody Carro carro, HttpSession session) {
-        access.requireOwnerOrAdmin(service.buscarPorId(id).getUsuario(), session);
-        if (!access.isAdmin(session)) carro.setUsuario(access.currentUser(session));
+        access.requireOwner(service.buscarPorId(id).getUsuario(), session);
+        carro.setUsuario(access.currentUser(session));
         Carro carroAtualizado = service.atualizar(id, carro);
         return ResponseEntity.ok(carroAtualizado);
     }
@@ -66,7 +66,7 @@ public class CarroController {
     // Método para deletar carros registrados do sistema
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletar(@PathVariable Long id, HttpSession session) {
-        access.requireOwnerOrAdmin(service.buscarPorId(id).getUsuario(), session);
+        access.requireOwner(service.buscarPorId(id).getUsuario(), session);
         
         service.deletar(id);
         return ResponseEntity.status(HttpStatus.OK)

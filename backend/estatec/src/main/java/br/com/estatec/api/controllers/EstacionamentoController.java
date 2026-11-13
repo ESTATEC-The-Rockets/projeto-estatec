@@ -50,7 +50,7 @@ public class EstacionamentoController {
 	//Método para registrar o estacionamento no sistema
 	@PostMapping
 	public ResponseEntity<Estacionamento> criar(@Valid @RequestBody Estacionamento estacionamento, HttpSession session){
-		if (!access.isAdmin(session)) estacionamento.setUsuario(access.currentUser(session));
+		estacionamento.setUsuario(access.currentUser(session));
 		Estacionamento novoEstacionamento = service.salvar(estacionamento);
 		return ResponseEntity.status(HttpStatus.CREATED).body(novoEstacionamento);
 	}
@@ -58,8 +58,8 @@ public class EstacionamentoController {
 	// Método para editar/atualizar o estacionamento ja registrado já
 	@PutMapping("/{id}")
 	public ResponseEntity<Estacionamento> atualizar(@PathVariable Long id, @Valid @RequestBody Estacionamento estacionamento, HttpSession session){
-		access.requireOwnerOrAdmin(service.buscarPorId(id).getUsuario(), session);
-		if (!access.isAdmin(session)) estacionamento.setUsuario(access.currentUser(session));
+		access.requireOwner(service.buscarPorId(id).getUsuario(), session);
+		estacionamento.setUsuario(access.currentUser(session));
 		Estacionamento estacionamentoAtualizado = service.atualizar(id, estacionamento);
 		if (estacionamentoAtualizado != null) {
 			return ResponseEntity.ok(estacionamentoAtualizado);
@@ -70,7 +70,7 @@ public class EstacionamentoController {
 	// Método para deletar estacionamentos registrados do sistema
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deletar(@PathVariable Long id, HttpSession session) {
-	    access.requireOwnerOrAdmin(service.buscarPorId(id).getUsuario(), session);
+	    access.requireOwner(service.buscarPorId(id).getUsuario(), session);
 	    
 	    service.deletar(id);
 	    

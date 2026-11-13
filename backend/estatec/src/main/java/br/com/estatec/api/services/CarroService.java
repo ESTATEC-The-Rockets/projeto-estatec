@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.com.estatec.api.entities.Carro;
 import br.com.estatec.api.repositories.CarroRepository;
@@ -20,18 +22,18 @@ public class CarroService {
 	}
 
 	public Carro buscarPorId(Long id) {
-		return repository.findById(id).orElseThrow(() -> new RuntimeException("Carro não encontrado."));
+		return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Carro não encontrado."));
 	}
 
 	public Carro salvar(Carro carro) {
 		if (carro.getPlaca() == null || carro.getPlaca().isBlank()) {
-			throw new RuntimeException("A placa do carro é obrigatória.");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A placa do carro é obrigatória.");
 		}
 
 		Optional<Carro> carroExistente = repository.findByPlaca(carro.getPlaca());
 
 		if (carroExistente.isPresent()) {
-			throw new RuntimeException("Já existe um carro cadastrado com esta placa");
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Já existe um carro cadastrado com esta placa.");
 		}
 
 		return repository.save(carro);
@@ -52,7 +54,7 @@ public class CarroService {
 			Carro existente = repository.findByPlaca(carroNovo.getPlaca()).orElse(null);
 
 			if (existente != null && !existente.getIdCarros().equals(id)) {
-				throw new RuntimeException("Já existe outro carro cadastrado com esta placa");
+				throw new ResponseStatusException(HttpStatus.CONFLICT, "Já existe outro carro cadastrado com esta placa.");
 			}
 			carroAntigo.setPlaca(carroNovo.getPlaca());
 		}

@@ -20,9 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const page = location.pathname.split('/').pop();
+    if (isAdmin) {
+        window.location.replace('./adminCrud.html');
+        return;
+    }
     const links = [
         ['menu.html', 'Menu', 'house'],
-        ['usuario.html', 'Usuários', 'user'],
         ['carros.html', 'Carros', 'car'],
         ['estacionamentos.html', 'Estacionamentos', 'square-parking'],
         ['dados.html', 'Histórico', 'clock-rotate-left']

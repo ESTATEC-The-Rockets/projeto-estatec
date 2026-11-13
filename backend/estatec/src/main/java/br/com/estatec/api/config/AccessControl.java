@@ -36,4 +36,10 @@ public class AccessControl {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso negado.");
         }
     }
+
+    public void requireOwner(Usuario owner, HttpSession session) {
+        if (owner == null || !userId(session).equals(owner.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso negado.");
+        }
+    }
 }

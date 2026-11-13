@@ -24,6 +24,13 @@ test('ordenação considera data e não somente horário', () => {
     const events = model.events([{ ...history[0], data: '2026-10-19' }, { ...history[0], id: 2, data: '2026-10-20', horarioEntrada: '01:00:00', horarioSaida: null }]);
     assert.equal(events[0].recordId, 2);
 });
+test('histórico atual da API gera uma movimentação legível', () => {
+    const events = model.events([{ id: 8, dataHora: '2026-11-13T09:15:00', entrada: true, placaLida: 'ABC1D23', estacionamento: parking }]);
+    assert.equal(events.length, 1);
+    assert.equal(events[0].type, 'Entrada');
+    assert.equal(events[0].date, '2026-11-13');
+    assert.equal(events[0].plate, 'ABC1D23');
+});
 test('busca ignora acentos e caixa e usa data local', () => {
     assert.ok(model.matches(['João Silva'], 'JOAO'));
     assert.equal(model.localDay(new Date(2026, 9, 21, 23, 30)), '2026-10-21');
@@ -51,7 +58,7 @@ function harness(page, query = '?id=1', memberships = [{ id: 9, usuarioId: 1, es
     for (const id of ['pageContent', 'pageStatus', 'menuToggle', 'sidebar']) elements.set(id, new Element(id));
     const requests = [];
     const context = { window: { ConsultaModel: model, ESTATEC_API_ORIGIN: 'http://api.estatec.lab' }, URLSearchParams, AbortController, setTimeout, clearTimeout, location: { search: query, reload() {} }, console,
-        localStorage: { getItem: () => 'true' }, confirm: () => true,
+        localStorage: { getItem: key => key === 'isAdmin' ? 'false' : key === 'usuarioSessao' ? JSON.stringify({ id: 1 }) : null }, confirm: () => true,
         document: { body: { dataset: { page } }, getElementById: id => elements.get(id), createElement: () => new Element('new'), addEventListener() {} },
         fetch: async (url, options = {}) => {
             const endpoint = url.replace('http://api.estatec.lab', '');
@@ -115,17 +122,17 @@ test('ID inexistente e falha da API mostram erro, nunca dados fictícios', async
     const failed = harness('usuarios', '', [], true); await failed.start();
     assert.match(failed.elements.get('pageStatus').textContent, /Indisponível/);
 });
-test('registro pelo perfil envia IDs de usuário e estacionamento para persistência', async () => {
-    const app = harness('perfil', '?id=1', []); await app.start();
-    app.elements.get('membershipTarget').value = '7';
+test('dono cadastra seu carro no próprio estacionamento', async () => {
+    const app = harness('estacionamento', '?id=7', []); await app.start();
+    app.elements.get('membershipCar').value = '2';
     await app.elements.get('membershipForm').listeners.submit({ preventDefault() {}, currentTarget: app.elements.get('membershipForm') });
     const request = app.requests.find(r => r.options.method === 'POST');
     assert.equal(request.endpoint, '/estacionamento/registros');
     assert.deepEqual(JSON.parse(request.options.body), { usuario: { id: 1 }, estacionamento: { idEstacionamento: 7 }, carro: { idCarros: 2 } });
     assert.match(app.elements.get('pageStatus').textContent, /sucesso/);
 });
-test('remover registro não apaga histórico nem usuário', async () => {
-    const app = harness('perfil'); await app.start();
+test('dono remove registro sem apagar histórico nem usuário', async () => {
+    const app = harness('estacionamento', '?id=7'); await app.start();
     const button = { dataset: { removeMembership: '9' }, disabled: false };
     await app.elements.get('pageContent').listeners.click({ target: { closest: selector => selector === '[data-remove-membership]' ? button : null } });
     const requests = app.requests.filter(r => r.options.method === 'DELETE');

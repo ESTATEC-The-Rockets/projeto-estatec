@@ -89,7 +89,7 @@ const Consultas = (() => {
             const user = carOwner(car);
             if (!user?.id) return [];
             return data.memberships
-                .filter(m => Number(m.usuarioId) === Number(user.id))
+                .filter(m => Number(m.carroId) === Number(car.idCarros))
                 .map(m => parkingById(m.estacionamentoId))
                 .filter(Boolean);
         };
@@ -165,13 +165,12 @@ return `<article class="card" data-entity-card="car" data-entity-id="${Number(ca
         const parking = parkingById(id);
         if (!parking) throw new Error('Estacionamento não encontrado. Volte à lista e selecione um estacionamento válido.');
         const memberships = data.memberships.filter(m => Number(m.estacionamentoId) === Number(id));
-        const users = [...new Map(memberships.map(m => userById(m.usuarioId)).filter(Boolean).map(user => [user.id, user])).values()];
-        document.getElementById('pageContent').innerHTML = `<p><a href="estacionamentos.html">← Voltar aos estacionamentos</a></p><section class="panel"><h2>${esc(parking.nomeEstacionamento)}</h2><p>Responsável: ${userLink(owner(parking))}</p><p class="muted">${users.length} usuário(s) cadastrado(s). O responsável não é automaticamente um frequentador cadastrado.</p></section><section class="panel"><h2>Painel e histórico de entrada e saída</h2><div id="historyArea"></div></section><section class="panel"><h2>Usuários cadastrados</h2><div id="membershipControls"></div><div class="cards">${users.map(user => { const membership = memberships.find(m => Number(m.usuarioId) === Number(user.id)); return `<article class="card"><h3>${userLink(user, true)}</h3><p class="muted">${esc(user.email)}</p>${registeredPlates(user.id, id)}${removeButton(membership.id)}</article>`; }).join('') || empty('Nenhum usuário cadastrado neste estacionamento.')}</div></section>`;
+        document.getElementById('pageContent').innerHTML = `<p><a href="estacionamentos.html">← Voltar aos estacionamentos</a></p><section class="panel"><h2>${esc(parking.nomeEstacionamento)}</h2><p>Responsável: ${userLink(owner(parking))}</p><p class="muted">${memberships.length} veículo(s) cadastrado(s).</p></section><section class="panel"><h2>Painel e histórico de entrada e saída</h2><div id="historyArea"></div></section><section class="panel"><h2>Veículos cadastrados</h2><div id="membershipControls"></div><div class="cards">${memberships.map(m => { const car = carById(m.carroId); return `<article class="card"><h3>${car ? carLink(car, true) : 'Veículo não identificado'}</h3><p class="muted">${esc(car?.marca || '')} ${esc(car?.modelo || '')}</p>${removeButton(m.id)}</article>`; }).join('') || empty('Nenhum veículo cadastrado neste estacionamento.')}</div></section>`;
         membershipControls('parking', id);
         historyView(data.history.filter(r => Number(r.estacionamento?.idEstacionamento) === Number(id)), false, true);
     }
     function removeButton(id) {
-        return localStorage.getItem('isAdmin') === 'true' ? `<button type="button" data-remove-membership="${Number(id)}">Remover registro</button>` : '';
+        return localStorage.getItem('isAdmin') === 'false' ? `<button type="button" data-remove-membership="${Number(id)}">Remover registro</button>` : '';
     }
     function sessionUserId() {
         try { return JSON.parse(localStorage.getItem('usuarioSessao') || 'null')?.id; } catch { return null; }
@@ -204,38 +203,33 @@ return `<article class="card" data-entity-card="car" data-entity-id="${Number(ca
     }
     function membershipControls(type, id) {
         const area = document.getElementById('membershipControls');
-        if (localStorage.getItem('isAdmin') !== 'true' && !(type === 'user' && Number(sessionUserId()) === Number(id))) return;
-        const fixedUser = type === 'user' ? Number(id) : '';
-        const fixedParking = type === 'parking' ? Number(id) : '';
-        const targetItems = type === 'user'
-            ? data.parking.filter(p => !data.memberships.some(m => Number(m.usuarioId) === fixedUser && Number(m.estacionamentoId) === Number(p.idEstacionamento) && m.carroId))
-            : data.users;
-        const cars = type === 'user' ? data.cars.filter(c => Number(carOwner(c)?.id) === fixedUser) : data.cars;
-        if (!targetItems.length) {
-            area.innerHTML = empty(!cars.length ? 'Este usuÃ¡rio ainda nÃ£o possui carros cadastrados.' : 'NÃ£o hÃ¡ opÃ§Ãµes de registro disponÃ­veis.');
+        if (type !== 'parking' || localStorage.getItem('isAdmin') !== 'false') return;
+        const userId = Number(sessionUserId());
+        const parking = parkingById(id);
+        if (!userId || Number(owner(parking)?.id) !== userId) return;
+        const cars = data.cars.filter(car => Number(carOwner(car)?.id) === userId
+            && !data.memberships.some(m => Number(m.carroId) === Number(car.idCarros) && Number(m.estacionamentoId) === Number(id)));
+        if (!cars.length) {
+            area.innerHTML = empty('Nenhum veículo disponível. Cadastre um carro em Meus veículos ou todos já estão vinculados.');
             return;
         }
-        area.innerHTML = `<form id="membershipForm" class="membership-form"><label>${type === 'user' ? 'Estacionamento' : 'UsuÃ¡rio'}<div class="relation-picker" data-picker="membershipTarget"><input type="hidden" id="membershipTarget" required><input id="membershipTargetSearch" type="search" placeholder="Pesquisar por nome" autocomplete="off"><div id="membershipTargetOptions" class="relation-options" role="listbox" hidden></div><p id="membershipTargetSelected" class="selected-relation">Selecione uma opÃ§Ã£o</p></div></label><label>Carro do usuÃ¡rio<div class="relation-picker" data-picker="membershipCar"><input type="hidden" id="membershipCar" required><input id="membershipCarSearch" type="search" placeholder="Pesquisar placa ou modelo" autocomplete="off"><div id="membershipCarOptions" class="relation-options" role="listbox" hidden></div><p id="membershipCarSelected" class="selected-relation">Selecione um carro</p></div></label><button type="submit">Cadastrar carro no estacionamento</button></form>`;
-        const targetLabel = type === 'user' ? item => item.nomeEstacionamento : item => item.nome;
-        const targetValue = type === 'user' ? item => item.idEstacionamento : item => item.id;
-        bindRelationPicker('membershipTarget', targetItems, targetLabel, targetValue);
-        bindRelationPicker('membershipCar', cars, item => `${item.placa} Â· ${item.marca} ${item.modelo} Â· ${carOwner(item)?.nome || 'Sem dono'}`, item => item.idCarros);
+        area.innerHTML = `<form id="membershipForm" class="membership-form"><label>Meu veículo<div class="relation-picker" data-picker="membershipCar"><input type="hidden" id="membershipCar" required><input id="membershipCarSearch" type="search" placeholder="Pesquisar placa ou modelo" autocomplete="off"><div id="membershipCarOptions" class="relation-options" role="listbox" hidden></div><p id="membershipCarSelected" class="selected-relation">Selecione um carro</p></div></label><button type="submit">Cadastrar carro no estacionamento</button></form>`;
+        bindRelationPicker('membershipCar', cars, car => `${car.placa} · ${car.marca} ${car.modelo}`, car => car.idCarros);
         document.getElementById('membershipForm').addEventListener('submit', async event => {
             event.preventDefault();
-            const target = Number(document.getElementById('membershipTarget').value);
-            const selectedCar = Number(document.getElementById('membershipCar').value);
-            const carId = selectedCar || (cars.length === 1 ? Number(cars[0].idCarros) : 0);
-            const usuarioId = type === 'user' ? fixedUser : target;
-            const estacionamentoId = type === 'parking' ? fixedParking : target;
-            if (!usuarioId || !estacionamentoId || (cars.length && !carId)) { status('Selecione usuÃ¡rio, carro e estacionamento.'); return; }
-            const button = event.currentTarget.querySelector('button');
+            const carId = Number(document.getElementById('membershipCar').value);
+            if (!carId) { status('Selecione um carro.'); return; }
+            const button = event.currentTarget.querySelector('button[type="submit"]');
             button.disabled = true;
             try {
-                const payload = { usuario: { id: usuarioId }, estacionamento: { idEstacionamento: estacionamentoId } };
-                if (carId) payload.carro = { idCarros: carId };
-                await request(paths.memberships, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                await load(['memberships']); renderPage(); status('Carro cadastrado no estacionamento com sucesso.');
-            } catch (error) { status('NÃ£o foi possÃ­vel cadastrar: ' + error.message); button.disabled = false; }
+                await request(paths.memberships, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario: { id: userId }, estacionamento: { idEstacionamento: Number(id) }, carro: { idCarros: carId } })
+                });
+                await load(['memberships']);
+                renderPage();
+                status('Carro cadastrado no estacionamento com sucesso.');
+            } catch (error) { status('Não foi possível cadastrar: ' + error.message); button.disabled = false; }
         });
     }
 
@@ -267,7 +261,7 @@ return `<article class="card" data-entity-card="car" data-entity-id="${Number(ca
                 document.getElementById('historyDate').dispatchEvent(new Event('input')); return;
             }
             const button = event.target.closest('[data-remove-membership]');
-            if (!button || button.disabled || localStorage.getItem('isAdmin') !== 'true') return;
+            if (!button || button.disabled || localStorage.getItem('isAdmin') !== 'false') return;
             button.disabled = true;
             const approved = await (window.Interface?.confirm || (async message => confirm(message)))('Remover o registro deste usuário no estacionamento? O histórico será preservado.');
             if (!approved) { button.disabled = false; return; }
