@@ -1,9 +1,10 @@
+window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, { credentials: "include", ...options }));
 "use strict";
 
-const API_USUARIOS = "http://localhost:8080/usuarios";
-const API_CARROS = "http://localhost:8080/carros";
-const API_ESTACIONAMENTO = "http://localhost:8080/estacionamento";
-const API_REGISTROS = "http://localhost:8080/estacionamento/registros";
+const API_USUARIOS = (window.ESTATEC_API_ORIGIN + "/usuarios");
+const API_CARROS = (window.ESTATEC_API_ORIGIN + "/carros");
+const API_ESTACIONAMENTO = (window.ESTATEC_API_ORIGIN + "/estacionamento");
+const API_REGISTROS = (window.ESTATEC_API_ORIGIN + "/estacionamento/registros");
 const $ = (id) => document.getElementById(id);
 const state = { loading: false, busy: false };
 const resources = {
@@ -18,7 +19,7 @@ async function requestJson(url, options = {}) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeout);
     try {
-        const response = await fetch(url, { ...fetchOptions, signal: controller.signal });
+        const response = await window.estatecFetch(url, { ...fetchOptions, signal: controller.signal });
         const text = response.status === 204 ? "" : await response.text();
         let body = text;
         if (text) {
@@ -398,10 +399,9 @@ function bindTabs() {
 }
 
 function protectRoute() {
-    // Mantém a proteção existente; não substitui autorização no backend.
     if (localStorage.getItem("isAdmin") === "true") return true;
     feedback("load", "Acesso restrito ao administrador.", "error");
-    window.location.href = "./menu.html";
+    window.location.replace("./login.html");
     return false;
 }
 

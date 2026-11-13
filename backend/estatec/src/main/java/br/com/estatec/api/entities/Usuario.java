@@ -1,8 +1,9 @@
 package br.com.estatec.api.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.estatec.api.validations.annotations.TelefoneBR;
 import jakarta.persistence.Column;
@@ -10,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -19,10 +21,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "tb_usuario") // Torna a entidade uma tabela no banco de dados
+@Table(name = "tb_usuario") 
 public class Usuario {
 	
-	// Atributos necessários da entidade "Usuario" com as restrições e validações de segurança
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idUsuario;
@@ -56,6 +57,7 @@ public class Usuario {
 
 	@NotBlank(message = "A senha é obrigatória.")
 	@Size(min = 8, message = "A senha deve conter no mínimo 8 caracteres.")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Column(name = "senha")
 	protected String senha;
 
@@ -63,13 +65,18 @@ public class Usuario {
 	@Column(unique = true, name = "telefone")
 	@NotBlank(message = "O telefone é obrigatório.")
 	protected String telefone;
+	
+	@OneToMany(mappedBy = "usuario")
+	private List<Carro> carros;
+	
+	@OneToMany(mappedBy = "usuario")
+	private List<Estacionamento> estacionamentos;
 
 	
 	// Métodos construtores da entidade 
 	public Usuario() {
 
 	}
-
 
 	public Usuario(String nome, LocalDate dataNascimento, String email, String senha,
 			String telefone, String rg, String cpf) {
@@ -118,7 +125,7 @@ public class Usuario {
 		this.email = email;
 	}
 
-	@JsonIgnore
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	public String getSenha() {
 		return senha;
 	}

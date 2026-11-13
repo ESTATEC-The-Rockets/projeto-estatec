@@ -13,6 +13,8 @@ public interface RegistroRepository extends JpaRepository<Registro, Long> {
 
     List<Registro> findAllByOrderByIdAsc();
 
+    boolean existsByEstacionamento_IdEstacionamentoAndCarro_IdCarros(Long estacionamentoId, Long carroId);
+
     boolean existsByUsuario_IdUsuarioAndEstacionamento_IdEstacionamento(
             Long usuarioId, Long estacionamentoId);
 

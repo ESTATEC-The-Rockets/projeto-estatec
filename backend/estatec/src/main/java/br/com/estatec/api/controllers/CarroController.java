@@ -1,11 +1,12 @@
 package br.com.estatec.api.controllers;
+import jakarta.servlet.http.HttpSession;
+import br.com.estatec.api.config.AccessControl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +22,9 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/carros") // endpoint
-@CrossOrigin("*") // Libera o acesso para qualquer origem
 public class CarroController {
+	@Autowired
+	private AccessControl access;
 
 	// variavel que herda todas as funções da classe "Service"
     @Autowired
@@ -30,35 +32,41 @@ public class CarroController {
 
     // Método para listar todos carros registrados 
     @GetMapping
-    public ResponseEntity<List<Carro>> listar() {
-        return ResponseEntity.ok(service.listarTodos());
+    public ResponseEntity<List<Carro>> listar(HttpSession session) {
+        return ResponseEntity.ok(service.listarTodos().stream()
+            .filter(c -> access.isAdmin(session) || (c.getUsuario() != null && access.userId(session).equals(c.getUsuario().getId())))
+            .toList());
     }
 
     // Método para buscar os carros pelo id
     @GetMapping("/{id}")
-    public ResponseEntity<Carro> buscar(@PathVariable Long id) {
+    public ResponseEntity<Carro> buscar(@PathVariable Long id, HttpSession session) {
         Carro carro = service.buscarPorId(id);
+        access.requireOwnerOrAdmin(carro.getUsuario(), session);
         return ResponseEntity.ok(carro);
     }
 
     // Método para registrar o carro no sistema
     @PostMapping
-    public ResponseEntity<Carro> criar(@Valid @RequestBody Carro carro) {
+    public ResponseEntity<Carro> criar(@Valid @RequestBody Carro carro, HttpSession session) {
+        if (!access.isAdmin(session)) carro.setUsuario(access.currentUser(session));
         Carro novoCarro = service.salvar(carro);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoCarro);
     }
 
     // Método para editar/atualizar o carro ja registrado já
     @PutMapping("/{id}")
-    public ResponseEntity<Carro> atualizar(@PathVariable Long id, @Valid @RequestBody Carro carro) {
+    public ResponseEntity<Carro> atualizar(@PathVariable Long id, @Valid @RequestBody Carro carro, HttpSession session) {
+        access.requireOwnerOrAdmin(service.buscarPorId(id).getUsuario(), session);
+        if (!access.isAdmin(session)) carro.setUsuario(access.currentUser(session));
         Carro carroAtualizado = service.atualizar(id, carro);
         return ResponseEntity.ok(carroAtualizado);
     }
 
     // Método para deletar carros registrados do sistema
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletar(@PathVariable Long id) {
-        service.buscarPorId(id); 
+    public ResponseEntity<Object> deletar(@PathVariable Long id, HttpSession session) {
+        access.requireOwnerOrAdmin(service.buscarPorId(id).getUsuario(), session);
         
         service.deletar(id);
         return ResponseEntity.status(HttpStatus.OK)

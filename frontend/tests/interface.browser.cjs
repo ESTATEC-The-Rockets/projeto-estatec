@@ -95,7 +95,7 @@ test('layout responsivo e interações principais em navegador real', { skip: !f
     await evaluate(`document.getElementById('togglePassword').click()`);
     assert.equal(await evaluate(`document.getElementById('password').type`), 'text');
     await call('Page.navigate', { url: origin + '/pages/adminCrud.html' });
-    await wait(`document.getElementById('loadStatus').textContent.includes('atualiz') || document.getElementById('userTableBody').children.length > 0`);
+    await wait(`document.getElementById('loadStatus')?.textContent.includes('atualiz') || document.getElementById('userTableBody')?.children.length > 0`);
     await evaluate(`document.getElementById('carTab').click()`);
     assert.equal(await evaluate(`document.getElementById('carPanel').hidden`), false);
     assert.equal(await evaluate(`document.getElementById('userPanel').hidden`), true);

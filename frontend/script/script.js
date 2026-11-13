@@ -1,3 +1,4 @@
+window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, { credentials: "include", ...options }));
 "use strict";
 
 (() => {
@@ -76,10 +77,9 @@
         let stage = "request";
 
         try {
-            const isAdmin = emailValue === "admin@estacionamento.com" && passwordValue === "admin123";
             let session;
-            if (!isAdmin) {
-                const response = await fetch("http://localhost:8080/usuarios/login", {
+            {
+                const response = await window.estatecFetch((window.ESTATEC_API_ORIGIN + "/usuarios/login"), {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email: emailValue, senha: passwordValue }),
@@ -97,15 +97,20 @@
                 }
                 stage = "response";
                 session = await response.json();
-                if (!session || typeof session !== "object" || Array.isArray(session)) {
-                    throw new Error("Resposta de login inválida");
+                const userId = session && (session.id ?? session.idUsuario);
+                if (!session || typeof session !== "object" || Array.isArray(session)
+                    || (session.admin !== true && (!Number.isInteger(Number(userId)) || Number(userId) <= 0))) {
+                    email.setAttribute("aria-invalid", "true");
+                    password.setAttribute("aria-invalid", "true");
+                    showFeedback("E-mail ou senha inválidos. Confira os dados e tente novamente.");
+                    return;
                 }
             }
 
             stage = "storage";
-            if (isAdmin) {
+            if (session.admin === true) {
                 localStorage.removeItem("usuarioSessao");
-                localStorage.setItem("token", "token_admin_gerado_2026");
+                localStorage.removeItem("token");
                 localStorage.setItem("isAdmin", "true");
             } else {
                 // Alguns acessos antigos podem retornar senhas: nunca guardar esses campos.

@@ -1,6 +1,7 @@
+window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, { credentials: "include", ...options }));
 /* Consultas reais: registros são vínculos explícitos, nunca inferidos do histórico. */
 const Consultas = (() => {
-    const base = 'http://localhost:8080';
+    const base = (window.ESTATEC_API_ORIGIN + "");
     const model = window.ConsultaModel;
     const data = { users: [], cars: [], parking: [], memberships: [], history: [] };
     const paths = { users: '/usuarios', cars: '/carros', parking: '/estacionamento', memberships: '/estacionamento/registros', history: '/historico' };
@@ -23,7 +24,7 @@ const Consultas = (() => {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 15000);
         try {
-            const response = await fetch(base + path, { ...options, signal: controller.signal });
+            const response = await window.estatecFetch(base + path, { ...options, signal: controller.signal });
             const text = await response.text();
             if (!response.ok) {
                 let message = 'Não foi possível concluir a solicitação.';

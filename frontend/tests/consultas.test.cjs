@@ -50,11 +50,11 @@ function harness(page, query = '?id=1', memberships = [{ id: 9, usuarioId: 1, es
     }
     for (const id of ['pageContent', 'pageStatus', 'menuToggle', 'sidebar']) elements.set(id, new Element(id));
     const requests = [];
-    const context = { window: { ConsultaModel: model }, URLSearchParams, AbortController, setTimeout, clearTimeout, location: { search: query, reload() {} }, console,
+    const context = { window: { ConsultaModel: model, ESTATEC_API_ORIGIN: 'http://api.estatec.lab' }, URLSearchParams, AbortController, setTimeout, clearTimeout, location: { search: query, reload() {} }, console,
         localStorage: { getItem: () => 'true' }, confirm: () => true,
         document: { body: { dataset: { page } }, getElementById: id => elements.get(id), createElement: () => new Element('new'), addEventListener() {} },
         fetch: async (url, options = {}) => {
-            const endpoint = url.replace('http://localhost:8080', '');
+            const endpoint = url.replace('http://api.estatec.lab', '');
             requests.push({ endpoint, options });
             let data;
             if (endpoint === '/usuarios') data = [user];
