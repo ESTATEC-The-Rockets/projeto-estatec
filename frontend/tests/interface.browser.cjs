@@ -72,13 +72,16 @@ test('layout responsivo e interações principais em navegador real', { skip: !f
         window.fetch = async (url,options={}) => {
             if (!String(url).startsWith('http://localhost:8080')) return realFetch(url,options);
             const endpoint = new URL(url).pathname; window.apiCalls.push({endpoint,method:options.method || 'GET'});
+            if (endpoint === '/auth/login') { sessionStorage.setItem('accountLogin','true'); return new Response(JSON.stringify({idUsuario:2,nome:'Pessoa Teste',admin:false,podeGerenciar:true}),{status:200,headers:{'Content-Type':'application/json'}}); }
+            if (endpoint === '/auth/cadastro') return new Response(JSON.stringify({id:2,nome:'Pessoa Teste',email:'pessoa@example.com'}),{status:201,headers:{'Content-Type':'application/json'}});
             if (endpoint === '/auth/sessao' && sessionStorage.getItem('denySession')) return new Response('{}', {status:401});
+            if (endpoint === '/auth/sessao' && sessionStorage.getItem('accountLogin')) return new Response(JSON.stringify({idUsuario:2,nome:'Pessoa Teste',admin:false,podeGerenciar:true}),{status:200,headers:{'Content-Type':'application/json'}});
             const values = {'/condutores':[user],'/auth/sessao':{idUsuario:0,nome:'Administrador',admin:true},'/carros':[car],'/estacionamento':[parking],'/estacionamento/registros':[{id:9,usuarioId:1,carroId:3,estacionamentoId:7}],'/historico':[{id:1,data:date,horarioEntrada:'08:00:00',horarioSaida:'09:00:00',carro:car,estacionamento:parking}]};
             return new Response(JSON.stringify(values[endpoint] || {}),{status:200,headers:{'Content-Type':'application/json'}});
         };
     ` });
     const origin = `http://127.0.0.1:${server.address().port}`;
-    const pages = ['index.html', 'pages/login.html', 'pages/redefinirSenha.html', 'pages/cadastroEstacionamento.html', 'pages/menu.html', 'pages/usuario.html', 'pages/dados.html', 'pages/perfil.html?id=1', 'pages/estacionamentos.html', 'pages/estacionamento.html?id=7', 'pages/adminCrud.html'];
+    const pages = ['index.html', 'pages/login.html', 'pages/criarConta.html', 'pages/redefinirSenha.html', 'pages/cadastroEstacionamento.html', 'pages/menu.html', 'pages/usuario.html', 'pages/dados.html', 'pages/perfil.html?id=1', 'pages/estacionamentos.html', 'pages/estacionamento.html?id=7', 'pages/adminCrud.html'];
     for (const width of [1440, 390, 320]) {
         await call('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: width < 600 });
         for (const page of pages) {
@@ -143,9 +146,22 @@ test('layout responsivo e interações principais em navegador real', { skip: !f
     await wait(`document.getElementById('userStatus')?.textContent.includes('salvo.')`);
     assert.equal(await evaluate(`window.apiCalls.filter(c=>c.method==='GET'&&c.endpoint==='/condutores').length`), 1);
     assert.equal(await evaluate(`window.apiCalls.filter(c=>c.method==='GET'&&c.endpoint==='/carros').length`), 0, 'Salvar condutor deve atualizar somente a lista afetada');
+    await call('Page.navigate', { url: origin + '/pages/login.html' });
+    await wait(`!!document.querySelector('a[href="./criarConta.html"]')`);
+    await evaluate(`document.querySelector('a[href="./criarConta.html"]').click()`);
+    await wait(`!!document.getElementById('cadastroContaForm')`);
+    await evaluate(`document.getElementById('nome').value='Pessoa Teste';document.getElementById('email').value='pessoa@example.com';document.getElementById('password').value='MinhaSenha123';document.getElementById('confirmacaoSenha').value='Diferente123';document.getElementById('cadastroContaForm').requestSubmit()`);
+    assert.equal(await evaluate(`document.getElementById('confirmacaoSenha').validity.customError`), true);
+    assert.equal(await evaluate(`window.apiCalls.filter(c=>c.endpoint==='/auth/cadastro').length`), 0);
+    await evaluate(`document.getElementById('confirmacaoSenha').value='MinhaSenha123';document.getElementById('confirmacaoSenha').dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('cadastroContaForm').requestSubmit()`);
+    await wait(`location.href.endsWith('/pages/login.html?cadastro=sucesso') && document.getElementById('loginFeedback')?.textContent.includes('Conta criada')`);
+    await evaluate(`document.getElementById('email').value='pessoa@example.com';document.getElementById('password').value='MinhaSenha123';document.getElementById('loginForm').requestSubmit()`);
+    await wait(`location.pathname.endsWith('/pages/menu.html') && document.documentElement.style.visibility !== 'hidden' && document.readyState==='complete'`);
+    assert.equal(await evaluate(`localStorage.getItem('isAdmin')`), 'true', 'Conta de operador deve acessar o gerenciamento');
+    assert.equal(await evaluate(`localStorage.getItem('usuarioSessao')`), null, 'Conta de acesso nao deve ser usada como condutor');
     await evaluate(`sessionStorage.setItem('denySession','true');localStorage.setItem('isAdmin','true')`);
     await call('Page.navigate', { url: origin + '/pages/adminCrud.html' });
     await wait(`location.pathname.endsWith('/pages/login.html')`);
     assert.equal(await evaluate(`localStorage.getItem('isAdmin')`), null, 'LocalStorage adulterado nao autoriza acesso');
-    console.log('33 verificações de layout, interações e navegação por cards (mouse e teclado) aprovadas.');
+    console.log('36 verificações de layout, interações e navegação por cards (mouse e teclado) aprovadas.');
 });

@@ -37,6 +37,38 @@ class AuthenticationIntegrationTest {
   var forged = new org.springframework.mock.web.MockHttpSession();forged.setAttribute("estatecRole","USER");forged.setAttribute("estatecUserId",1L);
   mvc.perform(get("/condutores").session(forged)).andExpect(status().isForbidden());
  }
+ @Test void criaContaPersisteSenhaProtegidaEPermiteLoginPosterior() throws Exception {
+  String cadastro="{\"nome\":\"Operadora Teste\",\"email\":\"OPERADORA@example.com\",\"senha\":\"MinhaSenha123\",\"confirmacaoSenha\":\"MinhaSenha123\"}";
+  mvc.perform(post("/auth/cadastro").contentType(MediaType.APPLICATION_JSON).content(cadastro))
+   .andExpect(status().isCreated()).andExpect(jsonPath("$.email").value("operadora@example.com"))
+   .andExpect(jsonPath("$.senha").doesNotExist()).andExpect(jsonPath("$.senhaHash").doesNotExist());
+  assertEquals(1,jdbc.queryForObject("select count(*) from tb_conta_acesso where email='operadora@example.com'",Integer.class));
+  assertEquals(0,jdbc.queryForObject("select count(*) from tb_usuario where email='operadora@example.com'",Integer.class));
+  String hash=jdbc.queryForObject("select senha_hash from tb_conta_acesso where email='operadora@example.com'",String.class);
+  assertNotEquals("MinhaSenha123",hash);
+  assertTrue(new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder().matches("MinhaSenha123",hash));
+  mvc.perform(post("/auth/cadastro").contentType(MediaType.APPLICATION_JSON).content(cadastro)).andExpect(status().isConflict());
+  mvc.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON).content("{\"email\":\"operadora@example.com\",\"senha\":\"errada\"}")).andExpect(status().isUnauthorized());
+  var result=mvc.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON).content("{\"email\":\"operadora@example.com\",\"senha\":\"MinhaSenha123\"}"))
+   .andExpect(status().isOk()).andExpect(jsonPath("$.admin").value(false)).andExpect(jsonPath("$.podeGerenciar").value(true)).andReturn();
+  var session=(org.springframework.mock.web.MockHttpSession)result.getRequest().getSession(false);
+  mvc.perform(get("/auth/sessao").session(session)).andExpect(status().isOk()).andExpect(jsonPath("$.nome").value("Operadora Teste"));
+  mvc.perform(get("/condutores").session(session)).andExpect(status().isOk());
+  mvc.perform(post("/estacionamento").session(session).contentType(MediaType.APPLICATION_JSON).content("{\"nomeEstacionamento\":\"Patio Teste\"}"))
+   .andExpect(status().isCreated());
+  mvc.perform(post("/auth/logout").session(session)).andExpect(status().isNoContent());assertTrue(session.isInvalid());
+  mvc.perform(get("/condutores")).andExpect(status().isUnauthorized());
+  var novoLogin=mvc.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON).content("{\"email\":\"OPERADORA@example.com\",\"senha\":\"MinhaSenha123\"}"))
+   .andExpect(status().isOk()).andReturn();
+  mvc.perform(get("/auth/sessao").session((org.springframework.mock.web.MockHttpSession)novoLogin.getRequest().getSession(false))).andExpect(status().isOk());
+ }
+ @Test void cadastroRejeitaConfirmacaoIncorretaESenhaCurta() throws Exception {
+  String cadastro="{\"nome\":\"Teste\",\"email\":\"teste@example.com\",\"senha\":\"MinhaSenha123\",\"confirmacaoSenha\":\"OutraSenha123\"}";
+  mvc.perform(post("/auth/cadastro").contentType(MediaType.APPLICATION_JSON).content(cadastro)).andExpect(status().isBadRequest());
+  mvc.perform(post("/auth/cadastro").contentType(MediaType.APPLICATION_JSON).content(cadastro.replace("MinhaSenha123","curta"))).andExpect(status().isBadRequest());
+  mvc.perform(post("/auth/cadastro").contentType(MediaType.APPLICATION_JSON).content(cadastro.replace("teste@example.com","admin@example.com").replace("OutraSenha123","MinhaSenha123"))).andExpect(status().isConflict());
+  assertEquals(0,jdbc.queryForObject("select count(*) from tb_conta_acesso where email='teste@example.com'",Integer.class));
+ }
  @Autowired MockMvc mvc;
  @Autowired JdbcTemplate jdbc;
  @Test void bloqueiaAcessoSemSessaoESeedPodeSerReexecutado() throws Exception {

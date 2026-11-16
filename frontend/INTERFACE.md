@@ -41,3 +41,8 @@ node --test frontend/tests/interface.browser.cjs
 O primeiro conjunto cobre consultas, perfis, cadastros e histórico com DOM/API simulados. O segundo abre as 11 páginas ativas no Chrome headless, verifica layout a 1440, 390 e 320 px, captura exceções JavaScript e verifica interações de senha, abas, diálogo e filtros.
 
 O teste de navegador utiliza API simulada e bloqueia fontes/ícones de CDN para ser independente da rede; o layout é verificado também com as fontes de fallback. Não substitui validação integrada com o backend/MySQL ou uma auditoria manual completa de acessibilidade. Defina `CHROME_PATH` caso o Chrome não esteja no caminho padrão do Windows; sem Chrome o teste é marcado como ignorado.
+
+A tela `pages/criarConta.html`, acessível pelo login, cadastra a conta de acesso
+com nome, e-mail e senha confirmada. `script/criarConta.js` envia o cadastro
+para `/auth/cadastro` e volta ao login após sucesso. O login aceita contas
+persistidas, separadas dos condutores, e o backend valida a sessão de operador.

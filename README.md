@@ -2,14 +2,16 @@
 
 ## Configuração e acesso
 
-O sistema distingue **usuário do sistema** (administrador que opera as telas) de
+O sistema distingue **usuário do sistema** (pessoa que opera as telas) de
 **condutor** (pessoa cadastrada para vincular veículos e estacionamentos).
 Condutores não possuem login nem senha. O cadastro pede nome, CPF, e-mail e telefone.
 
 Configure as variáveis listadas em `backend/estatec/.env.example` no ambiente do
 processo Java. O Spring não carrega um arquivo `.env` automaticamente.
-São necessários `DB_URL`, `DB_USER`, `DB_PASSWORD`, `ESTATEC_ADMIN_EMAIL` e
-`ESTATEC_ADMIN_PASSWORD_HASH` (hash BCrypt da senha administrativa).
+São necessários `DB_URL`, `DB_USER` e `DB_PASSWORD`. Para manter também um
+acesso administrativo por configuração, use `ESTATEC_ADMIN_EMAIL` e
+`ESTATEC_ADMIN_PASSWORD_HASH` (hash BCrypt); essas duas variáveis são opcionais
+para quem cria uma conta pela tela.
 Não existe senha padrão. `ESTATEC_FRONTEND_ORIGIN` deve ser a origem exata do
 frontend, incluindo porta. Em localhost, o padrão é `http://localhost:5500`.
 Use o mesmo hostname no frontend e na API para os cookies de sessão.
@@ -33,11 +35,20 @@ protegido para compatibilidade. Colunas legadas de senha, RG e nascimento não
 são mais usadas pelo modelo. A inicialização remove a obrigatoriedade dessas
 colunas legadas em MySQL, preservando seus valores existentes.
 
-Autenticação: `POST /auth/login`, `GET /auth/sessao`, `POST /auth/logout`.
+Abra **Login → Criar conta e senha**, informe nome, e-mail, senha e confirmação.
+Após criar a conta, entre pelo login com o mesmo e-mail e senha. Contas são
+persistidas em `tb_conta_acesso`, com senha BCrypt, e continuam disponíveis após
+reiniciar o backend. O cadastro não cria um condutor nem exige dados de veículo.
+
+As novas contas recebem o perfil de operador, com acesso ao gerenciamento de
+condutores, carros, estacionamentos e registros. O cadastro é aberto; não há
+aprovação de contas. O identificador da conta nunca é usado como dono de um carro.
+
+Autenticação: `POST /auth/cadastro`, `POST /auth/login`, `GET /auth/sessao`, `POST /auth/logout`.
 A sessão usa cookie HttpOnly, expira após 30 minutos de inatividade e é validada
 no servidor antes das consultas do frontend. Em HTTPS, configure
 `SESSION_COOKIE_SECURE=true`. Todas as operações de cadastro de condutores
-exigem sessão administrativa, inclusive quando chamadas diretamente pela API.
+exigem sessão de operador ou administrador, inclusive quando chamadas diretamente pela API.
 
 O leitor de placas exige `ESTATEC_ACCESS_API_KEY` e `ESTATEC_ESTACIONAMENTO_ID`.
 O acesso só é autorizado quando o carro está registrado no estacionamento informado.
