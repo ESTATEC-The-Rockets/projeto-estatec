@@ -9,7 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_estacionamento") 
@@ -19,7 +19,7 @@ public class Estacionamento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idEstacionamento;
 
-	@Pattern(regexp = "^[\\p{L}]+( [\\p{L}]+)*$", message = "O nome do estacionamento deve conter apenas letras e espaços.")
+	@Size(max = 100, message = "Use um nome mais curto.")
 	@NotBlank(message = "O nome do estacionamento é obrigatório.")
 	@Column(name = "nome_estacionamento", unique = true, length = 100)
 	private String nomeEstacionamento;

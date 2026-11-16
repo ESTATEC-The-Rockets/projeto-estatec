@@ -33,7 +33,7 @@ public class AccessControl {
     public void requireOwnerOrAdmin(Condutor owner, HttpSession session) {
         if (isAdmin(session)) return;
         if (owner == null || !userId(session).equals(owner.getId())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso negado.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não tem permissão para esta ação.");
         }
     }
 }

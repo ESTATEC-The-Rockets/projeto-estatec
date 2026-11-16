@@ -13,7 +13,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
     const button = formLogin.querySelector('button[type="submit"]');
     if (new URLSearchParams(location.search).get("cadastro") === "sucesso") {
         feedback.dataset.state = "success";
-        feedback.textContent = "Conta criada! Entre com o e-mail e a senha que você cadastrou.";
+        feedback.textContent = "Conta criada; entre com seu e-mail e senha.";
     }
     const emailKey = "estatecEmailLembrado";
     let submitting = false;
@@ -25,7 +25,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
 
     formLogin.addEventListener("invalid", event => {
         event.target.setAttribute("aria-invalid", "true");
-        showFeedback("Informe um e-mail válido e preencha a senha para entrar.");
+        showFeedback("Informe seu e-mail e senha.");
     }, true);
 
     try {
@@ -35,7 +35,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
             remember.checked = true;
         }
     } catch {
-        showFeedback("O armazenamento do navegador está bloqueado. Libere-o para manter a sessão.");
+        showFeedback("Não foi possível entrar neste navegador.");
     }
 
     function rememberEmail() {
@@ -43,7 +43,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
             if (remember.checked) localStorage.setItem(emailKey, email.value.trim());
             else localStorage.removeItem(emailKey);
         } catch {
-            showFeedback("Não foi possível atualizar a preferência de e-mail neste navegador.");
+            showFeedback("Não foi possível lembrar seu e-mail.");
         }
     }
     remember.addEventListener("change", rememberEmail);
@@ -93,9 +93,9 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
                     if (response.status === 401 || response.status === 403 || response.status === 400) {
                         email.setAttribute("aria-invalid", "true");
                         password.setAttribute("aria-invalid", "true");
-                        showFeedback("E-mail ou senha inválidos. Confira os dados e tente novamente.");
+                        showFeedback("E-mail ou senha incorretos.");
                     } else {
-                        showFeedback("Não foi possível entrar. Tente novamente mais tarde.");
+                        showFeedback("Não foi possível entrar.");
                     }
                     return;
                 }
@@ -106,7 +106,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
                     || (session.admin !== true && (!Number.isInteger(Number(userId)) || Number(userId) <= 0))) {
                     email.setAttribute("aria-invalid", "true");
                     password.setAttribute("aria-invalid", "true");
-                    showFeedback("E-mail ou senha inválidos. Confira os dados e tente novamente.");
+                    showFeedback("E-mail ou senha incorretos.");
                     return;
                 }
             }
@@ -125,17 +125,17 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
             }
             rememberEmail();
             password.value = "";
-            showFeedback("Acesso confirmado. Abrindo o menu…", "success");
+            showFeedback("Entrada confirmada.", "success");
             window.location.href = "./menu.html";
         } catch (error) {
             if (stage === "storage") {
-                showFeedback("Não foi possível guardar a sessão. Libere o armazenamento do navegador e tente novamente.");
+                showFeedback("Não foi possível entrar neste navegador.");
             } else if (error.name === "AbortError") {
-                showFeedback("O servidor demorou para responder. Tente entrar novamente.");
+                showFeedback("Tente entrar novamente em instantes.");
             } else if (stage === "response") {
-                showFeedback("O servidor retornou uma resposta de login inválida. Contate o administrador.");
+                showFeedback("Não foi possível entrar.");
             } else {
-                showFeedback("Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.");
+                showFeedback("Verifique sua conexão e tente novamente.");
             }
         } finally {
             clearTimeout(timeout);

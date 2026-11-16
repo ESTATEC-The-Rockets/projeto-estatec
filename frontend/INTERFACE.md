@@ -38,7 +38,7 @@ node --test frontend/tests/consultas.test.cjs
 node --test frontend/tests/interface.browser.cjs
 ```
 
-O primeiro conjunto cobre consultas, perfis, cadastros e histórico com DOM/API simulados. O segundo abre as 11 páginas ativas no Chrome headless, verifica layout a 1440, 390 e 320 px, captura exceções JavaScript e verifica interações de senha, abas, diálogo e filtros.
+O primeiro conjunto cobre consultas, perfis, cadastros e histórico com DOM/API simulados. O segundo verifica 15 páginas/variações no Chrome headless em 9 tamanhos de tela, captura exceções JavaScript e verifica menus, modais, filtros e os fluxos de cadastro/login e criação/edição de carros.
 
 O teste de navegador utiliza API simulada e bloqueia fontes/ícones de CDN para ser independente da rede; o layout é verificado também com as fontes de fallback. Não substitui validação integrada com o backend/MySQL ou uma auditoria manual completa de acessibilidade. Defina `CHROME_PATH` caso o Chrome não esteja no caminho padrão do Windows; sem Chrome o teste é marcado como ignorado.
 
@@ -46,3 +46,42 @@ A tela `pages/criarConta.html`, acessível pelo login, cadastra a conta de acess
 com nome, e-mail e senha confirmada. `script/criarConta.js` envia o cadastro
 para `/auth/cadastro` e volta ao login após sucesso. O login aceita contas
 persistidas, separadas dos condutores, e o backend valida a sessão de operador.
+
+
+## Responsividade
+
+`css/responsive.css` é carregado depois das folhas de cada página e centraliza
+os ajustes de layout. No celular (até 600 px), o menu aparece acima do conteúdo,
+com os nomes das abas e o botão Sair visíveis. Entre 601 e 1100 px, o menu
+compacto libera espaço para as consultas. O controle de recolher/expandir fica
+em `script/interface.js`, compartilhado entre o painel e as consultas.
+
+Cards e filtros ajustam suas colunas ao espaço disponível. Tabelas e gráficos
+largos têm rolagem horizontal própria, acessível pelo teclado. Modais se limitam
+à largura e altura disponíveis, com rolagem interna nos formulários.
+
+O teste de navegador verifica 15 páginas/variações em 9 tamanhos (320 a 1440 px,
+incluindo paisagem), os três modais de criação do CRUD e os cadastros permitidos nas consultas/perfis.
+Inclui nomes/e-mails longos, menu aberto/fechado e navegação por teclado.
+Use `ESTATEC_SCREENSHOT_DIR` para salvar capturas das telas durante o teste.
+
+O cadastro de carros fica exclusivamente no perfil do condutor. O CRUD geral e
+a aba Carros encaminham para os perfis, onde ficam os controles de edição e exclusão.
+Veja `CONSULTAS.md` para as regras atuais de relação entre as entidades.
+
+
+## Avisos exibidos nas telas
+
+Use uma frase curta, direta e em português para cada aviso. Não inclua nomes de
+atributos, identificadores, caminhos, detalhes de falhas ou termos de implementação.
+Evite prefixos como “Não foi possível salvar:” seguidos de outra mensagem.
+
+`script/mensagens.js` traduz apenas os códigos previstos para textos aprovados.
+Mensagens arbitrárias recebidas em falhas são ignoradas; exceções desconhecidas
+recebem um aviso genérico. O backend aplica o mesmo padrão em `Avisos` e
+`ApiExceptionHandler`, retornando apenas um aviso por resposta. Detalhes de
+falhas inesperadas ficam nos registros do backend.
+
+`tests/mensagens.test.cjs` verifica frases curtas e bloqueio de detalhes internos.
+O teste de navegador também simula respostas e exceções com detalhes que não
+podem aparecer no formulário.

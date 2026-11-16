@@ -46,8 +46,16 @@ public class SecurityConfig {
                 .requestMatchers("/condutores/**", "/condutores", "/usuarios/**", "/usuarios").hasAnyRole("ADMIN", "OPERATOR")
                 .anyRequest().authenticated())
             .exceptionHandling(errors -> errors
-                .authenticationEntryPoint((request, response, ex) -> response.sendError(401))
-                .accessDeniedHandler((request, response, ex) -> response.sendError(403)))
+                .authenticationEntryPoint((request, response, ex) -> aviso(response, 401, "SIGN_IN"))
+                .accessDeniedHandler((request, response, ex) -> aviso(response, 403, "NO_PERMISSION")))
             .build();
     }
+    private static void aviso(jakarta.servlet.http.HttpServletResponse response, int status, String code) throws java.io.IOException {
+        response.setStatus(status);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        String message = br.com.estatec.api.controllers.Avisos.TEXTOS.get(code);
+        response.getWriter().write("{\"code\":\"" + code + "\",\"message\":\"" + message + "\"}");
+    }
+
 }

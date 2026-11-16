@@ -1,0 +1,144 @@
+/* Regras finais compartilhadas: o conteudo define a quantidade de colunas. */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; }
+img { max-width: 100%; }
+:is(main, section, article, form, fieldset, .panel, .card, .toolbar, .table-wrap, .table-wrapper) { min-width: 0; }
+:is(h1, h2, h3, p, dd, .selected-relation, .status, .toast) { overflow-wrap: anywhere; }
+:is(input, select, textarea) { max-width: 100%; }
+:is(.table-wrap, .table-wrapper) { max-width: 100%; overscroll-behavior-x: contain; }
+:is(.table-wrap, .table-wrapper):focus-visible { outline: 2px solid var(--focus, #ff6d85); outline-offset: 3px; }
+
+body.app-page .line-list { grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); }
+body.app-page .line-list > .card { height: auto; min-height: 220px; overflow: visible; }
+body.app-page .line-list > .card h2 { padding-right: 80px; }
+body.app-page .line-list > .card dl { grid-template-columns: repeat(auto-fit, minmax(min(100%, 120px), 1fr)); }
+body.app-page .chip { max-width: 100%; overflow-wrap: anywhere; }
+body.app-page .history-toolbar { grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); }
+body.app-page .history-toolbar > button { min-height: 46px; white-space: normal; }
+body.app-page .history-toolbar > .muted { grid-column: 1 / -1; }
+body.app-page .relation-picker { min-width: 0; width: 100%; }
+body.app-page .membership-form > label { flex: 1 1 200px; min-width: 0; }
+body.app-page .membership-form > button { max-width: 100%; white-space: normal; }
+body.app-page .relation-option { overflow-wrap: anywhere; }
+body.app-page .stats { grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); }
+body.app-page dl { grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); }
+body.app-page .quick-links a { max-width: 100%; }
+body.app-page .quick-links a > i, body.app-page .quick-links a > span { flex-shrink: 0; }
+body.app-page .welcome-row, body.app-page .section-header { flex-wrap: wrap; }
+body.app-page .details-section { min-width: 0; }
+body.app-page .data-table { min-width: 620px; }
+body.app-page .entity-modal-actions, .confirm-dialog .dialog-actions { flex-wrap: wrap; }
+body.app-page .entity-form-grid > label { min-width: 0; }
+:is(.entity-modal, .crud-modal, .confirm-dialog) { max-width: calc(100vw - 24px); max-height: calc(100dvh - 24px); }
+:is(.entity-modal-card, .modal-card) { max-height: calc(100dvh - 24px); overflow-y: auto; overscroll-behavior-y: contain; }
+.crud-modal .form-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+.topbar, .topbar-actions { flex-wrap: wrap; }
+.topbar > div { min-width: 0; }
+.tabs { max-width: 100%; }
+.tabs [role=tab] { min-height: 44px; }
+
+/* Na faixa intermediaria o menu usa icones e deixa espaco para os dados. */
+@media (min-width: 601px) and (max-width: 1100px) {
+    body.app-page .sidebar, body.app-page .sidebar.collapsed { width: 72px; flex-basis: 72px; }
+    body.app-page .sidebar :is(.menu-text, .sidebar-footer span, .sidebar-footer p) { display: none; }
+    body.app-page .sidebar .logo-container { display: block; padding: 20px 8px; }
+    body.app-page .sidebar .logo-estatec { width: 52px; }
+    body.app-page .nav-item a { display: flex; justify-content: center; padding: 12px 8px; }
+    body.app-page .sidebar-footer { padding: 16px 8px; }
+    body.app-page .sidebar.collapsed { display: none; }
+    body.app-page .dashboard-body { padding: 24px; }
+}
+
+/* No telefone a navegacao fica acima do conteudo, sem reduzir sua largura. */
+@media (max-width: 600px) {
+    body.app-page .app-container { flex-direction: column; }
+    body.app-page .sidebar, body.app-page .sidebar.collapsed {
+        position: static; width: 100%; flex: 0 0 auto; height: auto; max-height: none;
+        overflow: visible; border-right: 0; border-bottom: 1px solid var(--line);
+    }
+    body.app-page .sidebar .logo-container { display: none; }
+    body.app-page .sidebar-nav ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 8px; }
+    body.app-page .sidebar .nav-item a { display: flex; flex-direction: column; gap: 4px; justify-content: center; min-height: 60px; padding: 8px 2px; font-size: 11px; line-height: 1.3; text-align: center; }
+    body.app-page .sidebar .menu-text { display: inline; }
+    body.app-page .sidebar-footer { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; padding: 4px 16px; }
+    body.app-page .sidebar-footer p { display: none; }
+    body.app-page .sidebar .sidebar-footer span, body.app-page .sidebar.collapsed .sidebar-footer span { display: inline; }
+    body.app-page .logout-btn { min-height: 44px; width: auto; margin-bottom: 0; }
+    body.app-page .sidebar.collapsed .sidebar-nav { display: none; }
+    body.app-page .main-content { width: 100%; min-height: 100svh; }
+    body.app-page .header { min-height: 64px; padding: 10px 16px; }
+    body.app-page .dashboard-body { padding: 24px 16px 36px; }
+    body.app-page .panel, body.app-page .card, body.app-page .details-section { padding: 16px; }
+    body.app-page .details-section .section-header { padding: 12px 0; }
+    body.app-page .quick-links { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    body.app-page .quick-links a { justify-content: space-between; padding: 12px; }
+    body.app-page .history-toolbar { grid-template-columns: minmax(0, 1fr); }
+    body.app-page .entity-modal-card { padding: 20px 16px; }
+    body.app-page .entity-modal-actions button { flex: 1 1 100px; }
+    .confirm-dialog { padding: 20px; }
+    .confirm-dialog .dialog-actions button { flex: 1 1 100px; }
+    .crud-section, .registration-section { padding: 16px; }
+    .registration-section .section-header { min-width: 0; }
+    .topbar { flex-direction: row; align-items: center; gap: 12px; }
+    .topbar-actions { margin-left: auto; }
+    .content { padding: 24px 12px; }
+}
+
+.body-acesso .acesso-layout { gap: clamp(24px, 4vw, 56px); padding-block: clamp(24px, 4vw, 48px); }
+.body-acesso .acesso-form { min-width: 0; }
+.body-acesso .acesso-feedback { scroll-margin-block: 20px; }
+@media (min-width: 801px) and (max-height: 800px) {
+    .body-acesso .acesso-card { padding: 24px; }
+    .body-acesso .acesso-form { gap: 14px; }
+    .body-acesso .acesso-description { margin-bottom: 20px; }
+}
+@media (max-width: 800px) {
+    .body-acesso .acesso-layout { gap: 20px; padding: 24px 16px; }
+    .body-acesso .acesso-intro { max-width: 520px; }
+    .body-acesso .acesso-intro h2 { font-size: clamp(24px, 5vw, 32px); margin-block: 8px; }
+    .body-acesso .acesso-intro > p:not(.acesso-eyebrow) { max-width: none; }
+    .body-acesso .acesso-card { padding: 24px 20px; }
+    .body-acesso .acesso-header { padding: 12px 16px; gap: 8px; }
+    .body-acesso .acesso-description { margin-bottom: 20px; }
+}
+@media (max-width: 360px) {
+    .body-acesso .acesso-card { padding: 20px 16px; }
+    .body-acesso .acesso-toggle { padding-inline: 8px; font-size: 12px; }
+    .navbar { flex-wrap: wrap; }
+    .navbar .menu { flex-wrap: wrap; }
+    .hero-content h1 { font-size: clamp(30px, 10vw, 38px); }
+}
+@media (max-height: 500px) and (min-width: 601px) {
+    body.app-page .sidebar .logo-container { display: none; }
+    body.app-page .sidebar-nav ul { gap: 0; }
+    body.app-page .nav-item a { min-height: 44px; padding-block: 8px; }
+    body.app-page .sidebar-footer { padding-block: 4px; }
+}
+
+body.app-page .profile-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+body.app-page [data-driver-cars] h2 { margin: 0; }
+body.app-page [data-driver-cars] { justify-content: space-between; }
+body.app-page .membership-form select { width: 100%; min-width: 0; }
+
+/* Veiculos nos perfis: uma linha por carro, com relacoes e acoes separadas. */
+body.app-page .vehicle-list { display: block; margin-top: 16px; }
+body.app-page .vehicle-row {
+    position: relative; display: grid; grid-template-columns: minmax(150px, 1fr) minmax(150px, 1fr) auto;
+    align-items: center; gap: 16px 24px; padding: 20px 0; border-bottom: 1px solid var(--line);
+}
+body.app-page .vehicle-row:first-child { border-top: 1px solid var(--line); }
+body.app-page .vehicle-row--driver { grid-template-columns: minmax(150px, 1fr) minmax(0, 2fr); }
+body.app-page .vehicle-row > div { min-width: 0; }
+body.app-page .vehicle-row h3, body.app-page .vehicle-row p { margin: 0; }
+body.app-page .vehicle-row-main p { margin-top: 6px; color: var(--muted); }
+body.app-page .vehicle-row .muted { font-size: 12px; }
+body.app-page .vehicle-membership { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding-top: 8px; }
+body.app-page .vehicle-row-actions { justify-self: end; }
+body.app-page .vehicle-row .card-primary-link::after { content: ''; position: absolute; inset: 0; z-index: 1; }
+body.app-page .vehicle-row :is(a:not(.card-primary-link), button) { position: relative; z-index: 2; }
+body.app-page .vehicle-row:has(.card-primary-link:focus-visible) { outline: 2px solid var(--focus); outline-offset: 4px; }
+body.app-page .vehicle-row:hover { background: #ffffff04; }
+@media (max-width: 700px) {
+    body.app-page .vehicle-row, body.app-page .vehicle-row--driver { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+    body.app-page .vehicle-row-actions { justify-self: start; }
+}

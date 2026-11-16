@@ -44,15 +44,13 @@ public class RegistroService {
         Long carroId = carroId(request);
         Condutor usuario = buscarUsuario(usuarioId);
         Estacionamento estacionamento = buscarEstacionamento(estacionamentoId);
-        Carro carro = carroId == null ? null : buscarCarro(carroId);
+        Carro carro = buscarCarro(carroId);
         validarCarroDoUsuario(carro, usuarioId);
 
-        boolean duplicado = carroId == null
-                ? repository.existsByUsuario_IdUsuarioAndEstacionamento_IdEstacionamento(usuarioId, estacionamentoId)
-                : repository.existsByUsuario_IdUsuarioAndEstacionamento_IdEstacionamentoAndCarro_IdCarros(
-                        usuarioId, estacionamentoId, carroId);
+        boolean duplicado = repository.existsByUsuario_IdUsuarioAndEstacionamento_IdEstacionamentoAndCarro_IdCarros(
+                usuarioId, estacionamentoId, carroId);
         if (duplicado) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Este registro já existe.");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Este carro já está neste estacionamento.");
         }
 
         request.setUsuario(usuario);
@@ -62,32 +60,32 @@ public class RegistroService {
             return repository.saveAndFlush(request);
         } catch (DataIntegrityViolationException exception) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    "Não foi possível criar o registro por conflito de integridade.", exception);
+                    "Este carro já está neste estacionamento.", exception);
         }
     }
 
     @Transactional
     public void deletar(Long id) {
         Registro registro = repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Registro não encontrado."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "O vínculo não foi encontrado."));
         repository.delete(registro);
     }
 
     @Transactional
     public Registro atualizar(Long id, Registro request) {
         Registro atual = repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Registro não encontrado."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "O vínculo não foi encontrado."));
         Long usuarioId = usuarioId(request);
         Long estacionamentoId = estacionamentoId(request);
         Long carroId = carroId(request);
         Condutor usuario = buscarUsuario(usuarioId);
         Estacionamento estacionamento = buscarEstacionamento(estacionamentoId);
-        Carro carro = carroId == null ? null : buscarCarro(carroId);
+        Carro carro = buscarCarro(carroId);
         validarCarroDoUsuario(carro, usuarioId);
 
-        if (carroId != null && repository.existsByUsuario_IdUsuarioAndEstacionamento_IdEstacionamentoAndCarro_IdCarrosAndIdNot(
+        if (repository.existsByUsuario_IdUsuarioAndEstacionamento_IdEstacionamentoAndCarro_IdCarrosAndIdNot(
                 usuarioId, estacionamentoId, carroId, id)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Este registro já existe.");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Este carro já está neste estacionamento.");
         }
 
         atual.setUsuario(usuario);
@@ -113,13 +111,13 @@ public class RegistroService {
 
     private void validarCarroDoUsuario(Carro carro, Long usuarioId) {
         if (carro != null && (carro.getUsuario() == null || !usuarioId.equals(carro.getUsuario().getId()))) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O carro selecionado não pertence ao condutor.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este carro pertence a outro condutor.");
         }
     }
 
     private Long usuarioId(Registro registro) {
         if (registro == null || registro.getUsuario() == null || registro.getUsuario().getId() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Condutor é obrigatório.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Selecione um condutor.");
         }
         return registro.getUsuario().getId();
     }
@@ -127,12 +125,14 @@ public class RegistroService {
     private Long estacionamentoId(Registro registro) {
         if (registro == null || registro.getEstacionamento() == null
                 || registro.getEstacionamento().getIdEstacionamento() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Estacionamento é obrigatório.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Selecione um estacionamento.");
         }
         return registro.getEstacionamento().getIdEstacionamento();
     }
 
     private Long carroId(Registro registro) {
-        return registro != null && registro.getCarro() != null ? registro.getCarro().getIdCarros() : null;
+        if (registro == null || registro.getCarro() == null || registro.getCarro().getIdCarros() == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Selecione um carro.");
+        return registro.getCarro().getIdCarros();
     }
 }

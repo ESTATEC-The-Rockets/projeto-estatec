@@ -41,8 +41,11 @@ persistidas em `tb_conta_acesso`, com senha BCrypt, e continuam disponíveis ap�
 reiniciar o backend. O cadastro não cria um condutor nem exige dados de veículo.
 
 As novas contas recebem o perfil de operador, com acesso ao gerenciamento de
-condutores, carros, estacionamentos e registros. O cadastro é aberto; não há
-aprovação de contas. O identificador da conta nunca é usado como dono de um carro.
+condutores, carros, estacionamentos e registros. Para criar uma conta é necessário
+o código de convite definido em `ESTATEC_REGISTRATION_CODE` no backend.
+Compartilhe esse código somente com operadores autorizados; sem configuração,
+novos cadastros ficam bloqueados. As contas existentes continuam funcionando.
+O identificador da conta nunca é usado como dono de um carro.
 
 Autenticação: `POST /auth/cadastro`, `POST /auth/login`, `GET /auth/sessao`, `POST /auth/logout`.
 A sessão usa cookie HttpOnly, expira após 30 minutos de inatividade e é validada
@@ -50,8 +53,48 @@ no servidor antes das consultas do frontend. Em HTTPS, configure
 `SESSION_COOKIE_SECURE=true`. Todas as operações de cadastro de condutores
 exigem sessão de operador ou administrador, inclusive quando chamadas diretamente pela API.
 
-O leitor de placas exige `ESTATEC_ACCESS_API_KEY` e `ESTATEC_ESTACIONAMENTO_ID`.
+Configure `ESTATEC_ACCESS_API_KEY` no backend e use essa chave no dispositivo.
+Cada requisição deve informar o estacionamento e a direção (`ENTRADA` ou `SAIDA`)
+conforme a passagem monitorada. Use o endereço do servidor acessível pelo
+Raspberry; `localhost` no Raspberry aponta para o próprio dispositivo.
 O acesso só é autorizado quando o carro está registrado no estacionamento informado.
+
+### Comunicação com o Raspberry Pi
+
+O dispositivo usa `POST /api/acesso/validar`, JSON e o cabeçalho
+`X-API-Key` com a mesma chave `ESTATEC_ACCESS_API_KEY` configurada no backend.
+Não precisa de login ou cookie do navegador. Exemplo de corpo:
+
+```json
+{"placa":"ABC1D23","estacionamentoId":"1","movimento":"SAIDA"}
+```
+
+Resposta de uma saída autorizada:
+
+```json
+{"placa":"ABC1D23","autorizado":true,"movimento":"SAIDA","mensagem":"ACESSO LIBERADO"}
+```
+
+O backend normaliza a placa e grava cada leitura válida com a hora do servidor,
+direção e autorização, incluindo tentativas negadas. Sem chave válida retorna
+401; sem direção válida retorna 400, sem gravar movimentação. O leitor só deve
+acionar o relé quando receber HTTP 200 e `autorizado: true`; falhas de rede não
+liberam a passagem. A URL deve ser alcançável pela rede do Raspberry (porta 8080
+ou endereço do proxy). A comunicação não depende de CORS nem de sessão web.
+
+O histórico usa `dataHora`, `entrada`, `autorizado` e `placaLida` retornados
+pela API. Tentativas negadas aparecem no histórico, mas não aumentam os totais
+de entradas e saídas. A placa original é preservada ao editar ou excluir o carro.
+
+## Fluxo dos cadastros
+
+Cadastre o condutor, abra seu perfil e use **Cadastrar carro deste condutor**.
+O sistema define o dono pelo perfil e valida essa relação no backend. Depois,
+vincule o carro a um estacionamento no perfil do condutor. Cada carro possui
+seus próprios vínculos; eles não são herdados de outros carros do mesmo dono.
+A aba Carros apenas lista os veículos e abre seus perfis, onde podem ser editados
+ou excluídos. O perfil do estacionamento lista carros, placas e seus condutores.
+Um condutor com carros não pode ser excluído até que seus carros sejam removidos.
 
 ## Verificação
 
@@ -59,7 +102,7 @@ O acesso só é autorizado quando o carro está registrado no estacionamento inf
 cd backend/estatec
 .\mvnw.cmd clean test
 # A partir da raiz do projeto:
-node --test frontend/tests/consultas.test.cjs frontend/tests/interface.browser.cjs
+node --test frontend/tests/consultas.test.cjs frontend/tests/mensagens.test.cjs frontend/tests/interface.browser.cjs
 ```
 
 Os testes de integração usam H2 em modo MySQL, sem alterar o banco configurado.

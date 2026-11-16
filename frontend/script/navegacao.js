@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.querySelectorAll('.logout-btn').forEach(link => link.addEventListener('click', async (e) => {
         e.preventDefault();
         try { await window.estatecLogout(); }
-        catch { alert('Falha ao sair. Tente novamente.'); return; }
+        catch { alert('Não foi possível sair.'); return; }
         window.location.replace('./login.html');
     }));
 });

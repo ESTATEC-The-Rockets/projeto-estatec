@@ -16,7 +16,7 @@ async function requestJson(url, options = {}) {
         const text = await response.text();
         let body;
         try { body = text ? JSON.parse(text) : null; } catch { body = text; }
-        if (!response.ok) throw new Error(body?.message || body?.detail || "Não foi possível concluir a operação.");
+        if (!response.ok) throw window.EstatecMessages.failure(window.EstatecMessages.fromResponse(body, response.status));
         return body;
     } finally { clearTimeout(timeout); }
 }
@@ -25,7 +25,7 @@ async function carregarHistorico() {
     if (!tableBody) return;
     try {
         historicoLista = await requestJson(API_HISTORICO);
-        if (!Array.isArray(historicoLista)) throw new Error('Resposta inválida.');
+        if (!Array.isArray(historicoLista)) throw window.EstatecMessages.failure('Não foi possível carregar os dados.');
         renderHistorico(historicoLista);
     } catch (error) {
         console.error("Erro ao buscar histórico:", error);
@@ -85,7 +85,7 @@ function renderHistorico(lista) {
 async function carregarEstacionamentos() {
     try {
         estacionamentosLista = await requestJson(API_ESTACIONAMENTO);
-        if (!Array.isArray(estacionamentosLista)) throw new Error('Resposta inválida.');
+        if (!Array.isArray(estacionamentosLista)) throw window.EstatecMessages.failure('Não foi possível carregar os dados.');
         document.getElementById('parkingCount').textContent = estacionamentosLista.length;
     } catch (error) {
         console.error("Erro ao buscar estacionamentos:", error);
@@ -136,12 +136,10 @@ function aplicarVisaoAdmin() {
     const isAdmin = localStorage.getItem("isAdmin") === "true";
     const profileSpan = document.querySelector(".user-profile span");
 
-    if (profileSpan) profileSpan.textContent = isAdmin ? "Administrador" : "Dono Estacionamento";
+    window.estatecSessionReady?.then(session => { if (profileSpan && session) profileSpan.textContent = session.admin ? "Administrador" : (session.nome || "Operador"); });
 }
 
 function bindLayoutEvents() {
-    const menuToggle = document.getElementById("menuToggle");
-    const sidebar = document.querySelector(".sidebar");
 
     const btnEstacionamentos = document.getElementById("btnEstacionamentos");
     const dropdownEstacionamentos = document.getElementById("dropdownEstacionamentos");
@@ -152,9 +150,6 @@ function bindLayoutEvents() {
     const btnConfirmYes = document.getElementById("btnConfirmYes");
     const btnConfirmNo = document.getElementById("btnConfirmNo");
 
-    if (menuToggle && sidebar) {
-        menuToggle.addEventListener("click", () => sidebar.classList.toggle("collapsed"));
-    }
 
     if (btnEstacionamentos && dropdownEstacionamentos) {
         const updateExpanded = () => btnEstacionamentos.setAttribute('aria-expanded', String(dropdownEstacionamentos.classList.contains('show')));
@@ -228,7 +223,7 @@ function bindLayoutEvents() {
             estacionamentoSelecionadoId = null;
             window.Interface.notify('Estacionamento atualizado.', 'success');
         } catch (error) {
-            window.Interface.notify(`Não foi possível salvar. ${error.message}`, 'error');
+            window.Interface.notify(window.EstatecMessages.error(error, "Não foi possível salvar."), 'error');
         } finally {
             delete editForm.dataset.busy;
             saveButton.disabled = false;
@@ -247,7 +242,7 @@ function bindLayoutEvents() {
             estacionamentoSelecionadoId = null;
             window.Interface.notify('Estacionamento excluído.', 'success');
         } catch (error) {
-            window.Interface.notify(`Não foi possível excluir. Verifique se existem veículos, condutores ou históricos vinculados. ${error.message}`, 'error');
+            window.Interface.notify(window.EstatecMessages.error(error, "Não foi possível excluir."), 'error');
         } finally {
             btnConfirmYes.disabled = false;
             btnConfirmYes.textContent = 'Excluir estacionamento';

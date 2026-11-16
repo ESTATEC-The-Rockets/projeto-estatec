@@ -26,13 +26,12 @@ async function requestJson(url, options = {}) {
             try { body = JSON.parse(text); } catch { /* DELETE também pode retornar texto. */ }
         }
         if (!response.ok) {
-            const detail = typeof body === "string" ? body : body?.message || body?.detail || body?.error;
-            throw new Error(detail || "Não foi possível concluir a operação.");
+            throw window.EstatecMessages.failure(window.EstatecMessages.fromResponse(body, response.status));
         }
         return text ? body : null;
     } catch (error) {
-        if (error.name === "AbortError") throw new Error("O servidor demorou para responder. Tente novamente.");
-        if (error instanceof TypeError) throw new Error("Não foi possível conectar ao sistema. Verifique sua conexão.");
+        if (error.name === "AbortError") throw window.EstatecMessages.failure("Tente novamente em instantes.");
+        if (error instanceof TypeError) throw window.EstatecMessages.failure("Verifique sua conexão e tente novamente.");
         throw error;
     } finally {
         clearTimeout(timer);
@@ -80,8 +79,8 @@ function setControls() {
     const locked = state.loading || state.busy;
     Object.keys(resources).forEach((key) => {
         const form = $(`${key}Form`);
-        form.setAttribute("aria-busy", String(locked));
-        form.querySelectorAll("input, select, button").forEach((control) => { control.disabled = locked; });
+        form?.setAttribute("aria-busy", String(locked));
+        form?.querySelectorAll("input, select, button").forEach((control) => { control.disabled = locked; });
         $(`${key}TableBody`).querySelectorAll("button").forEach((button) => { button.disabled = locked; });
     });
     $("retryLoad").disabled = locked;
@@ -93,25 +92,6 @@ function registrationIds(row) {
         carroId: row.carroId ?? row.carro?.idCarros,
         estacionamentoId: row.estacionamentoId ?? row.estacionamento?.idEstacionamento
     };
-}
-
-function renderOwnerPicker(id) {
-    const input = $(`${id.replace("Id", "Search")}`);
-    const options = $(`${id.replace("Id", "Options")}`);
-    const selected = $(id).value;
-    const term = input.value.trim().toLocaleLowerCase("pt-BR");
-    const users = resources.user.rows.filter((user) => !term || `${user.nome} ${user.email}`.toLocaleLowerCase("pt-BR").includes(term));
-    options.innerHTML = `<button type="button" class="relation-option relation-option-clear" data-owner-value="">Sem dono</button>${users.map((user) => `<button type="button" class="relation-option${String(user.id) === String(selected) ? " is-selected" : ""}" data-owner-value="${escapeHtml(user.id)}"><strong>${escapeHtml(user.nome)}</strong><small>${escapeHtml(user.email || `ID ${user.id}`)}</small></button>`).join("") || `<p class="relation-empty">Nenhum condutor encontrado.</p>`}`;
-    options.hidden = false;
-}
-function fillOwnerSelects() {
-    ["carUsuarioId"].forEach((id) => {
-        const selected = $(id).value;
-        const user = resources.user.rows.find((item) => String(item.id) === String(selected));
-        $(`${id.replace("Id", "Selected")}`).textContent = user ? `Selecionado: ${user.nome}` : "Sem dono";
-        renderOwnerPicker(id);
-        $(`${id.replace("Id", "Options")}`).hidden = true;
-    });
 }
 
 function renderRegistrationPicker(id, items, labelFor) {
@@ -130,8 +110,8 @@ function renderRegistrationPicker(id, items, labelFor) {
 function fillRegistrationPickers() {
     const definitions = {
         registrationUsuarioId: [resources.user.rows, (item) => `${item.nome} · ${item.email || ""}`],
-        registrationCarroId: [resources.car.rows.filter((item) => getOwnerId(item)), (item) => `${item.placa} · ${item.marca} ${item.modelo} · ${getOwnerName(item)}`],
-        registrationParkingId: [resources.parking.rows, (item) => `${item.nomeEstacionamento} · ${getOwnerName(item)}`]
+        registrationCarroId: [resources.car.rows.filter((item) => String(getOwnerId(item)) === $("registrationUsuarioId").value), (item) => `${item.placa} · ${item.marca} ${item.modelo} · ${getOwnerName(item)}`],
+        registrationParkingId: [resources.parking.rows, (item) => item.nomeEstacionamento]
     };
     Object.entries(definitions).forEach(([id, [items, labelFor]]) => {
         const selected = $(id).value;
@@ -144,6 +124,7 @@ function fillRegistrationPickers() {
         options.onclick = (event) => {
             const option = event.target.closest("[data-registration-value]");
             if (!option) return;
+            if (id === "registrationUsuarioId" && $(id).value !== option.dataset.registrationValue) $("registrationCarroId").value = "";
             $(id).value = option.dataset.registrationValue;
             search.value = "";
             options.hidden = true;
@@ -169,6 +150,7 @@ function render(key) {
     if (!resource.loaded) empty = resource.error ? "Não foi possível carregar. Use Tentar novamente acima." : "Carregando registros…";
     $(`${key}TableBody`).innerHTML = rows.length ? rows.map((row) => {
         const id = escapeHtml(row[resource.id]);
+        if (key === "car") return `<tr>${cellsFor(row).map(value => `<td>${escapeHtml(value ?? "—")}</td>`).join("")}<td><a class="btn-top" href="perfil.html?tipo=carro&id=${id}">Abrir perfil</a></td></tr>`;
         return `<tr>${cellsFor(row).map((value) => `<td>${escapeHtml(value ?? "—")}</td>`).join("")}<td><div class="row-actions"><button type="button" class="btn-edit icon-action" data-${key}-edit="${id}" aria-label="Editar ${resource.label} ${id}" title="Editar ${resource.label}"><i class="fa-solid fa-pencil" aria-hidden="true"></i></button><button type="button" class="btn-delete icon-action" data-${key}-delete="${id}" aria-label="Excluir ${resource.label} ${id}" title="Excluir ${resource.label}"><i class="fa-solid fa-trash" aria-hidden="true"></i></button></div></td></tr>`;
     }).join("") : `<tr><td colspan="${resource.columns}" class="empty-state">${empty}</td></tr>`;
     setControls();
@@ -182,7 +164,7 @@ async function loadAll(keys = Object.keys(resources)) {
 
     const results = await Promise.allSettled(keys.map(async (key) => {
         const rows = await requestJson(resources[key].url);
-        if (!Array.isArray(rows)) throw new Error("Não foi possível carregar a lista.");
+        if (!Array.isArray(rows)) throw window.EstatecMessages.failure("Não foi possível carregar a lista.");
         return rows;
     }));
     const failures = [];
@@ -192,7 +174,7 @@ async function loadAll(keys = Object.keys(resources)) {
         resource.error = result.status === "rejected";
         if (resource.error) {
             failures.push(resource.plural);
-            feedback(key, `Falha ao carregar ${resource.plural}: ${result.reason.message} Use Tentar novamente.`, "error", false);
+            feedback(key, `Não foi possível carregar ${resource.plural}.`, "error", false);
         } else {
             resource.rows = key === "registration" ? result.value.map((row) => ({ ...row, ...registrationIds(row) })) : result.value;
             resource.loaded = true;
@@ -200,14 +182,12 @@ async function loadAll(keys = Object.keys(resources)) {
         }
         $(`${key}Status`).dataset.loadError = String(resource.error);
     });
-    if (resources.user.loaded) fillOwnerSelects();
+
     if (results.every((result) => result.status === "fulfilled")) fillRegistrationPickers();
     state.loading = false;
     Object.keys(resources).forEach(render);
     $("retryLoad").hidden = failures.length === 0;
-    feedback("load", failures.length
-        ? `Falha ao carregar: ${failures.join(", ")}. Dados anteriores foram mantidos, quando disponíveis.`
-        : "Dados atualizados.", failures.length ? "error" : "info", failures.length > 0);
+    feedback("load", failures.length ? "Não foi possível carregar todos os cadastros." : "Dados atualizados.", failures.length ? "error" : "info", failures.length > 0);
     return failures.length === 0;
 }
 
@@ -215,7 +195,7 @@ function setEditMode(key, id = "") {
     const editing = Boolean(id);
     $(`${key}Id`).value = id;
     $(`${key}Form`).dataset.editing = String(editing);
-    $(`${key}FormTitle`).textContent = editing ? `Editando ${resources[key].label} #${id}` : `Novo ${resources[key].label}`;
+    $(`${key}FormTitle`).textContent = editing ? `Editar ${resources[key].label}` : `Novo ${resources[key].label}`;
     $(`${key}CancelEdit`).hidden = !editing;
     $(`${key}Form`).querySelector('[type="submit"]').textContent = editing ? "Salvar alterações" : `Salvar ${resources[key].label}`;
 
@@ -239,6 +219,7 @@ function resetForm(key) {
 }
 
 function editRow(key, id) {
+    if (key === "car") { location.href = `perfil.html?tipo=carro&id=${encodeURIComponent(id)}`; return; }
     const row = resources[key].rows.find((item) => String(item[resources[key].id]) === id);
     if (!row) return;
     $(`${key}Form`).querySelectorAll("input, select").forEach((field) => field.setCustomValidity(""));
@@ -246,8 +227,6 @@ function editRow(key, id) {
     const fields = key === "user" ? {
         userNome: row.nome, userEmail: row.email, userCpf: formatCPF(row.cpf),
         userTelefone: formatTelefone(row.telefone)
-    } : key === "car" ? {
-        carMarca: row.marca, carModelo: row.modelo, carPlaca: formatPlaca(row.placa), carCor: row.cor, carUsuarioId: getOwnerId(row)
     } : key === "registration" ? {
         registrationUsuarioId: registrationIds(row).usuarioId, registrationCarroId: registrationIds(row).carroId, registrationParkingId: registrationIds(row).estacionamentoId
     } : { parkingNome: row.nomeEstacionamento };
@@ -257,12 +236,12 @@ function editRow(key, id) {
         field.value = value ?? "";
         if (id.endsWith("UsuarioId")) {
             const user = resources.user.rows.find((item) => String(item.id) === String(value));
-            $(`${id.replace("Id", "Selected")}`).textContent = user ? `Selecionado: ${user.nome}` : "Sem dono";
+            $(`${id.replace("Id", "Selected")}`).textContent = user ? `Selecionado: ${user.nome}` : "Condutor não identificado";
             $(`${id.replace("Id", "Search")}`).value = "";
         }
     });
     if (key === "registration") fillRegistrationPickers();
-    feedback(key, "Modo de edição ativo. Altere os campos ou cancele a edição.", "info", false);
+    feedback(key, "Altere os dados e salve.", "info", false);
     openModal(key);
     $(`${key}Form`).scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
     $(key === "user" ? "userNome" : key === "car" ? "carMarca" : key === "parking" ? "parkingNome" : "registrationUsuarioSearch").focus({ preventScroll: true });
@@ -274,9 +253,8 @@ function payloadFromForm(key) {
         nome: value("userNome"), email: value("userEmail"),
         cpf: value("userCpf"), telefone: value("userTelefone")
     };
-    const ownerId = key === "car" ? Number(value("carUsuarioId")) : currentUserId();
+    const ownerId = currentUserId();
     const usuario = ownerId ? { id: ownerId } : null;
-    if (key === "car") return { marca: value("carMarca"), modelo: value("carModelo"), placa: formatPlaca(value("carPlaca")), cor: value("carCor"), usuario };
     if (key === "registration") {
         const usuarioId = Number(value("registrationUsuarioId"));
         const carroId = Number(value("registrationCarroId"));
@@ -291,29 +269,26 @@ function validatePayload(key, payload) {
         $(id).setCustomValidity(message);
         $(id).reportValidity();
         $(id).focus();
-        throw new Error(message);
+        throw window.EstatecMessages.failure(message);
     };
-    const namePattern = /^[\p{L}]+( [\p{L}]+)*$/u;
     if (key === "user") {
-        if (!namePattern.test(payload.nome) || payload.nome.length > 120) reject("userNome", "Use apenas letras e espaços, até 120 caracteres.");
-        if (onlyDigits(payload.cpf).length !== 11) reject("userCpf", "CPF deve conter 11 dígitos.");
-        if (!/^\(?\d{2}\)?\s?9?\d{4}-?\d{4}$/.test(payload.telefone)) reject("userTelefone", "Informe um telefone brasileiro válido, com DDD.");
-    } else if (key === "car") {
-        if (payload.marca.length < 3 || payload.marca.length > 15) reject("carMarca", "Marca deve ter de 3 a 15 caracteres.");
-        if (payload.modelo.length < 2 || payload.modelo.length > 50) reject("carModelo", "Modelo deve ter de 2 a 50 caracteres.");
-        if (!/^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$/.test(payload.placa)) reject("carPlaca", "Use uma placa no formato ABC1234 ou ABC1D23.");
+        if (!payload.nome.trim() || payload.nome.length > 120) reject("userNome", "Informe um nome válido.");
+        if (!window.ConsultaModel.validCpf(payload.cpf)) reject("userCpf", "Informe um CPF válido.");
+        if (!/^\(?\d{2}\)?\s?9?\d{4}-?\d{4}$/.test(payload.telefone)) reject("userTelefone", "Informe um telefone válido com DDD.");
     } else if (key === "registration") {
         if (!payload.usuarioId) reject("registrationUsuarioSearch", "Selecione um condutor.");
         if (!payload.carroId) reject("registrationCarroSearch", "Selecione um carro.");
         if (!payload.estacionamentoId) reject("registrationParkingSearch", "Selecione um estacionamento.");
-    } else if (!namePattern.test(payload.nomeEstacionamento)) {
-        reject("parkingNome", "O nome do estacionamento deve conter apenas letras e espaços.");
+    } else if (key === "parking") {
+        if (!payload.nomeEstacionamento.trim()) reject("parkingNome", "Informe um nome para o estacionamento.");
+        if (payload.nomeEstacionamento.length > 100) reject("parkingNome", "Use um nome mais curto.");
     }
 }
 
 async function saveForm(key, event) {
     event.preventDefault();
     if (state.busy || state.loading) return;
+    if (key === "car") return;
     const form = $(`${key}Form`);
     try {
         const payload = payloadFromForm(key);
@@ -329,9 +304,9 @@ async function saveForm(key, event) {
         });
         resetForm(key);
         const refreshed = await loadAll([key]);
-        feedback(key, `${resource.label[0].toUpperCase() + resource.label.slice(1)} salvo.${refreshed ? "" : " A gravação foi concluída, mas a atualização das listas falhou. Use Tentar novamente; não reenvie o registro."}`, refreshed ? "success" : "warning");
+        feedback(key, refreshed ? "Cadastro salvo." : "Cadastro salvo; atualize a lista para conferir.", refreshed ? "success" : "warning");
     } catch (error) {
-        feedback(key, `Não foi possível salvar: ${error.message}`, "error");
+        feedback(key, window.EstatecMessages.error(error, "Não foi possível salvar."), "error");
     } finally {
         state.busy = false;
         setControls();
@@ -344,21 +319,21 @@ async function deleteRow(key, id) {
     setControls();
     try {
         if (typeof window.Interface?.confirm !== "function") {
-            feedback(key, "A confirmação está indisponível. Nenhum registro foi excluído. Verifique o carregamento da interface.", "error");
+            feedback(key, "Tente excluir novamente em instantes.", "error");
             return;
         }
-        const approved = await window.Interface.confirm(`Excluir ${resources[key].label} #${id}? Esta ação não pode ser desfeita.`);
+        const approved = await window.Interface.confirm(`Deseja excluir este ${resources[key].label}?`);
         if (approved !== true) {
-            feedback(key, "Exclusão cancelada. Nenhum registro foi alterado.", "info", false);
+            feedback(key, "Exclusão cancelada.", "info", false);
             return;
         }
         feedback(key, "Excluindo…", "info", false);
         await requestJson(`${resources[key].url}/${encodeURIComponent(id)}`, { method: "DELETE" });
         if ($(`${key}Id`).value === id) resetForm(key);
         const refreshed = await loadAll();
-        feedback(key, `Registro excluído.${refreshed ? "" : " A atualização das listas falhou. Use Tentar novamente; não repita a exclusão."}`, refreshed ? "success" : "warning");
+        feedback(key, refreshed ? "Cadastro excluído." : "Cadastro excluído; atualize a lista para conferir.", refreshed ? "success" : "warning");
     } catch (error) {
-        feedback(key, `Não foi possível excluir: ${error.message}`, "error");
+        feedback(key, window.EstatecMessages.error(error, "Não foi possível excluir."), "error");
     } finally {
         state.busy = false;
         setControls();
@@ -393,7 +368,7 @@ function bindTabs() {
 
 function protectRoute() {
     if (localStorage.getItem("isAdmin") === "true") return true;
-    feedback("load", "Acesso restrito ao administrador.", "error");
+    feedback("load", "Você não tem permissão para esta ação.", "error");
     window.location.replace("./login.html");
     return false;
 }
@@ -416,13 +391,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         modal.addEventListener("click", (event) => { if (event.target === modal) modal.close(); });
     });
 
-    [["userCpf", formatCPF], ["userTelefone", formatTelefone], ["carPlaca", formatPlaca]].forEach(([id, format]) => {
+    [["userCpf", formatCPF], ["userTelefone", formatTelefone]].forEach(([id, format]) => {
         $(id).addEventListener("input", () => { $(id).value = format($(id).value); });
     });
     Object.keys(resources).forEach((key) => {
         const form = $(`${key}Form`);
+        if (form) {
         form.addEventListener("input", (event) => { if (event.target.setCustomValidity) event.target.setCustomValidity(""); });
-        form.addEventListener("invalid", (event) => feedback(key, event.target.validationMessage, "error", false), true);
+        form.addEventListener("invalid", (event) => feedback(key, window.EstatecMessages.invalid(event.target), "error", false), true);
         form.addEventListener("submit", (event) => { void saveForm(key, event); });
         $(`${key}CancelEdit`).addEventListener("click", () => {
             if (state.busy || state.loading) return;
@@ -430,6 +406,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             feedback(key, "Edição cancelada.", "info", false);
             form.querySelector("input:not([type='hidden'])").focus();
         });
+        }
         $(`${key}Search`).addEventListener("input", (event) => {
             resources[key].filter = event.target.value.trim();
             render(key);
@@ -442,27 +419,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (remove) void deleteRow(key, remove.getAttribute(`data-${key}-delete`));
         });
     });
-    ["carUsuarioId"].forEach((id) => {
-        const search = $(`${id.replace("Id", "Search")}`);
-        const options = $(`${id.replace("Id", "Options")}`);
-        search.addEventListener("focus", () => renderOwnerPicker(id));
-        search.addEventListener("input", () => renderOwnerPicker(id));
-        options.addEventListener("click", (event) => {
-            const option = event.target.closest("[data-owner-value]");
-            if (!option) return;
-            $(id).value = option.dataset.ownerValue || "";
-            const user = resources.user.rows.find((item) => String(item.id) === String($(id).value));
-            $(`${id.replace("Id", "Selected")}`).textContent = user ? `Selecionado: ${user.nome}` : "Sem dono";
-            search.value = "";
-            options.hidden = true;
-        });
-        document.addEventListener("click", (event) => {
-            if (!event.target.closest(`[data-picker="${id}"]`)) options.hidden = true;
-        });
-    });    $("retryLoad").addEventListener("click", () => { if (!state.busy && !state.loading) void loadAll(); });
+    $("retryLoad").addEventListener("click", () => { if (!state.busy && !state.loading) void loadAll(); });
     $("logoutAdmin").addEventListener("click", async () => {
         try { await window.estatecLogout(); }
-        catch (error) { feedback("load", error.message, "error"); return; }
+        catch (error) { feedback("load", window.EstatecMessages.error(error), "error"); return; }
         localStorage.removeItem("token");
         localStorage.removeItem("isAdmin");
         localStorage.removeItem("usuarioSessao");

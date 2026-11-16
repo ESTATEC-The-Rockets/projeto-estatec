@@ -11,7 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping({"/condutores", "/usuarios"})
 public class CondutorController {
     private final CondutorService service;
-    public CondutorController(CondutorService service) { this.service = service; }
+    private final br.com.estatec.api.services.CarroService carros;
+    public CondutorController(CondutorService service, br.com.estatec.api.services.CarroService carros) { this.service = service; this.carros = carros; }
+    @PostMapping("/{id}/carros")
+    public ResponseEntity<br.com.estatec.api.entities.Carro> cadastrarCarro(@PathVariable Long id, @Valid @RequestBody br.com.estatec.api.entities.Carro carro) {
+        return ResponseEntity.status(201).body(carros.salvar(id, carro));
+    }
     @GetMapping
     public List<Condutor> listar() { return service.listarTodos(); }
     @GetMapping("/{id}")

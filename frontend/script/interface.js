@@ -114,7 +114,24 @@ document.addEventListener('DOMContentLoaded', () => {
         toggle.setAttribute('aria-label', 'Recolher ou expandir navegação');
         toggle.setAttribute('aria-controls', sidebar.id);
         const sync = () => toggle.setAttribute('aria-expanded', String(!sidebar.classList.contains('collapsed')));
+        toggle.addEventListener('click', () => sidebar.classList.toggle('collapsed'));
+        sidebar.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && matchMedia('(max-width: 1100px)').matches) {
+                sidebar.classList.add('collapsed'); toggle.focus();
+            }
+        });
         new MutationObserver(sync).observe(sidebar, { attributes: true, attributeFilter: ['class'] });
         sync();
     }
+});
+
+// Tabelas e graficos largos continuam acessiveis por teclado sem alargar a pagina.
+document.addEventListener('DOMContentLoaded', () => {
+    const labelScrollRegions = () => document.querySelectorAll('.table-wrap:not([tabindex])').forEach(region => {
+        region.tabIndex = 0;
+        region.setAttribute('role', 'region');
+        region.setAttribute('aria-label', region.querySelector('.hour-chart') ? 'Entradas por horário: role horizontalmente para ver todas as horas' : 'Tabela de movimentações: role horizontalmente para ver todas as colunas');
+    });
+    labelScrollRegions();
+    new MutationObserver(labelScrollRegions).observe(document.querySelector('main') || document.body, { childList: true, subtree: true });
 });

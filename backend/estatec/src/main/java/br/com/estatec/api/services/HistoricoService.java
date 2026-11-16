@@ -19,7 +19,7 @@ public class HistoricoService {
 	}
 
 	public Historico buscarPorId(Long id) {
-		return repository.findById(id).orElseThrow(() -> new RuntimeException("Histórico não encontrado"));
+		return repository.findById(id).orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND, "Histórico não encontrado."));
 	}
 
 	public Historico criar(Historico historico) {

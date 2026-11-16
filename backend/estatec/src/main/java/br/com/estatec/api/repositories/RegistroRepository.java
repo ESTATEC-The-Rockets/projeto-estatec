@@ -26,6 +26,10 @@ public interface RegistroRepository extends JpaRepository<Registro, Long> {
             Long usuarioId, Long estacionamentoId, Long carroId, Long id);
 
     @Modifying
+    @Query("delete from Registro r where r.carro.idCarros = :carroId")
+    int deletarPorCarro(@Param("carroId") Long carroId);
+
+    @Modifying
     @Query("delete from Registro m where m.usuario.idUsuario = :usuarioId")
     int deletarPorUsuario(@Param("usuarioId") Long usuarioId);
 }

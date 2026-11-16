@@ -17,6 +17,10 @@ public class CarroService {
 	@Autowired
 	private CarroRepository repository;
 
+	@Autowired private br.com.estatec.api.repositories.CondutorRepository condutores;
+    @Autowired private br.com.estatec.api.repositories.RegistroRepository registros;
+    @Autowired private br.com.estatec.api.repositories.HistoricoRepository historicos;
+
 	public List<Carro> listarTodos() {
 		return repository.findAll();
 	}
@@ -25,22 +29,27 @@ public class CarroService {
 		return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Carro não encontrado."));
 	}
 
-	public Carro salvar(Carro carro) {
+	public Carro salvar(Long condutorId, Carro carro) {
 		if (carro.getPlaca() == null || carro.getPlaca().isBlank()) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A placa do carro é obrigatória.");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Informe a placa do carro.");
 		}
 
 		Optional<Carro> carroExistente = repository.findByPlaca(carro.getPlaca());
 
 		if (carroExistente.isPresent()) {
-			throw new ResponseStatusException(HttpStatus.CONFLICT, "Já existe um carro cadastrado com esta placa.");
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Esta placa já está cadastrada.");
 		}
 
+        carro.setIdCarros(null);
+        carro.setUsuario(condutores.findById(condutorId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Condutor não encontrado.")));
 		return repository.save(carro);
 	}
 
 	public Carro atualizar(Long id, Carro carroNovo) {
 		Carro carroAntigo = buscarPorId(id);
+        if (carroAntigo.getUsuario() == null) throw new ResponseStatusException(HttpStatus.CONFLICT, "Selecione um condutor para este carro.");
+        if (carroNovo.getUsuario() != null && !carroAntigo.getUsuario().getId().equals(carroNovo.getUsuario().getId()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O condutor deste carro não pode ser alterado.");
 
 		if (carroNovo.getMarca() != null && !carroNovo.getMarca().isBlank()) {
 			carroAntigo.setMarca(carroNovo.getMarca());
@@ -54,7 +63,7 @@ public class CarroService {
 			Carro existente = repository.findByPlaca(carroNovo.getPlaca()).orElse(null);
 
 			if (existente != null && !existente.getIdCarros().equals(id)) {
-				throw new ResponseStatusException(HttpStatus.CONFLICT, "Já existe outro carro cadastrado com esta placa.");
+				throw new ResponseStatusException(HttpStatus.CONFLICT, "Esta placa já está cadastrada.");
 			}
 			carroAntigo.setPlaca(carroNovo.getPlaca());
 		}
@@ -66,7 +75,11 @@ public class CarroService {
 		return repository.save(carroAntigo);
 	}
 
-	public void deletar(Long id) {
+	@org.springframework.transaction.annotation.Transactional
+    public void deletar(Long id) {
+        buscarPorId(id);
+        registros.deletarPorCarro(id);
+        historicos.limparCarro(id);
 		repository.deleteById(id);
 	}
 }

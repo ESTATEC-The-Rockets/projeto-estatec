@@ -93,7 +93,7 @@ async function handleDelete(id) {
             users = users.filter(u => u.id !== id);
             renderUsers(users);
         } else {
-            alert('Não foi possível excluir o condutor no servidor.');
+            alert('Não foi possível excluir o condutor.');
         }
     } catch (error) {
         console.error('Erro ao deletar condutor:', error);

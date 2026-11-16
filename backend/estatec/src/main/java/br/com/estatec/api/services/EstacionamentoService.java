@@ -37,7 +37,7 @@ public class EstacionamentoService {
 		// condicional para validar se o estacionamento ja existe ou não
 		if(estacionamentoExistente != null) {
 			
-			throw new ResponseStatusException(HttpStatus.CONFLICT, "Estacionamento já existe.");
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Já existe um estacionamento com este nome.");
 			
 		}
 		

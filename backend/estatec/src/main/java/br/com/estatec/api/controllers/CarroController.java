@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,14 +43,6 @@ public class CarroController {
         Carro carro = service.buscarPorId(id);
         access.requireOwnerOrAdmin(carro.getUsuario(), session);
         return ResponseEntity.ok(carro);
-    }
-
-    // Método para registrar o carro no sistema
-    @PostMapping
-    public ResponseEntity<Carro> criar(@Valid @RequestBody Carro carro, HttpSession session) {
-        if (!access.isAdmin(session)) carro.setUsuario(access.currentUser(session));
-        Carro novoCarro = service.salvar(carro);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoCarro);
     }
 
     // Método para editar/atualizar o carro ja registrado já

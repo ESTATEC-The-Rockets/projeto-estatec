@@ -47,7 +47,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
         if (submitting || saved) return;
 
         nome.value = nome.value.trim();
-        nome.setCustomValidity(nome.value ? "" : "Informe o nome do estacionamento.");
+        nome.setCustomValidity(nome.value ? "" : "Informe um nome para o estacionamento.");
         if (!formCadastro.reportValidity()) {
             nome.setAttribute("aria-invalid", "true");
             showFeedback("Informe um nome para o estacionamento.");
@@ -62,7 +62,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
         nome.readOnly = true;
         button.textContent = "Salvando…";
         formCadastro.setAttribute("aria-busy", "true");
-        showFeedback("Enviando os dados do estacionamento…", "loading");
+        showFeedback("Salvando estacionamento…", "loading");
         success.hidden = true;
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 20000);
@@ -78,29 +78,17 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
                 signal: controller.signal
             });
             if (!response.ok) {
-                if (response.status === 400 || response.status === 422) {
-                    nome.setAttribute("aria-invalid", "true");
-                    showFeedback("Não foi possível salvar. Verifique o nome: use letras e espaços.");
-                } else if (response.status === 409) {
-                    showFeedback("Já existe um cadastro conflitante. Consulte a lista antes de tentar novamente.");
-                    success.hidden = false;
-                } else if (response.status === 401 || response.status === 403) {
-                    showFeedback("Sem permissão para salvar. Volte ao menu e verifique seu acesso.");
-                } else {
-                    showFeedback("Não foi possível confirmar o salvamento. Consulte a lista antes de tentar novamente.");
-                    success.hidden = false;
-                }
+                showFeedback(window.EstatecMessages.fromResponse(await response.json().catch(() => ({})), response.status));
                 return;
             }
 
             // Qualquer 2xx confirma a operação, inclusive resposta sem JSON/204.
             saved = true;
-            showFeedback(id ? "Estacionamento atualizado com sucesso." : "Estacionamento cadastrado com sucesso.", "success");
+            showFeedback("Estacionamento salvo.", "success");
             success.hidden = false;
             success.querySelector("a").focus();
         } catch (error) {
-            const reason = error.name === "AbortError" ? "O servidor demorou para responder." : "A conexão com o servidor falhou.";
-            showFeedback(`${reason} Não foi possível confirmar o salvamento. Consulte a lista antes de reenviar para evitar duplicatas.`);
+            showFeedback("Confira a lista antes de tentar salvar novamente.");
             success.hidden = false;
         } finally {
             clearTimeout(timeout);

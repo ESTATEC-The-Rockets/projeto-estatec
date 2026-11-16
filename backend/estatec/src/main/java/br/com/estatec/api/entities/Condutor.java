@@ -24,14 +24,13 @@ public class Condutor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idUsuario;
 
-	@Pattern(regexp = "^[\\p{L}]+( [\\p{L}]+)*$", message = "O nome do condutor deve conter apenas letras e espaços.")
 	@Size(max = 120)
 	@NotBlank(message = "O nome do condutor é obrigatório.")
 	@Column(name = "nome_usuario", length = 120, unique = false)
 	protected String nome;
 
 	@NotBlank(message = "O CPF é obrigatório.")
-	@Pattern(regexp = "(?:[0-9]{11}|[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{2})", message = "Informe um CPF com 11 digitos.")
+	@org.hibernate.validator.constraints.br.CPF(message = "Informe um CPF válido.")
 	@Column(name = "cpf", unique = true)
 	protected String cpf;
 

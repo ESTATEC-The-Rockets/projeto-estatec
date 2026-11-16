@@ -43,11 +43,13 @@ class RegistroServiceTest {
         request = new Registro(new Condutor(), new Estacionamento());
         request.getUsuario().setId(1L);
         request.getEstacionamento().setIdEstacionamento(2L);
+        var carro = new br.com.estatec.api.entities.Carro(); carro.setIdCarros(3L);carro.setUsuario(usuario);request.setCarro(carro);
     }
 
     private void entidadesExistentes() {
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         when(estacionamentoRepository.findById(2L)).thenReturn(Optional.of(estacionamento));
+        when(carroRepository.findById(3L)).thenReturn(Optional.of(request.getCarro()));
     }
 
     @Test
@@ -79,7 +81,7 @@ class RegistroServiceTest {
     @Test
     void duplicataRetorna409SemSalvar() {
         entidadesExistentes();
-        when(repository.existsByUsuario_IdUsuarioAndEstacionamento_IdEstacionamento(1L, 2L)).thenReturn(true);
+        when(repository.existsByUsuario_IdUsuarioAndEstacionamento_IdEstacionamentoAndCarro_IdCarros(1L, 2L, 3L)).thenReturn(true);
         assertEquals(HttpStatus.CONFLICT, assertThrows(ResponseStatusException.class, () -> service.criar(request)).getStatusCode());
         verify(repository, never()).saveAndFlush(any());
     }
@@ -89,6 +91,13 @@ class RegistroServiceTest {
         entidadesExistentes();
         when(repository.saveAndFlush(any(Registro.class))).thenThrow(new DataIntegrityViolationException("duplicate key"));
         assertEquals(HttpStatus.CONFLICT, assertThrows(ResponseStatusException.class, () -> service.criar(request)).getStatusCode());
+    }
+
+    @Test
+    void rejeitaVinculoSemCarro() {
+        request.setCarro(null);
+        assertEquals(HttpStatus.BAD_REQUEST, assertThrows(ResponseStatusException.class, () -> service.criar(request)).getStatusCode());
+        verifyNoInteractions(repository);
     }
 
     @Test

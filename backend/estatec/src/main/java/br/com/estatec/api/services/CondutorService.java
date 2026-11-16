@@ -56,7 +56,7 @@ public class CondutorService {
 
         if (repository.existsByCpfOrEmailOrTelefone(usuario.getCpf(), usuario.getEmail(), usuario.getTelefone())) {
             throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.CONFLICT,
-                "CPF, e-mail ou telefone j\u00e1 cadastrado para outro condutor.");
+                "CPF, e-mail ou telefone já cadastrado.");
         }
 
 		return repository.save(usuario);
@@ -78,7 +78,7 @@ public class CondutorService {
 			return repository.save(atualizado);
 		}
 
-		throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND, "Condutor inexistente.");
+		throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND, "Condutor não encontrado.");
 	}
 
 	@Transactional
@@ -87,9 +87,12 @@ public class CondutorService {
 		if (!repository.existsById(id)) {
 			throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND, "Condutor não encontrado.");
 		}
-			registroRepository.deletarPorUsuario(id);
+        if (carroRepository.existsByUsuario_IdUsuario(id)) {
+            throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.CONFLICT, "Exclua os carros antes de remover o condutor.");
+        }
+        registroRepository.deletarPorUsuario(id);
 		estacionamentoRepository.limparDono(id);
-		carroRepository.limparDono(id);
+
 		repository.deleteById(id);
 	}
 }

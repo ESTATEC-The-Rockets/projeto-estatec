@@ -26,12 +26,12 @@ public class ContaAcessoService {
     public static String normalizarEmail(String email) { return email.trim().toLowerCase(Locale.ROOT); }
     @Transactional
     public ContaAcesso criar(String nome, String email, String senha, String confirmacao) {
-        if (!senha.equals(confirmacao)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "As senhas n\u00e3o conferem.");
+        if (!senha.equals(confirmacao)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "As senhas não conferem.");
         if (senha.getBytes(StandardCharsets.UTF_8).length > 72)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A senha deve ter no m\u00e1ximo 72 bytes em UTF-8.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Use uma senha mais curta.");
         String normalized = normalizarEmail(email);
         if (normalized.equals(adminEmail) || repository.existsByEmail(normalized))
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Este e-mail j\u00e1 possui uma conta. Entre com sua senha.");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Já existe uma conta com este e-mail.");
         ContaAcesso conta = new ContaAcesso();
         conta.setNome(nome.trim().replaceAll("\\s+", " "));
         conta.setEmail(normalized); conta.setSenhaHash(encoder.encode(senha));

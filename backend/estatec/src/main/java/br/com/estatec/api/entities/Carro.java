@@ -31,7 +31,7 @@ public class Carro {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idCarros;
 
-	@Size(min = 3, max = 15, message = "O nome da marca deve ter de 3 a 15 letras.")
+	@Size(min = 2, max = 50, message = "A marca deve ter entre 2 e 50 caracteres.")
 	@NotBlank(message = "A marca não pode ficar em branco.")
 	@Column(name = "marca" )
 	private String marca;
@@ -62,7 +62,7 @@ public class Carro {
 	public Carro(String marca, String modelo, String placa, Cor cor) {
 		this.marca = marca;
 		this.modelo = modelo;
-		this.placa = placa;
+		setPlaca(placa);
 		this.cor = cor;
 	}
 
@@ -96,8 +96,12 @@ public class Carro {
 	}
 
 	public void setPlaca(String placa) {
-		this.placa = placa;
+		this.placa = normalizarPlaca(placa);
 	}
+
+    public static String normalizarPlaca(String placa) {
+        return placa == null ? null : placa.trim().toUpperCase(java.util.Locale.ROOT).replace("-", "");
+    }
 
 	public Cor getCor() {
 		return cor;

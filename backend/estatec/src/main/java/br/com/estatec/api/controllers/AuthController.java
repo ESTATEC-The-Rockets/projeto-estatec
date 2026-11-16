@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+    @Value("${estatec.registration.code:}")
+    private String registrationCode;
     private final BCryptPasswordEncoder encoder;
     private final String email;
     private final String hash;
@@ -31,7 +33,7 @@ public class AuthController {
             && encoder.matches(login.senha(), hash);
         var conta = admin ? java.util.Optional.<br.com.estatec.api.entities.ContaAcesso>empty()
             : contas.autenticar(login.email(), login.senha());
-        if (!admin && conta.isEmpty()) return ResponseEntity.status(401).body(Map.of("message", "E-mail ou senha inv\u00e1lidos."));
+        if (!admin && conta.isEmpty()) return ResponseEntity.status(401).body(Avisos.corpo("LOGIN_INVALID"));
         if (request.getSession(false) != null) request.getSession(false).invalidate();
         var session = request.getSession(true);
         session.setAttribute("estatecRole", admin ? "ADMIN" : "OPERATOR");
@@ -43,9 +45,13 @@ public class AuthController {
         @NotBlank(message = "Informe seu nome.") @Size(max = 120) String nome,
         @NotBlank(message = "Informe o e-mail.") @Email(message = "E-mail inv\u00e1lido.") @Size(max = 120) String email,
         @NotBlank(message = "Crie uma senha.") @Size(min = 8, max = 72, message = "Use uma senha de 8 a 72 caracteres.") String senha,
-        @NotBlank(message = "Confirme a senha.") @Size(max = 72) String confirmacaoSenha) {}
+        @NotBlank(message = "Confirme a senha.") @Size(max = 72) String confirmacaoSenha, String codigoConvite) {}
     @PostMapping("/cadastro")
     public ResponseEntity<?> cadastrar(@Valid @RequestBody Cadastro cadastro) {
+        if (registrationCode.isBlank() || cadastro.codigoConvite() == null || !java.security.MessageDigest.isEqual(
+                registrationCode.getBytes(java.nio.charset.StandardCharsets.UTF_8), cadastro.codigoConvite().getBytes(java.nio.charset.StandardCharsets.UTF_8))) {
+            return Avisos.resposta(403, "INVITE_INVALID");
+        }
         var conta = contas.criar(cadastro.nome(), cadastro.email(), cadastro.senha(), cadastro.confirmacaoSenha());
         return ResponseEntity.status(201).body(Map.of("id", conta.getId(), "nome", conta.getNome(), "email", conta.getEmail()));
     }

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <script src="../script/mensagens.js"></script>
     <script src="../script/api-config.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="../css/acesso.css">
     <script src="../script/interface.js" defer></script>
     <script src="../script/redefinirSenha.js" defer></script>
+    <link rel="stylesheet" href="../css/responsive.css">
 </head>
 <body class="body-acesso">
     <a class="acesso-skip" href="#redefinirForm">Pular para as informações de recuperação</a>
@@ -23,8 +25,8 @@
             <p class="acesso-description">A recuperação de senha ainda não está disponível neste sistema.</p>
             <div id="redefinirForm" class="acesso-notice" tabindex="-1" aria-labelledby="recoveryStatus">
                 <h2 id="recoveryStatus">Entre em contato com o administrador</h2>
-                <p id="newPassword">Solicite orientação ao administrador responsável pelo seu acesso. Não envie sua senha atual nem uma nova senha.</p>
-                <p id="confirmPassword"><strong>Nenhuma senha foi alterada.</strong> Esta página não coleta senhas nem envia solicitações de recuperação.</p>
+                <p id="newPassword">Solicite ajuda ao responsável pelo seu acesso.</p>
+                <p id="confirmPassword">Nenhuma senha foi alterada.</p>
             </div>
             <a href="./login.html" class="acesso-primary">Voltar ao login</a>
         </section>

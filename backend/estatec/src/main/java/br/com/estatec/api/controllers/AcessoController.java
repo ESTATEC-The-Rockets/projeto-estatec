@@ -48,18 +48,26 @@ public class AcessoController {
             @RequestHeader(value = "X-API-Key", required = false) String suppliedKey) {
         if (apiKey.isBlank() || suppliedKey == null || !MessageDigest.isEqual(
                 apiKey.getBytes(StandardCharsets.UTF_8), suppliedKey.getBytes(StandardCharsets.UTF_8))) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Chave de acesso inválida.");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Acesso não autorizado.");
         }
-        String placa = payload.get("placa");
+        String placa = Carro.normalizarPlaca(payload.get("placa"));
+        String movimento = payload.get("movimento");
+        if (!"ENTRADA".equalsIgnoreCase(movimento) && !"SAIDA".equalsIgnoreCase(movimento)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Informe entrada ou saída.");
+        }
+        boolean entrada = "ENTRADA".equalsIgnoreCase(movimento);
+        if (placa == null || !placa.matches("[A-Z]{3}[0-9][A-Z0-9][0-9]{2}")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Informe uma placa válida.");
+        }
         String estacionamentoId = payload.get("estacionamentoId");
         if (placa == null || placa.isBlank() || estacionamentoId == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Informe placa e estacionamentoId.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Selecione um estacionamento.");
         }
         Long id;
         try {
             id = Long.valueOf(estacionamentoId);
         } catch (NumberFormatException ex) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "estacionamentoId inválido.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Selecione um estacionamento.");
         }
         var estacionamento = estacionamentoRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Estacionamento não encontrado."));
@@ -72,7 +80,7 @@ public class AcessoController {
         historico.setPlacaLida(placa);
         historico.setCarro(carroOpt.orElse(null));
         historico.setDataHora(LocalDateTime.now());
-        historico.setEntrada(true);
+        historico.setEntrada(entrada);
         historico.setAutorizado(autorizado);
         
         historico.setEstacionamento(estacionamento);
@@ -82,6 +90,7 @@ public class AcessoController {
         return ResponseEntity.ok(Map.of(
             "placa", placa,
             "autorizado", autorizado,
+            "movimento", entrada ? "ENTRADA" : "SAIDA",
             "mensagem", autorizado ? "ACESSO LIBERADO" : "ACESSO NEGADO"
         ));
     }
