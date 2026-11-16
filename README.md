@@ -1,5 +1,25 @@
 # projeto-estatec
 
+## Configuração
+
+O backend exige `DB_URL`, `DB_USER` e `DB_PASSWORD`. Configure também
+`ESTATEC_FRONTEND_ORIGIN` com a origem exata do site, `ESTATEC_ADMIN_EMAIL`
+e `ESTATEC_ADMIN_PASSWORD_HASH` (hash BCrypt), e uma chave aleatória em
+`ESTATEC_ACCESS_API_KEY`. Consulte `backend/estatec/.env.example`. Não use o
+arquivo de exemplo como segredo real. O banco não é mais preenchido com contas
+e senhas de demonstração.
+
+O leitor de placas usa a mesma `ESTATEC_ACCESS_API_KEY`, além de
+`ESTATEC_ESTACIONAMENTO_ID` e, opcionalmente, `ESTATEC_API_URL`.
+O acesso de uma placa só é autorizado quando o carro está registrado no
+estacionamento informado. O frontend usa `api.estatec.lab` e envia o cookie
+de sessão nas requisições. O servidor precisa publicar os dois domínios na
+mesma rede.
+
+Somente o administrador pode criar, alterar ou excluir carros e estacionamentos.
+Usuários comuns podem consultar os próprios dados; o backend aplica a regra
+mesmo quando alguém chama a API diretamente.
+
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 ![CSS](https://img.shields.io/badge/css-%23663399.svg?style=for-the-badge&logo=css&logoColor=white)

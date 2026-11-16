@@ -1,36 +1,25 @@
 package br.com.estatec.api.config;
 
+import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class CorsConfig {
-
-	@Bean
-	public CorsFilter corsFilter() {
-		CorsConfiguration config = new CorsConfiguration();
-
-		config.addAllowedOrigin("*");
-
-		config.addAllowedHeader("*");
-
-		config.addAllowedMethod("*");
-
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
-		source.registerCorsConfiguration("/usuarios", config);
-		source.registerCorsConfiguration("/usuarios/login", config);
-		source.registerCorsConfiguration("/usuarios/cadastro", config);
-		source.registerCorsConfiguration("/historico", config);
-		source.registerCorsConfiguration("/estacionamento", config);
-		source.registerCorsConfiguration("/donos-estacionamento", config);
-		source.registerCorsConfiguration("/donos-carro", config);
-		source.registerCorsConfiguration("/carros", config);
-
-		return new CorsFilter(source);
-	}
-
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource(
+            @Value("${estatec.frontend-origin:http://localhost:5500}") String frontendOrigin) {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of(frontendOrigin));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("Content-Type", "X-API-Key"));
+        config.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
 }

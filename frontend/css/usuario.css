@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Space+Grotesk:wght@400;500;700&display=swap');
+
 /* ===================================
 
    RESET & BASE
@@ -12,7 +14,7 @@
 
     box-sizing: border-box;
 
-    font-family: 'Inter', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
 
 }
 
@@ -1078,4 +1080,204 @@ button {
 
 .sidebar.collapsed .logo-container {
     padding: 20px 10px;
+}
+
+/* ===================================
+   USER CARD (lista de usuários em `usuario.html`)
+=================================== */
+.user-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0b0b0b;
+    border-radius: 12px;
+    padding: 14px 20px;
+    border: 1px solid #141414;
+    margin-bottom: 12px;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.user-card:hover {
+    transform: translateY(-3px);
+    border-color: #222222;
+}
+
+.user-card-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.user-card .avatar-bg {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(180deg,#1a1a1a,#0f0f0f);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #c1122f;
+    font-size: 18px;
+}
+
+.user-info .user-name {
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 15px;
+}
+
+.user-info .user-email {
+    font-size: 13px;
+    color: #bdbdbd;
+}
+
+.user-card-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.user-card .btn-action {
+    padding: 8px 12px;
+    font-size: 13px;
+}
+
+.empty-state {
+    padding: 28px;
+    text-align: center;
+    color: #8e8e93;
+    font-size: 14px;
+}
+
+/* ===================================
+   MODAL DE TIPO (USUÁRIOS)
+=================================== */
+.modal-toggles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.toggle-btn {
+    background: #121212;
+    color: #d4d4d4;
+    border: 1px solid #252525;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+}
+
+.toggle-btn:hover {
+    border-color: #c1122f;
+    color: #ffffff;
+}
+
+.toggle-btn.active {
+    background: #c1122f;
+    border-color: #c1122f;
+    color: #ffffff;
+    box-shadow: 0 0 18px rgba(193, 18, 47, 0.35);
+}
+
+.modal-dates {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.modal-dates .input-group {
+    margin-bottom: 0;
+}
+
+.modal-dates .input-group label {
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #cdcdcd;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon input {
+    width: 100%;
+    background: #0f0f0f;
+    border: 1px solid #252525;
+    border-radius: 10px;
+    color: #f1f1f1;
+    font-size: 13px;
+    padding: 11px 35px 11px 12px;
+}
+
+.input-with-icon i {
+    position: absolute;
+    right: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8d8d8d;
+    font-size: 13px;
+    pointer-events: none;
+}
+
+.btn-salvar {
+    width: 100%;
+    border-radius: 12px;
+    border: none;
+    background: #c1122f;
+    color: #ffffff;
+    padding: 14px 16px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+}
+
+.btn-salvar:hover {
+    background: #df1234;
+    box-shadow: 0 0 20px rgba(193, 18, 47, 0.35);
+}
+
+@media (max-width: 760px) {
+    .modal-dates {
+        grid-template-columns: 1fr;
+    }
+
+    .user-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .user-card-right {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+/* TECH STYLE OVERRIDE */
+h1, h2, h3, .btn-cadastro, .btn-estacionamentos, .btn-action, .btn-salvar {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+button,
+input,
+.btn-cadastro,
+.btn-estacionamentos,
+.search-box,
+.dropdown-menu,
+.modal-content,
+.modal-confirm-content,
+.user-card,
+.toggle-btn,
+.btn-salvar {
+    border-radius: 0 !important;
 }

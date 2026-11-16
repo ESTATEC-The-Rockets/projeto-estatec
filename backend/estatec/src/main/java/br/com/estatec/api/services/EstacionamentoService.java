@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.com.estatec.api.entities.Estacionamento;
 import br.com.estatec.api.repositories.EstacionamentoRepository;
@@ -23,7 +25,7 @@ public class EstacionamentoService {
 	// Função para buscar o estacionamento pelo id
 	public Estacionamento buscarPorId(Long id){
 		
-		return repository.findById(id).orElseThrow(() -> new RuntimeException("Estacionamento nao encontrado"));
+		return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Estacionamento não encontrado."));
 		
 	}
 	
@@ -35,7 +37,7 @@ public class EstacionamentoService {
 		// condicional para validar se o estacionamento ja existe ou não
 		if(estacionamentoExistente != null) {
 			
-			throw new RuntimeException("Estacionamento ja existe.");
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Estacionamento já existe.");
 			
 		}
 		

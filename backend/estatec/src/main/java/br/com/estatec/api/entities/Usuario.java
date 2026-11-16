@@ -3,10 +3,9 @@ package br.com.estatec.api.entities;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.estatec.api.validations.annotations.TelefoneBR;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,9 +21,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "tb_usuario")
+@Table(name = "tb_usuario") 
 public class Usuario {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idUsuario;
@@ -41,6 +40,7 @@ public class Usuario {
 	protected String rg;
 
 	@NotBlank(message = "O CPF é obrigatório.")
+	// @CPF(message = "O CPF é inválido.")
 	@Column(name = "cpf", unique = true)
 	protected String cpf;
 
@@ -57,6 +57,7 @@ public class Usuario {
 
 	@NotBlank(message = "A senha é obrigatória.")
 	@Size(min = 8, message = "A senha deve conter no mínimo 8 caracteres.")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Column(name = "senha")
 	protected String senha;
 
@@ -64,21 +65,22 @@ public class Usuario {
 	@Column(unique = true, name = "telefone")
 	@NotBlank(message = "O telefone é obrigatório.")
 	protected String telefone;
-
-	// Relacionamento com Estacionamento (Deleta em cascata)
-	@JsonIgnore
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+	
+	@OneToMany(mappedBy = "usuario")
+	private List<Carro> carros;
+	
+	@OneToMany(mappedBy = "usuario")
 	private List<Estacionamento> estacionamentos;
 
-	// Relacionamento com Carro (Deleta em cascata)
-	@JsonIgnore
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Carro> carros;
-
+	
+	// Métodos construtores da entidade 
 	public Usuario() {
+
 	}
 
-	public Usuario(String nome, LocalDate dataNascimento, String email, String senha, String telefone, String rg, String cpf) {
+	public Usuario(String nome, LocalDate dataNascimento, String email, String senha,
+			String telefone, String rg, String cpf) {
+
 		this.nome = nome;
 		this.rg = rg;
 		this.cpf = cpf;
@@ -88,12 +90,14 @@ public class Usuario {
 		this.telefone = telefone;
 	}
 
+	
+	// Getter e setter da entidade
 	public Long getId() {
-		return idUsuario;
+	    return idUsuario;
 	}
 
 	public void setId(Long id) {
-		this.idUsuario = id;
+	    this.idUsuario = id;
 	}
 
 	public String getNome() {
@@ -103,6 +107,7 @@ public class Usuario {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 
 	public LocalDate getDataNascimento() {
 		return dataNascimento;
@@ -120,6 +125,7 @@ public class Usuario {
 		this.email = email;
 	}
 
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	public String getSenha() {
 		return senha;
 	}
@@ -152,19 +158,4 @@ public class Usuario {
 		this.cpf = cpf;
 	}
 
-	public List<Estacionamento> getEstacionamentos() {
-		return estacionamentos;
-	}
-
-	public void setEstacionamentos(List<Estacionamento> estacionamentos) {
-		this.estacionamentos = estacionamentos;
-	}
-
-	public List<Carro> getCarros() {
-		return carros;
-	}
-
-	public void setCarros(List<Carro> carros) {
-		this.carros = carros;
-	}
 }

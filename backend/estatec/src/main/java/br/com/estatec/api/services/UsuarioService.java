@@ -2,20 +2,36 @@ package br.com.estatec.api.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.estatec.api.entities.Usuario;
+import br.com.estatec.api.repositories.CarroRepository;
+import br.com.estatec.api.repositories.EstacionamentoRepository;
+import br.com.estatec.api.repositories.RegistroRepository;
 import br.com.estatec.api.repositories.UsuarioRepository;
 
 @Service
 public class UsuarioService {
 
+	private static final Pattern BCRYPT_HASH = Pattern.compile("^\\$2[aby]\\$\\d{2}\\$[./A-Za-z0-9]{53}$");
+
 	// Herda as funcionalidades do repository
 	@Autowired
 	private UsuarioRepository repository;
+
+	@Autowired
+	private EstacionamentoRepository estacionamentoRepository;
+
+	@Autowired
+	private CarroRepository carroRepository;
+
+	@Autowired
+	private RegistroRepository registroRepository;
 
 	// Herda a criptografia do BCrypt
 	@Autowired
@@ -88,11 +104,19 @@ public class UsuarioService {
 	    Usuario usuario = repository.findByEmail(email)
 	            .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
 
-	    // validação da senha / condicional para verificar se a senha inserida é a mesma da senha registrada no banco de dados
-	    boolean senhaValida = password.matches(senha, usuario.getSenha());
+	    String senhaArmazenada = usuario.getSenha();
+	    boolean senhaCriptografada = senhaArmazenada != null && BCRYPT_HASH.matcher(senhaArmazenada).matches();
+	    boolean senhaValida = senha != null && (senhaCriptografada
+	            ? password.matches(senha, senhaArmazenada)
+	            : senhaArmazenada != null && !senhaArmazenada.startsWith("$") && senha.equals(senhaArmazenada));
 
 	    if (!senhaValida) {
 	        throw new RuntimeException("Senha inválida.");
+	    }
+
+	    if (!senhaCriptografada) {
+	        usuario.setSenha(password.encode(senha));
+	        repository.save(usuario);
 	    }
 
 	    return usuario;
@@ -120,11 +144,16 @@ public class UsuarioService {
 	}
 
 	// Função para deletar o usuário
+	@Transactional
 	public void deletar(Long id) {
 
 		if (!repository.existsById(id)) {
 			throw new RuntimeException("Usuário não encontrado.");
 		}
+		// Remove os vínculos dependentes antes do usuário para respeitar as FKs.
+		registroRepository.deletarPorUsuario(id);
+		estacionamentoRepository.limparDono(id);
+		carroRepository.limparDono(id);
 		repository.deleteById(id);
 	}
 }

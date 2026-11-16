@@ -19,14 +19,26 @@ public class HistoricoService {
 	}
 
 	public Historico buscarPorId(Long id) {
-
-		return repository.findById(id).orElseThrow(() -> new RuntimeException("Histórico nao encontrado"));
-
+		return repository.findById(id).orElseThrow(() -> new RuntimeException("Histórico não encontrado"));
 	}
-	
+
 	public Historico criar(Historico historico) {
-		
 		return repository.save(historico);
+	}
+
+	public Historico atualizar(Long id, Historico alterado) {
+		Historico atual = buscarPorId(id);
+		atual.setPlacaLida(alterado.getPlacaLida());
+		atual.setCarro(alterado.getCarro());
+		atual.setEstacionamento(alterado.getEstacionamento());
+		atual.setDataHora(alterado.getDataHora());
+		atual.setEntrada(alterado.isEntrada());
+		atual.setAutorizado(alterado.isAutorizado());
+		return repository.save(atual);
+	}
+
+	public void deletar(Long id) {
+		repository.deleteById(buscarPorId(id).getId());
 	}
 
 }
