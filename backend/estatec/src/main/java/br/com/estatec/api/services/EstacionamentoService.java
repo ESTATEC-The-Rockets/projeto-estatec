@@ -45,7 +45,7 @@ public class EstacionamentoService {
 		
 	}
 	
-	// Função para atualizar o estacionamento conforme a edição do usuário
+	// Função para atualizar o estacionamento conforme a edição do condutor
 	public Estacionamento atualizar(Long id, Estacionamento estacionamentoAlterado) {
 		Estacionamento estacionamentoExistente = buscarPorId(id);
 		

@@ -1,14 +1,14 @@
 window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, { credentials: "include", ...options }));
 "use strict";
 
-const API_USUARIOS = (window.ESTATEC_API_ORIGIN + "/usuarios");
+const API_USUARIOS = (window.ESTATEC_API_ORIGIN + "/condutores");
 const API_CARROS = (window.ESTATEC_API_ORIGIN + "/carros");
 const API_ESTACIONAMENTO = (window.ESTATEC_API_ORIGIN + "/estacionamento");
 const API_REGISTROS = (window.ESTATEC_API_ORIGIN + "/estacionamento/registros");
 const $ = (id) => document.getElementById(id);
 const state = { loading: false, busy: false };
 const resources = {
-    user: { url: API_USUARIOS, createUrl: `${API_USUARIOS}/cadastro`, id: "id", label: "usuário", plural: "usuários", columns: 6, rows: [], loaded: false, error: false, filter: "" },
+    user: { url: API_USUARIOS, createUrl: `${API_USUARIOS}/cadastro`, id: "id", label: "condutor", plural: "condutores", columns: 6, rows: [], loaded: false, error: false, filter: "" },
     car: { url: API_CARROS, id: "idCarros", label: "carro", plural: "carros", columns: 7, rows: [], loaded: false, error: false, filter: "" },
     parking: { url: API_ESTACIONAMENTO, id: "idEstacionamento", label: "estacionamento", plural: "estacionamentos", columns: 3, rows: [], loaded: false, error: false, filter: "" },
     registration: { url: API_REGISTROS, id: "id", label: "registro", plural: "registros", columns: 5, rows: [], loaded: false, error: false, filter: "" }
@@ -71,7 +71,7 @@ function currentUserId() {
         return null;
     }
 }
-function userName(id) { return resources.user.rows.find((item) => String(item.id) === String(id))?.nome || `Usuário #${id ?? "—"}`; }
+function userName(id) { return resources.user.rows.find((item) => String(item.id) === String(id))?.nome || `Condutor #${id ?? "—"}`; }
 function parkingName(id) { return resources.parking.rows.find((item) => String(item.idEstacionamento) === String(id))?.nomeEstacionamento || `Estacionamento #${id ?? "—"}`; }
 function carForId(id) { return resources.car.rows.find((item) => String(item.idCarros) === String(id)); }
 function carLabel(id) { const car = carForId(id); return car ? `${car.placa} · ${car.marca} ${car.modelo}` : `Carro #${id ?? "—"}`; }
@@ -101,7 +101,7 @@ function renderOwnerPicker(id) {
     const selected = $(id).value;
     const term = input.value.trim().toLocaleLowerCase("pt-BR");
     const users = resources.user.rows.filter((user) => !term || `${user.nome} ${user.email}`.toLocaleLowerCase("pt-BR").includes(term));
-    options.innerHTML = `<button type="button" class="relation-option relation-option-clear" data-owner-value="">Sem dono</button>${users.map((user) => `<button type="button" class="relation-option${String(user.id) === String(selected) ? " is-selected" : ""}" data-owner-value="${escapeHtml(user.id)}"><strong>${escapeHtml(user.nome)}</strong><small>${escapeHtml(user.email || `ID ${user.id}`)}</small></button>`).join("") || `<p class="relation-empty">Nenhum usuário encontrado.</p>`}`;
+    options.innerHTML = `<button type="button" class="relation-option relation-option-clear" data-owner-value="">Sem dono</button>${users.map((user) => `<button type="button" class="relation-option${String(user.id) === String(selected) ? " is-selected" : ""}" data-owner-value="${escapeHtml(user.id)}"><strong>${escapeHtml(user.nome)}</strong><small>${escapeHtml(user.email || `ID ${user.id}`)}</small></button>`).join("") || `<p class="relation-empty">Nenhum condutor encontrado.</p>`}`;
     options.hidden = false;
 }
 function fillOwnerSelects() {
@@ -136,7 +136,7 @@ function fillRegistrationPickers() {
     Object.entries(definitions).forEach(([id, [items, labelFor]]) => {
         const selected = $(id).value;
         const item = items.find((value) => String(id === "registrationUsuarioId" ? value.id : id === "registrationCarroId" ? value.idCarros : value.idEstacionamento) === String(selected));
-        $(`${id.replace("Id", "Selected")}`).textContent = item ? `Selecionado: ${labelFor(item)}` : `Selecione ${id === "registrationUsuarioId" ? "um usuário" : id === "registrationCarroId" ? "um carro" : "um estacionamento"}`;
+        $(`${id.replace("Id", "Selected")}`).textContent = item ? `Selecionado: ${labelFor(item)}` : `Selecione ${id === "registrationUsuarioId" ? "um condutor" : id === "registrationCarroId" ? "um carro" : "um estacionamento"}`;
         const search = $(`${id.replace("Id", "Search")}`);
         const options = $(`${id.replace("Id", "Options")}`);
         search.onfocus = () => renderRegistrationPicker(id, definitions[id][0], definitions[id][1]);
@@ -174,12 +174,12 @@ function render(key) {
     setControls();
 }
 
-async function loadAll() {
+async function loadAll(keys = Object.keys(resources)) {
     if (state.loading) return false;
     state.loading = true;
     setControls();
     feedback("load", "Carregando dados…", "info", false);
-    const keys = Object.keys(resources);
+
     const results = await Promise.allSettled(keys.map(async (key) => {
         const rows = await requestJson(resources[key].url);
         if (!Array.isArray(rows)) throw new Error("Não foi possível carregar a lista.");
@@ -200,10 +200,10 @@ async function loadAll() {
         }
         $(`${key}Status`).dataset.loadError = String(resource.error);
     });
-    if (results[0].status === "fulfilled") fillOwnerSelects();
+    if (resources.user.loaded) fillOwnerSelects();
     if (results.every((result) => result.status === "fulfilled")) fillRegistrationPickers();
     state.loading = false;
-    keys.forEach(render);
+    Object.keys(resources).forEach(render);
     $("retryLoad").hidden = failures.length === 0;
     feedback("load", failures.length
         ? `Falha ao carregar: ${failures.join(", ")}. Dados anteriores foram mantidos, quando disponíveis.`
@@ -218,13 +218,7 @@ function setEditMode(key, id = "") {
     $(`${key}FormTitle`).textContent = editing ? `Editando ${resources[key].label} #${id}` : `Novo ${resources[key].label}`;
     $(`${key}CancelEdit`).hidden = !editing;
     $(`${key}Form`).querySelector('[type="submit"]').textContent = editing ? "Salvar alterações" : `Salvar ${resources[key].label}`;
-    if (key === "user") {
-        $("userSenha").value = "";
-        $("userSenhaLabel").textContent = editing ? "Nova senha (obrigatória)" : "Senha";
-        $("userSenhaHelp").textContent = editing
-            ? "Informe uma nova senha com pelo menos 8 caracteres. Ela substituirá a senha atual."
-            : "Use no mínimo 8 caracteres.";
-    }
+
 }
 
 function openModal(key) {
@@ -250,10 +244,12 @@ function editRow(key, id) {
     $(`${key}Form`).querySelectorAll("input, select").forEach((field) => field.setCustomValidity(""));
     setEditMode(key, id);
     const fields = key === "user" ? {
-        userNome: row.nome, userEmail: row.email, userCpf: formatCPF(row.cpf), userRg: row.rg,
-        userTelefone: formatTelefone(row.telefone), userDataNascimento: String(row.dataNascimento || "").slice(0, 10)
+        userNome: row.nome, userEmail: row.email, userCpf: formatCPF(row.cpf),
+        userTelefone: formatTelefone(row.telefone)
     } : key === "car" ? {
         carMarca: row.marca, carModelo: row.modelo, carPlaca: formatPlaca(row.placa), carCor: row.cor, carUsuarioId: getOwnerId(row)
+    } : key === "registration" ? {
+        registrationUsuarioId: registrationIds(row).usuarioId, registrationCarroId: registrationIds(row).carroId, registrationParkingId: registrationIds(row).estacionamentoId
     } : { parkingNome: row.nomeEstacionamento };
     Object.entries(fields).forEach(([id, value]) => {
         const field = $(id);
@@ -275,8 +271,8 @@ function editRow(key, id) {
 function payloadFromForm(key) {
     const value = (id) => $(id).value.trim();
     if (key === "user") return {
-        nome: value("userNome"), email: value("userEmail"), senha: $("userSenha").value,
-        cpf: value("userCpf"), rg: value("userRg"), telefone: value("userTelefone"), dataNascimento: value("userDataNascimento")
+        nome: value("userNome"), email: value("userEmail"),
+        cpf: value("userCpf"), telefone: value("userTelefone")
     };
     const ownerId = key === "car" ? Number(value("carUsuarioId")) : currentUserId();
     const usuario = ownerId ? { id: ownerId } : null;
@@ -300,17 +296,14 @@ function validatePayload(key, payload) {
     const namePattern = /^[\p{L}]+( [\p{L}]+)*$/u;
     if (key === "user") {
         if (!namePattern.test(payload.nome) || payload.nome.length > 120) reject("userNome", "Use apenas letras e espaços, até 120 caracteres.");
-        if (!payload.senha.trim() || payload.senha.length < 8) reject("userSenha", "Informe uma senha com pelo menos 8 caracteres, inclusive na edição.");
         if (onlyDigits(payload.cpf).length !== 11) reject("userCpf", "CPF deve conter 11 dígitos.");
-        if (!/^[A-Za-z0-9.-]{7,12}$/.test(payload.rg)) reject("userRg", "RG deve ter de 7 a 12 caracteres: letras, números, ponto ou hífen.");
         if (!/^\(?\d{2}\)?\s?9?\d{4}-?\d{4}$/.test(payload.telefone)) reject("userTelefone", "Informe um telefone brasileiro válido, com DDD.");
-        if (!payload.dataNascimento || payload.dataNascimento > $("userDataNascimento").max) reject("userDataNascimento", "A data de nascimento deve estar no passado.");
     } else if (key === "car") {
         if (payload.marca.length < 3 || payload.marca.length > 15) reject("carMarca", "Marca deve ter de 3 a 15 caracteres.");
         if (payload.modelo.length < 2 || payload.modelo.length > 50) reject("carModelo", "Modelo deve ter de 2 a 50 caracteres.");
         if (!/^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$/.test(payload.placa)) reject("carPlaca", "Use uma placa no formato ABC1234 ou ABC1D23.");
     } else if (key === "registration") {
-        if (!payload.usuarioId) reject("registrationUsuarioSearch", "Selecione um usuário.");
+        if (!payload.usuarioId) reject("registrationUsuarioSearch", "Selecione um condutor.");
         if (!payload.carroId) reject("registrationCarroSearch", "Selecione um carro.");
         if (!payload.estacionamentoId) reject("registrationParkingSearch", "Selecione um estacionamento.");
     } else if (!namePattern.test(payload.nomeEstacionamento)) {
@@ -335,7 +328,7 @@ async function saveForm(key, event) {
             method: id ? "PUT" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
         });
         resetForm(key);
-        const refreshed = await loadAll();
+        const refreshed = await loadAll([key]);
         feedback(key, `${resource.label[0].toUpperCase() + resource.label.slice(1)} salvo.${refreshed ? "" : " A gravação foi concluída, mas a atualização das listas falhou. Use Tentar novamente; não reenvie o registro."}`, refreshed ? "success" : "warning");
     } catch (error) {
         feedback(key, `Não foi possível salvar: ${error.message}`, "error");
@@ -405,7 +398,8 @@ function protectRoute() {
     return false;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    if (!await window.estatecSessionReady) return;
     if (!protectRoute()) return;
     bindTabs();
     document.querySelectorAll("[data-modal]").forEach((button) => {
@@ -421,9 +415,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".crud-modal").forEach((modal) => {
         modal.addEventListener("click", (event) => { if (event.target === modal) modal.close(); });
     });
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    $("userDataNascimento").max = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, "0")}-${String(yesterday.getDate()).padStart(2, "0")}`;
+
     [["userCpf", formatCPF], ["userTelefone", formatTelefone], ["carPlaca", formatPlaca]].forEach(([id, format]) => {
         $(id).addEventListener("input", () => { $(id).value = format($(id).value); });
     });
@@ -468,7 +460,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!event.target.closest(`[data-picker="${id}"]`)) options.hidden = true;
         });
     });    $("retryLoad").addEventListener("click", () => { if (!state.busy && !state.loading) void loadAll(); });
-    $("logoutAdmin").addEventListener("click", () => {
+    $("logoutAdmin").addEventListener("click", async () => {
+        try { await window.estatecLogout(); }
+        catch (error) { feedback("load", error.message, "error"); return; }
         localStorage.removeItem("token");
         localStorage.removeItem("isAdmin");
         localStorage.removeItem("usuarioSessao");

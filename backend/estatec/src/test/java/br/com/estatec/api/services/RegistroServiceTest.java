@@ -19,28 +19,28 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.estatec.api.entities.Estacionamento;
 import br.com.estatec.api.entities.Registro;
-import br.com.estatec.api.entities.Usuario;
+import br.com.estatec.api.entities.Condutor;
 import br.com.estatec.api.repositories.CarroRepository;
 import br.com.estatec.api.repositories.EstacionamentoRepository;
 import br.com.estatec.api.repositories.RegistroRepository;
-import br.com.estatec.api.repositories.UsuarioRepository;
+import br.com.estatec.api.repositories.CondutorRepository;
 
 @ExtendWith(MockitoExtension.class)
 class RegistroServiceTest {
     @Mock private RegistroRepository repository;
-    @Mock private UsuarioRepository usuarioRepository;
+    @Mock private CondutorRepository usuarioRepository;
     @Mock private EstacionamentoRepository estacionamentoRepository;
     @Mock private CarroRepository carroRepository;
     @InjectMocks private RegistroService service;
-    private Usuario usuario;
+    private Condutor usuario;
     private Estacionamento estacionamento;
     private Registro request;
 
     @BeforeEach
     void prepararEntidades() {
-        usuario = new Usuario(); usuario.setId(1L);
+        usuario = new Condutor(); usuario.setId(1L);
         estacionamento = new Estacionamento(); estacionamento.setIdEstacionamento(2L);
-        request = new Registro(new Usuario(), new Estacionamento());
+        request = new Registro(new Condutor(), new Estacionamento());
         request.getUsuario().setId(1L);
         request.getEstacionamento().setIdEstacionamento(2L);
     }

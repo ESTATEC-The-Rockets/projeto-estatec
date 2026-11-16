@@ -11,20 +11,20 @@ import org.springframework.web.server.ResponseStatusException;
 import br.com.estatec.api.entities.Carro;
 import br.com.estatec.api.entities.Estacionamento;
 import br.com.estatec.api.entities.Registro;
-import br.com.estatec.api.entities.Usuario;
+import br.com.estatec.api.entities.Condutor;
 import br.com.estatec.api.repositories.CarroRepository;
 import br.com.estatec.api.repositories.EstacionamentoRepository;
 import br.com.estatec.api.repositories.RegistroRepository;
-import br.com.estatec.api.repositories.UsuarioRepository;
+import br.com.estatec.api.repositories.CondutorRepository;
 
 @Service
 public class RegistroService {
     private final RegistroRepository repository;
-    private final UsuarioRepository usuarioRepository;
+    private final CondutorRepository usuarioRepository;
     private final EstacionamentoRepository estacionamentoRepository;
     private final CarroRepository carroRepository;
 
-    public RegistroService(RegistroRepository repository, UsuarioRepository usuarioRepository,
+    public RegistroService(RegistroRepository repository, CondutorRepository usuarioRepository,
             EstacionamentoRepository estacionamentoRepository, CarroRepository carroRepository) {
         this.repository = repository;
         this.usuarioRepository = usuarioRepository;
@@ -42,7 +42,7 @@ public class RegistroService {
         Long usuarioId = usuarioId(request);
         Long estacionamentoId = estacionamentoId(request);
         Long carroId = carroId(request);
-        Usuario usuario = buscarUsuario(usuarioId);
+        Condutor usuario = buscarUsuario(usuarioId);
         Estacionamento estacionamento = buscarEstacionamento(estacionamentoId);
         Carro carro = carroId == null ? null : buscarCarro(carroId);
         validarCarroDoUsuario(carro, usuarioId);
@@ -80,7 +80,7 @@ public class RegistroService {
         Long usuarioId = usuarioId(request);
         Long estacionamentoId = estacionamentoId(request);
         Long carroId = carroId(request);
-        Usuario usuario = buscarUsuario(usuarioId);
+        Condutor usuario = buscarUsuario(usuarioId);
         Estacionamento estacionamento = buscarEstacionamento(estacionamentoId);
         Carro carro = carroId == null ? null : buscarCarro(carroId);
         validarCarroDoUsuario(carro, usuarioId);
@@ -96,9 +96,9 @@ public class RegistroService {
         return repository.saveAndFlush(atual);
     }
 
-    private Usuario buscarUsuario(Long id) {
+    private Condutor buscarUsuario(Long id) {
         return usuarioRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Condutor não encontrado."));
     }
 
     private Estacionamento buscarEstacionamento(Long id) {
@@ -113,13 +113,13 @@ public class RegistroService {
 
     private void validarCarroDoUsuario(Carro carro, Long usuarioId) {
         if (carro != null && (carro.getUsuario() == null || !usuarioId.equals(carro.getUsuario().getId()))) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O carro selecionado não pertence ao usuário.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O carro selecionado não pertence ao condutor.");
         }
     }
 
     private Long usuarioId(Registro registro) {
         if (registro == null || registro.getUsuario() == null || registro.getUsuario().getId() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário é obrigatório.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Condutor é obrigatório.");
         }
         return registro.getUsuario().getId();
     }

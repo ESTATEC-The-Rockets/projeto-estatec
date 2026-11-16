@@ -1,7 +1,8 @@
 window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, { credentials: "include", ...options }));
 "use strict";
 
-(() => {
+(async () => {
+    if (!await window.estatecSessionReady) return;
     if (localStorage.getItem("isAdmin") !== "true") {
         window.location.replace("./menu.html");
         return;

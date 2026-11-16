@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import br.com.estatec.api.entities.Estacionamento;
 import br.com.estatec.api.entities.Registro;
-import br.com.estatec.api.entities.Usuario;
+import br.com.estatec.api.entities.Condutor;
 import br.com.estatec.api.services.RegistroService;
 import br.com.estatec.api.config.AccessControl;
 
@@ -33,7 +33,7 @@ class RegistroControllerTest {
     }
 
     private Registro registro() {
-        Usuario usuario = new Usuario();
+        Condutor usuario = new Condutor();
         usuario.setId(1L);
         Estacionamento estacionamento = new Estacionamento();
         estacionamento.setIdEstacionamento(2L);

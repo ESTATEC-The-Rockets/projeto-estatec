@@ -3,11 +3,11 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
     'use strict';
 
     const API = (window.ESTATEC_API_ORIGIN + "");
-    const paths = { user: '/usuarios', car: '/carros', parking: '/estacionamento' };
-    const labels = { user: 'usuário', car: 'carro', parking: 'estacionamento' };
+    const paths = { user: '/condutores', car: '/carros', parking: '/estacionamento' };
+    const labels = { user: 'condutor', car: 'carro', parking: 'estacionamento' };
     const pageTypes = { usuarios: 'user', carros: 'car', estacionamentos: 'parking' };
     const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    const canManage = type => type === 'user' || localStorage.getItem('isAdmin') === 'true';
+    const canManage = type => localStorage.getItem('isAdmin') === 'true';
 
     function sessionUserId() {
         try {
@@ -61,7 +61,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
         const dialog = document.createElement('dialog');
         dialog.className = 'entity-modal';
         const fields = type === 'user'
-            ? field('nome', 'Nome', row.nome, 'required maxlength="120"') + field('email', 'E-mail', row.email, 'type="email" required maxlength="120"') + field('senha', 'Senha', '', 'type="password" minlength="8" required') + field('cpf', 'CPF', row.cpf, 'required') + field('rg', 'RG', row.rg, 'required') + field('telefone', 'Telefone', row.telefone, 'required') + field('dataNascimento', 'Data de nascimento', row.dataNascimento, 'type="date" required')
+            ? field('nome', 'Nome', row.nome, 'required maxlength="120"') + field('email', 'E-mail', row.email, 'type="email" required maxlength="120"') + field('cpf', 'CPF', row.cpf, 'required') + field('telefone', 'Telefone', row.telefone, 'required')
             : type === 'car'
                 ? field('marca', 'Marca', row.marca, 'required minlength="3" maxlength="15"') + field('modelo', 'Modelo', row.modelo, 'required minlength="2" maxlength="50"') + field('placa', 'Placa', row.placa, 'required maxlength="8"') + `<label>Cor<select name="cor" required><option value="">Selecione uma cor</option>${['BRANCO', 'PRETO', 'PRATA', 'OUTROS'].map(color => `<option value="${color}" ${row.cor === color ? 'selected' : ''}>${color}</option>`).join('')}</select></label>`
                 : field('nomeEstacionamento', 'Nome do estacionamento', row.nomeEstacionamento, 'required');

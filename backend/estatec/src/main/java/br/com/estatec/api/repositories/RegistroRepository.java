@@ -11,6 +11,7 @@ import br.com.estatec.api.entities.Registro;
 
 public interface RegistroRepository extends JpaRepository<Registro, Long> {
 
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"usuario", "carro", "estacionamento"})
     List<Registro> findAllByOrderByIdAsc();
 
     boolean existsByEstacionamento_IdEstacionamentoAndCarro_IdCarros(Long estacionamentoId, Long carroId);

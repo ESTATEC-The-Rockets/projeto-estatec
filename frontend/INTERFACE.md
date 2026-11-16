@@ -21,14 +21,13 @@ As folhas de estilo antigas de login, recuperação e cadastro não são mais ca
 - Login com mostrar/ocultar senha e opção para lembrar **somente o e-mail** neste navegador.
 - Cadastro de estacionamento mostra confirmação e link para a lista, sem redirecionamento automático.
 - Histórico com filtro Entrada/Saída, botão para voltar a hoje/limpar filtros e busca limpa com um clique.
-- Dashboard exibe dados reais: totais de hoje e até oito movimentações recentes, ordenadas, com usuário, placa e estacionamento.
+- Dashboard exibe dados reais: totais de hoje e até oito movimentações recentes, ordenadas, com condutor, placa e estacionamento.
 - Preferência de redução de movimento respeitada. Não há dependência de animação para operar a interface.
 
 ## Limitações funcionais mantidas explícitas
 
 Recuperação de senha não possui endpoint implementado no backend; a página informa indisponibilidade e não alega ter alterado uma senha. O login administrativo é validado pelo backend; o localStorage controla apenas a apresentação da interface.
 
-A atualização de usuário no backend exige senha completa. Por isso o painel pede uma senha nova na edição e nunca preenche o formulário com o hash devolvido pela API.
 
 ## Testes
 

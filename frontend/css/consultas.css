@@ -86,3 +86,21 @@ dd { margin: 8px 0; overflow-wrap: anywhere; }
 .hour-bar { background: var(--accent); min-height: 2px; margin-bottom: 8px; }
 @media(max-width: 800px) { .sidebar { flex-basis: 72px; width: 72px; } .sidebar .menu-text, .sidebar .logo-container, .sidebar-footer p { display: none; } .dashboard-body { padding: 20px 14px; } .header { padding: 14px; } .sidebar-footer { padding: 12px; } }
 @media(max-width: 760px) { .line-item, .line-item--stacked { grid-template-columns: 1fr; gap: 12px; } .line-actions { justify-content: flex-start; } .line-details { grid-column: auto; } }
+
+/* Hierarquia visual e interacao consistentes em telas pequenas e grandes. */
+body { background: radial-gradient(ellipse at top right, #29121b 0, #0c0e12 48%, #0c0e12 100%); }
+button, input, select, .btn-top, .action-link { border-radius: 8px; }
+input:focus, select:focus { border-color: #ef647c; box-shadow: 0 0 0 3px #ef647c20; }
+input, select { transition: border-color .15s ease, box-shadow .15s ease; }
+.crud-section, .registration-section, .panel, .card { border-radius: 14px; background: #13161d; border-color: #30333e; }
+.crud-modal, .entity-modal { border-radius: 16px; }
+.crud-modal::backdrop, .entity-modal::backdrop { backdrop-filter: blur(4px); }
+.table-wrapper { border-radius: 10px; }
+th { background: #20242e; font-weight: 600; }
+tbody tr:nth-child(even) { background: #ffffff03; }
+tbody tr:hover { background: #ef647c0c; }
+.status[data-type="success"] { color: #8be3b2; }
+.tabs [aria-selected="true"] { background: #bc234024; border-radius: 8px 8px 0 0; }
+.form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .section-header { flex-wrap: wrap; gap: 16px; } .search-field { flex: 1 1 100%; } }
+@media (prefers-reduced-motion: reduce) { input, select { transition: none; } }

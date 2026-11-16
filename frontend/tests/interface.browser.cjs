@@ -62,7 +62,8 @@ test('layout responsivo e interações principais em navegador real', { skip: !f
     await call('Page.enable'); await call('Runtime.enable'); await call('Network.enable');
     await call('Network.setBlockedURLs', { urls: ['*fonts.googleapis.com*', '*fonts.gstatic.com*', '*cdnjs.cloudflare.com*'] });
     await call('Page.addScriptToEvaluateOnNewDocument', { source: `
-        localStorage.setItem('isAdmin','true'); localStorage.setItem('token','test');
+        if (!sessionStorage.getItem('denySession')) { localStorage.setItem('isAdmin','true'); localStorage.setItem('token','test'); }
+        window.apiCalls = [];
         const realFetch = window.fetch.bind(window);
         const today = new Date(); const date = today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
         const user = {id:1,nome:'Maria Silva',email:'maria@example.com',telefone:'11999999999',cpf:'12345678901',rg:'1234567',dataNascimento:'1990-01-01'};
@@ -70,8 +71,9 @@ test('layout responsivo e interações principais em navegador real', { skip: !f
         const car = {idCarros:3,placa:'ABC1D23',modelo:'Civic',marca:'Honda',cor:'PRETO',usuario:user};
         window.fetch = async (url,options={}) => {
             if (!String(url).startsWith('http://localhost:8080')) return realFetch(url,options);
-            const endpoint = new URL(url).pathname;
-            const values = {'/usuarios':[user],'/carros':[car],'/estacionamento':[parking],'/estacionamento/registros':[{id:9,usuarioId:1,estacionamentoId:7}],'/historico':[{id:1,data:date,horarioEntrada:'08:00:00',horarioSaida:'09:00:00',carro:car,estacionamento:parking}]};
+            const endpoint = new URL(url).pathname; window.apiCalls.push({endpoint,method:options.method || 'GET'});
+            if (endpoint === '/auth/sessao' && sessionStorage.getItem('denySession')) return new Response('{}', {status:401});
+            const values = {'/condutores':[user],'/auth/sessao':{idUsuario:0,nome:'Administrador',admin:true},'/carros':[car],'/estacionamento':[parking],'/estacionamento/registros':[{id:9,usuarioId:1,carroId:3,estacionamentoId:7}],'/historico':[{id:1,data:date,horarioEntrada:'08:00:00',horarioSaida:'09:00:00',carro:car,estacionamento:parking}]};
             return new Response(JSON.stringify(values[endpoint] || {}),{status:200,headers:{'Content-Type':'application/json'}});
         };
     ` });
@@ -129,5 +131,21 @@ test('layout responsivo e interações principais em navegador real', { skip: !f
     await call('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13 });
     await wait(`location.href.endsWith('/pages/estacionamento.html?id=7')`);
     assert.equal(exceptions.length, 0, exceptions.join('\n'));
+    await call('Page.navigate', { url: origin + '/pages/adminCrud.html' });
+    await wait(`document.getElementById('loadStatus')?.textContent.includes('atualizados')`);
+    await evaluate(`document.querySelector('[data-modal="userModal"]').click()`);
+    assert.equal(await evaluate(`document.querySelectorAll('#userForm input[type="password"],#userRg,#userDataNascimento').length`), 0);
+    await evaluate(`document.getElementById('userModal').close(); document.querySelector('[data-registration-edit="9"]').click()`);
+    assert.equal(await evaluate(`document.getElementById('registrationUsuarioId').value`), '1');
+    assert.equal(await evaluate(`document.getElementById('registrationCarroId').value`), '3');
+    assert.equal(await evaluate(`document.getElementById('registrationParkingId').value`), '7');
+    await evaluate(`document.getElementById('registrationModal').close();document.querySelector('[data-user-edit="1"]').click();window.apiCalls=[];document.getElementById('userForm').requestSubmit()`);
+    await wait(`document.getElementById('userStatus')?.textContent.includes('salvo.')`);
+    assert.equal(await evaluate(`window.apiCalls.filter(c=>c.method==='GET'&&c.endpoint==='/condutores').length`), 1);
+    assert.equal(await evaluate(`window.apiCalls.filter(c=>c.method==='GET'&&c.endpoint==='/carros').length`), 0, 'Salvar condutor deve atualizar somente a lista afetada');
+    await evaluate(`sessionStorage.setItem('denySession','true');localStorage.setItem('isAdmin','true')`);
+    await call('Page.navigate', { url: origin + '/pages/adminCrud.html' });
+    await wait(`location.pathname.endsWith('/pages/login.html')`);
+    assert.equal(await evaluate(`localStorage.getItem('isAdmin')`), null, 'LocalStorage adulterado nao autoriza acesso');
     console.log('33 verificações de layout, interações e navegação por cards (mouse e teclado) aprovadas.');
 });

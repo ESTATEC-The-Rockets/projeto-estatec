@@ -136,3 +136,6 @@
     .body-acesso .acesso-card { padding: 24px 16px; }
     .body-acesso .acesso-toggle { padding-inline: 8px; }
 }
+.body-acesso .acesso-signup { margin-top: 24px; padding-top: 20px; border-top: 1px solid #36363b; color: #bdbdc4; font-size: .9rem; line-height: 1.6; }
+.body-acesso .acesso-signup a { display: inline-block; color: #ff93a5; font-weight: 600; text-underline-offset: 4px; }
+.body-acesso .acesso-signup a:hover { text-decoration: underline; }

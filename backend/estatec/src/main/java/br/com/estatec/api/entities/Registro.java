@@ -22,7 +22,7 @@ public class Registro {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "fk_usuario", nullable = false)
-    private Usuario usuario;
+    private Condutor usuario;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "fk_estacionamento", nullable = false)
@@ -35,12 +35,12 @@ public class Registro {
     public Registro() {
     }
 
-    public Registro(Usuario usuario, Estacionamento estacionamento) {
+    public Registro(Condutor usuario, Estacionamento estacionamento) {
         this.usuario = usuario;
         this.estacionamento = estacionamento;
     }
 
-    public Registro(Usuario usuario, Estacionamento estacionamento, Carro carro) {
+    public Registro(Condutor usuario, Estacionamento estacionamento, Carro carro) {
         this.usuario = usuario;
         this.estacionamento = estacionamento;
         this.carro = carro;
@@ -54,11 +54,11 @@ public class Registro {
         this.id = id;
     }
 
-    public Usuario getUsuario() {
+    public Condutor getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(Condutor usuario) {
         this.usuario = usuario;
     }
 

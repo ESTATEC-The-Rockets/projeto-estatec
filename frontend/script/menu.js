@@ -66,7 +66,7 @@ function renderHistorico(lista) {
         if (dono?.id) {
             const link = document.createElement('a');
             link.href = `perfil.html?id=${encodeURIComponent(dono.id)}`;
-            link.textContent = dono.nome || 'Usuário';
+            link.textContent = dono.nome || 'Condutor';
             link.style.color = 'inherit';
             usuario.append(link);
         } else usuario.textContent = 'Não identificado';
@@ -247,7 +247,7 @@ function bindLayoutEvents() {
             estacionamentoSelecionadoId = null;
             window.Interface.notify('Estacionamento excluído.', 'success');
         } catch (error) {
-            window.Interface.notify(`Não foi possível excluir. Verifique se existem veículos, usuários ou históricos vinculados. ${error.message}`, 'error');
+            window.Interface.notify(`Não foi possível excluir. Verifique se existem veículos, condutores ou históricos vinculados. ${error.message}`, 'error');
         } finally {
             btnConfirmYes.disabled = false;
             btnConfirmYes.textContent = 'Excluir estacionamento';

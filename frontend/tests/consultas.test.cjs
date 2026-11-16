@@ -57,7 +57,7 @@ function harness(page, query = '?id=1', memberships = [{ id: 9, usuarioId: 1, es
             const endpoint = url.replace('http://api.estatec.lab', '');
             requests.push({ endpoint, options });
             let data;
-            if (endpoint === '/usuarios') data = [user];
+            if (endpoint === '/condutores') data = [user];
             if (endpoint === '/carros') data = [{ idCarros: 2, placa: 'ABC1D23', modelo: 'Civic', usuario: user }];
             if (endpoint === '/estacionamento') data = [parking];
             if (endpoint === '/estacionamento/registros') data = memberships;
@@ -69,7 +69,7 @@ function harness(page, query = '?id=1', memberships = [{ id: 9, usuarioId: 1, es
     vm.runInContext(fs.readFileSync(path.join(__dirname, '../script/consultas.js'), 'utf8') + '\nthis.start = Consultas.init;', context);
     return { start: context.start, elements, requests };
 }
-test('lista de usuários contém vínculo explícito, placas e link do perfil', async () => {
+test('lista de condutores contém vínculo explícito, placas e link do perfil', async () => {
     const app = harness('usuarios'); await app.start();
     const html = app.elements.get('listResults').innerHTML;
     assert.match(html, /perfil.html\?id=1/);
@@ -77,7 +77,7 @@ test('lista de usuários contém vínculo explícito, placas e link do perfil', 
     assert.match(html, /ABC1D23/);
     app.elements.get('listSearch').value = 'inexistente';
     app.elements.get('listSearch').listeners.input();
-    assert.match(app.elements.get('listResults').innerHTML, /Nenhum usuário/);
+    assert.match(app.elements.get('listResults').innerHTML, /Nenhum condutor/);
 });
 test('histórico não é usado para inventar registro', async () => {
     const app = harness('usuarios', '', []); await app.start();
@@ -88,13 +88,13 @@ test('lista de estacionamentos aponta para perfil', async () => {
     const app = harness('estacionamentos'); await app.start();
     assert.match(app.elements.get('listResults').innerHTML, /estacionamento.html\?id=7/);
 });
-test('perfil de usuário possui informações gerais, veículos e estacionamentos', async () => {
+test('perfil de condutor possui informações gerais, veículos e estacionamentos', async () => {
     const app = harness('perfil'); await app.start();
     assert.match(app.elements.get('pageContent').innerHTML, /joao@example.com/);
     assert.match(app.elements.get('pageContent').innerHTML, /ABC1D23/);
     assert.match(app.elements.get('pageContent').innerHTML, /estacionamento.html\?id=7/);
 });
-test('perfil estacionamento mostra usuários, dashboard e duas movimentações', async () => {
+test('perfil estacionamento mostra condutores, dashboard e duas movimentações', async () => {
     const app = harness('estacionamento', '?id=7'); await app.start();
     assert.match(app.elements.get('pageContent').innerHTML, /perfil.html\?id=1/);
     assert.match(app.elements.get('parkingStats').innerHTML, /Entradas por horário/);
@@ -111,11 +111,11 @@ test('histórico diário permite selecionar outro dia e preserva identidade comp
 });
 test('ID inexistente e falha da API mostram erro, nunca dados fictícios', async () => {
     const missing = harness('perfil', '?id=999'); await missing.start();
-    assert.match(missing.elements.get('pageStatus').textContent, /Usuário não encontrado/);
+    assert.match(missing.elements.get('pageStatus').textContent, /Condutor não encontrado/);
     const failed = harness('usuarios', '', [], true); await failed.start();
     assert.match(failed.elements.get('pageStatus').textContent, /Indisponível/);
 });
-test('registro pelo perfil envia IDs de usuário e estacionamento para persistência', async () => {
+test('registro pelo perfil envia IDs de condutor e estacionamento para persistência', async () => {
     const app = harness('perfil', '?id=1', []); await app.start();
     app.elements.get('membershipTarget').value = '7';
     await app.elements.get('membershipForm').listeners.submit({ preventDefault() {}, currentTarget: app.elements.get('membershipForm') });
@@ -124,7 +124,7 @@ test('registro pelo perfil envia IDs de usuário e estacionamento para persistê
     assert.deepEqual(JSON.parse(request.options.body), { usuario: { id: 1 }, estacionamento: { idEstacionamento: 7 }, carro: { idCarros: 2 } });
     assert.match(app.elements.get('pageStatus').textContent, /sucesso/);
 });
-test('remover registro não apaga histórico nem usuário', async () => {
+test('remover registro não apaga histórico nem condutor', async () => {
     const app = harness('perfil'); await app.start();
     const button = { dataset: { removeMembership: '9' }, disabled: false };
     await app.elements.get('pageContent').listeners.click({ target: { closest: selector => selector === '[data-remove-membership]' ? button : null } });

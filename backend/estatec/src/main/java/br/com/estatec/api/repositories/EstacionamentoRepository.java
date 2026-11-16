@@ -10,6 +10,10 @@ import br.com.estatec.api.entities.Estacionamento;
 
 @Repository
 public interface EstacionamentoRepository extends JpaRepository<Estacionamento, Long>{
+    @Override
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"usuario"})
+    java.util.List<Estacionamento> findAll();
+
 
 	Estacionamento findByNomeEstacionamento(String nomeEstacionamento);
 

@@ -50,10 +50,10 @@ public class Carro {
 	@Column(name = "cor")
 	private Cor cor;	
 	
-	// Relação da entidade "Carro" com a entidade "Usuario"
+	// Relação da entidade "Carro" com a entidade "Condutor"
 	@ManyToOne
 	@JoinColumn(name = "fk_dono_carro") // gera uma foreign key na tabela do banco de dados
-	private Usuario usuario;
+	private Condutor usuario;
 	
 
 	// Métodos construtores para a entidade "Carro"
@@ -107,11 +107,11 @@ public class Carro {
 		this.cor = cor;
 	}
 
-	public Usuario getUsuario() {
+	public Condutor getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
+	public void setUsuario(Condutor usuario) {
 		this.usuario = usuario;
 	}
 

@@ -26,7 +26,7 @@ public class Estacionamento {
 	
 	@ManyToOne(cascade = jakarta.persistence.CascadeType.MERGE)
     @JoinColumn(name = "fk_dono_estacionamento") // gera uma foreign key na tabela no banco de dados
-    private Usuario usuario;
+    private Condutor usuario;
 
 	
 	public Estacionamento() {
@@ -53,11 +53,11 @@ public class Estacionamento {
 	    this.idEstacionamento = idEstacionamento;
 	}
 
-	public Usuario getUsuario() {
+	public Condutor getUsuario() {
 	    return usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
+	public void setUsuario(Condutor usuario) {
 	    this.usuario = usuario;
 	}
 

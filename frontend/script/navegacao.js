@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    if (!await window.estatecSessionReady) return;
     const isAdmin = localStorage.getItem('isAdmin') === 'true';
     const isUser = localStorage.getItem('isAdmin') === 'false';
     let usuarioSessao = null;
@@ -22,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const page = location.pathname.split('/').pop();
     const links = [
         ['menu.html', 'Menu', 'house'],
-        ['usuario.html', 'Usuários', 'user'],
+        ['usuario.html', 'Condutores', 'user'],
         ['carros.html', 'Carros', 'car'],
         ['estacionamentos.html', 'Estacionamentos', 'square-parking'],
         ['dados.html', 'Histórico', 'clock-rotate-left']
@@ -54,12 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.logout-btn').forEach(link => { link.setAttribute('aria-label', 'Sair do sistema'); link.title = 'Sair do sistema'; });
     document.querySelectorAll('.logout-btn').forEach(link => link.addEventListener('click', async (e) => {
         e.preventDefault();
-        try {
-            await fetch(window.ESTATEC_API_ORIGIN + '/usuarios/logout', { method: 'POST', credentials: 'include' });
-        } catch (_) {
-            // Limpa a sessão local mesmo quando a rede estiver indisponível.
-        }
-        ['isAdmin', 'token', 'usuarioSessao'].forEach(key => localStorage.removeItem(key));
+        try { await window.estatecLogout(); }
+        catch { alert('Falha ao sair. Tente novamente.'); return; }
         window.location.replace('./login.html');
     }));
 });

@@ -1,5 +1,5 @@
 window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, { credentials: "include", ...options }));
-const API_URL = (window.ESTATEC_API_ORIGIN + "/usuarios");
+const API_URL = (window.ESTATEC_API_ORIGIN + "/condutores");
 
 let users = [];
 let tipoSelecionado = "visitante";
@@ -57,7 +57,7 @@ function renderUsers(list) {
     if (!list || list.length === 0) {
         const empty = document.createElement('div');
         empty.className = 'empty-state';
-        empty.textContent = 'Nenhum usuário encontrado.';
+        empty.textContent = 'Nenhum condutor encontrado.';
         container.appendChild(empty);
         return;
     }
@@ -83,8 +83,8 @@ function handleTipo(id) {
 }
 
 async function handleDelete(id) {
-    const user = users.find(u => u.id === id) || { nome: 'usuário' };
-    if (!confirm(`Tem certeza que deseja excluir o usuário ${user.nome}?`)) return;
+    const user = users.find(u => u.id === id) || { nome: 'condutor' };
+    if (!confirm(`Tem certeza que deseja excluir o condutor ${user.nome}?`)) return;
 
     try {
         const response = await window.estatecFetch(`${API_URL}/${id}`, { method: 'DELETE' });
@@ -93,10 +93,10 @@ async function handleDelete(id) {
             users = users.filter(u => u.id !== id);
             renderUsers(users);
         } else {
-            alert('Não foi possível excluir o usuário no servidor.');
+            alert('Não foi possível excluir o condutor no servidor.');
         }
     } catch (error) {
-        console.error('Erro ao deletar usuário:', error);
+        console.error('Erro ao deletar condutor:', error);
         // fallback: remover localmente
         users = users.filter(u => u.id !== id);
         renderUsers(users);

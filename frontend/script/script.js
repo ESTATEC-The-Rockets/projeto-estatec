@@ -11,6 +11,10 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
     const remember = document.getElementById("rememberEmail");
     const feedback = document.getElementById("loginFeedback");
     const button = formLogin.querySelector('button[type="submit"]');
+    if (new URLSearchParams(location.search).get("cadastro") === "sucesso") {
+        feedback.dataset.state = "success";
+        feedback.textContent = "Conta criada! Entre com o e-mail e a senha que você cadastrou.";
+    }
     const emailKey = "estatecEmailLembrado";
     let submitting = false;
 
@@ -79,7 +83,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
         try {
             let session;
             {
-                const response = await window.estatecFetch((window.ESTATEC_API_ORIGIN + "/usuarios/login"), {
+                const response = await window.estatecFetch((window.ESTATEC_API_ORIGIN + "/auth/login"), {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email: emailValue, senha: passwordValue }),
@@ -108,7 +112,7 @@ window.estatecFetch = window.estatecFetch || ((url, options = {}) => fetch(url, 
             }
 
             stage = "storage";
-            if (session.admin === true) {
+            if (session.admin === true || session.podeGerenciar === true) {
                 localStorage.removeItem("usuarioSessao");
                 localStorage.removeItem("token");
                 localStorage.setItem("isAdmin", "true");

@@ -1,24 +1,60 @@
 # projeto-estatec
 
-## Configuração
+## Configuração e acesso
 
-O backend exige `DB_URL`, `DB_USER` e `DB_PASSWORD`. Configure também
-`ESTATEC_FRONTEND_ORIGIN` com a origem exata do site, `ESTATEC_ADMIN_EMAIL`
-e `ESTATEC_ADMIN_PASSWORD_HASH` (hash BCrypt), e uma chave aleatória em
-`ESTATEC_ACCESS_API_KEY`. Consulte `backend/estatec/.env.example`. Não use o
-arquivo de exemplo como segredo real. O banco não é mais preenchido com contas
-e senhas de demonstração.
+O sistema distingue **usuário do sistema** (administrador que opera as telas) de
+**condutor** (pessoa cadastrada para vincular veículos e estacionamentos).
+Condutores não possuem login nem senha. O cadastro pede nome, CPF, e-mail e telefone.
 
-O leitor de placas usa a mesma `ESTATEC_ACCESS_API_KEY`, além de
-`ESTATEC_ESTACIONAMENTO_ID` e, opcionalmente, `ESTATEC_API_URL`.
-O acesso de uma placa só é autorizado quando o carro está registrado no
-estacionamento informado. O frontend usa `api.estatec.lab` e envia o cookie
-de sessão nas requisições. O servidor precisa publicar os dois domínios na
-mesma rede.
+Configure as variáveis listadas em `backend/estatec/.env.example` no ambiente do
+processo Java. O Spring não carrega um arquivo `.env` automaticamente.
+São necessários `DB_URL`, `DB_USER`, `DB_PASSWORD`, `ESTATEC_ADMIN_EMAIL` e
+`ESTATEC_ADMIN_PASSWORD_HASH` (hash BCrypt da senha administrativa).
+Não existe senha padrão. `ESTATEC_FRONTEND_ORIGIN` deve ser a origem exata do
+frontend, incluindo porta. Em localhost, o padrão é `http://localhost:5500`.
+Use o mesmo hostname no frontend e na API para os cookies de sessão.
 
-Somente o administrador pode criar, alterar ou excluir carros e estacionamentos.
-Usuários comuns podem consultar os próprios dados; o backend aplica a regra
-mesmo quando alguém chama a API diretamente.
+```powershell
+cd backend/estatec
+.\mvnw.cmd spring-boot:run
+```
+
+Sirva o frontend por HTTP (por exemplo, Live Server na porta 5500), em vez de
+abrir o HTML por `file://`. A API local usa a porta 8080.
+O endereço especial `estatec.lab` usa a API em `api.estatec.lab`.
+
+O `data.sql` é executado **depois** da criação das tabelas. Contém um condutor
+de demonstração, sem credenciais, e pode ser reexecutado sem duplicar esse registro.
+Use `SQL_INIT_MODE=never` para desabilitar esse preenchimento, por exemplo em produção.
+As tabelas e colunas antigas (`tb_usuario`, `id_usuario` e relações JSON `usuario`)
+foram preservadas para manter os dados existentes. A entidade Java agora é
+`Condutor`, e o endpoint principal é `/condutores`; `/usuarios` continua como alias
+protegido para compatibilidade. Colunas legadas de senha, RG e nascimento não
+são mais usadas pelo modelo. A inicialização remove a obrigatoriedade dessas
+colunas legadas em MySQL, preservando seus valores existentes.
+
+Autenticação: `POST /auth/login`, `GET /auth/sessao`, `POST /auth/logout`.
+A sessão usa cookie HttpOnly, expira após 30 minutos de inatividade e é validada
+no servidor antes das consultas do frontend. Em HTTPS, configure
+`SESSION_COOKIE_SECURE=true`. Todas as operações de cadastro de condutores
+exigem sessão administrativa, inclusive quando chamadas diretamente pela API.
+
+O leitor de placas exige `ESTATEC_ACCESS_API_KEY` e `ESTATEC_ESTACIONAMENTO_ID`.
+O acesso só é autorizado quando o carro está registrado no estacionamento informado.
+
+## Verificação
+
+```powershell
+cd backend/estatec
+.\mvnw.cmd clean test
+# A partir da raiz do projeto:
+node --test frontend/tests/consultas.test.cjs frontend/tests/interface.browser.cjs
+```
+
+Os testes de integração usam H2 em modo MySQL, sem alterar o banco configurado.
+Verificam o carregamento e a reexecução do SQL, proteção das rotas, validação
+de login, encerramento de sessão e CRUD sem senha. O teste de navegador usa Chrome
+instalado e simula a API; inclui telas pequenas e rejeição de sessão adulterada.
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
@@ -36,7 +72,7 @@ O EstaTec é um sistema inteligente de gestão de estacionamentos que une o mund
 Diferente de um CRUD comum, este sistema integra:
 - Sensores (C++): Detectam a presença do veículo.
 - Visão Computacional (Python): Lê a placa do carro via câmera.
-- **Regra de negócio (Java/Spring):** Valida se a placa pertence a um aluno/usuário cadastrado e libera a cancela automaticamente.
+- **Regra de negócio (Java/Spring):** Valida se a placa pertence a um condutor cadastrado e libera a cancela automaticamente.
 
 ---  
 
@@ -67,7 +103,7 @@ CREATE DATABASE db_estatec;
 
 ### 2. Backend
 - Clonar repositório.
-- Configure o arquivo apllication.properties com suas credenciais no MySQL.
+- Configure as variáveis de ambiente descritas acima.
 - A API rodará em: `http://localhost:8080`
 
 ### 3. Módulo de Visão (Python)
@@ -76,14 +112,14 @@ CREATE DATABASE db_estatec;
 
 ### 4. Frontend
 - Navegue até a pasta do Frontend. 
-- Acesse o index.html no navegador.
+- Sirva a pasta frontend por HTTP e acesse index.html.
 
 ---
 
 ## Funcionalidades
 [x] CRUD Completo: Gerenciamento de Alunos/Donos de Carros.
 
-[x] Segurança: Acesso restrito via Entidade Usuário.
+[x] Segurança: Acesso administrativo autenticado por sessão.
 
 [x] Automação LPR: Reconhecimento de placa via sensor.
 
