@@ -41,10 +41,8 @@ persistidas em `tb_conta_acesso`, com senha BCrypt, e continuam disponíveis ap�
 reiniciar o backend. O cadastro não cria um condutor nem exige dados de veículo.
 
 As novas contas recebem o perfil de operador, com acesso ao gerenciamento de
-condutores, carros, estacionamentos e registros. Para criar uma conta é necessário
-o código de convite definido em `ESTATEC_REGISTRATION_CODE` no backend.
-Compartilhe esse código somente com operadores autorizados; sem configuração,
-novos cadastros ficam bloqueados. As contas existentes continuam funcionando.
+condutores, carros, estacionamentos e registros. O cadastro é livre e exige
+nome, e-mail, senha e confirmação da senha.
 O identificador da conta nunca é usado como dono de um carro.
 
 Autenticação: `POST /auth/cadastro`, `POST /auth/login`, `GET /auth/sessao`, `POST /auth/logout`.

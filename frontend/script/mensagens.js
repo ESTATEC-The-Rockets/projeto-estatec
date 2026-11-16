@@ -1,7 +1,6 @@
 /* Avisos publicos: nunca exibir texto arbitrario recebido em uma falha. */
 (function () {
     const texts = Object.freeze({
-    "INVITE_INVALID": "Informe um código de convite válido.",
     "MOVEMENT_REQUIRED": "Informe entrada ou saída.",
     "HISTORY_NOT_FOUND": "Movimentação não encontrada.",
     "TRY_AGAIN": "Tente novamente em instantes.",

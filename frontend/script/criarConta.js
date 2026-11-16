@@ -36,7 +36,7 @@
         try {
             const response = await window.estatecFetch(window.ESTATEC_API_ORIGIN + '/auth/cadastro', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nome: nome.value, email: email.value, senha: senha.value, confirmacaoSenha: confirmacao.value, codigoConvite: document.getElementById("codigoConvite").value.trim() }),
+                body: JSON.stringify({ nome: nome.value, email: email.value, senha: senha.value, confirmacaoSenha: confirmacao.value }),
                 signal: AbortSignal.timeout(15000)
             });
             const body = await response.json().catch(() => ({}));

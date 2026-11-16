@@ -248,7 +248,7 @@ test('layout responsivo e interações principais em navegador real', { skip: !f
     await wait(`!!document.querySelector('a[href="./criarConta.html"]')`);
     await evaluate(`document.querySelector('a[href="./criarConta.html"]').click()`);
     await wait(`!!document.getElementById('cadastroContaForm')`);
-    await evaluate(`document.getElementById('codigoConvite').value='convite-teste';document.getElementById('nome').value='Pessoa Teste';document.getElementById('email').value='pessoa@example.com';document.getElementById('password').value='MinhaSenha123';document.getElementById('confirmacaoSenha').value='Diferente123';document.getElementById('cadastroContaForm').requestSubmit()`);
+    await evaluate(`document.getElementById('nome').value='Pessoa Teste';document.getElementById('email').value='pessoa@example.com';document.getElementById('password').value='MinhaSenha123';document.getElementById('confirmacaoSenha').value='Diferente123';document.getElementById('cadastroContaForm').requestSubmit()`);
     assert.equal(await evaluate(`document.getElementById('confirmacaoSenha').validity.customError`), true);
     assert.equal(await evaluate(`window.apiCalls.filter(c=>c.endpoint==='/auth/cadastro').length`), 0);
     await evaluate(`document.getElementById('confirmacaoSenha').value='MinhaSenha123';document.getElementById('confirmacaoSenha').dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('cadastroContaForm').requestSubmit()`);

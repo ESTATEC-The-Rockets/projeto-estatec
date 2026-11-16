@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 public final class Avisos {
     private Avisos() {}
     public static final Map<String, String> TEXTOS = Map.ofEntries(
-        Map.entry("INVITE_INVALID", "Informe um código de convite válido."),
         Map.entry("MOVEMENT_REQUIRED", "Informe entrada ou saída."),
         Map.entry("HISTORY_NOT_FOUND", "Movimentação não encontrada."),
         Map.entry("TRY_AGAIN", "Tente novamente em instantes."),

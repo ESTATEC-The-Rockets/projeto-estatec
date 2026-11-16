@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  "spring.datasource.url=jdbc:h2:mem:estatec;MODE=MySQL;DB_CLOSE_DELAY=-1",
  "spring.datasource.driverClassName=org.h2.Driver", "spring.datasource.username=sa", "spring.datasource.password=",
  "spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect", "spring.jpa.hibernate.ddl-auto=create-drop",
- "estatec.registration.code=convite-teste", "estatec.access.api-key=iot-teste", "estatec.admin.email=admin@example.com", "logging.level.root=WARN", "logging.level.org.springframework=WARN", "logging.level.org.hibernate=WARN", "debug=false"
+ "estatec.access.api-key=iot-teste", "estatec.admin.email=admin@example.com", "logging.level.root=WARN", "logging.level.org.springframework=WARN", "logging.level.org.hibernate=WARN", "debug=false"
 })
 @AutoConfigureMockMvc
 class AuthenticationIntegrationTest {
@@ -52,11 +52,6 @@ class AuthenticationIntegrationTest {
     .andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value("MOVEMENT_REQUIRED"));
   mvc.perform(get("/historico/9223372036854775000").session(session)).andExpect(status().isNotFound()).andExpect(jsonPath("$.code").value("HISTORY_NOT_FOUND"));
  }
- @Test void cadastroSemConviteNaoCriaOperador() throws Exception {
-  mvc.perform(post("/auth/cadastro").contentType(MediaType.APPLICATION_JSON).content("{\"nome\":\"Teste\",\"email\":\"semconvite@example.com\",\"senha\":\"MinhaSenha123\",\"confirmacaoSenha\":\"MinhaSenha123\"}"))
-    .andExpect(status().isForbidden()).andExpect(jsonPath("$.code").value("INVITE_INVALID"));
-  assertEquals(0,jdbc.queryForObject("select count(*) from tb_conta_acesso where email='semconvite@example.com'",Integer.class));
- }
  @org.springframework.test.context.DynamicPropertySource
  static void credenciais(org.springframework.test.context.DynamicPropertyRegistry registry) {
   registry.add("estatec.admin.password-hash", () -> new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder().encode("SenhaValida123"));
@@ -74,7 +69,7 @@ class AuthenticationIntegrationTest {
   mvc.perform(get("/condutores").session(forged)).andExpect(status().isForbidden());
  }
  @Test void criaContaPersisteSenhaProtegidaEPermiteLoginPosterior() throws Exception {
-  String cadastro="{\"nome\":\"Operadora Teste\",\"email\":\"OPERADORA@example.com\",\"senha\":\"MinhaSenha123\",\"codigoConvite\":\"convite-teste\",\"confirmacaoSenha\":\"MinhaSenha123\"}";
+  String cadastro="{\"nome\":\"Operadora Teste\",\"email\":\"OPERADORA@example.com\",\"senha\":\"MinhaSenha123\",\"confirmacaoSenha\":\"MinhaSenha123\"}";
   mvc.perform(post("/auth/cadastro").contentType(MediaType.APPLICATION_JSON).content(cadastro))
    .andExpect(status().isCreated()).andExpect(jsonPath("$.email").value("operadora@example.com"))
    .andExpect(jsonPath("$.senha").doesNotExist()).andExpect(jsonPath("$.senhaHash").doesNotExist());
@@ -99,7 +94,7 @@ class AuthenticationIntegrationTest {
   mvc.perform(get("/auth/sessao").session((org.springframework.mock.web.MockHttpSession)novoLogin.getRequest().getSession(false))).andExpect(status().isOk());
  }
  @Test void cadastroRejeitaConfirmacaoIncorretaESenhaCurta() throws Exception {
-  String cadastro="{\"nome\":\"Teste\",\"email\":\"teste@example.com\",\"senha\":\"MinhaSenha123\",\"codigoConvite\":\"convite-teste\",\"confirmacaoSenha\":\"OutraSenha123\"}";
+  String cadastro="{\"nome\":\"Teste\",\"email\":\"teste@example.com\",\"senha\":\"MinhaSenha123\",\"confirmacaoSenha\":\"OutraSenha123\"}";
   mvc.perform(post("/auth/cadastro").contentType(MediaType.APPLICATION_JSON).content(cadastro)).andExpect(status().isBadRequest());
   mvc.perform(post("/auth/cadastro").contentType(MediaType.APPLICATION_JSON).content(cadastro.replace("MinhaSenha123","curta"))).andExpect(status().isBadRequest());
   mvc.perform(post("/auth/cadastro").contentType(MediaType.APPLICATION_JSON).content(cadastro.replace("teste@example.com","admin@example.com").replace("OutraSenha123","MinhaSenha123"))).andExpect(status().isConflict());
