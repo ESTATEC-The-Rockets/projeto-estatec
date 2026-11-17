@@ -70,14 +70,18 @@ test('layout responsivo e interações principais em navegador real', { skip: !f
         const parking = {idEstacionamento:7,nomeEstacionamento:'Estacionamento Central da Unidade de Desenvolvimento e Tecnologia',usario:user};
         const car = {idCarros:3,placa:'ABC1D23',modelo:'Civic',marca:'Honda',cor:'PRETO',usuario:user};
         window.fetch = async (url,options={}) => {
-            if (!String(url).startsWith('http://localhost:8080')) return realFetch(url,options);
+            if (new URL(url, location.href).port !== '8080') return realFetch(url,options);
             const endpoint = new URL(url).pathname; if(options.method==='POST'||options.method==='PUT') sessionStorage.setItem('lastEntityRequest',JSON.stringify({endpoint,method:options.method,body:options.body})); window.apiCalls.push({endpoint,method:options.method || 'GET'});
             if (endpoint === '/estacionamento' && options.method === 'POST' && window.noticeFailure) {
                 if (window.noticeFailure === 'exception') throw new Error('Cannot read properties of nomeEstacionamento java.sql.Exception');
                 return new Response(JSON.stringify({code:window.noticeFailure === 'known' ? 'NAME_LONG' : 'UNKNOWN_INTERNAL',message:'nomeEstacionamento: java.sql.Exception UTF-8 bytes'}),{status:400,headers:{'Content-Type':'application/json'}});
             }
             if (endpoint === '/auth/login') { sessionStorage.setItem('accountLogin','true'); return new Response(JSON.stringify({idUsuario:2,nome:'Pessoa Teste',admin:false,podeGerenciar:true}),{status:200,headers:{'Content-Type':'application/json'}}); }
-            if (endpoint === '/auth/cadastro') return new Response(JSON.stringify({id:2,nome:'Pessoa Teste',email:'pessoa@example.com'}),{status:201,headers:{'Content-Type':'application/json'}});
+            if (endpoint === '/auth/cadastro') {
+                if (window.signupFailure === 'network') throw new TypeError('Failed to fetch');
+                if (window.signupFailure === 'timeout') throw new DOMException('Timeout', 'TimeoutError');
+                return new Response(JSON.stringify({id:2,nome:'Pessoa Teste',email:'pessoa@example.com'}),{status:201,headers:{'Content-Type':'application/json'}});
+            }
             if (endpoint === '/auth/sessao' && sessionStorage.getItem('denySession')) return new Response('{}', {status:401});
             if (endpoint === '/auth/sessao' && sessionStorage.getItem('accountLogin')) return new Response(JSON.stringify({idUsuario:2,nome:'Pessoa Teste',admin:false,podeGerenciar:true}),{status:200,headers:{'Content-Type':'application/json'}});
             if (endpoint === '/carros/3') return new Response(JSON.stringify(car),{status:200,headers:{'Content-Type':'application/json'}});
@@ -251,7 +255,12 @@ test('layout responsivo e interações principais em navegador real', { skip: !f
     await evaluate(`document.getElementById('nome').value='Pessoa Teste';document.getElementById('email').value='pessoa@example.com';document.getElementById('password').value='MinhaSenha123';document.getElementById('confirmacaoSenha').value='Diferente123';document.getElementById('cadastroContaForm').requestSubmit()`);
     assert.equal(await evaluate(`document.getElementById('confirmacaoSenha').validity.customError`), true);
     assert.equal(await evaluate(`window.apiCalls.filter(c=>c.endpoint==='/auth/cadastro').length`), 0);
-    await evaluate(`document.getElementById('confirmacaoSenha').value='MinhaSenha123';document.getElementById('confirmacaoSenha').dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('cadastroContaForm').requestSubmit()`);
+    await evaluate(`document.getElementById('confirmacaoSenha').value='MinhaSenha123';document.getElementById('confirmacaoSenha').dispatchEvent(new Event('input',{bubbles:true}));window.signupFailure='network';document.getElementById('cadastroContaForm').requestSubmit()`);
+    await wait(`document.getElementById('cadastroFeedback')?.textContent==='Não foi possível conectar; tente novamente em instantes.'`);
+    assert.equal(await evaluate(`document.querySelector('#cadastroContaForm [type="submit"]').disabled`), false);
+    await evaluate(`window.signupFailure='timeout';document.getElementById('cadastroContaForm').requestSubmit()`);
+    await wait(`document.getElementById('cadastroFeedback')?.textContent==='A confirmação demorou; tente entrar com seu e-mail e senha.'`);
+    await evaluate(`window.signupFailure=null;document.getElementById('cadastroContaForm').requestSubmit()`);
     await wait(`location.href.endsWith('/pages/login.html?cadastro=sucesso') && document.getElementById('loginFeedback')?.textContent.includes('Conta criada')`);
     await evaluate(`document.getElementById('email').value='pessoa@example.com';document.getElementById('password').value='MinhaSenha123';document.getElementById('loginForm').requestSubmit()`);
     await wait(`location.pathname.endsWith('/pages/menu.html') && document.documentElement.style.visibility !== 'hidden' && document.readyState==='complete'`);

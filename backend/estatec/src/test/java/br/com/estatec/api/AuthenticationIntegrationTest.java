@@ -22,6 +22,36 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureMockMvc
 class AuthenticationIntegrationTest {
  @Test @org.springframework.transaction.annotation.Transactional
+ void seedNaoDuplicaCondutorDeDemonstracaoLegado() {
+  jdbc.update("update tb_usuario set cpf='12345678900' where email='condutor@example.com'");
+  var initializer = new ResourceDatabasePopulator(new ClassPathResource("data.sql"));
+  initializer.execute(jdbc.getDataSource());initializer.execute(jdbc.getDataSource());
+  assertEquals(1,jdbc.queryForObject("select count(*) from tb_usuario where email='condutor@example.com'",Integer.class));
+  assertEquals("12345678900",jdbc.queryForObject("select cpf from tb_usuario where email='condutor@example.com'",String.class));
+ }
+ @Test @org.springframework.transaction.annotation.Transactional
+ void cadastroNaoSobrescreveEstacionamentoOuHistoricoENaoAceitaHistoricoIncompleto() throws Exception {
+  var session = new org.springframework.mock.web.MockHttpSession();session.setAttribute("estatecRole","ADMIN");session.setAttribute("estatecUserId",0L);
+  mvc.perform(post("/estacionamento").session(session).contentType(MediaType.APPLICATION_JSON).content("{\"nomeEstacionamento\":\"Original revisão\"}"))
+    .andExpect(status().isCreated());
+  Long parking=jdbc.queryForObject("select id_estacionamento from tb_estacionamento where nome_estacionamento='Original revisão'",Long.class);
+  mvc.perform(post("/estacionamento").session(session).contentType(MediaType.APPLICATION_JSON).content("{\"idEstacionamento\":"+parking+",\"nomeEstacionamento\":\"Novo revisão\"}"))
+    .andExpect(status().isCreated());
+  assertEquals("Original revisão",jdbc.queryForObject("select nome_estacionamento from tb_estacionamento where id_estacionamento=?",String.class,parking));
+  mvc.perform(put("/estacionamento/"+parking).session(session).contentType(MediaType.APPLICATION_JSON).content("{\"nomeEstacionamento\":\"Novo revisão\"}"))
+    .andExpect(status().isConflict()).andExpect(jsonPath("$.code").value("PARKING_EXISTS"));
+  mvc.perform(post("/historico").session(session).contentType(MediaType.APPLICATION_JSON).content("{}"))
+    .andExpect(status().isBadRequest());
+  String history="{\"placaLida\":\"REV1A23\",\"dataHora\":\"2026-11-16T10:00:00\",\"entrada\":true,\"autorizado\":true,\"estacionamento\":{\"idEstacionamento\":"+parking+"}}";
+  mvc.perform(post("/historico").session(session).contentType(MediaType.APPLICATION_JSON).content(history)).andExpect(status().isCreated());
+  Long historicId=jdbc.queryForObject("select id from tb_historico where placa_lida='REV1A23'",Long.class);
+  mvc.perform(post("/historico").session(session).contentType(MediaType.APPLICATION_JSON).content(history.replace("{\"placaLida\":","{\"id\":"+historicId+",\"placaLida\":").replace("REV1A23","REV2A34")))
+    .andExpect(status().isCreated());
+  assertEquals("REV1A23",jdbc.queryForObject("select placa_lida from tb_historico where id=?",String.class,historicId));
+  mvc.perform(post("/historico").session(session).contentType(MediaType.APPLICATION_JSON).content(history.replace("\"idEstacionamento\":"+parking,"\"idEstacionamento\":999999999")))
+    .andExpect(status().isNotFound()).andExpect(jsonPath("$.code").value("PARKING_NOT_FOUND"));
+ }
+ @Test @org.springframework.transaction.annotation.Transactional
  void raspberryRegistraEntradaSaidaENegacaoComChaveSemSessao() throws Exception {
   var session = new org.springframework.mock.web.MockHttpSession();session.setAttribute("estatecRole","ADMIN");session.setAttribute("estatecUserId",0L);
   String driver="{\"nome\":\"Ana D'Avila\",\"cpf\":\"11144477735\",\"email\":\"iot@example.com\",\"telefone\":\"11988886666\"}";

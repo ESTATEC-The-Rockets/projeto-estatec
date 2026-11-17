@@ -6,8 +6,13 @@ O sistema distingue **usuário do sistema** (pessoa que opera as telas) de
 **condutor** (pessoa cadastrada para vincular veículos e estacionamentos).
 Condutores não possuem login nem senha. O cadastro pede nome, CPF, e-mail e telefone.
 
-Configure as variáveis listadas em `backend/estatec/.env.example` no ambiente do
-processo Java. O Spring não carrega um arquivo `.env` automaticamente.
+Copie `backend/estatec/.env.example` para `backend/estatec/.env` e preencha
+os dados reais do MySQL. O Spring carrega esse arquivo automaticamente ao iniciar
+pela raiz do repositório ou pela pasta `backend/estatec`. O formato é
+`CHAVE=valor`, sem `export` e sem aspas ao redor dos valores.
+Também é possível definir as variáveis diretamente no ambiente do processo Java;
+elas têm prioridade sobre o arquivo. Para outro local, use
+`--estatec.env-file=C:/caminho/.env` nos argumentos da aplicação.
 São necessários `DB_URL`, `DB_USER` e `DB_PASSWORD`. Para manter também um
 acesso administrativo por configuração, use `ESTATEC_ADMIN_EMAIL` e
 `ESTATEC_ADMIN_PASSWORD_HASH` (hash BCrypt); essas duas variáveis são opcionais
@@ -24,6 +29,11 @@ cd backend/estatec
 Sirva o frontend por HTTP (por exemplo, Live Server na porta 5500), em vez de
 abrir o HTML por `file://`. A API local usa a porta 8080.
 O endereço especial `estatec.lab` usa a API em `api.estatec.lab`.
+Nos demais endereços, o frontend usa o mesmo hostname do site, na porta 8080,
+preservando HTTP ou HTTPS. Para uma API em outro endereço, defina
+`window.ESTATEC_API_ORIGIN` antes de carregar `api-config.js`.
+Ao acessar pela rede ou por `127.0.0.1`, ajuste `ESTATEC_FRONTEND_ORIGIN`
+no processo Java para a origem exata exibida no navegador e reinicie o backend.
 
 O `data.sql` é executado **depois** da criação das tabelas. Contém um condutor
 de demonstração, sem credenciais, e pode ser reexecutado sem duplicar esse registro.

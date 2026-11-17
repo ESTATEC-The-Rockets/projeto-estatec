@@ -31,6 +31,8 @@ public class EstacionamentoService {
 	
 	// Função para salvar o estacionamento registrado pelo usuario
 	public Estacionamento salvar(Estacionamento estacionamento) {
+		estacionamento.setIdEstacionamento(null);
+		estacionamento.setUsuario(null);
 		
 		Estacionamento estacionamentoExistente = repository.findByNomeEstacionamento(estacionamento.getNomeEstacionamento());
 		
@@ -48,6 +50,10 @@ public class EstacionamentoService {
 	// Função para atualizar o estacionamento conforme a edição do condutor
 	public Estacionamento atualizar(Long id, Estacionamento estacionamentoAlterado) {
 		Estacionamento estacionamentoExistente = buscarPorId(id);
+		Estacionamento mesmoNome = repository.findByNomeEstacionamento(estacionamentoAlterado.getNomeEstacionamento());
+		if (mesmoNome != null && !id.equals(mesmoNome.getIdEstacionamento())) {
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Já existe um estacionamento com este nome.");
+		}
 		
 		if (estacionamentoAlterado.getNomeEstacionamento() != null && !estacionamentoAlterado.getNomeEstacionamento().isBlank()){
 			

@@ -62,8 +62,10 @@ class RegistroServiceTest {
     @Test
     void criarVinculaEntidadesExistentes() {
         entidadesExistentes();
+        request.setId(999L);
         when(repository.saveAndFlush(any(Registro.class))).thenAnswer(invocation -> {
             Registro registro = invocation.getArgument(0);
+            assertNull(registro.getId(), "Cadastro deve ignorar o ID recebido para não sobrescrever outro vínculo");
             assertSame(usuario, registro.getUsuario()); assertSame(estacionamento, registro.getEstacionamento());
             registro.setId(3L); return registro;
         });

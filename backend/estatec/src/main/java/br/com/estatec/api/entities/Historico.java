@@ -20,6 +20,8 @@ public class Historico {
     private Long id;
 
     @Column(name = "placa_lida", nullable = false)
+    @jakarta.validation.constraints.NotBlank
+    @br.com.estatec.api.validations.annotations.Placa
     private String placaLida;
 
     @ManyToOne
@@ -28,9 +30,11 @@ public class Historico {
 
     @ManyToOne
     @JoinColumn(name = "fk_estacionamento", nullable = false)
+    @jakarta.validation.constraints.NotNull
     private Estacionamento estacionamento;
 
     @Column(name = "data_hora", nullable = false)
+    @jakarta.validation.constraints.NotNull
     private LocalDateTime dataHora;
 
     @Column(name = "is_entrada")
@@ -42,7 +46,7 @@ public class Historico {
     public Historico() {}
 
     public Historico(String placaLida, Carro carro, Estacionamento estacionamento, LocalDateTime dataHora, boolean entrada, boolean autorizado) {
-        this.placaLida = placaLida;
+        setPlacaLida(placaLida);
         this.carro = carro;
         this.estacionamento = estacionamento;
         this.dataHora = dataHora;
@@ -64,7 +68,7 @@ public class Historico {
     }
 
     public void setPlacaLida(String placaLida) {
-        this.placaLida = placaLida;
+        this.placaLida = Carro.normalizarPlaca(placaLida);
     }
 
     public Carro getCarro() {

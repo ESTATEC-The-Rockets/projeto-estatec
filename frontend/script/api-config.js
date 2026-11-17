@@ -1,6 +1,8 @@
-window.ESTATEC_API_ORIGIN = window.location.hostname === "estatec.lab"
-    ? "http://api.estatec.lab"
-    : "http://localhost:8080";
+window.ESTATEC_API_ORIGIN = window.ESTATEC_API_ORIGIN || (
+    window.location.hostname === "estatec.lab"
+        ? `${window.location.protocol}//api.estatec.lab`
+        : `${window.location.protocol}//${window.location.hostname || 'localhost'}:8080`
+);
 
 (() => {
     const page = location.pathname.split('/').pop();

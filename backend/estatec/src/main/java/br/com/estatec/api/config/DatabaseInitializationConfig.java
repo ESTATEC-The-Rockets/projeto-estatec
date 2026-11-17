@@ -12,6 +12,29 @@ import org.springframework.boot.sql.autoconfigure.init.SqlInitializationProperti
 @org.springframework.boot.context.properties.EnableConfigurationProperties(SqlInitializationProperties.class)
 public class DatabaseInitializationConfig {
     @Bean
+    static org.springframework.beans.factory.config.BeanFactoryPostProcessor validarConfiguracaoDoBanco(
+            org.springframework.core.env.Environment environment) {
+        return factory -> {
+            String url;
+            String user;
+            try {
+                url = environment.getProperty("spring.datasource.url");
+                user = environment.getProperty("spring.datasource.username");
+                environment.getRequiredProperty("spring.datasource.password");
+            } catch (IllegalArgumentException ex) {
+                throw new IllegalStateException("Configure DB_URL, DB_USER e DB_PASSWORD no arquivo .env ou no ambiente antes de iniciar a API.");
+            }
+            if (url == null || !url.startsWith("jdbc:") || user == null || user.isBlank()) {
+                throw new IllegalStateException("Configure DB_URL com um endereço JDBC e DB_USER no arquivo .env ou no ambiente antes de iniciar a API.");
+            }
+            if ("com.mysql.cj.jdbc.Driver".equals(environment.getProperty("spring.datasource.driverClassName"))
+                    && !url.startsWith("jdbc:mysql://")) {
+                throw new IllegalStateException("DB_URL deve começar com jdbc:mysql:// para o MySQL.");
+            }
+        };
+    }
+
+    @Bean
     @DependsOn("entityManagerFactory")
     ApplicationDataSourceScriptDatabaseInitializer dataSourceScriptDatabaseInitializer(
             DataSource dataSource, SqlInitializationProperties properties) {

@@ -45,7 +45,10 @@
             show('Conta criada.', 'success');
             location.replace('./login.html?cadastro=sucesso');
         } catch (error) {
-            show(window.EstatecMessages.error(error, 'Confira se a conta foi criada antes de tentar novamente.'));
+            const fallback = error?.name === 'TimeoutError' || error?.name === 'AbortError'
+                ? 'A confirmação demorou; tente entrar com seu e-mail e senha.'
+                : 'Não foi possível conectar; tente novamente em instantes.';
+            show(window.EstatecMessages.error(error, fallback));
             busy = false; button.disabled = false; button.textContent = 'Criar conta';
             form.setAttribute('aria-busy', 'false');
         }

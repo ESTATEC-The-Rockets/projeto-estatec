@@ -39,6 +39,7 @@ public class RegistroService {
 
     @Transactional
     public Registro criar(Registro request) {
+        if (request != null) request.setId(null);
         Long usuarioId = usuarioId(request);
         Long estacionamentoId = estacionamentoId(request);
         Long carroId = carroId(request);
