@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  "spring.datasource.url=jdbc:h2:mem:estatec;MODE=MySQL;DB_CLOSE_DELAY=-1",
  "spring.datasource.driverClassName=org.h2.Driver", "spring.datasource.username=sa", "spring.datasource.password=",
  "spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect", "spring.jpa.hibernate.ddl-auto=create-drop",
+ "estatec.frontend-origin=",
  "estatec.access.api-key=iot-teste", "estatec.admin.email=admin@example.com", "logging.level.root=WARN", "logging.level.org.springframework=WARN", "logging.level.org.hibernate=WARN", "debug=false"
 })
 @AutoConfigureMockMvc
@@ -98,10 +99,30 @@ class AuthenticationIntegrationTest {
   var forged = new org.springframework.mock.web.MockHttpSession();forged.setAttribute("estatecRole","USER");forged.setAttribute("estatecUserId",1L);
   mvc.perform(get("/condutores").session(forged)).andExpect(status().isForbidden());
  }
+ @Test void aceitaOrigemExternaMasExigeSessaoNaApiProtegida() throws Exception {
+  String origin = "https://externo.exemplo";
+  mvc.perform(options("/estacionamento").header("Origin", origin)
+    .header("Access-Control-Request-Method", "GET"))
+   .andExpect(status().isOk())
+   .andExpect(header().string("Access-Control-Allow-Origin", "*"))
+   .andExpect(header().doesNotExist("Access-Control-Allow-Credentials"));
+  mvc.perform(get("/estacionamento").header("Origin", origin))
+   .andExpect(status().isUnauthorized())
+   .andExpect(header().string("Access-Control-Allow-Origin", "*"));
+ }
  @Test void criaContaPersisteSenhaProtegidaEPermiteLoginPosterior() throws Exception {
+  String origin = "http://127.0.0.1:5500";
+  mvc.perform(options("/auth/cadastro")
+    .header("Origin", origin)
+    .header("Access-Control-Request-Method", "POST")
+    .header("Access-Control-Request-Headers", "Content-Type"))
+   .andExpect(status().isOk())
+   .andExpect(header().string("Access-Control-Allow-Origin", origin))
+   .andExpect(header().string("Access-Control-Allow-Credentials", "true"));
   String cadastro="{\"nome\":\"Operadora Teste\",\"email\":\"OPERADORA@example.com\",\"senha\":\"MinhaSenha123\",\"confirmacaoSenha\":\"MinhaSenha123\"}";
-  mvc.perform(post("/auth/cadastro").contentType(MediaType.APPLICATION_JSON).content(cadastro))
-   .andExpect(status().isCreated()).andExpect(jsonPath("$.email").value("operadora@example.com"))
+  mvc.perform(post("/auth/cadastro").header("Origin", origin).contentType(MediaType.APPLICATION_JSON).content(cadastro))
+   .andExpect(status().isCreated()).andExpect(header().string("Access-Control-Allow-Origin", origin))
+   .andExpect(jsonPath("$.email").value("operadora@example.com"))
    .andExpect(jsonPath("$.senha").doesNotExist()).andExpect(jsonPath("$.senhaHash").doesNotExist());
   assertEquals(1,jdbc.queryForObject("select count(*) from tb_conta_acesso where email='operadora@example.com'",Integer.class));
   assertEquals(0,jdbc.queryForObject("select count(*) from tb_usuario where email='operadora@example.com'",Integer.class));

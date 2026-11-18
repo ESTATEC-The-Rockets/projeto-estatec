@@ -17,8 +17,10 @@ São necessários `DB_URL`, `DB_USER` e `DB_PASSWORD`. Para manter também um
 acesso administrativo por configuração, use `ESTATEC_ADMIN_EMAIL` e
 `ESTATEC_ADMIN_PASSWORD_HASH` (hash BCrypt); essas duas variáveis são opcionais
 para quem cria uma conta pela tela.
-Não existe senha padrão. `ESTATEC_FRONTEND_ORIGIN` deve ser a origem exata do
-frontend, incluindo porta. Em localhost, o padrão é `http://localhost:5500`.
+Não existe senha padrão. A API aceita requisições CORS de qualquer origem.
+Por padrão, respostas CORS com cookies de sessão são permitidas para
+`http://localhost:5500` e `http://127.0.0.1:5500`. As rotas protegidas
+exigem uma sessão válida.
 Use o mesmo hostname no frontend e na API para os cookies de sessão.
 
 ```powershell
@@ -29,11 +31,45 @@ cd backend/estatec
 Sirva o frontend por HTTP (por exemplo, Live Server na porta 5500), em vez de
 abrir o HTML por `file://`. A API local usa a porta 8080.
 O endereço especial `estatec.lab` usa a API em `api.estatec.lab`.
-Nos demais endereços, o frontend usa o mesmo hostname do site, na porta 8080,
-preservando HTTP ou HTTPS. Para uma API em outro endereço, defina
+Nos demais endereços, em HTTP o frontend usa o hostname do site na porta 8080.
+Em HTTPS, usa a própria origem do site. Para uma API em outro endereço, defina
 `window.ESTATEC_API_ORIGIN` antes de carregar `api-config.js`.
-Ao acessar pela rede ou por `127.0.0.1`, ajuste `ESTATEC_FRONTEND_ORIGIN`
-no processo Java para a origem exata exibida no navegador e reinicie o backend.
+Para usar cookies entre origens diferentes, defina `ESTATEC_FRONTEND_ORIGIN`
+com a origem exata do frontend e reinicie o backend. Esse valor substitui
+as origens locais na permissão de credenciais CORS.
+
+### Cadastro em um servidor HTTPS
+
+Sirva os arquivos de `frontend/` no domínio público. No mesmo domínio,
+encaminhe as rotas da API para o Spring na porta 8080. Por exemplo, no bloco
+`server` HTTPS do Nginx, com o frontend e a API na mesma máquina:
+
+```nginx
+root /var/www/estatec/frontend;
+
+location / {
+    try_files $uri $uri/ =404;
+}
+
+location ~ ^/(auth|carros|condutores|usuarios|estacionamento|historico|api/acesso)(/|$) {
+    proxy_pass http://127.0.0.1:8080;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+}
+```
+
+Configure o processo Java com os dados reais do MySQL e a origem pública do
+frontend. Use o domínio do servidor, sem caminho ou barra final:
+
+```dotenv
+ESTATEC_FRONTEND_ORIGIN=https://painel.exemplo.com
+SESSION_COOKIE_SECURE=true
+SQL_INIT_MODE=never
+```
+
+Com essa configuração, a página e o cadastro usam HTTPS no mesmo endereço
+público. Se o frontend e a API estiverem em subdomínios distintos, configure
+também `window.ESTATEC_API_ORIGIN` com a URL HTTPS da API.
 
 O `data.sql` é executado **depois** da criação das tabelas. Contém um condutor
 de demonstração, sem credenciais, e pode ser reexecutado sem duplicar esse registro.
