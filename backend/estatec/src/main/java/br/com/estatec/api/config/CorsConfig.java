@@ -12,7 +12,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 public class CorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource(
-            @Value("${estatec.frontend-origin:}") String frontendOrigin) {
+            @Value("${estatec.frontend-origin:${ESTATEC_FRONTEND_ORIGIN:}}") String frontendOrigin) {
         CorsConfiguration publicCors = new CorsConfiguration();
         publicCors.setAllowedOrigins(List.of("*"));
         publicCors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));

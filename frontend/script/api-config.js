@@ -1,9 +1,7 @@
 window.ESTATEC_API_ORIGIN = window.ESTATEC_API_ORIGIN || (
     window.location.hostname === "estatec.lab"
         ? `${window.location.protocol}//api.estatec.lab`
-        : window.location.protocol === 'https:'
-            ? window.location.origin
-            : `http://${window.location.hostname || 'localhost'}:8080`
+        : `${window.location.protocol}//${window.location.hostname || 'localhost'}:8080`
 );
 
 (() => {
